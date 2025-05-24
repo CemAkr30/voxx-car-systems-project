@@ -22,6 +22,10 @@
             <artifactId>domain</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.food.ordering.system</groupId>
+            <artifactId>common-application</artifactId>
+        </dependency>
+        <dependency>
             <groupId>tr.gov.voxx.car.server</groupId>
             <artifactId>common-framework</artifactId>
         </dependency>
