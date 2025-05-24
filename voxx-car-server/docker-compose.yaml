@@ -1,0 +1,77 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: voxx-car-app
+    ports:
+      - "8080:8080"
+    environment:
+      - JAVA_OPTS=-Xms256m -Xmx512m
+    restart: unless-stopped
+    networks:
+      - voxx-car-network
+
+  client:
+    build:
+      context: ./voxx-car-client
+      dockerfile: Dockerfile
+    container_name: voxx-car-ui
+    ports:
+      - "3000:80"
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./infra/observerbility/metrics/prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    networks:
+      - voxx-car-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ./infra/observerbility/metrics/grafana/provisioning/datasources/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml:ro
+      - ./infra/observerbility/metrics/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./infra/observerbility/metrics/grafana/provisioning/dashboards/json:/etc/grafana/provisioning/dashboards/json
+    depends_on:
+      - prometheus
+    #  - loki
+    networks:
+      - voxx-car-network
+
+  loki:
+    image: grafana/loki:2.8.0
+    container_name: loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ./infra/observerbility/logs/loki-config.yaml:/etc/loki/local-config.yaml:ro
+      - loki-data:/tmp/loki
+    networks:
+      - voxx-car-network
+
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - voxx-car-network
+
+networks:
+  voxx-car-network:
+    driver: bridge
