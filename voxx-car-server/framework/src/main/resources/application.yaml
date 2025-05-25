@@ -1,3 +1,33 @@
+server:
+  shutdown: graceful
+  servlet:
+    context-path: /api
+  port: 9090
+
 spring:
   application:
     name: voxx-car-service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5400/voxx_car_systems
+    username: username
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8090/realms/voxx-car-systems
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+jwt:
+  auth:
+    converter:
+      principle-attribute: preferred_username
+      resource-id: voxx-car-client
+
+logging:
+  level:
+    org.springframework.security: trace
+    root: info

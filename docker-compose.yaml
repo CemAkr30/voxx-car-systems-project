@@ -13,6 +13,9 @@ services:
     restart: unless-stopped
     networks:
       - voxx-car-network
+    depends_on:
+      app_postgres:
+        condition: service_healthy
 
   client:
     build:
@@ -25,18 +28,25 @@ services:
     networks:
       - voxx-car-network
 
-  postgres:
-    image: postgres:15
-    container_name: voxx-car-postgres-db
-    ports:
-      - "5432:5432"
-    restart: unless-stopped
+  app_postgres:
+    container_name: postgres-sql-vcs
+    image: postgres:14
     environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=pass123!
-      - POSTGRES_DB=voxxcar
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: voxx_car_systems
+    volumes:
+      - app-db:/var/lib/postgresql/data
+    ports:
+      - "5400:5432"
     networks:
       - voxx-car-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U username -d voxx_car_systems"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
@@ -64,6 +74,51 @@ services:
     networks:
       - voxx-car-network
 
+  kc_postgres:
+    container_name: kc_db
+    image: postgres:14
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: keycloak
+    volumes:
+      - kc-db:/var/lib/postgresql/data
+    networks:
+      - voxx-car-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U keycloak -d keycloak"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  keycloak:
+    container_name: kc_current
+    image: quay.io/keycloak/keycloak:23.0.6
+    command: start-dev
+    environment:
+      DB_VENDOR: postgres
+      DB_ADDR: kc_postgres
+      DB_PORT: "5432"
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: 123456
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8090:8080"
+    depends_on:
+      kc_postgres:
+        condition: service_healthy
+    networks:
+      - voxx-car-network
+
 networks:
   voxx-car-network:
     driver: bridge
+
+volumes:
+  app-db:
+  kc-db:
