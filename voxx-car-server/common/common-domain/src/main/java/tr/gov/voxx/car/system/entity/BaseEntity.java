@@ -9,6 +9,9 @@ import java.util.Objects;
 @Getter
 public abstract class BaseEntity<ID> {
     private ID id;
+    private boolean isDeleted;
+    private String createdAt;
+    private String updatedAt;
 
     @Override
     public boolean equals(Object o) {
