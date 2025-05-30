@@ -1,3 +1,16 @@
+CREATE TYPE ehliyetsinifi_enum AS ENUM ('A1', 'A2', 'A', 'B1', 'B', 'BE', 'C1', 'C1E', 'C', 'CE', 'D1', 'D1E', 'D', 'DE', 'F', 'G', 'M');
+CREATE TYPE cinsiyet_enum AS ENUM ('Erkek', 'Kadın');
+CREATE TYPE hasarliparca_enum AS ENUM ('Sağ Ön Tampon', 'Sol Ön Tampon', 'Ön Tampon', 'Kaput', 'Sağ Ön Kapı', 'Sağ Arka Kapı', 'Sol Ön Kapı', 'Sol Arka Kapı', 'Tavan', 'Arka Tampon', 'Bagaj Kapağı');
+CREATE TYPE hasarturu_enum AS ENUM ('Orijinal', 'Lokal Boyalı', 'Boyalı', 'Değişen');
+CREATE TYPE sigortakasko_enum AS ENUM ('Sigorta', 'Kasko');
+CREATE TYPE odemetipi_enum AS ENUM ('AMERICAN_EXPRESS', 'NAKIT', 'BANKA_EFT', 'CARI_HESAP', 'BANKA_HAVALE', 'IKRAM', 'MASTERCARD', 'VOUCHER', 'VISA');
+CREATE TYPE muayenetip_enum AS ENUM ('Egzos', 'Fenni');
+CREATE TYPE parabirimleri_enum AS ENUM ('USD', 'EUR', 'GBP', 'JPY', 'TRY', 'AUD', 'CAD', 'CHF', 'CNY', 'INR');
+CREATE TYPE bakimnedeni_enum AS ENUM ('Yıllık', 'Hasar');
+CREATE TYPE onarimdurumu_enum AS ENUM ('Servise Bekleniyor', 'Eksper Bekleniyor', 'Onarım Bekleniyor', 'Parça Bekleniyor', 'Kaportada', 'Boyada', 'Mekanikte', 'Teslime Hazır', 'Teslim Edildi');
+CREATE TYPE filodancikisnedeni_enum AS ENUM ('Satış', 'Pert', 'Çalıntı', 'Galeri', 'Geçici', 'Plaka Değişikliği', 'Diğer');
+
+
 CREATE TABLE "markalar" (
                             "id" integer PRIMARY KEY,
                             "marka" varchar,
@@ -33,11 +46,11 @@ CREATE TABLE "musteriler" (
                               "telefon_numarasi" varchar,
                               "adres" varchar,
                               "ehliyet_no" varchar,
-                              "ehliyet_tipi" enum,
-                              "ehliyet_fotograf_on" clob,
-                              "ehliyet_fotograf_arka" clob,
+                              "ehliyet_tipi" ehliyetsinifi_enum,
+                              "ehliyet_fotograf_on" text,
+                              "ehliyet_fotograf_arka" text,
                               "ehliyet_bitis_tarihi" timestamp,
-                              "cinsiyet" enum,
+                              "cinsiyet" cinsiyet_enum,
                               "firma_id" integer NOT NULL,
                               "is_deleted" bool,
                               "created_at" timestamp,
@@ -81,13 +94,12 @@ CREATE TABLE "arac_filo" (
                              "filoya_giris_km" varchar,
                              "tescil_tarihi" timestamp,
                              "trafige_cikis_tarihi" timestamp,
-                             "fenni_muayene_bitis_tarihi" timestamp,
-                             "egsoz_muayene_bitis_tarihi" timestamp,
-                             "sigorta_bitis_tarihi" timestamp,
                              "garantisi_var_mi" bool,
                              "garanti_bitis_tarihi" timestamp,
                              "garanti_suresi_yil" varchar,
                              "garanti_km" varchar,
+                             "tramer" bool,
+                             "tramer_tutari" double precision,
                              "son_km_tarihi" timestamp,
                              "son_km" varchar,
                              "son_yakit_miktari" varchar,
@@ -105,8 +117,8 @@ CREATE TABLE "arac_filo" (
 CREATE TABLE "hasar_durumu" (
                                 "id" integer PRIMARY KEY,
                                 "arac_id" integer NOT NULL,
-                                "hasarli_parca" enum,
-                                "hasar" enum,
+                                "hasarli_parca" hasarliparca_enum,
+                                "hasar" hasarturu_enum,
                                 "is_deleted" bool,
                                 "created_at" timestamp,
                                 "updated_at" timestamp
@@ -115,7 +127,7 @@ CREATE TABLE "hasar_durumu" (
 CREATE TABLE "sigorta_kasko" (
                                  "id" integer PRIMARY KEY,
                                  "arac_id" integer NOT NULL,
-                                 "sigorta_tipi" enum,
+                                 "sigorta_tipi" sigortakasko_enum,
                                  "sigorta_sirketi" varchar,
                                  "acente" varchar,
                                  "police_no" varchar,
@@ -132,10 +144,10 @@ CREATE TABLE "mtv" (
                        "yil" varchar,
                        "taksit" varchar,
                        "makbuz_no" varchar,
-                       "miktar" double,
-                       "odeme_tip" enum,
+                       "miktar" double precision,
+                       "odeme_tip" odemetipi_enum,
                        "odeyen_firma_id" integer NOT NULL,
-                       "not" varchar2,
+                       "not" varchar,
                        "gecikme_cezasi" varchar,
                        "odendi" bool,
                        "is_deleted" bool,
@@ -146,13 +158,13 @@ CREATE TABLE "mtv" (
 CREATE TABLE "muayene" (
                            "id" integer PRIMARY KEY,
                            "arac_id" integer NOT NULL,
-                           "muayene_tip" enum,
+                           "muayene_tip" muayenetip_enum,
                            "baslangic_tarih" timestamp,
                            "makbuz_no" varchar,
                            "bitis_tarih" timestamp,
                            "yeri" varchar,
                            "odeyen_firma_id" integer NOT NULL,
-                           "not" varchar2,
+                           "not" varchar,
                            "gecikme_cezasi" varchar,
                            "odendi" bool,
                            "is_deleted" bool,
@@ -163,13 +175,13 @@ CREATE TABLE "muayene" (
 CREATE TABLE "filodan_cikis" (
                                  "id" integer PRIMARY KEY,
                                  "arac_id" integer NOT NULL,
-                                 "filodan_cikis_nedeni" enum,
+                                 "filodan_cikis_nedeni" filodancikisnedeni_enum,
                                  "filodan_cikis_tarihi" timestamp,
                                  "alici" varchar,
                                  "anahtar_teslim_fiyati" integer,
                                  "arac_devir_giderleri" varchar,
-                                 "fatura" clob,
-                                 "not" varchar2,
+                                 "fatura" text,
+                                 "not" varchar,
                                  "is_deleted" bool,
                                  "created_at" timestamp,
                                  "updated_at" timestamp
@@ -181,25 +193,70 @@ CREATE TABLE "alis_faturasi" (
                                  "alis_fatura_tarihi" timestamp,
                                  "alis_fatura_no" varchar,
                                  "satici_firma_id" integer,
-                                 "liste_fiyati" double,
+                                 "liste_fiyati" double precision,
                                  "ek_garanti" integer,
-                                 "mal_degeri" double,
-                                 "iskonto" double,
-                                 "nakliye_bedeli" double,
-                                 "otv_matrah" double,
-                                 "otv" double,
-                                 "otv_indirimi" double,
-                                 "kdv" double,
-                                 "fatura_toplam" double,
-                                 "para_birimi" enum,
-                                 "kur" double,
-                                 "fatura_try" double,
-                                 "fatura_yukle" clob,
-                                 "not" varchar2,
+                                 "mal_degeri" double precision,
+                                 "iskonto" double precision,
+                                 "nakliye_bedeli" double precision,
+                                 "otv_matrah" double precision,
+                                 "otv" double precision,
+                                 "otv_indirimi" double precision,
+                                 "kdv" double precision,
+                                 "fatura_toplam" double precision,
+                                 "para_birimi" parabirimleri_enum,
+                                 "kur" double precision,
+                                 "fatura_try" double precision,
+                                 "fatura_yukle" text,
+                                 "not" varchar,
                                  "is_deleted" bool,
                                  "created_at" timestamp,
                                  "updated_at" timestamp
 );
+
+CREATE TABLE "bakim" (
+                         "id" integer PRIMARY KEY,
+                         "arac_id" integer NOT NULL,
+                         "bakim_nedeni" bakimnedeni_enum,
+                         "parca" varchar,
+                         "parca_tutari" double precision,
+                         "iscilik_tutari" double precision,
+                         "toplam_tutar" double precision,
+                         "fatura_no" varchar,
+                         "fatura" text,
+                         "not" varchar,
+                         "odeyen_firma_id" integer NOT NULL,
+                         "is_deleted" bool,
+                         "created_at" timestamp,
+                         "updated_at" timestamp
+);
+
+CREATE TABLE "kaza" (
+                        "id" integer PRIMARY KEY,
+                        "arac_id" integer NOT NULL,
+                        "firma_id" integer NOT NULL,
+                        "musteri_id" integer NOT NULL,
+                        "kaza_tarihi" timestamp,
+                        "kaza_ili" varchar,
+                        "kaza_nedeni" varchar,
+                        "kaza_tutanagi" text,
+                        "onarim_durumu" onarimdurumu_enum,
+                        "odeyen_firma_id" integer NOT NULL,
+                        "is_deleted" bool,
+                        "created_at" timestamp,
+                        "updated_at" timestamp
+);
+
+ALTER TABLE "kaza" ADD CONSTRAINT "musteriler_kaza" FOREIGN KEY ("musteri_id") REFERENCES "musteriler" ("id");
+
+ALTER TABLE "kaza" ADD CONSTRAINT "firmalar_kaza" FOREIGN KEY ("firma_id") REFERENCES "firmalar" ("id");
+
+ALTER TABLE "kaza" ADD CONSTRAINT "firmalar_kaza" FOREIGN KEY ("odeyen_firma_id") REFERENCES "firmalar" ("id");
+
+ALTER TABLE "kaza" ADD CONSTRAINT "aracfilo_kaza" FOREIGN KEY ("arac_id") REFERENCES "arac_filo" ("id");
+
+ALTER TABLE "bakim" ADD CONSTRAINT "firmalar_bakim" FOREIGN KEY ("odeyen_firma_id") REFERENCES "firmalar" ("id");
+
+ALTER TABLE "bakim" ADD CONSTRAINT "aracfilo_bakim" FOREIGN KEY ("arac_id") REFERENCES "arac_filo" ("id");
 
 ALTER TABLE "musteriler" ADD CONSTRAINT "firmalar_musteriler" FOREIGN KEY ("firma_id") REFERENCES "firmalar" ("id");
 
