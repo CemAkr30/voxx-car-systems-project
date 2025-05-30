@@ -1,32 +1,32 @@
 version: "3.8"
 
 services:
-  app:
-    build:
-      context: ./voxx-car-server
-      dockerfile: Dockerfile
-    container_name: voxx-car-app
-    ports:
-      - "8080:8080"
-    environment:
-      - JAVA_OPTS=-Xms512m -Xmx1024m
-    restart: unless-stopped
-    networks:
-      - voxx-car-network
-    depends_on:
-      app_postgres:
-        condition: service_healthy
-
-  client:
-    build:
-      context: ./voxx-car-client
-      dockerfile: Dockerfile
-    container_name: voxx-car-ui
-    ports:
-      - "3000:80"
-    restart: unless-stopped
-    networks:
-      - voxx-car-network
+#  app:
+#    build:
+#      context: ./voxx-car-server
+#      dockerfile: Dockerfile
+#    container_name: voxx-car-app
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      - JAVA_OPTS=-Xms512m -Xmx1024m
+#    restart: unless-stopped
+#    networks:
+#      - voxx-car-network
+#    depends_on:
+#      app_postgres:
+#        condition: service_healthy
+#
+#  client:
+#    build:
+#      context: ./voxx-car-client
+#      dockerfile: Dockerfile
+#    container_name: voxx-car-ui
+#    ports:
+#      - "3000:80"
+#    restart: unless-stopped
+#    networks:
+#      - voxx-car-network
 
   app_postgres:
     container_name: postgres-sql-vcs

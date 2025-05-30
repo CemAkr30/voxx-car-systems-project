@@ -1,4 +1,4 @@
-package tr.gov.voxx.car.server;
+package tr.gov.voxx.car.system;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

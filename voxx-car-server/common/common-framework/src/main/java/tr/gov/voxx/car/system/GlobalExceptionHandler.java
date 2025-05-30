@@ -1,4 +1,4 @@
-package tr.gov.voxx.car.server;
+package tr.gov.voxx.car.system;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
