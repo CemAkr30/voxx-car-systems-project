@@ -1,4 +1,4 @@
-package tr.gov.voxx.car.system.base;
+package tr.gov.voxx.car.server;
 
 import java.util.List;
 

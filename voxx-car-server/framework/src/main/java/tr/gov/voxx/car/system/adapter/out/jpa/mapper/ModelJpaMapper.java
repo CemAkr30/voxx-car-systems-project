@@ -4,10 +4,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import tr.gov.voxx.car.system.adapter.out.jpa.entity.ModelEntity;
 import tr.gov.voxx.car.system.entity.Model;
+import tr.gov.voxx.car.system.mapper.IdMapper;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring", uses = IdMapper.class)
 public interface ModelJpaMapper {
 
     ModelJpaMapper INSTANCE = Mappers.getMapper(ModelJpaMapper.class);

@@ -5,10 +5,11 @@ import org.mapstruct.factory.Mappers;
 import tr.gov.voxx.car.system.adapter.in.web.data.ModelRequest;
 import tr.gov.voxx.car.system.adapter.in.web.data.ModelResponse;
 import tr.gov.voxx.car.system.entity.Model;
+import tr.gov.voxx.car.system.mapper.IdMapper;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring", uses = IdMapper.class)
 public interface ModelMapper {
 
     ModelMapper INSTANCE = Mappers.getMapper(ModelMapper.class);
