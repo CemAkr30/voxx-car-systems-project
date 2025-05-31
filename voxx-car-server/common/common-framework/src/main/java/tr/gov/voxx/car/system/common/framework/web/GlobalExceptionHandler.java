@@ -53,7 +53,7 @@ public class GlobalExceptionHandler {
         return buildErrorDTO(ErrorCode.DOMAIN_ERROR, exception.getMessage());
     }
 
-    private ErrorDTO buildErrorDTO(ErrorCode code, String message) {
+    protected ErrorDTO buildErrorDTO(ErrorCode code, String message) {
         return ErrorDTO.builder()
                 .code(code.name())
                 .message(message)
@@ -61,7 +61,7 @@ public class GlobalExceptionHandler {
                 .build();
     }
 
-    private String extractViolations(ConstraintViolationException exception) {
+    protected String extractViolations(ConstraintViolationException exception) {
         return exception.getConstraintViolations().stream()
                 .map(ConstraintViolation::getMessage)
                 .collect(Collectors.joining("; "));

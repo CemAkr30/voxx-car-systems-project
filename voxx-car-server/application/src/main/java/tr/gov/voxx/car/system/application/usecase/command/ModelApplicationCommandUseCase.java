@@ -9,6 +9,7 @@ import tr.gov.voxx.car.system.domain.entity.Model;
 import tr.gov.voxx.car.system.domain.event.ModelCreatedEvent;
 import tr.gov.voxx.car.system.domain.event.ModelDeletedEvent;
 import tr.gov.voxx.car.system.domain.event.ModelUpdatedEvent;
+import tr.gov.voxx.car.system.domain.exception.NotFoundException;
 import tr.gov.voxx.car.system.domain.valueobject.ModelId;
 
 @Service
@@ -32,7 +33,7 @@ public class ModelApplicationCommandUseCase implements ModelApplicationCommandPo
     public void put(Model entity) {
         Model existing = modelPersistenceJpaPort.findById(entity.getId());
         if (existing == null) {
-            throw new RuntimeException("Model not found with id: " + entity.getId());
+            throw new NotFoundException("Model not found with id: " + entity.getId());
         }
         existing.updateFrom(entity);
 
