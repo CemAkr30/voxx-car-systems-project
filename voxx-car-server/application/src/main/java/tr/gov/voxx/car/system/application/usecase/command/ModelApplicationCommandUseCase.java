@@ -1,4 +1,4 @@
-package tr.gov.voxx.car.system.application.service.command.usecase;
+package tr.gov.voxx.car.system.application.usecase.command;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

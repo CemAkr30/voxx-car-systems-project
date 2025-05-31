@@ -1,4 +1,4 @@
-package tr.gov.voxx.car.system.application.service.query;
+package tr.gov.voxx.car.system.application.usecase.query;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
