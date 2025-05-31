@@ -68,3 +68,6 @@ kafka:
     model-created: model-created-topic
     model-updated: model-updated-topic
     model-deleted: model-deleted-topic
+    marka-created: marka-created-topic
+    marka-updated: marka-updated-topic
+    marka-deleted: marka-deleted-topic
