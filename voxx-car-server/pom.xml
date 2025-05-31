@@ -27,6 +27,7 @@
     <properties>
         <maven-compiler-plugin.version>3.9.0</maven-compiler-plugin.version>
         <mockito.version>4.3.1</mockito.version>
+        <mapstruct.processor>1.5.5.Final</mapstruct.processor>
     </properties>
 
     <dependencyManagement>
@@ -59,6 +60,11 @@
             </dependency>
             <dependency>
                 <groupId>tr.gov.voxx.car.server</groupId>
+                <artifactId>common-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tr.gov.voxx.car.server</groupId>
                 <artifactId>common-framework</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -78,12 +84,13 @@
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
-            <version>1.5.5.Final</version>
+            <version>${mapstruct.processor}</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
-            <version>1.5.5.Final</version>
+            <version>${mapstruct.processor}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -95,20 +102,6 @@
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <release>17</release>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
-                <configuration>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.mapstruct</groupId>
-                            <artifactId>mapstruct-processor</artifactId>
-                            <version>1.6.0.Beta1</version>
-                        </path>
-                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
         </plugins>

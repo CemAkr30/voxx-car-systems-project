@@ -1,11 +1,13 @@
 package tr.gov.voxx.car.system.entity;
 
+import lombok.Getter;
 import tr.gov.voxx.car.system.valueobject.MarkaId;
 import tr.gov.voxx.car.system.valueobject.ModelId;
 
 import java.security.SecureRandom;
 import java.time.Instant;
 
+@Getter
 public class Model extends AbstractAggregateModel<ModelId> {
     private String adi;
     private MarkaId markaId;
@@ -22,15 +24,6 @@ public class Model extends AbstractAggregateModel<ModelId> {
     public int generateId(){
         SecureRandom RANDOM = new SecureRandom();
         long timePart = Instant.now().toEpochMilli();
-        int randomPart = RANDOM.nextInt(1024);
-        return randomPart;
-    }
-
-    public MarkaId getMarkaId() {
-        return markaId;
-    }
-
-    public String getAdi() {
-        return adi;
+        return RANDOM.nextInt(1024);
     }
 }
