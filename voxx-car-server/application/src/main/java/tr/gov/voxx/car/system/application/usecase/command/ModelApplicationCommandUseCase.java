@@ -21,7 +21,7 @@ public class ModelApplicationCommandUseCase implements ModelApplicationCommandPo
     @Override
     public void post(Model entity) {
         entity.initIdGenerator();
-        domainEventPublisher.publish("model-created", ModelCreatedEvent.builder()
+        domainEventPublisher.publish("model-created-topic", ModelCreatedEvent.builder()
                 .id(entity.getId())
                 .adi(entity.getAdi())
                 .markaId(entity.getMarkaId())
@@ -36,7 +36,7 @@ public class ModelApplicationCommandUseCase implements ModelApplicationCommandPo
         }
         existing.updateFrom(entity);
 
-        domainEventPublisher.publish("model-updated", ModelUpdatedEvent.builder()
+        domainEventPublisher.publish("model-updated-topic", ModelUpdatedEvent.builder()
                 .id(entity.getId())
                 .adi(entity.getAdi())
                 .markaId(entity.getMarkaId())
@@ -45,7 +45,7 @@ public class ModelApplicationCommandUseCase implements ModelApplicationCommandPo
 
     @Override
     public void deleteById(ModelId modelId) {
-        domainEventPublisher.publish("model-deleted", ModelDeletedEvent.builder()
+        domainEventPublisher.publish("model-deleted-topic", ModelDeletedEvent.builder()
                 .id(modelId)
                 .build());
         modelPersistenceJpaPort.deleteById(modelId);
