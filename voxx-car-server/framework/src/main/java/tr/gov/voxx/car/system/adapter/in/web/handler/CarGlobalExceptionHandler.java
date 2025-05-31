@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import tr.gov.voxx.car.system.common.framework.web.ErrorCode;
 import tr.gov.voxx.car.system.common.framework.web.ErrorDTO;
 import tr.gov.voxx.car.system.common.framework.web.GlobalExceptionHandler;
+import tr.gov.voxx.car.system.domain.exception.BusinessRuleException;
 import tr.gov.voxx.car.system.domain.exception.NotFoundException;
 
 @Slf4j
@@ -23,9 +24,16 @@ public class CarGlobalExceptionHandler extends GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorDTO handleGenericException(Exception exception) {
+    public ErrorDTO handleGenericException(NotFoundException exception) {
         log.error("Unhandled exception occurred", exception);
         return buildErrorDTO(ErrorCode.ENTITY_NOT_FOUND, "Unexpected error occurred!");
     }
 
+    @ResponseBody
+    @ExceptionHandler(BusinessRuleException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDTO handleGenericException(BusinessRuleException exception) {
+        log.error("Unhandled exception occurred", exception);
+        return buildErrorDTO(ErrorCode.BUSINESS_RULE_ERROR, "Unexpected error occurred!");
+    }
 }

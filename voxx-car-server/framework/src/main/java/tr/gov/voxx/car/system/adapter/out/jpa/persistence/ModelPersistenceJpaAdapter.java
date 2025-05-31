@@ -12,6 +12,7 @@ import tr.gov.voxx.car.system.domain.entity.Model;
 import tr.gov.voxx.car.system.domain.valueobject.ModelId;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -60,5 +61,13 @@ public class ModelPersistenceJpaAdapter implements ModelPersistenceJpaPort {
                 entityManager.createQuery("select m from ModelEntity m", ModelEntity.class)
                         .getResultList()
         );
+    }
+
+    @Override
+    public Optional<Model> findByAdi(String adi) {
+        Model model = ModelJpaMapper.toModel(entityManager.createQuery("select m from ModelEntity m where m.adi = :adi", ModelEntity.class)
+                .setParameter("adi", adi)
+                .getSingleResult());
+        return Optional.ofNullable(model);
     }
 }
