@@ -7,9 +7,9 @@ public interface PersistenceJpaExecutor<T, ID> {
 
     List<T> findAll();
 
-    T persist(T entity);
+    void persist(T entity);
 
-    T merge(T entity);
+    void merge(T entity);
 
     void deleteById(ID id);
 }

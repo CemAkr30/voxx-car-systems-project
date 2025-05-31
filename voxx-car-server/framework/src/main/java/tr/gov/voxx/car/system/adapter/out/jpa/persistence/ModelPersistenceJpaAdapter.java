@@ -31,18 +31,16 @@ public class ModelPersistenceJpaAdapter implements ModelPersistenceJpaPort {
 
     @Override
     @Transactional
-    public Model persist(Model entity) {
+    public void persist(Model entity) {
         ModelEntity modelEntity = ModelJpaMapper.toEntity(entity);
         entityManager.persist(modelEntity);
-        return ModelJpaMapper.toModel(modelEntity);
     }
 
     @Override
     @Transactional
-    public Model merge(Model entity) {
+    public void merge(Model entity) {
         ModelEntity modelEntity = ModelJpaMapper.toEntity(entity);
         entityManager.merge(modelEntity);
-        return ModelJpaMapper.toModel(modelEntity);
     }
 
     @Override
