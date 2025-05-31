@@ -1,21 +1,64 @@
 package tr.gov.voxx.car.system.adapter.out.jpa.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import lombok.experimental.UtilityClass;
 import tr.gov.voxx.car.system.adapter.out.jpa.entity.ModelEntity;
-import tr.gov.voxx.car.system.entity.Model;
-import tr.gov.voxx.car.system.mapper.IdMapper;
+import tr.gov.voxx.car.system.domain.entity.Model;
+import tr.gov.voxx.car.system.domain.event.ModelCreatedEvent;
+import tr.gov.voxx.car.system.domain.event.ModelUpdatedEvent;
+import tr.gov.voxx.car.system.domain.valueobject.MarkaId;
+import tr.gov.voxx.car.system.domain.valueobject.ModelId;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring", uses = IdMapper.class)
-public interface ModelJpaMapper {
 
-    ModelJpaMapper INSTANCE = Mappers.getMapper(ModelJpaMapper.class);
+@UtilityClass
+public class ModelJpaMapper {
 
-    Model toModel(ModelEntity entity);
+    public static Model toModel(ModelEntity entity) {
+        return Model.builder()
+                .adi(entity.getAdi())
+                .id(new ModelId(entity.getId()))
+                .markaId(new MarkaId(entity.getMarkaId()))
+                .createdAt(entity.getCreatedAt())
+                .updatedAt(entity.getUpdatedAt())
+                .build();
+    }
 
-    ModelEntity toEntity(Model model);
+    public static ModelEntity toEntity(Model model) {
+        if (model == null) {
+            return null;
+        }
+        ModelEntity entity = new ModelEntity();
+        entity.setId(model.getId().getValue());
+        entity.setAdi(model.getAdi());
+        entity.setMarkaId(model.getMarkaId().getValue());
+        return entity;
+    }
 
-    List<Model> toModelList(List<ModelEntity> entities);
+    public static List<Model> toModelList(List<ModelEntity> entities) {
+        if (entities == null) {
+            return List.of();
+        }
+        return entities.stream()
+                .map(ModelJpaMapper::toModel)
+                .collect(Collectors.toList());
+    }
+
+
+    public static Model toModelFromModelCreatedEvent(ModelCreatedEvent modelCreatedEvent) {
+        return Model.builder()
+                .id(modelCreatedEvent.getId())
+                .markaId(modelCreatedEvent.getMarkaId())
+                .adi(modelCreatedEvent.getAdi())
+                .build();
+    }
+
+    public static Model toModelFromModelUpdatedEvent(ModelUpdatedEvent modelUpdatedEvent) {
+        return Model.builder()
+                .id(modelUpdatedEvent.getId())
+                .markaId(modelUpdatedEvent.getMarkaId())
+                .adi(modelUpdatedEvent.getAdi())
+                .build();
+    }
 }

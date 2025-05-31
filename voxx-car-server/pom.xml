@@ -27,7 +27,6 @@
     <properties>
         <maven-compiler-plugin.version>3.9.0</maven-compiler-plugin.version>
         <mockito.version>4.3.1</mockito.version>
-        <mapstruct.processor>1.5.5.Final</mapstruct.processor>
     </properties>
 
     <dependencyManagement>
@@ -80,17 +79,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>${mapstruct.processor}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-processor</artifactId>
-            <version>${mapstruct.processor}</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 

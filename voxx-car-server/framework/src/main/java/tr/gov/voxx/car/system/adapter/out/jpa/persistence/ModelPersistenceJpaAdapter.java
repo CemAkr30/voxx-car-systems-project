@@ -1,16 +1,15 @@
 package tr.gov.voxx.car.system.adapter.out.jpa.persistence;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import tr.gov.voxx.car.system.adapter.out.jpa.entity.ModelEntity;
 import tr.gov.voxx.car.system.adapter.out.jpa.mapper.ModelJpaMapper;
-import tr.gov.voxx.car.system.entity.Model;
-import tr.gov.voxx.car.system.port.out.ModelPersistenceJpaPort;
-import tr.gov.voxx.car.system.valueobject.ModelId;
+import tr.gov.voxx.car.system.application.port.out.ModelPersistenceJpaPort;
+import tr.gov.voxx.car.system.domain.entity.Model;
+import tr.gov.voxx.car.system.domain.valueobject.ModelId;
 
 import java.util.List;
 
@@ -21,46 +20,45 @@ public class ModelPersistenceJpaAdapter implements ModelPersistenceJpaPort {
     private final EntityManager entityManager;
 
     @Override
+    @Transactional(readOnly = true)
     public Model findById(ModelId modelId) {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<ModelEntity> cq = cb.createQuery(ModelEntity.class);
-        Root<ModelEntity> root = cq.from(ModelEntity.class);
-        cq.where(cb.equal(root.get("id"), modelId.getValue()));
-
-        cq.select(root);
-
-        return ModelJpaMapper.INSTANCE.toModel(
-                entityManager.createQuery(cq).getSingleResult()
-        );
+        ModelEntity entity = entityManager.find(ModelEntity.class, modelId.getValue());
+        if (entity == null) {
+            throw new EntityNotFoundException("Model not found: " + modelId.getValue());
+        }
+        return ModelJpaMapper.toModel(entity);
     }
 
     @Override
-    public Model create(Model entity) {
-        entityManager.persist(
-                ModelJpaMapper.INSTANCE.toEntity(entity)
-        );
-        return entity;
+    @Transactional
+    public Model persist(Model entity) {
+        ModelEntity modelEntity = ModelJpaMapper.toEntity(entity);
+        entityManager.persist(modelEntity);
+        return ModelJpaMapper.toModel(modelEntity);
     }
 
     @Override
+    @Transactional
     public Model merge(Model entity) {
-        return ModelJpaMapper.INSTANCE.toModel(
-                entityManager.merge(
-                        ModelJpaMapper.INSTANCE.toEntity(entity)
-                )
-        );
+        ModelEntity modelEntity = ModelJpaMapper.toEntity(entity);
+        entityManager.merge(modelEntity);
+        return ModelJpaMapper.toModel(modelEntity);
     }
 
     @Override
-    public void remove(ModelId modelId) {
-        entityManager.remove(
-                findById(modelId)
-        );
+    @Transactional
+    public void deleteById(ModelId modelId) {
+        ModelEntity entity = entityManager.find(ModelEntity.class, modelId.getValue());
+        if (entity != null) {
+            entityManager.remove(entity);
+        }
     }
 
+
     @Override
+    @Transactional(readOnly = true)
     public List<Model> findAll() {
-        return ModelJpaMapper.INSTANCE.toModelList(
+        return ModelJpaMapper.toModelList(
                 entityManager.createQuery("select m from ModelEntity m", ModelEntity.class)
                         .getResultList()
         );

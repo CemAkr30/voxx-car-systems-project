@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ModelRequest {
     private String adi;
-    private Integer markaId;
+    private String markaId;
 }

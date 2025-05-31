@@ -1,19 +1,19 @@
 package tr.gov.voxx.car.system.adapter.out.jpa.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.Table;
+import lombok.*;
+import tr.gov.voxx.car.system.common.framework.persistence.AbstractEntity;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ModelEntity {
+@Table(name = "tb_model")
+@Getter
+@Setter
+public class ModelEntity extends AbstractEntity {
 
-    @Id
-    private Integer id;
     private String adi;
-    private Integer markaId;
+    private String markaId;
 }

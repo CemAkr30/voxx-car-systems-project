@@ -15,6 +15,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        hbm2ddl:
+          auto: update
   security:
     oauth2:
       resourceserver:
@@ -31,6 +37,8 @@ logging:
   level:
     org.springframework.security: trace
     root: info
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
 springdoc:
   swagger-ui:
@@ -39,3 +47,17 @@ springdoc:
     tagsSorter: alpha
   api-docs:
     path: /v3/api-docs
+
+security:
+  whitelist:
+    urls:
+      - /swagger-ui.html
+      - /swagger-ui/**
+      - /v3/api-docs/**
+      - /v3/api-docs
+
+kafka:
+  topic:
+    model-created: model-created-topic
+    model-updated: model-updated-topic
+    model-deleted: model-deleted-topic
