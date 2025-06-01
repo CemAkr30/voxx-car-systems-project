@@ -77,3 +77,6 @@ kafka:
     adres-created: adres-created-topic
     adres-updated: adres-updated-topic
     adres-deleted: adres-deleted-topic
+    iletisim-created: iletisim-created-topic
+    iletisim-updated: iletisim-updated-topic
+    iletisim-deleted: iletisim-deleted-topic
