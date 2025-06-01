@@ -80,3 +80,6 @@ kafka:
     iletisim-created: iletisim-created-topic
     iletisim-updated: iletisim-updated-topic
     iletisim-deleted: iletisim-deleted-topic
+    arac-filo-created: arac-filo-created-topic
+    arac-filo-updated: arac-filo-updated-topic
+    arac-filo-deleted: arac-filo-deleted-topic
