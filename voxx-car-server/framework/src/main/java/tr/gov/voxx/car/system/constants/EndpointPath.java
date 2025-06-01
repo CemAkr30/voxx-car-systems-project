@@ -6,4 +6,5 @@ public class EndpointPath {
     public static final String FIRMA_ENDPOINT_V1 = "/v1/firma";
     public static final String ADRES_ENDPOINT_V1 = "/v1/adres";
     public static final String ILETISIM_ENDPOINT_V1 = "/v1/iletisim";
+    public static final String ARAC_FILO_ENDPOINT_V1 = "/v1/aracfilo";
 }
