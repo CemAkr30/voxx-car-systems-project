@@ -13,7 +13,6 @@ import tr.gov.voxx.car.system.common.framework.persistence.AbstractEntity;
 @Getter
 @Setter
 public class ModelEntity extends AbstractEntity {
-
     private String adi;
     private String markaId;
 }

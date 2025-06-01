@@ -14,5 +14,4 @@ import tr.gov.voxx.car.system.common.framework.persistence.AbstractEntity;
 @Setter
 public class MarkaEntity extends AbstractEntity {
     private String adi;
-
 }

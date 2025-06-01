@@ -74,3 +74,6 @@ kafka:
     firma-created: firma-created-topic
     firma-updated: firma-updated-topic
     firma-deleted: firma-deleted-topic
+    adres-created: adres-created-topic
+    adres-updated: adres-updated-topic
+    adres-deleted: adres-deleted-topic
