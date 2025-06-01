@@ -83,3 +83,6 @@ kafka:
     arac-filo-created: arac-filo-created-topic
     arac-filo-updated: arac-filo-updated-topic
     arac-filo-deleted: arac-filo-deleted-topic
+    bakim-created: bakim-created-topic
+    bakim-updated: bakim-updated-topic
+    bakim-deleted: bakim-deleted-topic
