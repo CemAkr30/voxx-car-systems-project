@@ -4,6 +4,9 @@ import lombok.experimental.UtilityClass;
 import tr.gov.voxx.car.system.adapter.in.web.data.AracFiloRequest;
 import tr.gov.voxx.car.system.adapter.in.web.data.AracFiloResponse;
 import tr.gov.voxx.car.system.domain.entity.AracFilo;
+import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
+import tr.gov.voxx.car.system.domain.valueobject.MarkaId;
+import tr.gov.voxx.car.system.domain.valueobject.ModelId;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,8 +18,8 @@ public class AracFiloMapper {
         return AracFiloResponse.builder()
                 .id(entity.getId().getValue())
                 .plaka(entity.getPlaka())
-                .markaId(entity.getMarkaId())
-                .modelId(entity.getModelId())
+                .markaId(entity.getMarkaId().getValue())
+                .modelId(entity.getModelId().getValue())
                 .modelYili(entity.getModelYili())
                 .aracTipi(entity.getAracTipi())
                 .segment(entity.getSegment())
@@ -42,7 +45,7 @@ public class AracFiloMapper {
                 .kiralandigiTarih(entity.getKiralandigiTarih())
                 .kontratSuresi(entity.getKontratSuresi())
                 .kiralikBitisTarihi(entity.getKiralikBitisTarihi())
-                .kiralayanFirmaId(entity.getKiralayanFirmaId())
+                .kiralayanFirmaId(entity.getKiralayanFirmaId().getValue())
                 .filoDurum(entity.getFiloDurum())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
@@ -53,11 +56,11 @@ public class AracFiloMapper {
         return list.stream().map(AracFiloMapper::toResponse).collect(Collectors.toList());
     }
 
-    public static AracFilo toEntity(AracFiloRequest request) {
+    public static AracFilo toAracFilo(AracFiloRequest request) {
         return AracFilo.builder()
                 .plaka(request.getPlaka())
-                .markaId(request.getMarkaId())
-                .modelId(request.getModelId())
+                .markaId(new MarkaId(request.getMarkaId()))
+                .modelId(new ModelId(request.getModelId()))
                 .modelYili(request.getModelYili())
                 .aracTipi(request.getAracTipi())
                 .segment(request.getSegment())
@@ -83,7 +86,7 @@ public class AracFiloMapper {
                 .kiralandigiTarih(request.getKiralandigiTarih())
                 .kontratSuresi(request.getKontratSuresi())
                 .kiralikBitisTarihi(request.getKiralikBitisTarihi())
-                .kiralayanFirmaId(request.getKiralayanFirmaId())
+                .kiralayanFirmaId(new FirmaId(request.getKiralayanFirmaId()))
                 .filoDurum(request.getFiloDurum())
                 .build();
     }

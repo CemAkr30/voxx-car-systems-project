@@ -7,4 +7,6 @@ public class EndpointPath {
     public static final String ADRES_ENDPOINT_V1 = "/v1/adres";
     public static final String ILETISIM_ENDPOINT_V1 = "/v1/iletisim";
     public static final String ARAC_FILO_ENDPOINT_V1 = "/v1/aracfilo";
+    public static final String BAKIM_ENDPOINT_V1 = "/v1/bakim";
+    public static final String KAZA_ENDPOINT_V1 = "/v1/kaza";
 }

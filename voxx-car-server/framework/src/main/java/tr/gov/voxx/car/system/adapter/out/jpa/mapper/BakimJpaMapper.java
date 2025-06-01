@@ -5,7 +5,9 @@ import tr.gov.voxx.car.system.adapter.out.jpa.entity.BakimEntity;
 import tr.gov.voxx.car.system.domain.entity.Bakim;
 import tr.gov.voxx.car.system.domain.event.BakimCreatedEvent;
 import tr.gov.voxx.car.system.domain.event.BakimUpdatedEvent;
+import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.BakimId;
+import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,7 +20,7 @@ public class BakimJpaMapper {
 
         return Bakim.builder()
                 .id(new BakimId(entity.getId()))
-                .aracId(entity.getAracId())
+                .aracFiloId(new AracFiloId(entity.getAracFiloId()))
                 .bakimNedeni(entity.getBakimNedeni())
                 .parca(entity.getParca())
                 .parcaTutari(entity.getParcaTutari())
@@ -27,27 +29,27 @@ public class BakimJpaMapper {
                 .faturaNo(entity.getFaturaNo())
                 .fatura(entity.getFatura())
                 .notlar(entity.getNotlar())
-                .odeyenFirmaId(entity.getOdeyenFirmaId())
+                .odeyenFirmaId(new FirmaId(entity.getOdeyenFirmaId()))
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .build();
     }
 
-    public static BakimEntity toEntity(Bakim domain) {
-        if (domain == null) return null;
+    public static BakimEntity toEntity(Bakim bakim) {
+        if (bakim == null) return null;
 
         BakimEntity entity = new BakimEntity();
-        entity.setId(domain.getId().getValue());
-        entity.setAracId(domain.getAracId());
-        entity.setBakimNedeni(domain.getBakimNedeni());
-        entity.setParca(domain.getParca());
-        entity.setParcaTutari(domain.getParcaTutari());
-        entity.setIscilikTutari(domain.getIscilikTutari());
-        entity.setToplamTutar(domain.getToplamTutar());
-        entity.setFaturaNo(domain.getFaturaNo());
-        entity.setFatura(domain.getFatura());
-        entity.setNotlar(domain.getNotlar());
-        entity.setOdeyenFirmaId(domain.getOdeyenFirmaId());
+        entity.setId(bakim.getId().getValue());
+        entity.setAracFiloId(bakim.getAracFiloId().getValue());
+        entity.setBakimNedeni(bakim.getBakimNedeni());
+        entity.setParca(bakim.getParca());
+        entity.setParcaTutari(bakim.getParcaTutari());
+        entity.setIscilikTutari(bakim.getIscilikTutari());
+        entity.setToplamTutar(bakim.getToplamTutar());
+        entity.setFaturaNo(bakim.getFaturaNo());
+        entity.setFatura(bakim.getFatura());
+        entity.setNotlar(bakim.getNotlar());
+        entity.setOdeyenFirmaId(bakim.getOdeyenFirmaId().getValue());
         return entity;
     }
 
@@ -59,7 +61,7 @@ public class BakimJpaMapper {
     public static Bakim toBakimFromBakimCreatedEvent(BakimCreatedEvent event) {
         return Bakim.builder()
                 .id(event.getId())
-                .aracId(event.getAracId())
+                .aracFiloId(event.getAracFiloId())
                 .bakimNedeni(event.getBakimNedeni())
                 .parca(event.getParca())
                 .parcaTutari(event.getParcaTutari())
@@ -75,7 +77,7 @@ public class BakimJpaMapper {
     public static Bakim toBakimFromBakimUpdatedEvent(BakimUpdatedEvent event) {
         return Bakim.builder()
                 .id(event.getId())
-                .aracId(event.getAracId())
+                .aracFiloId(event.getAracFiloId())
                 .bakimNedeni(event.getBakimNedeni())
                 .parca(event.getParca())
                 .parcaTutari(event.getParcaTutari())

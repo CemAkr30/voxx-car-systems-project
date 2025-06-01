@@ -4,6 +4,8 @@ import lombok.experimental.UtilityClass;
 import tr.gov.voxx.car.system.adapter.in.web.data.BakimRequest;
 import tr.gov.voxx.car.system.adapter.in.web.data.BakimResponse;
 import tr.gov.voxx.car.system.domain.entity.Bakim;
+import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
+import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +16,7 @@ public class BakimMapper {
     public static BakimResponse toResponse(Bakim entity) {
         return BakimResponse.builder()
                 .id(entity.getId().getValue())
-                .aracId(entity.getAracId())
+                .aracFiloId(entity.getAracFiloId().getValue())
                 .bakimNedeni(entity.getBakimNedeni())
                 .parca(entity.getParca())
                 .parcaTutari(entity.getParcaTutari())
@@ -23,7 +25,7 @@ public class BakimMapper {
                 .faturaNo(entity.getFaturaNo())
                 .fatura(entity.getFatura())
                 .notlar(entity.getNotlar())
-                .odeyenFirmaId(entity.getOdeyenFirmaId())
+                .odeyenFirmaId(entity.getOdeyenFirmaId().getValue())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .build();
@@ -33,9 +35,9 @@ public class BakimMapper {
         return list.stream().map(BakimMapper::toResponse).collect(Collectors.toList());
     }
 
-    public static Bakim toEntity(BakimRequest request) {
+    public static Bakim toBakim(BakimRequest request) {
         return Bakim.builder()
-                .aracId(request.getAracId())
+                .aracFiloId(new AracFiloId(request.getAracFiloId()))
                 .bakimNedeni(request.getBakimNedeni())
                 .parca(request.getParca())
                 .parcaTutari(request.getParcaTutari())
@@ -44,7 +46,7 @@ public class BakimMapper {
                 .faturaNo(request.getFaturaNo())
                 .fatura(request.getFatura())
                 .notlar(request.getNotlar())
-                .odeyenFirmaId(request.getOdeyenFirmaId())
+                .odeyenFirmaId(new FirmaId(request.getOdeyenFirmaId()))
                 .build();
     }
 }

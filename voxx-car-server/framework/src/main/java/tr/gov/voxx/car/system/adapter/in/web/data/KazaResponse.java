@@ -11,18 +11,18 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BakimResponse {
+public class KazaResponse {
     private String id;
     private String aracFiloId;
-    private String bakimNedeni;
-    private String parca;
-    private Double parcaTutari;
-    private Double iscilikTutari;
-    private Double toplamTutar;
-    private String faturaNo;
-    private String fatura;
-    private String notlar;
+    private String firmaId;
+    private String musteriId;//değişecek
+    private LocalDateTime kazaTarihi;
+    private String kazaIli;
+    private String kazaNedeni;
+    private String kazaTutanagi;
+    private String onarimDurumu;
     private String odeyenFirmaId;
+    private Boolean isDeleted;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

@@ -5,19 +5,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BakimRequest {
+public class KazaRequest {
     private String aracFiloId;
-    private String bakimNedeni;
-    private String parca;
-    private Double parcaTutari;
-    private Double iscilikTutari;
-    private Double toplamTutar;
-    private String faturaNo;
-    private String fatura;
-    private String notlar;
+    private String firmaId;
+    private String musteriId;
+    private LocalDateTime kazaTarihi;
+    private String kazaIli;
+    private String kazaNedeni;
+    private String kazaTutanagi;
+    private String onarimDurumu;
     private String odeyenFirmaId;
 }

@@ -42,14 +42,14 @@ public class AracFiloControllerAdapter {
     @PostMapping
     @Operation(summary = "Araç Ekle", description = "Yeni bir filo aracı ekler")
     public ResponseEntity<Void> create(@RequestBody AracFiloRequest request) {
-        commandPort.post(AracFiloMapper.toEntity(request));
+        commandPort.post(AracFiloMapper.toAracFilo(request));
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Araç Güncelle", description = "Araç bilgilerini günceller")
     public ResponseEntity<Void> update(@PathVariable String id, @RequestBody AracFiloRequest request) {
-        AracFilo entity = AracFiloMapper.toEntity(request);
+        AracFilo entity = AracFiloMapper.toAracFilo(request);
         entity.setId(new AracFiloId(id));
         commandPort.put(entity);
         return ResponseEntity.noContent().build();

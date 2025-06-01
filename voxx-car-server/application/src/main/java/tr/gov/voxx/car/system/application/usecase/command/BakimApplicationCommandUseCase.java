@@ -24,7 +24,7 @@ public class BakimApplicationCommandUseCase implements BakimApplicationCommandPo
         entity.initIdGenerator();
         publisher.publish("bakim-created-topic", BakimCreatedEvent.builder()
                 .id(entity.getId())
-                .aracId(entity.getAracId())
+                .aracFiloId(entity.getAracFiloId())
                 .bakimNedeni(entity.getBakimNedeni())
                 .parca(entity.getParca())
                 .parcaTutari(entity.getParcaTutari())
@@ -47,7 +47,7 @@ public class BakimApplicationCommandUseCase implements BakimApplicationCommandPo
 
         publisher.publish("bakim-updated-topic", BakimUpdatedEvent.builder()
                 .id(entity.getId())
-                .aracId(entity.getAracId())
+                .aracFiloId(entity.getAracFiloId())
                 .bakimNedeni(entity.getBakimNedeni())
                 .parca(entity.getParca())
                 .parcaTutari(entity.getParcaTutari())

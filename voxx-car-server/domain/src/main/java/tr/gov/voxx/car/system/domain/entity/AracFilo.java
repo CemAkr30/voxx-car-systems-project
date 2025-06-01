@@ -5,6 +5,9 @@ import lombok.experimental.SuperBuilder;
 import tr.gov.voxx.car.system.common.domain.core.IdFactory;
 import tr.gov.voxx.car.system.common.domain.entity.AbstractAggregateModel;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
+import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
+import tr.gov.voxx.car.system.domain.valueobject.MarkaId;
+import tr.gov.voxx.car.system.domain.valueobject.ModelId;
 
 import java.time.LocalDateTime;
 
@@ -13,8 +16,8 @@ import java.time.LocalDateTime;
 public class AracFilo extends AbstractAggregateModel<AracFiloId> {
 
     private String plaka;
-    private String markaId;
-    private String modelId;
+    private MarkaId markaId;
+    private ModelId modelId;
     private String modelYili;
     private String aracTipi;
     private String segment;
@@ -40,7 +43,7 @@ public class AracFilo extends AbstractAggregateModel<AracFiloId> {
     private LocalDateTime kiralandigiTarih;
     private String kontratSuresi;
     private LocalDateTime kiralikBitisTarihi;
-    private String kiralayanFirmaId;
+    private FirmaId kiralayanFirmaId;
     private Integer filoDurum;
 
     public void initIdGenerator() {

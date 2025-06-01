@@ -6,6 +6,9 @@ import tr.gov.voxx.car.system.domain.entity.AracFilo;
 import tr.gov.voxx.car.system.domain.event.AracFiloCreatedEvent;
 import tr.gov.voxx.car.system.domain.event.AracFiloUpdatedEvent;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
+import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
+import tr.gov.voxx.car.system.domain.valueobject.MarkaId;
+import tr.gov.voxx.car.system.domain.valueobject.ModelId;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,8 +24,8 @@ public class AracFiloJpaMapper {
         return AracFilo.builder()
                 .id(new AracFiloId(entity.getId()))
                 .plaka(entity.getPlaka())
-                .markaId(entity.getMarkaId())
-                .modelId(entity.getModelId())
+                .markaId(new MarkaId(entity.getMarkaId()))
+                .modelId(new ModelId(entity.getModelId()))
                 .modelYili(entity.getModelYili())
                 .aracTipi(entity.getAracTipi())
                 .segment(entity.getSegment())
@@ -48,50 +51,50 @@ public class AracFiloJpaMapper {
                 .kiralandigiTarih(entity.getKiralandigiTarih())
                 .kontratSuresi(entity.getKontratSuresi())
                 .kiralikBitisTarihi(entity.getKiralikBitisTarihi())
-                .kiralayanFirmaId(entity.getKiralayanFirmaId())
+                .kiralayanFirmaId(new FirmaId(entity.getKiralayanFirmaId()))
                 .filoDurum(entity.getFiloDurum())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .build();
     }
 
-    public static AracFiloEntity toEntity(AracFilo domain) {
-        if (domain == null) {
+    public static AracFiloEntity toEntity(AracFilo aracFilo) {
+        if (aracFilo == null) {
             return null;
         }
 
         AracFiloEntity entity = new AracFiloEntity();
-        entity.setId(domain.getId().getValue());
-        entity.setPlaka(domain.getPlaka());
-        entity.setMarkaId(domain.getMarkaId());
-        entity.setModelId(domain.getModelId());
-        entity.setModelYili(domain.getModelYili());
-        entity.setAracTipi(domain.getAracTipi());
-        entity.setSegment(domain.getSegment());
-        entity.setMotorNo(domain.getMotorNo());
-        entity.setSasiNo(domain.getSasiNo());
-        entity.setRenk(domain.getRenk());
-        entity.setKasaTipi(domain.getKasaTipi());
-        entity.setLastikTipi(domain.getLastikTipi());
-        entity.setFiloyaGirisTarihi(domain.getFiloyaGirisTarihi());
-        entity.setFiloyaGirisKm(domain.getFiloyaGirisKm());
-        entity.setTescilTarihi(domain.getTescilTarihi());
-        entity.setTrafigeCikisTarihi(domain.getTrafigeCikisTarihi());
-        entity.setGarantisiVarMi(domain.isGarantisiVarMi());
-        entity.setGarantiBitisTarihi(domain.getGarantiBitisTarihi());
-        entity.setGarantiSuresiYil(domain.getGarantiSuresiYil());
-        entity.setGarantiKm(domain.getGarantiKm());
-        entity.setTramer(domain.isTramer());
-        entity.setTramerTutari(domain.getTramerTutari());
-        entity.setSonKmTarihi(domain.getSonKmTarihi());
-        entity.setSonKm(domain.getSonKm());
-        entity.setSonYakitMiktari(domain.getSonYakitMiktari());
-        entity.setKiralandiMi(domain.isKiralandiMi());
-        entity.setKiralandigiTarih(domain.getKiralandigiTarih());
-        entity.setKontratSuresi(domain.getKontratSuresi());
-        entity.setKiralikBitisTarihi(domain.getKiralikBitisTarihi());
-        entity.setKiralayanFirmaId(domain.getKiralayanFirmaId());
-        entity.setFiloDurum(domain.getFiloDurum());
+        entity.setId(aracFilo.getId().getValue());
+        entity.setPlaka(aracFilo.getPlaka());
+        entity.setMarkaId(aracFilo.getMarkaId().getValue());
+        entity.setModelId(aracFilo.getModelId().getValue());
+        entity.setModelYili(aracFilo.getModelYili());
+        entity.setAracTipi(aracFilo.getAracTipi());
+        entity.setSegment(aracFilo.getSegment());
+        entity.setMotorNo(aracFilo.getMotorNo());
+        entity.setSasiNo(aracFilo.getSasiNo());
+        entity.setRenk(aracFilo.getRenk());
+        entity.setKasaTipi(aracFilo.getKasaTipi());
+        entity.setLastikTipi(aracFilo.getLastikTipi());
+        entity.setFiloyaGirisTarihi(aracFilo.getFiloyaGirisTarihi());
+        entity.setFiloyaGirisKm(aracFilo.getFiloyaGirisKm());
+        entity.setTescilTarihi(aracFilo.getTescilTarihi());
+        entity.setTrafigeCikisTarihi(aracFilo.getTrafigeCikisTarihi());
+        entity.setGarantisiVarMi(aracFilo.isGarantisiVarMi());
+        entity.setGarantiBitisTarihi(aracFilo.getGarantiBitisTarihi());
+        entity.setGarantiSuresiYil(aracFilo.getGarantiSuresiYil());
+        entity.setGarantiKm(aracFilo.getGarantiKm());
+        entity.setTramer(aracFilo.isTramer());
+        entity.setTramerTutari(aracFilo.getTramerTutari());
+        entity.setSonKmTarihi(aracFilo.getSonKmTarihi());
+        entity.setSonKm(aracFilo.getSonKm());
+        entity.setSonYakitMiktari(aracFilo.getSonYakitMiktari());
+        entity.setKiralandiMi(aracFilo.isKiralandiMi());
+        entity.setKiralandigiTarih(aracFilo.getKiralandigiTarih());
+        entity.setKontratSuresi(aracFilo.getKontratSuresi());
+        entity.setKiralikBitisTarihi(aracFilo.getKiralikBitisTarihi());
+        entity.setKiralayanFirmaId(aracFilo.getKiralayanFirmaId().getValue());
+        entity.setFiloDurum(aracFilo.getFiloDurum());
         return entity;
     }
 

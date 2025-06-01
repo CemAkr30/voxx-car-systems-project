@@ -14,8 +14,10 @@ import tr.gov.voxx.car.system.domain.valueobject.BakimId;
 
 import java.util.List;
 
+import static tr.gov.voxx.car.system.constants.EndpointPath.BAKIM_ENDPOINT_V1;
+
 @RestController
-@RequestMapping("/api/v1/bakim")
+@RequestMapping(value = BAKIM_ENDPOINT_V1)
 @RequiredArgsConstructor
 @Tag(name = "Bakım API", description = "Araç bakım işlemleri için uç noktalar")
 public class BakimControllerAdapter {
@@ -25,13 +27,13 @@ public class BakimControllerAdapter {
 
     @PostMapping
     public ResponseEntity<Void> create(@RequestBody BakimRequest request) {
-        commandPort.post(BakimMapper.toEntity(request));
+        commandPort.post(BakimMapper.toBakim(request));
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable String id, @RequestBody BakimRequest request) {
-        Bakim bakim = BakimMapper.toEntity(request);
+        Bakim bakim = BakimMapper.toBakim(request);
         bakim.setId(new BakimId(id));
         commandPort.put(bakim);
         return ResponseEntity.noContent().build();

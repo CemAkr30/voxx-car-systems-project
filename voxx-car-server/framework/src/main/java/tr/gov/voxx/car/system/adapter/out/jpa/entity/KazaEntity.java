@@ -6,25 +6,27 @@ import jakarta.persistence.Table;
 import lombok.*;
 import tr.gov.voxx.car.system.common.framework.persistence.AbstractEntity;
 
+import java.time.LocalDateTime;
+
 @Entity
-@Table(name = "tb_bakim")
+@Table(name = "tb_kaza")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BakimEntity extends AbstractEntity {
+public class KazaEntity extends AbstractEntity {
+
     private String aracFiloId;
-    private String bakimNedeni;
-    private String parca;
-    private Double parcaTutari;
-    private Double iscilikTutari;
-    private Double toplamTutar;
-    private String faturaNo;
+    private String firmaId;
+    private String musteriId;
+    private LocalDateTime kazaTarihi;
+    private String kazaIli;
+    private String kazaNedeni;
 
     @Lob
-    private String fatura;
+    private String kazaTutanagi;
 
-    private String notlar;
+    private String onarimDurumu;
     private String odeyenFirmaId;
 }

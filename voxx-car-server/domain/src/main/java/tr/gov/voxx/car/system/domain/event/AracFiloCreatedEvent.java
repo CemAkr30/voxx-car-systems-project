@@ -3,6 +3,9 @@ package tr.gov.voxx.car.system.domain.event;
 import lombok.Builder;
 import lombok.Data;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
+import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
+import tr.gov.voxx.car.system.domain.valueobject.MarkaId;
+import tr.gov.voxx.car.system.domain.valueobject.ModelId;
 
 import java.time.LocalDateTime;
 
@@ -11,8 +14,8 @@ import java.time.LocalDateTime;
 public class AracFiloCreatedEvent {
     private final AracFiloId id;
     private final String plaka;
-    private final String markaId;
-    private final String modelId;
+    private final MarkaId markaId;
+    private final ModelId modelId;
     private final String modelYili;
     private final String aracTipi;
     private final String segment;
@@ -38,6 +41,6 @@ public class AracFiloCreatedEvent {
     private final LocalDateTime kiralandigiTarih;
     private final String kontratSuresi;
     private final LocalDateTime kiralikBitisTarihi;
-    private final String kiralayanFirmaId;
+    private final FirmaId kiralayanFirmaId;
     private final Integer filoDurum;
 }

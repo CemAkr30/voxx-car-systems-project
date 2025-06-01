@@ -86,3 +86,6 @@ kafka:
     bakim-created: bakim-created-topic
     bakim-updated: bakim-updated-topic
     bakim-deleted: bakim-deleted-topic
+    kaza-created: kaza-created-topic
+    kaza-updated: kaza-updated-topic
+    kaza-deleted: kaza-deleted-topic

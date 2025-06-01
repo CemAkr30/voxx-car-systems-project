@@ -4,15 +4,15 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import tr.gov.voxx.car.system.common.domain.core.IdFactory;
 import tr.gov.voxx.car.system.common.domain.entity.AbstractAggregateModel;
+import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.BakimId;
-
-import java.time.LocalDateTime;
+import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
 @Getter
 @SuperBuilder(toBuilder = true)
 public class Bakim extends AbstractAggregateModel<BakimId> {
 
-    private String aracId;
+    private AracFiloId aracFiloId;
     private String bakimNedeni;
     private String parca;
     private Double parcaTutari;
@@ -21,18 +21,15 @@ public class Bakim extends AbstractAggregateModel<BakimId> {
     private String faturaNo;
     private String fatura;
     private String notlar;
-    private String odeyenFirmaId;
+    private FirmaId odeyenFirmaId;
 
-    private Boolean isDeleted;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
     public void initIdGenerator() {
         this.setId(new BakimId(IdFactory.create()));
     }
 
     public void updateFrom(Bakim other) {
-        this.aracId = other.aracId;
+        this.aracFiloId = other.aracFiloId;
         this.bakimNedeni = other.bakimNedeni;
         this.parca = other.parca;
         this.parcaTutari = other.parcaTutari;
@@ -42,7 +39,6 @@ public class Bakim extends AbstractAggregateModel<BakimId> {
         this.fatura = other.fatura;
         this.notlar = other.notlar;
         this.odeyenFirmaId = other.odeyenFirmaId;
-        this.isDeleted = other.isDeleted;
-        this.updatedAt = other.updatedAt;
+
     }
 }
