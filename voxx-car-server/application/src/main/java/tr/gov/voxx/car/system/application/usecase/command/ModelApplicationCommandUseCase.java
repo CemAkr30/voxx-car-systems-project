@@ -56,7 +56,6 @@ public class ModelApplicationCommandUseCase implements ModelApplicationCommandPo
         domainEventPublisher.publish("model-deleted-topic", ModelDeletedEvent.builder()
                 .id(modelId)
                 .build());
-        modelPersistenceJpaPort.deleteById(modelId);
     }
 }
 

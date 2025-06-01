@@ -7,7 +7,9 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import tr.gov.voxx.car.system.adapter.out.jpa.mapper.MarkaJpaMapper;
 import tr.gov.voxx.car.system.application.port.out.MarkaPersistenceJpaPort;
-import tr.gov.voxx.car.system.domain.event.*;
+import tr.gov.voxx.car.system.domain.event.MarkaCreatedEvent;
+import tr.gov.voxx.car.system.domain.event.MarkaDeletedEvent;
+import tr.gov.voxx.car.system.domain.event.MarkaUpdatedEvent;
 
 @Component
 @RequiredArgsConstructor

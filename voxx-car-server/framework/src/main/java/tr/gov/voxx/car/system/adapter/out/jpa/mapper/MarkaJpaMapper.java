@@ -7,7 +7,6 @@ import tr.gov.voxx.car.system.domain.event.MarkaCreatedEvent;
 import tr.gov.voxx.car.system.domain.event.MarkaUpdatedEvent;
 import tr.gov.voxx.car.system.domain.valueobject.MarkaId;
 
-
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -6,7 +6,9 @@ import tr.gov.voxx.car.system.application.port.in.MarkaApplicationCommandPort;
 import tr.gov.voxx.car.system.application.port.out.MarkaPersistenceJpaPort;
 import tr.gov.voxx.car.system.common.application.port.out.event.DomainEventPublisher;
 import tr.gov.voxx.car.system.domain.entity.Marka;
-import tr.gov.voxx.car.system.domain.event.*;
+import tr.gov.voxx.car.system.domain.event.MarkaCreatedEvent;
+import tr.gov.voxx.car.system.domain.event.MarkaDeletedEvent;
+import tr.gov.voxx.car.system.domain.event.MarkaUpdatedEvent;
 import tr.gov.voxx.car.system.domain.exception.BusinessRuleException;
 import tr.gov.voxx.car.system.domain.exception.NotFoundException;
 import tr.gov.voxx.car.system.domain.valueobject.MarkaId;
@@ -52,7 +54,6 @@ public class MarkaApplicationCommandUseCase implements MarkaApplicationCommandPo
         domainEventPublisher.publish("marka-deleted-topic", MarkaDeletedEvent.builder()
                 .id(markaId)
                 .build());
-        markaPersistenceJpaPort.deleteById(markaId);
     }
 }
 

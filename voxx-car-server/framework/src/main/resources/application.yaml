@@ -71,3 +71,6 @@ kafka:
     marka-created: marka-created-topic
     marka-updated: marka-updated-topic
     marka-deleted: marka-deleted-topic
+    firma-created: firma-created-topic
+    firma-updated: firma-updated-topic
+    firma-deleted: firma-deleted-topic
