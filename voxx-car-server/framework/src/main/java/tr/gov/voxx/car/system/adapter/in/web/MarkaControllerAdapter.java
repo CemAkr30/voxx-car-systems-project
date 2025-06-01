@@ -13,7 +13,6 @@ import tr.gov.voxx.car.system.application.port.in.MarkaApplicationQueryPort;
 import tr.gov.voxx.car.system.domain.entity.Marka;
 import tr.gov.voxx.car.system.domain.valueobject.MarkaId;
 
-
 import java.util.List;
 
 import static tr.gov.voxx.car.system.constants.EndpointPath.MARKA_ENDPOINT_V1;
@@ -33,6 +32,7 @@ public class MarkaControllerAdapter {
         Marka marka = markaApplicationQueryPort.get(new MarkaId(id));
         return ResponseEntity.ok(MarkaMapper.toResponse(marka));
     }
+
     @GetMapping
     @Operation(summary = "Tüm Markalar", description = "Tüm marka listesini getirir")
     public ResponseEntity<List<MarkaResponse>> getAll() {

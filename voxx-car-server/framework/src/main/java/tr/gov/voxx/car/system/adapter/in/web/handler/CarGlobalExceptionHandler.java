@@ -3,6 +3,7 @@ package tr.gov.voxx.car.system.adapter.in.web.handler;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,4 +37,14 @@ public class CarGlobalExceptionHandler extends GlobalExceptionHandler {
         log.error("Unhandled exception occurred", exception);
         return buildErrorDTO(ErrorCode.BUSINESS_RULE_ERROR, "Unexpected error occurred!");
     }
+
+    @ResponseBody
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorDTO handleGenericException(AuthorizationDeniedException exception) {
+        log.error("Unhandled exception occurred", exception);
+        return buildErrorDTO(ErrorCode.UNAUTHORIZED, "Unexpected error occurred!");
+    }
+
+
 }

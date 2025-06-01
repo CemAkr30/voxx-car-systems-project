@@ -64,9 +64,16 @@ public class MarkaPersistenceJpaAdapter implements MarkaPersistenceJpaPort {
 
     @Override
     public Optional<Marka> findByAdi(String adi) {
-        Marka marka = MarkaJpaMapper.toMarka(entityManager.createQuery("select m from MarkaEntity m where m.adi = :adi", MarkaEntity.class)
+        List<MarkaEntity> results = entityManager.createQuery(
+                        "select m from MarkaEntity m where m.adi = :adi", MarkaEntity.class)
                 .setParameter("adi", adi)
-                .getSingleResult());
-        return Optional.ofNullable(marka);
+                .getResultList();
+
+        if (results.isEmpty()) {
+            return Optional.empty();
+        }
+
+        Marka marka = MarkaJpaMapper.toMarka(results.get(0));
+        return Optional.of(marka);
     }
 }

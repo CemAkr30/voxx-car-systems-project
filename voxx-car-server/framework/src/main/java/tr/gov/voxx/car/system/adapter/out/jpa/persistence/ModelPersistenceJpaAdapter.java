@@ -65,9 +65,16 @@ public class ModelPersistenceJpaAdapter implements ModelPersistenceJpaPort {
 
     @Override
     public Optional<Model> findByAdi(String adi) {
-        Model model = ModelJpaMapper.toModel(entityManager.createQuery("select m from ModelEntity m where m.adi = :adi", ModelEntity.class)
+        List<ModelEntity> results = entityManager.createQuery(
+                        "select m from ModelEntity m where m.adi = :adi", ModelEntity.class)
                 .setParameter("adi", adi)
-                .getSingleResult());
-        return Optional.ofNullable(model);
+                .getResultList();
+
+        if (results.isEmpty()) {
+            return Optional.empty();
+        }
+
+        Model model = ModelJpaMapper.toModel(results.get(0));
+        return Optional.of(model);
     }
 }
