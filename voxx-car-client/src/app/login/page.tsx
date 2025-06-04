@@ -2,7 +2,6 @@
 
 import type React from "react"
 import {useState} from "react"
-import Link from "next/link"
 import {useRouter} from "next/navigation"
 import {Button} from "@/components/ui/button"
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card"
@@ -110,17 +109,6 @@ export default function LoginPage() {
                         </div>
 
                         <div className="space-y-2">
-                            <div className="flex items-center justify-between">
-                                <Label htmlFor="password" className="text-gray-700 font-medium">
-                                    Şifre
-                                </Label>
-                                <Link
-                                    href="/forgot-password"
-                                    className="text-sm text-blue-600 hover:text-blue-800 hover:underline transition-colors"
-                                >
-                                    Şifremi unuttum
-                                </Link>
-                            </div>
                             <Input
                                 id="password"
                                 type="password"
