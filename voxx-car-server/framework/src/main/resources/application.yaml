@@ -89,3 +89,6 @@ kafka:
     kaza-created: kaza-created-topic
     kaza-updated: kaza-updated-topic
     kaza-deleted: kaza-deleted-topic
+    sigorta-created: sigorta-created-topic
+    sigorta-updated: sigorta-updated-topic
+    sigorta-deleted: sigorta-deleted-topic
