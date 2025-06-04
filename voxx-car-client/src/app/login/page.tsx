@@ -9,17 +9,26 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/compo
 import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
 import {Alert, AlertDescription} from "@/components/ui/alert"
-import {Loader2} from "lucide-react"
+import {Loader2, Shield} from "lucide-react"
+import {Captcha} from "@/components/captcha"
 
 export default function LoginPage() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [captchaValue, setCaptchaValue] = useState("")
+    const [isCaptchaValid, setIsCaptchaValid] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState("")
     const router = useRouter()
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
+
+        if (!isCaptchaValid) {
+            setError("Lütfen güvenlik kodunu doğru girin.")
+            return
+        }
+
         setIsLoading(true)
         setError("")
 
@@ -62,23 +71,32 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-            <Card className="w-full max-w-md">
-                <CardHeader className="space-y-1">
-                    <CardTitle className="text-2xl font-bold text-center">Giriş Yap</CardTitle>
-                    <CardDescription className="text-center">Hesabınıza giriş yapmak için bilgilerinizi
-                        girin</CardDescription>
+        <div
+            className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
+            <Card className="w-full max-w-md shadow-xl border-0">
+                <CardHeader className="space-y-1 pb-6">
+                    <div className="flex items-center justify-center mb-4">
+                        <div className="bg-blue-600 p-3 rounded-full">
+                            <Shield className="h-6 w-6 text-white"/>
+                        </div>
+                    </div>
+                    <CardTitle className="text-2xl font-bold text-center text-gray-900">Güvenli Giriş</CardTitle>
+                    <CardDescription className="text-center text-gray-600">
+                        Hesabınıza giriş yapmak için bilgilerinizi girin
+                    </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-6">
                     {error && (
-                        <Alert variant="destructive">
-                            <AlertDescription>{error}</AlertDescription>
+                        <Alert variant="destructive" className="border-red-200 bg-red-50">
+                            <AlertDescription className="text-red-800">{error}</AlertDescription>
                         </Alert>
                     )}
 
-                    <form onSubmit={handleSubmit} className="space-y-4">
+                    <form onSubmit={handleSubmit} className="space-y-5">
                         <div className="space-y-2">
-                            <Label htmlFor="username">Kullanıcı Adı</Label>
+                            <Label htmlFor="username" className="text-gray-700 font-medium">
+                                Kullanıcı Adı
+                            </Label>
                             <Input
                                 id="username"
                                 type="text"
@@ -87,12 +105,19 @@ export default function LoginPage() {
                                 onChange={(e) => setUsername(e.target.value)}
                                 required
                                 disabled={isLoading}
+                                className="h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                             />
                         </div>
+
                         <div className="space-y-2">
                             <div className="flex items-center justify-between">
-                                <Label htmlFor="password">Şifre</Label>
-                                <Link href="/forgot-password" className="text-sm text-primary hover:underline">
+                                <Label htmlFor="password" className="text-gray-700 font-medium">
+                                    Şifre
+                                </Label>
+                                <Link
+                                    href="/forgot-password"
+                                    className="text-sm text-blue-600 hover:text-blue-800 hover:underline transition-colors"
+                                >
                                     Şifremi unuttum
                                 </Link>
                             </div>
@@ -104,19 +129,44 @@ export default function LoginPage() {
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                                 disabled={isLoading}
+                                className="h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                             />
                         </div>
-                        <Button type="submit" className="w-full" disabled={isLoading}>
+
+                        <div className="pt-2">
+                            <Captcha onVerify={setIsCaptchaValid} value={captchaValue} onChange={setCaptchaValue}/>
+                        </div>
+
+                        <Button
+                            type="submit"
+                            className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-medium transition-colors"
+                            disabled={isLoading || !isCaptchaValid}
+                        >
                             {isLoading ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin"/>
                                     Giriş yapılıyor...
                                 </>
                             ) : (
-                                "Giriş Yap"
+                                <>
+                                    <Shield className="mr-2 h-4 w-4"/>
+                                    Güvenli Giriş
+                                </>
                             )}
                         </Button>
                     </form>
+
+                    <div className="text-center pt-4 border-t border-gray-200">
+                        <p className="text-sm text-gray-600">
+                            Hesabınız yok mu?{" "}
+                            <Link
+                                href="/register"
+                                className="text-blue-600 hover:text-blue-800 font-medium hover:underline transition-colors"
+                            >
+                                Kayıt ol
+                            </Link>
+                        </p>
+                    </div>
                 </CardContent>
             </Card>
         </div>
