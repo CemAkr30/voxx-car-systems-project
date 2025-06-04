@@ -72,10 +72,9 @@ export default function LoginPage() {
     return (
         <div className="min-h-screen flex">
             {/* Sol Taraf - Login Form */}
-            <div
-                className="w-full lg:w-1/3 xl:w-1/4 flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
-                <div className="w-full max-w-md">
-                    <Card className="shadow-xl border-0 bg-white/95 backdrop-blur-sm">
+            <div className="w-full lg:w-1/3 xl:w-1/4 flex bg-white">
+                <Card className="w-full h-full rounded-none border-0 shadow-none">
+                    <div className="flex flex-col justify-center h-full px-8 py-12">
                         <CardHeader className="space-y-1 pb-6">
                             <div className="flex items-center justify-center mb-4">
                                 <div className="bg-blue-600 p-3 rounded-full">
@@ -152,8 +151,8 @@ export default function LoginPage() {
                                 </Button>
                             </form>
                         </CardContent>
-                    </Card>
-                </div>
+                    </div>
+                </Card>
             </div>
 
             {/* Sağ Taraf - Resim */}
