@@ -55,7 +55,7 @@ export default function LoginPage() {
                     localStorage.setItem("refresh_token", data.refresh_token)
                 }
 
-                // Ana sayfaya yönlendir
+                // Dashboard'a yönlendir
                 router.push("/dashboard")
             } else {
                 const errorData = await response.json()
