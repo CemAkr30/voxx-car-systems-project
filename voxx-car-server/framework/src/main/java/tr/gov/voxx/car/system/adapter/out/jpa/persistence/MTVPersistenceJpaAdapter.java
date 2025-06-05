@@ -39,8 +39,8 @@ public class MTVPersistenceJpaAdapter implements MTVPersistenceJpaPort {
     @Override
     @Transactional
     public void merge(Mtv entity) {
-        MTVEntity sigortaEntity = MTVJpaMapper.toEntity(entity);
-        entityManager.merge(sigortaEntity);
+        MTVEntity mtvEntity = MTVJpaMapper.toEntity(entity);
+        entityManager.merge(mtvEntity);
     }
 
     @Override

@@ -95,3 +95,18 @@ kafka:
     mtv-created: mtv-created-topic
     mtv-updated: mtv-updated-topic
     mtv-deleted: mtv-deleted-topic
+    hasar-created: hasar-created-topic
+    hasar-updated: hasar-updated-topic
+    hasar-deleted: hasar-deleted-topic
+    muayene-created: muayene-created-topic
+    muayene-updated: muayene-updated-topic
+    muayene-deleted: muayene-deleted-topic
+    alisfaturasi-created: alisfaturasi-created-topic
+    alisfaturasi-updated: alisfaturasi-updated-topic
+    alisfaturasi-deleted: alisfaturasi-deleted-topic
+    filodancikis-created: filodancikis-created-topic
+    filodancikis-updated: filodancikis-updated-topic
+    filodancikis-deleted: filodancikis-deleted-topic
+    arackullanan-created: arackullanan-created-topic
+    arackullanan-updated: arackullanan-updated-topic
+    arackullanan-deleted: arackullanan-deleted-topic
