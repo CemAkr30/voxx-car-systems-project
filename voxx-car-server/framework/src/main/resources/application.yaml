@@ -92,3 +92,6 @@ kafka:
     sigorta-created: sigorta-created-topic
     sigorta-updated: sigorta-updated-topic
     sigorta-deleted: sigorta-deleted-topic
+    mtv-created: mtv-created-topic
+    mtv-updated: mtv-updated-topic
+    mtv-deleted: mtv-deleted-topic

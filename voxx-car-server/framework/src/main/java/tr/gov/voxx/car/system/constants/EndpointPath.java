@@ -10,5 +10,6 @@ public class EndpointPath {
     public static final String BAKIM_ENDPOINT_V1 = "/v1/bakim";
     public static final String KAZA_ENDPOINT_V1 = "/v1/kaza";
     public static final String SIGORTA_ENDPOINT_V1 = "/v1/sigorta";
+    public static final String MTV_ENDPOINT_V1 = "/v1/mtv";
 
 }
