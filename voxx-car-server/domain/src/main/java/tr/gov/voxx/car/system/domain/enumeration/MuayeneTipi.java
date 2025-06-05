@@ -1,6 +1,6 @@
 package tr.gov.voxx.car.system.domain.enumeration;
 
-public enum MuayeneTip {
+public enum MuayeneTipi {
     EGZOS,
     FENNI
 }
