@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 @AllArgsConstructor
@@ -16,13 +16,13 @@ public class KazaResponse {
     private String aracFiloId;
     private String firmaId;
     private String musteriId;//değişecek
-    private LocalDateTime kazaTarihi;
+    private Instant kazaTarihi;
     private String kazaIli;
     private String kazaNedeni;
     private String kazaTutanagi;
     private String onarimDurumu;
     private String odeyenFirmaId;
     private Boolean isDeleted;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
 }

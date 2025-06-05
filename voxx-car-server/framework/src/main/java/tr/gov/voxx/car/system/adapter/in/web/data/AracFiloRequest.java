@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 @AllArgsConstructor
@@ -23,23 +23,23 @@ public class AracFiloRequest {
     private String renk;
     private String kasaTipi;
     private String lastikTipi;
-    private LocalDateTime filoyaGirisTarihi;
+    private Instant filoyaGirisTarihi;
     private String filoyaGirisKm;
-    private LocalDateTime tescilTarihi;
-    private LocalDateTime trafigeCikisTarihi;
+    private Instant tescilTarihi;
+    private Instant trafigeCikisTarihi;
     private boolean garantisiVarMi;
-    private LocalDateTime garantiBitisTarihi;
+    private Instant garantiBitisTarihi;
     private String garantiSuresiYil;
     private String garantiKm;
     private boolean tramer;
     private Double tramerTutari;
-    private LocalDateTime sonKmTarihi;
+    private Instant sonKmTarihi;
     private String sonKm;
     private String sonYakitMiktari;
     private boolean kiralandiMi;
-    private LocalDateTime kiralandigiTarih;
+    private Instant kiralandigiTarih;
     private String kontratSuresi;
-    private LocalDateTime kiralikBitisTarihi;
+    private Instant kiralikBitisTarihi;
     private String kiralayanFirmaId;
     private Integer filoDurum;
 }

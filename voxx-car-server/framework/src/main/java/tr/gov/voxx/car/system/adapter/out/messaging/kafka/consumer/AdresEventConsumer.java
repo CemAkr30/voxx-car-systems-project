@@ -3,6 +3,7 @@ package tr.gov.voxx.car.system.adapter.out.messaging.kafka.consumer;
 import com.nimbusds.jose.shaded.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import tr.gov.voxx.car.system.adapter.out.jpa.mapper.AdresJpaMapper;
@@ -18,6 +19,7 @@ public class AdresEventConsumer {
     private final AdresPersistenceJpaPort adresPersistenceJpaPort;
     private final Gson gson = new Gson();
 
+    @CacheEvict(value = "adres", key = "#event.id")
     @KafkaListener(topics = "${kafka.topic.adres-created}", groupId = "voxx-adres-group")
     public void consumeCreated(String strEvent) {
         AdresCreatedEvent event = gson.fromJson(strEvent, AdresCreatedEvent.class);
@@ -26,6 +28,7 @@ public class AdresEventConsumer {
                 AdresJpaMapper.toAdresFromAdresCreatedEvent(event));
     }
 
+    @CacheEvict(value = "adres", key = "#event.id")
     @KafkaListener(topics = "${kafka.topic.adres-updated}", groupId = "voxx-adres-group")
     public void consumeUpdated(String strEvent) {
         AdresUpdatedEvent event = gson.fromJson(strEvent, AdresUpdatedEvent.class);

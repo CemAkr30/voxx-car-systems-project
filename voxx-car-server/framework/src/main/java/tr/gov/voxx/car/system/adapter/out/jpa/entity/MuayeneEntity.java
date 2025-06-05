@@ -9,7 +9,7 @@ import tr.gov.voxx.car.system.common.framework.persistence.AbstractEntity;
 import tr.gov.voxx.car.system.domain.enumeration.MuayeneTipi;
 import tr.gov.voxx.car.system.domain.enumeration.OdemeTipi;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @AllArgsConstructor
@@ -31,7 +31,7 @@ public class MuayeneEntity extends AbstractEntity {
     private OdemeTipi odemeTipi;
     private Double miktar;
     private Boolean odendi;
-    private LocalDateTime baslangicTarihi;
-    private LocalDateTime bitisTarihi;
+    private Instant baslangicTarihi;
+    private Instant bitisTarihi;
 }
 

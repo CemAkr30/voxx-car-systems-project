@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 import tr.gov.voxx.car.system.domain.enumeration.HasarTipi;
 import tr.gov.voxx.car.system.domain.enumeration.HasarliParca;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+
 
 @Data
 @AllArgsConstructor
@@ -18,6 +19,6 @@ public class HasarResponse {
     private String aracFiloId;
     private HasarliParca hasarliParca;
     private HasarTipi hasarTipi;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
 }

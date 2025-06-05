@@ -8,7 +8,7 @@ import lombok.*;
 import tr.gov.voxx.car.system.common.framework.persistence.AbstractEntity;
 import tr.gov.voxx.car.system.domain.enumeration.ParaBirimi;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @AllArgsConstructor
@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Setter
 public class AlisFaturasiEntity extends AbstractEntity {
     private String aracFiloId;
-    private LocalDateTime alisFaturasiTarihi;
+    private Instant alisFaturasiTarihi;
     private String alisFaturaNo;
     private String saticiFirmaId;
     private Double listeFiyati;

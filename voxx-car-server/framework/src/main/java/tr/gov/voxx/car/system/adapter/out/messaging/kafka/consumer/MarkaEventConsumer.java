@@ -3,6 +3,7 @@ package tr.gov.voxx.car.system.adapter.out.messaging.kafka.consumer;
 import com.nimbusds.jose.shaded.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import tr.gov.voxx.car.system.adapter.out.jpa.mapper.MarkaJpaMapper;
@@ -18,6 +19,7 @@ public class MarkaEventConsumer {
     private final MarkaPersistenceJpaPort markaPersistenceJpaPort;
     private final Gson gson = new Gson();
 
+    @CacheEvict(value = "marka", key = "#event.id")
     @KafkaListener(topics = "${kafka.topic.marka-created}", groupId = "voxx-marka-group")
     public void consumeCreated(String strEvent) {
         MarkaCreatedEvent event = gson.fromJson(strEvent, MarkaCreatedEvent.class);
@@ -26,6 +28,7 @@ public class MarkaEventConsumer {
                 MarkaJpaMapper.toMarkaFromMarkaCreatedEvent(event));
     }
 
+    @CacheEvict(value = "marka", key = "#event.id")
     @KafkaListener(topics = "${kafka.topic.marka-updated}", groupId = "voxx-marka-group")
     public void consumeUpdated(String strEvent) {
         MarkaUpdatedEvent event = gson.fromJson(strEvent, MarkaUpdatedEvent.class);
@@ -35,6 +38,7 @@ public class MarkaEventConsumer {
         );
     }
 
+    @CacheEvict(value = "marka", key = "#event.id")
     @KafkaListener(topics = "${kafka.topic.marka-deleted}", groupId = "voxx-marka-group")
     public void consumeDeleted(String strEvent) {
         MarkaDeletedEvent event = gson.fromJson(strEvent, MarkaDeletedEvent.class);

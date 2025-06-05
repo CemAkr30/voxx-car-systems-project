@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import tr.gov.voxx.car.system.domain.enumeration.SigortaTipi;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 @AllArgsConstructor
@@ -18,7 +18,7 @@ public class SigortaKaskoRequest {
     private String sigortaSirketi;
     private String acente;
     private String policeNo;
-    private LocalDateTime baslangicTarihi;
-    private LocalDateTime bitisTarihi;
+    private Instant baslangicTarihi;
+    private Instant bitisTarihi;
 
 }

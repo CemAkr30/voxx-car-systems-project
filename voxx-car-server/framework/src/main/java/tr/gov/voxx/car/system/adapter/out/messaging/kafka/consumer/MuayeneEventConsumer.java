@@ -3,6 +3,7 @@ package tr.gov.voxx.car.system.adapter.out.messaging.kafka.consumer;
 import com.nimbusds.jose.shaded.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import tr.gov.voxx.car.system.adapter.out.jpa.mapper.MuayeneJpaMapper;
@@ -18,6 +19,7 @@ public class MuayeneEventConsumer {
     private final MuayenePersistenceJpaPort persistenceJpaPort;
     private final Gson gson = new Gson();
 
+    @CacheEvict(value = "muayene", key = "#event.id")
     @KafkaListener(topics = "${kafka.topic.muayene-created}", groupId = "voxx-muayene-group")
     public void consumeCreated(String strEvent) {
         MuayeneCreatedEvent event = gson.fromJson(strEvent, MuayeneCreatedEvent.class);
@@ -26,6 +28,7 @@ public class MuayeneEventConsumer {
                 MuayeneJpaMapper.toMuayeneFromMuayeneCreatedEvent(event));
     }
 
+    @CacheEvict(value = "muayene", key = "#event.id")
     @KafkaListener(topics = "${kafka.topic.muayene-updated}", groupId = "voxx-muayene-group")
     public void consumeUpdated(String strEvent) {
         MuayeneUpdatedEvent event = gson.fromJson(strEvent, MuayeneUpdatedEvent.class);
@@ -35,6 +38,7 @@ public class MuayeneEventConsumer {
         );
     }
 
+    @CacheEvict(value = "muayene", key = "#event.id")
     @KafkaListener(topics = "${kafka.topic.muayene-deleted}", groupId = "voxx-muayene-group")
     public void consumeDeleted(String strEvent) {
         MuayeneDeletedEvent event = gson.fromJson(strEvent, MuayeneDeletedEvent.class);

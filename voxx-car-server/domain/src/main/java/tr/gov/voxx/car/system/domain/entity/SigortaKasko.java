@@ -8,7 +8,7 @@ import tr.gov.voxx.car.system.domain.enumeration.SigortaTipi;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.SigortaId;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Getter
 @SuperBuilder(toBuilder = true)
@@ -19,8 +19,8 @@ public class SigortaKasko extends AbstractAggregateModel<SigortaId> {
     private String sigortaSirketi;
     private String acente;
     private String policeNo;
-    private LocalDateTime baslangicTarihi;
-    private LocalDateTime bitisTarihi;
+    private Instant baslangicTarihi;
+    private Instant bitisTarihi;
 
     public void initIdGenerator() {
         super.setId(new SigortaId(IdFactory.create()));

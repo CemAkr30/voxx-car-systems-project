@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import tr.gov.voxx.car.system.domain.enumeration.ParaBirimi;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 @AllArgsConstructor
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class AlisFaturasiResponse {
     private String id;
     private String aracFiloId;
-    private LocalDateTime alisFaturasiTarihi;
+    private Instant alisFaturasiTarihi;
     private String alisFaturaNo;
     private String saticiFirmaId;
     private Double listeFiyati;
@@ -34,6 +34,6 @@ public class AlisFaturasiResponse {
     private Double faturaTry;
     private String faturaYukle;//dosya yolu mu verilecek
     private String not;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
 }

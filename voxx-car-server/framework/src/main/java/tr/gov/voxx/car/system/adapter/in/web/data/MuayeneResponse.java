@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import tr.gov.voxx.car.system.domain.enumeration.MuayeneTipi;
 import tr.gov.voxx.car.system.domain.enumeration.OdemeTipi;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 @AllArgsConstructor
@@ -25,8 +25,8 @@ public class MuayeneResponse {
     private String yeri;
     private String gecikmeCezasi;
     private Boolean odendi;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
 }
 
 

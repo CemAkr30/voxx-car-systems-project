@@ -3,6 +3,7 @@ package tr.gov.voxx.car.system.adapter.out.messaging.kafka.consumer;
 import com.nimbusds.jose.shaded.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import tr.gov.voxx.car.system.adapter.out.jpa.mapper.SigortaKaskoJpaMapper;
@@ -18,6 +19,7 @@ public class SigortaEventConsumer {
     private final SigortaKaskoPersistenceJpaPort kaskoPersistenceJpaPort;
     private final Gson gson = new Gson();
 
+    @CacheEvict(value = "sigortaKasko", key = "#event.id")
     @KafkaListener(topics = "${kafka.topic.sigorta-created}", groupId = "voxx-sigorta-group")
     public void consumeCreated(String strEvent) {
         SigortaCreatedEvent event = gson.fromJson(strEvent, SigortaCreatedEvent.class);
@@ -26,6 +28,7 @@ public class SigortaEventConsumer {
                 SigortaKaskoJpaMapper.toSigortaFromSigortaCreatedEvent(event));
     }
 
+    @CacheEvict(value = "sigortaKasko", key = "#event.id")
     @KafkaListener(topics = "${kafka.topic.sigorta-updated}", groupId = "voxx-sigorta-group")
     public void consumeUpdated(String strEvent) {
         SigortaUpdatedEvent event = gson.fromJson(strEvent, SigortaUpdatedEvent.class);
@@ -35,6 +38,7 @@ public class SigortaEventConsumer {
         );
     }
 
+    @CacheEvict(value = "sigortaKasko", key = "#event.id")
     @KafkaListener(topics = "${kafka.topic.sigorta-deleted}", groupId = "voxx-sigorta-group")
     public void consumeDeleted(String strEvent) {
         SigortaDeletedEvent event = gson.fromJson(strEvent, SigortaDeletedEvent.class);

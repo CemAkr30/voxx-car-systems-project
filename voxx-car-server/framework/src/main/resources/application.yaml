@@ -7,6 +7,15 @@ server:
 spring:
   application:
     name: voxx-car-service
+  cache:
+    type: couchbase
+  couchbase:
+    connection-string: couchbase://localhost
+    password: password
+    username: Administrator
+  data:
+    couchbase:
+      bucket-name: car-bucket
   kafka:
     bootstrap-servers: localhost:29092
     producer:
@@ -34,6 +43,7 @@ spring:
         jwt:
           issuer-uri: http://localhost:8090/realms/voxx-car-systems
           jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+
 jwt:
   auth:
     converter:

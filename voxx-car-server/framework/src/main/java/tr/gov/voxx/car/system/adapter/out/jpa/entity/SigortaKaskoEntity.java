@@ -8,7 +8,7 @@ import lombok.*;
 import tr.gov.voxx.car.system.common.framework.persistence.AbstractEntity;
 import tr.gov.voxx.car.system.domain.enumeration.SigortaTipi;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @AllArgsConstructor
@@ -24,6 +24,6 @@ public class SigortaKaskoEntity extends AbstractEntity {
     private String sigortaSirketi;
     private String acente;
     private String policeNo;
-    private LocalDateTime baslangicTarihi;
-    private LocalDateTime bitisTarihi;
+    private Instant baslangicTarihi;
+    private Instant bitisTarihi;
 }

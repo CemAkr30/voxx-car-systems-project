@@ -1,6 +1,7 @@
 package tr.gov.voxx.car.system.application.usecase.query;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import tr.gov.voxx.car.system.application.port.in.IletisimApplicationQueryPort;
 import tr.gov.voxx.car.system.application.port.out.IletisimPersistenceJpaPort;
@@ -16,6 +17,7 @@ public class IletisimApplicationQueryUseCase implements IletisimApplicationQuery
     private final IletisimPersistenceJpaPort iletisimPersistenceJpaPort;
 
     @Override
+    @Cacheable(value = "iletisim", key = "#iletisimId")
     public Iletisim get(IletisimId iletisimId) {
         return iletisimPersistenceJpaPort.findById(iletisimId);
     }

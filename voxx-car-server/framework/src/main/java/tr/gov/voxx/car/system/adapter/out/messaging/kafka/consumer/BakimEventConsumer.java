@@ -3,6 +3,7 @@ package tr.gov.voxx.car.system.adapter.out.messaging.kafka.consumer;
 import com.nimbusds.jose.shaded.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import tr.gov.voxx.car.system.adapter.out.jpa.mapper.BakimJpaMapper;
@@ -19,6 +20,7 @@ public class BakimEventConsumer {
     private final BakimPersistenceJpaPort persistencePort;
     private final Gson gson = new Gson();
 
+    @CacheEvict(value = "bakim", key = "#event.id")
     @KafkaListener(topics = "${kafka.topic.bakim-created}", groupId = "voxx-bakim-group")
     public void consumeCreated(String strEvent) {
         BakimCreatedEvent event = gson.fromJson(strEvent, BakimCreatedEvent.class);
@@ -26,6 +28,7 @@ public class BakimEventConsumer {
         persistencePort.persist(BakimJpaMapper.toBakimFromBakimCreatedEvent(event));
     }
 
+    @CacheEvict(value = "bakim", key = "#event.id")
     @KafkaListener(topics = "${kafka.topic.bakim-updated}", groupId = "bakim-group")
     public void consumeUpdated(String message) {
         BakimUpdatedEvent event = gson.fromJson(message, BakimUpdatedEvent.class);
@@ -33,6 +36,7 @@ public class BakimEventConsumer {
         persistencePort.merge(BakimJpaMapper.toBakimFromBakimUpdatedEvent(event));
     }
 
+    @CacheEvict(value = "bakim", key = "#event.id")
     @KafkaListener(topics = "${kafka.topic.bakim-deleted}", groupId = "bakim-group")
     public void consumeDeleted(String message) {
         BakimDeletedEvent event = gson.fromJson(message, BakimDeletedEvent.class);

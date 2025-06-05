@@ -1,6 +1,7 @@
 package tr.gov.voxx.car.system.application.usecase.query;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import tr.gov.voxx.car.system.application.port.in.ModelApplicationQueryPort;
 import tr.gov.voxx.car.system.application.port.out.ModelPersistenceJpaPort;
@@ -16,6 +17,7 @@ public class ModelApplicationQueryUseCase implements ModelApplicationQueryPort {
     private final ModelPersistenceJpaPort modelPersistenceJpaPort;
 
     @Override
+    @Cacheable(value = "model", key = "#modelId")
     public Model get(ModelId modelId) {
         return modelPersistenceJpaPort.findById(modelId);
     }

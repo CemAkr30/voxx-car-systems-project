@@ -119,6 +119,16 @@ services:
     networks:
       - voxx-car-network
 
+  couchbase:
+    image: couchbase:community
+    container_name: couchbase
+    ports:
+      - "8091-8096:8091-8096"
+      - "11210:11210"
+    environment:
+      - COUCHBASE_ADMINISTRATOR_USERNAME=Administrator
+      - COUCHBASE_ADMINISTRATOR_PASSWORD=password
+
 networks:
   voxx-car-network:
     driver: bridge

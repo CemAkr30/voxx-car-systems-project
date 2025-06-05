@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import tr.gov.voxx.car.system.domain.enumeration.OdemeTipi;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 @AllArgsConstructor
@@ -24,6 +24,6 @@ public class MTVResponse {
     private String not;
     private String gecikmeCezasi;
     private Boolean odendi;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
 }

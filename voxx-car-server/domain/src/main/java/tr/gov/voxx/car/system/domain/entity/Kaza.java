@@ -8,7 +8,7 @@ import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 import tr.gov.voxx.car.system.domain.valueobject.KazaId;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Getter
 @SuperBuilder(toBuilder = true)
@@ -17,7 +17,7 @@ public class Kaza extends AbstractAggregateModel<KazaId> {
     private AracFiloId aracFiloId;
     private FirmaId firmaId;
     private String musteriId;//değişecek
-    private LocalDateTime kazaTarihi;
+    private Instant kazaTarihi;
     private String kazaIli;
     private String kazaNedeni;
     private String kazaTutanagi;

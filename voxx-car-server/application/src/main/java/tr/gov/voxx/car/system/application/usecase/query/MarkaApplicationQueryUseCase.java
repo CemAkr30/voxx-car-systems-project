@@ -1,6 +1,7 @@
 package tr.gov.voxx.car.system.application.usecase.query;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import tr.gov.voxx.car.system.application.port.in.MarkaApplicationQueryPort;
 import tr.gov.voxx.car.system.application.port.out.MarkaPersistenceJpaPort;
@@ -16,6 +17,7 @@ public class MarkaApplicationQueryUseCase implements MarkaApplicationQueryPort {
     private final MarkaPersistenceJpaPort markaPersistenceJpaPort;
 
     @Override
+    @Cacheable(value = "marka", key = "#markaId")
     public Marka get(MarkaId markaId) {
         return markaPersistenceJpaPort.findById(markaId);
     }

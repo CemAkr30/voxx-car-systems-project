@@ -7,14 +7,14 @@ import tr.gov.voxx.car.system.domain.valueobject.AlisFaturasiId;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Builder
 @Data
 public class AlisFaturasiUpdatedEvent {
     private final AlisFaturasiId id;
     private final AracFiloId aracFiloId;
-    private final LocalDateTime alisFaturasiTarihi;
+    private final Instant alisFaturasiTarihi;
     private final String alisFaturaNo;
     private final FirmaId saticiFirmaId;
     private final Double listeFiyati;

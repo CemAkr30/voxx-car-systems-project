@@ -1,6 +1,7 @@
 package tr.gov.voxx.car.system.application.usecase.query;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import tr.gov.voxx.car.system.application.port.in.MTVApplicationQueryPort;
 import tr.gov.voxx.car.system.application.port.out.MTVPersistenceJpaPort;
@@ -16,6 +17,7 @@ public class MTVApplicationQueryUseCase implements MTVApplicationQueryPort {
     private final MTVPersistenceJpaPort persistenceJpaPort;
 
     @Override
+    @Cacheable(value = "mtv", key = "#mtvId")
     public Mtv get(MtvId mtvId) {
         return persistenceJpaPort.findById(mtvId);
     }

@@ -1,6 +1,7 @@
 package tr.gov.voxx.car.system.application.usecase.query;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import tr.gov.voxx.car.system.application.port.in.AracFiloApplicationQueryPort;
 import tr.gov.voxx.car.system.application.port.out.AracFiloPersistenceJpaPort;
@@ -16,6 +17,7 @@ public class AracFiloApplicationQueryUseCase implements AracFiloApplicationQuery
     private final AracFiloPersistenceJpaPort aracFiloPersistenceJpaPort;
 
     @Override
+    @Cacheable(value = "aracFilo", key = "#aracFiloId")
     public AracFilo get(AracFiloId aracFiloId) {
         return aracFiloPersistenceJpaPort.findById(aracFiloId);
     }

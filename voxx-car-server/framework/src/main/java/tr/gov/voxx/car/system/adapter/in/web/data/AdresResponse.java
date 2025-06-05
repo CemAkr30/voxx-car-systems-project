@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import tr.gov.voxx.car.system.domain.enumeration.AdresTipi;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 @AllArgsConstructor
@@ -17,6 +17,6 @@ public class AdresResponse {
     private String aciklama;
     private AdresTipi tip;
     private String firmaId;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
 }

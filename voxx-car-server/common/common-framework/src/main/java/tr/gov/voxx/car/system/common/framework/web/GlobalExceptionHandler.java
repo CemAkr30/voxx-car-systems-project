@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import tr.gov.voxx.car.system.common.domain.exception.DomainException;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.stream.Collectors;
 
 
@@ -57,7 +57,7 @@ public class GlobalExceptionHandler {
         return ErrorDTO.builder()
                 .code(code.name())
                 .message(message)
-                .timestamp(LocalDateTime.now())
+                .timestamp(Instant.now())
                 .build();
     }
 

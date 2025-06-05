@@ -3,6 +3,7 @@ package tr.gov.voxx.car.system.adapter.out.messaging.kafka.consumer;
 import com.nimbusds.jose.shaded.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import tr.gov.voxx.car.system.adapter.out.jpa.mapper.AlisFaturasiJpaMapper;
@@ -18,6 +19,7 @@ public class AlisFaturasiEventConsumer {
     private final AlisFaturasiPersistenceJpaPort persistenceJpaPort;
     private final Gson gson = new Gson();
 
+    @CacheEvict(value = "alisFaturasi", key = "#event.id")
     @KafkaListener(topics = "${kafka.topic.alisfaturasi-created}", groupId = "voxx-alisfaturasi-group")
     public void consumeCreated(String strEvent) {
         AlisFaturasiCreatedEvent event = gson.fromJson(strEvent, AlisFaturasiCreatedEvent.class);
@@ -26,6 +28,7 @@ public class AlisFaturasiEventConsumer {
                 AlisFaturasiJpaMapper.toAlisFaturasiFromAlisFaturasiCreatedEvent(event));
     }
 
+    @CacheEvict(value = "alisFaturasi", key = "#event.id")
     @KafkaListener(topics = "${kafka.topic.alisfaturasi-updated}", groupId = "voxx-alisfaturasi-group")
     public void consumeUpdated(String strEvent) {
         AlisFaturasiUpdatedEvent event = gson.fromJson(strEvent, AlisFaturasiUpdatedEvent.class);
@@ -35,6 +38,7 @@ public class AlisFaturasiEventConsumer {
         );
     }
 
+    @CacheEvict(value = "alisFaturasi", key = "#event.id")
     @KafkaListener(topics = "${kafka.topic.alisfaturasi-deleted}", groupId = "voxx-alisfaturasi-group")
     public void consumeDeleted(String strEvent) {
         AlisFaturasiDeletedEvent event = gson.fromJson(strEvent, AlisFaturasiDeletedEvent.class);

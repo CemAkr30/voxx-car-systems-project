@@ -7,7 +7,7 @@ import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.SigortaId;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Builder
 @Data
@@ -18,6 +18,6 @@ public class SigortaUpdatedEvent implements Serializable {
     private final String sigortaSirketi;
     private final String acente;
     private final String policeNo;
-    private final LocalDateTime baslangicTarihi;
-    private final LocalDateTime bitisTarihi;
+    private final Instant baslangicTarihi;
+    private final Instant bitisTarihi;
 }

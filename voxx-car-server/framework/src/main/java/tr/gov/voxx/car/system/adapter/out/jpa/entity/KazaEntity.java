@@ -6,7 +6,7 @@ import jakarta.persistence.Table;
 import lombok.*;
 import tr.gov.voxx.car.system.common.framework.persistence.AbstractEntity;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "tb_kaza")
@@ -20,7 +20,7 @@ public class KazaEntity extends AbstractEntity {
     private String aracFiloId;
     private String firmaId;
     private String musteriId;
-    private LocalDateTime kazaTarihi;
+    private Instant kazaTarihi;
     private String kazaIli;
     private String kazaNedeni;
 

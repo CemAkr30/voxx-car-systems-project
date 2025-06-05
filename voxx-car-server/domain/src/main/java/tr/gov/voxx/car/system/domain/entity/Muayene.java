@@ -10,7 +10,7 @@ import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 import tr.gov.voxx.car.system.domain.valueobject.MuayeneId;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Getter
 @SuperBuilder(toBuilder = true)
@@ -20,8 +20,8 @@ public class Muayene extends AbstractAggregateModel<MuayeneId> {
     private MuayeneTipi muayeneTipi;
     private String makbuzNo;
     private FirmaId odeyenFirmaId;
-    private LocalDateTime baslangicTarihi;
-    private LocalDateTime bitisTarihi;
+    private Instant baslangicTarihi;
+    private Instant bitisTarihi;
     private String gecikmeCezasi;
     private String not;
     private String yeri;

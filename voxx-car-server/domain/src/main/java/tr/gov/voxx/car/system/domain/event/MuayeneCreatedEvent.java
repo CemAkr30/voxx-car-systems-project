@@ -9,7 +9,7 @@ import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 import tr.gov.voxx.car.system.domain.valueobject.MuayeneId;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Builder
 @Data
@@ -19,8 +19,8 @@ public class MuayeneCreatedEvent implements Serializable {
     private final MuayeneTipi muayeneTipi;
     private final String makbuzNo;
     private final FirmaId odeyenFirmaId;
-    private final LocalDateTime baslangicTarihi;
-    private final LocalDateTime bitisTarihi;
+    private final Instant baslangicTarihi;
+    private final Instant bitisTarihi;
     private final String gecikmeCezasi;
     private final String not;
     private final String yeri;

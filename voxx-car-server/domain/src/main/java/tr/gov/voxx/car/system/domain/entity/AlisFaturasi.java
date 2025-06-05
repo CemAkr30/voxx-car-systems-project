@@ -9,14 +9,14 @@ import tr.gov.voxx.car.system.domain.valueobject.AlisFaturasiId;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Getter
 @SuperBuilder(toBuilder = true)
 public class AlisFaturasi extends AbstractAggregateModel<AlisFaturasiId> {
 
     private AracFiloId aracFiloId;
-    private LocalDateTime alisFaturasiTarihi;
+    private Instant alisFaturasiTarihi;
     private String alisFaturaNo;
     private FirmaId saticiFirmaId;
     private Double listeFiyati;

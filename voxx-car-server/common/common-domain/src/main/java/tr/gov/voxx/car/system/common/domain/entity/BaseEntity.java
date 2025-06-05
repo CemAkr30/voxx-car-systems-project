@@ -5,16 +5,21 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
+import java.io.Serial;
+import java.io.Serializable;
+import java.time.Instant;
 
 @Setter
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @SuperBuilder(toBuilder = true)
-public abstract class BaseEntity<ID> {
+public abstract class BaseEntity<ID> implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @EqualsAndHashCode.Include
     private ID id;
     private boolean isDeleted;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
 }
