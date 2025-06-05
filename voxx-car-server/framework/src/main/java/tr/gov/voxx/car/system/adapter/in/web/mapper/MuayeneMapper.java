@@ -5,6 +5,7 @@ import tr.gov.voxx.car.system.adapter.in.web.data.MuayeneRequest;
 import tr.gov.voxx.car.system.adapter.in.web.data.MuayeneResponse;
 import tr.gov.voxx.car.system.domain.entity.Muayene;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
+import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class MuayeneMapper {
                 .makbuzNo(request.getMakbuzNo())
                 .miktar(request.getMiktar())
                 .odemeTipi(request.getOdemeTipi())
-                .odeyenFirmaId(request.getOdeyenFirmaId())
+                .odeyenFirmaId(new FirmaId(request.getOdeyenFirmaId()))
                 .not(request.getNot())
                 .yeri(request.getYeri())
                 .gecikmeCezasi(request.getGecikmeCezasi())
