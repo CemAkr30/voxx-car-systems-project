@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import tr.gov.voxx.car.system.domain.enumeration.FilodanCikisNedeni;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 @AllArgsConstructor
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class FilodanCikisRequest {
     private String aracFiloId;
     private FilodanCikisNedeni filodanCikisNedeni;
-    private LocalDateTime filodanCikisTarihi;
+    private Instant filodanCikisTarihi;
     private String alici;
     private Double anahtarTeslimFiyati;
     private Double aracDevirGiderleri;
