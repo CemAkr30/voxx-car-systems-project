@@ -1,0 +1,5 @@
+url: jdbc:postgresql://localhost:5432/demo_liquibase
+username: username
+password: password
+driver: org.postgresql.Driver
+changeLogFile: src/main/resources/db/migrations/changelog.xml

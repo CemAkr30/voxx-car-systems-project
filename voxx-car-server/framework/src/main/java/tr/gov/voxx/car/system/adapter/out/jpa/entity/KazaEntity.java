@@ -16,17 +16,14 @@ import java.time.Instant;
 @AllArgsConstructor
 @Builder
 public class KazaEntity extends AbstractEntity {
-
     private String aracFiloId;
     private String firmaId;
     private String musteriId;
     private Instant kazaTarihi;
     private String kazaIli;
     private String kazaNedeni;
-
     @Lob
     private String kazaTutanagi;
-
     private String onarimDurumu;
     private String odeyenFirmaId;
 }

@@ -21,10 +21,8 @@ public class BakimEntity extends AbstractEntity {
     private Double iscilikTutari;
     private Double toplamTutar;
     private String faturaNo;
-
     @Lob
     private String fatura;
-
     private String notlar;
     private String odeyenFirmaId;
 }

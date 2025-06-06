@@ -38,7 +38,7 @@ spring:
     password: password
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
     properties:
       hibernate:
@@ -51,6 +51,8 @@ spring:
         jwt:
           issuer-uri: http://localhost:8090/realms/voxx-car-systems
           jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+  liquibase:
+    change-log: classpath:/db/migrations/changelog.xml
 
 jwt:
   auth:
@@ -80,6 +82,7 @@ security:
       - /swagger-ui/**
       - /v3/api-docs/**
       - /v3/api-docs
+
 
 kafka:
   topic:
