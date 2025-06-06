@@ -38,7 +38,7 @@ CREATE TYPE sigorta_tipi AS ENUM ('KASKO', 'TRAFIK');
 -- Tablolar ve Foreign Key'lerle beraber:
 
 CREATE TABLE "tb_firma" (
-                            "id" UUID PRIMARY KEY,
+                            "id" character varying PRIMARY KEY,
                             "email" VARCHAR(255),
                             "unvan" VARCHAR(255),
                             "vergi_no" VARCHAR(255),
@@ -48,21 +48,21 @@ CREATE TABLE "tb_firma" (
 );
 
 CREATE TABLE "tb_adres" (
-                            "id" UUID PRIMARY KEY,
+                            "id" character varying PRIMARY KEY,
                             "aciklama" TEXT,
                             "tip" adres_tipi,
-                            "firma_id" UUID,
+                            "firma_id" character varying,
                             "is_deleted" BOOLEAN DEFAULT FALSE,
                             "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
                             "updated_at" TIMESTAMPTZ
 );
 
 CREATE TABLE "tb_alisfaturasi" (
-                                   "id" UUID PRIMARY KEY,
-                                   "arac_filo_id" UUID,
+                                   "id" character varying PRIMARY KEY,
+                                   "arac_filo_id" character varying,
                                    "alis_faturasi_tarihi" TIMESTAMPTZ,
                                    "alis_fatura_no" VARCHAR(255),
-                                   "satici_firma_id" UUID,
+                                   "satici_firma_id" character varying,
                                    "liste_fiyati" DOUBLE PRECISION,
                                    "ek_garanti" INTEGER,
                                    "mal_degeri" DOUBLE PRECISION,
@@ -85,10 +85,10 @@ CREATE TABLE "tb_alisfaturasi" (
 );
 
 CREATE TABLE "tb_aracfilo" (
-                               "id" UUID PRIMARY KEY,
+                               "id" character varying PRIMARY KEY,
                                "plaka" VARCHAR(255),
-                               "marka_id" UUID,
-                               "model_id" UUID,
+                               "marka_id" character varying,
+                               "model_id" character varying,
                                "model_yili" VARCHAR(255),
                                "arac_tipi" VARCHAR(255),
                                "segment" VARCHAR(255),
@@ -114,7 +114,7 @@ CREATE TABLE "tb_aracfilo" (
                                "kiralandigi_tarih" TIMESTAMPTZ,
                                "kontrat_suresi" VARCHAR(255),
                                "kiralik_bitis_tarihi" TIMESTAMPTZ,
-                               "kiralayan_firma_id" UUID,
+                               "kiralayan_firma_id" character varying,
                                "filo_durum" INTEGER,
                                "is_deleted" BOOLEAN DEFAULT FALSE,
                                "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -122,7 +122,7 @@ CREATE TABLE "tb_aracfilo" (
 );
 
 CREATE TABLE "tb_arackullanan" (
-                                   "id" UUID PRIMARY KEY,
+                                   "id" character varying PRIMARY KEY,
                                    "ad" VARCHAR(255),
                                    "soyad" VARCHAR(255),
                                    "email" VARCHAR(255),
@@ -134,15 +134,15 @@ CREATE TABLE "tb_arackullanan" (
                                    "ehliyet_arka" TEXT,
                                    "ehliyet_bitis_tarihi" TIMESTAMPTZ,
                                    "cinsiyet_tipi" cinsiyet,
-                                   "firma_id" UUID,
+                                   "firma_id" character varying,
                                    "is_deleted" BOOLEAN DEFAULT FALSE,
                                    "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
                                    "updated_at" TIMESTAMPTZ
 );
 
 CREATE TABLE "tb_bakim" (
-                            "id" UUID PRIMARY KEY,
-                            "arac_filo_id" UUID,
+                            "id" character varying PRIMARY KEY,
+                            "arac_filo_id" character varying,
                             "bakim_nedeni" bakim_nedeni,
                             "parca" VARCHAR(255),
                             "parca_tutari" DOUBLE PRECISION,
@@ -151,15 +151,15 @@ CREATE TABLE "tb_bakim" (
                             "fatura_no" VARCHAR(255),
                             "fatura" TEXT,
                             "notlar" TEXT,
-                            "odeyen_firma_id" UUID,
+                            "odeyen_firma_id" character varying,
                             "is_deleted" BOOLEAN DEFAULT FALSE,
                             "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
                             "updated_at" TIMESTAMPTZ
 );
 
 CREATE TABLE "tb_filodancikis" (
-                                   "id" UUID PRIMARY KEY,
-                                   "arac_filo_id" UUID,
+                                   "id" character varying PRIMARY KEY,
+                                   "arac_filo_id" character varying,
                                    "filodan_cikis_nedeni" filodan_cikis_nedeni,
                                    "filodan_cikis_tarihi" TIMESTAMPTZ,
                                    "alici" VARCHAR(255),
@@ -173,8 +173,8 @@ CREATE TABLE "tb_filodancikis" (
 );
 
 CREATE TABLE "tb_hasar" (
-                            "id" UUID PRIMARY KEY,
-                            "arac_filo_id" UUID,
+                            "id" character varying PRIMARY KEY,
+                            "arac_filo_id" character varying,
                             "hasarli_parca" hasarli_parca,
                             "hasar_tipi" hasar_tipi,
                             "is_deleted" BOOLEAN DEFAULT FALSE,
@@ -183,43 +183,33 @@ CREATE TABLE "tb_hasar" (
 );
 
 CREATE TABLE "tb_iletisim" (
-                               "id" UUID PRIMARY KEY,
+                               "id" character varying PRIMARY KEY,
                                "numara" VARCHAR(255),
                                "tip" iletisim_tipi,
-                               "firma_id" UUID,
+                               "firma_id" character varying,
                                "is_deleted" BOOLEAN DEFAULT FALSE,
                                "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
                                "updated_at" TIMESTAMPTZ
 );
 
 CREATE TABLE "tb_kaza" (
-                           "id" UUID PRIMARY KEY,
-                           "arac_filo_id" UUID,
-                           "firma_id" UUID,
-                           "musteri_id" UUID,
+                           "id" character varying PRIMARY KEY,
+                           "arac_filo_id" character varying,
+                           "firma_id" character varying,
+                           "musteri_id" character varying,
                            "kaza_tarihi" TIMESTAMPTZ,
                            "kaza_ili" VARCHAR(255),
                            "kaza_nedeni" VARCHAR(255),
                            "kaza_tutanagi" TEXT,
                            "onarim_durumu" onarim_durumu,
-                           "odeyen_firma_id" UUID,
+                           "odeyen_firma_id" character varying,
                            "is_deleted" BOOLEAN DEFAULT FALSE,
                            "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
                            "updated_at" TIMESTAMPTZ
 );
 
-CREATE TABLE "tb_markamodel" (
-                                 "id" UUID PRIMARY KEY,
-                                 "marka_id" UUID,
-                                 "model_id" UUID,
-                                 "model_yili" VARCHAR(255),
-                                 "is_deleted" BOOLEAN DEFAULT FALSE,
-                                 "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
-                                 "updated_at" TIMESTAMPTZ
-);
-
 CREATE TABLE "tb_marka" (
-                            "id" UUID PRIMARY KEY,
+                            "id" character varying PRIMARY KEY,
                             "ad" VARCHAR(255),
                             "is_deleted" BOOLEAN DEFAULT FALSE,
                             "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -227,15 +217,16 @@ CREATE TABLE "tb_marka" (
 );
 
 CREATE TABLE "tb_model" (
-                            "id" UUID PRIMARY KEY,
+                            "id" character varying PRIMARY KEY,
                             "ad" VARCHAR(255),
+                            "marka_id" character varying,
                             "is_deleted" BOOLEAN DEFAULT FALSE,
                             "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
                             "updated_at" TIMESTAMPTZ
 );
 
 CREATE TABLE "tb_musteri" (
-                              "id" UUID PRIMARY KEY,
+                              "id" character varying PRIMARY KEY,
                               "ad" VARCHAR(255),
                               "soyad" VARCHAR(255),
                               "tc_no" VARCHAR(255),
@@ -243,7 +234,7 @@ CREATE TABLE "tb_musteri" (
                               "cinsiyet" cinsiyet,
                               "telefon" VARCHAR(255),
                               "email" VARCHAR(255),
-                              "adres_id" UUID,
+                              "adres_id" character varying,
                               "is_deleted" BOOLEAN DEFAULT FALSE,
                               "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
                               "updated_at" TIMESTAMPTZ
@@ -300,11 +291,8 @@ ALTER TABLE "tb_kaza"
 ALTER TABLE "tb_kaza"
     ADD CONSTRAINT fk_kaza_odeyen_firma FOREIGN KEY ("odeyen_firma_id") REFERENCES "tb_firma" ("id");
 
-ALTER TABLE "tb_markamodel"
-    ADD CONSTRAINT fk_markamodel_marka FOREIGN KEY ("marka_id") REFERENCES "tb_marka" ("id");
-
-ALTER TABLE "tb_markamodel"
-    ADD CONSTRAINT fk_markamodel_model FOREIGN KEY ("model_id") REFERENCES "tb_model" ("id");
+ALTER TABLE "tb_model"
+    ADD CONSTRAINT fk_model_marka FOREIGN KEY ("marka_id") REFERENCES "tb_marka" ("id");
 
 ALTER TABLE "tb_musteri"
     ADD CONSTRAINT fk_musteri_adres FOREIGN KEY ("adres_id") REFERENCES "tb_adres" ("id");
