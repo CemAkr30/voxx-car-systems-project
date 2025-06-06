@@ -50,19 +50,19 @@ public class AdresJpaMapper {
 
     public static Adres toAdresFromAdresCreatedEvent(AdresCreatedEvent adresCreatedEvent) {
         return Adres.builder()
-                .id(adresCreatedEvent.getId())
-                .firmaId(adresCreatedEvent.getFirmaId())
-                .aciklama(adresCreatedEvent.getAciklama())
-                .tip(adresCreatedEvent.getTip())
+                .id(adresCreatedEvent.id())
+                .firmaId(adresCreatedEvent.firmaId())
+                .aciklama(adresCreatedEvent.aciklama())
+                .tip(adresCreatedEvent.tip())
                 .build();
     }
 
     public static Adres toAdresFromAdresUpdatedEvent(AdresUpdatedEvent adresUpdatedEvent) {
         return Adres.builder()
-                .id(adresUpdatedEvent.getId())
-                .firmaId(adresUpdatedEvent.getFirmaId())
-                .aciklama(adresUpdatedEvent.getAciklama())
-                .tip(adresUpdatedEvent.getTip())
+                .id(adresUpdatedEvent.id())
+                .firmaId(adresUpdatedEvent.firmaId())
+                .aciklama(adresUpdatedEvent.aciklama())
+                .tip(adresUpdatedEvent.tip())
                 .build();
     }
 }

@@ -1,14 +1,34 @@
 package tr.gov.voxx.car.system.domain.event;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
-import lombok.Data;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @Builder
-@Data
-public class FirmaUpdatedEvent {
-    private final FirmaId id;
-    private final String email;
-    private final String unvan;
-    private final String vergiNo;
+public record FirmaUpdatedEvent(
+        FirmaId id,
+        String email,
+        String unvan,
+        String vergiNo
+) implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    @JsonCreator
+    public FirmaUpdatedEvent(
+            @JsonProperty("id") FirmaId id,
+            @JsonProperty("email") String email,
+            @JsonProperty("unvan") String unvan,
+            @JsonProperty("vergiNo") String vergiNo
+    ) {
+        this.id = id;
+        this.email = email;
+        this.unvan = unvan;
+        this.vergiNo = vergiNo;
+    }
 }

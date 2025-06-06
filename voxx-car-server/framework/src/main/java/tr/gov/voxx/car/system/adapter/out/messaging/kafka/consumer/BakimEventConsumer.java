@@ -1,6 +1,5 @@
 package tr.gov.voxx.car.system.adapter.out.messaging.kafka.consumer;
 
-import com.nimbusds.jose.shaded.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -18,29 +17,25 @@ import tr.gov.voxx.car.system.domain.event.BakimUpdatedEvent;
 public class BakimEventConsumer {
 
     private final BakimPersistenceJpaPort persistencePort;
-    private final Gson gson = new Gson();
 
     @CacheEvict(value = "bakim", key = "#event.id")
-    @KafkaListener(topics = "${kafka.topic.bakim-created}", groupId = "voxx-bakim-group")
-    public void consumeCreated(String strEvent) {
-        BakimCreatedEvent event = gson.fromJson(strEvent, BakimCreatedEvent.class);
-        log.info("📥 Created Event Received: " + event.getId());
+    @KafkaListener(topics = "${kafka.topic.bakim-created}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consumeCreated(BakimCreatedEvent event) {
+        log.info("Bakim Created Event Received: {}", event.id());
         persistencePort.persist(BakimJpaMapper.toBakimFromBakimCreatedEvent(event));
     }
 
     @CacheEvict(value = "bakim", key = "#event.id")
-    @KafkaListener(topics = "${kafka.topic.bakim-updated}", groupId = "bakim-group")
-    public void consumeUpdated(String message) {
-        BakimUpdatedEvent event = gson.fromJson(message, BakimUpdatedEvent.class);
-        log.info("📥 Updated Event Received: " + event.getId());
+    @KafkaListener(topics = "${kafka.topic.bakim-updated}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consumeUpdated(BakimUpdatedEvent event) {
+        log.info("Bakim Updated Event Received: {}", event.id());
         persistencePort.merge(BakimJpaMapper.toBakimFromBakimUpdatedEvent(event));
     }
 
     @CacheEvict(value = "bakim", key = "#event.id")
-    @KafkaListener(topics = "${kafka.topic.bakim-deleted}", groupId = "bakim-group")
-    public void consumeDeleted(String message) {
-        BakimDeletedEvent event = gson.fromJson(message, BakimDeletedEvent.class);
-        log.info("📥 Deleted Event Received: " + event.getId());
-        persistencePort.deleteById(event.getId());
+    @KafkaListener(topics = "${kafka.topic.bakim-deleted}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consumeDeleted(BakimDeletedEvent event) {
+        log.info("Bakim Deleted Event Received: {}", event.id());
+        persistencePort.deleteById(event.id());
     }
 }

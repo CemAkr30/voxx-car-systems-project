@@ -1,6 +1,5 @@
 package tr.gov.voxx.car.system.adapter.out.messaging.kafka.consumer;
 
-import com.nimbusds.jose.shaded.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -18,29 +17,25 @@ import tr.gov.voxx.car.system.domain.event.KazaUpdatedEvent;
 public class KazaEventConsumer {
 
     private final KazaPersistenceJpaPort persistencePort;
-    private final Gson gson = new Gson();
 
     @CacheEvict(value = "kaza", key = "#event.id")
-    @KafkaListener(topics = "${kafka.topic.kaza-created}", groupId = "voxx-kaza-group")
-    public void consumeCreated(String strEvent) {
-        KazaCreatedEvent event = gson.fromJson(strEvent, KazaCreatedEvent.class);
-        log.info("📥 Created Event Received: " + event.getId());
+    @KafkaListener(topics = "${kafka.topic.kaza-created}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consumeCreated(KazaCreatedEvent event) {
+        log.info("Kaza Created Event Received: {}", event.id());
         persistencePort.persist(KazaJpaMapper.toKazaFromKazaCreatedEvent(event));
     }
 
     @CacheEvict(value = "kaza", key = "#event.id")
-    @KafkaListener(topics = "${kafka.topic.kaza-updated}", groupId = "voxx-kaza-group")
-    public void consumeUpdated(String strEvent) {
-        KazaUpdatedEvent event = gson.fromJson(strEvent, KazaUpdatedEvent.class);
-        log.info(" Updated Event Received: " + event.getId());
+    @KafkaListener(topics = "${kafka.topic.kaza-updated}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consumeUpdated(KazaUpdatedEvent event) {
+        log.info("Kaza Updated Event Received: {}", event.id());
         persistencePort.merge(KazaJpaMapper.toKazaFromKazaUpdatedEvent(event));
     }
 
     @CacheEvict(value = "kaza", key = "#event.id")
-    @KafkaListener(topics = "${kafka.topic.kaza-deleted}", groupId = "voxx-kaza-group")
-    public void consumeDeleted(String strEvent) {
-        KazaDeletedEvent event = gson.fromJson(strEvent, KazaDeletedEvent.class);
-        log.info("🗑📥 Deleted Event Received: " + event.getId());
-        persistencePort.deleteById(event.getId());
+    @KafkaListener(topics = "${kafka.topic.kaza-deleted}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consumeDeleted(KazaDeletedEvent event) {
+        log.info("Kaza Deleted Event Received: {}", event.id());
+        persistencePort.deleteById(event.id());
     }
 }

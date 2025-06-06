@@ -1,6 +1,5 @@
 package tr.gov.voxx.car.system.adapter.out.messaging.kafka.consumer;
 
-import com.nimbusds.jose.shaded.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -18,32 +17,28 @@ import tr.gov.voxx.car.system.domain.event.AracFiloUpdatedEvent;
 public class AracFiloEventConsumer {
 
     private final AracFiloPersistenceJpaPort aracFiloPersistenceJpaPort;
-    private final Gson gson = new Gson();
 
     @CacheEvict(value = "aracFilo", key = "#event.id")
-    @KafkaListener(topics = "${kafka.topic.arac-filo-created}", groupId = "voxx-arac-filo-group")
-    public void consumeCreated(String strEvent) {
-        AracFiloCreatedEvent event = gson.fromJson(strEvent, AracFiloCreatedEvent.class);
-        log.info("📥 AracFilo created event received: " + event.getId());
+    @KafkaListener(topics = "${kafka.topic.arac-filo-created}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consumeCreated(AracFiloCreatedEvent event) {
+        log.info("AracFilo created event received: {}", event.id());
         aracFiloPersistenceJpaPort.persist(
                 AracFiloJpaMapper.toAracFiloFromAracFiloCreatedEvent(event));
     }
 
     @CacheEvict(value = "aracFilo", key = "#event.id")
-    @KafkaListener(topics = "${kafka.topic.arac-filo-updated}", groupId = "voxx-arac-filo-group")
-    public void consumeUpdated(String strEvent) {
-        AracFiloUpdatedEvent event = gson.fromJson(strEvent, AracFiloUpdatedEvent.class);
-        log.info("📥 AracFilo updated event received: " + event.getId());
+    @KafkaListener(topics = "${kafka.topic.arac-filo-updated}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consumeUpdated(AracFiloUpdatedEvent event) {
+        log.info("AracFilo updated event received: {}", event.id());
         aracFiloPersistenceJpaPort.merge(
                 AracFiloJpaMapper.toAracFiloFromAracFiloUpdatedEvent(event)
         );
     }
 
     @CacheEvict(value = "aracFilo", key = "#event.id")
-    @KafkaListener(topics = "${kafka.topic.arac-filo-deleted}", groupId = "voxx-arac-filo-group")
-    public void consumeDeleted(String strEvent) {
-        AracFiloDeletedEvent event = gson.fromJson(strEvent, AracFiloDeletedEvent.class);
-        log.info("📥 AracFilo deleted event received: " + event.getId());
-        aracFiloPersistenceJpaPort.deleteById(event.getId());
+    @KafkaListener(topics = "${kafka.topic.arac-filo-deleted}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consumeDeleted(AracFiloDeletedEvent event) {
+        log.info("AracFilo deleted event received: {}", event.id());
+        aracFiloPersistenceJpaPort.deleteById(event.id());
     }
 }

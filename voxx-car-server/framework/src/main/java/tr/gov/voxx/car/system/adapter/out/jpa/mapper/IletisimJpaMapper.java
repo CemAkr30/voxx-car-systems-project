@@ -50,19 +50,19 @@ public class IletisimJpaMapper {
 
     public static Iletisim toIletisimFromIletisimCreatedEvent(IletisimCreatedEvent iletisimCreatedEvent) {
         return Iletisim.builder()
-                .id(iletisimCreatedEvent.getId())
-                .firmaId(iletisimCreatedEvent.getFirmaId())
-                .numara(iletisimCreatedEvent.getNumara())
-                .tip(iletisimCreatedEvent.getTip())
+                .id(iletisimCreatedEvent.id())
+                .firmaId(iletisimCreatedEvent.firmaId())
+                .numara(iletisimCreatedEvent.numara())
+                .tip(iletisimCreatedEvent.tip())
                 .build();
     }
 
     public static Iletisim toIletisimFromIletisimUpdatedEvent(IletisimUpdatedEvent iletisimUpdatedEvent) {
         return Iletisim.builder()
-                .id(iletisimUpdatedEvent.getId())
-                .firmaId(iletisimUpdatedEvent.getFirmaId())
-                .numara(iletisimUpdatedEvent.getNumara())
-                .tip(iletisimUpdatedEvent.getTip())
+                .id(iletisimUpdatedEvent.id())
+                .firmaId(iletisimUpdatedEvent.firmaId())
+                .numara(iletisimUpdatedEvent.numara())
+                .tip(iletisimUpdatedEvent.tip())
                 .build();
     }
 }

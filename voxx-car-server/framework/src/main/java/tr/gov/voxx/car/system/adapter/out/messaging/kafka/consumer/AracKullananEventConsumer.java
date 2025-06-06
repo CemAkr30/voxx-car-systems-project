@@ -1,6 +1,5 @@
 package tr.gov.voxx.car.system.adapter.out.messaging.kafka.consumer;
 
-import com.nimbusds.jose.shaded.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cache.annotation.CacheEvict;
@@ -17,33 +16,29 @@ import tr.gov.voxx.car.system.domain.event.AracKullananUpdatedEvent;
 @Log4j2
 public class AracKullananEventConsumer {
     private final AracKullananPersistenceJpaPort persistenceJpaPort;
-    private final Gson gson = new Gson();
 
     @CacheEvict(value = "arackullanan", key = "#event.id")
-    @KafkaListener(topics = "${kafka.topic.arackullanan-created}", groupId = "voxx-arackullanan-group")
-    public void consumeCreated(String strEvent) {
-        AracKullananCreatedEvent event = gson.fromJson(strEvent, AracKullananCreatedEvent.class);
-        log.info("📥 Created Event Received: " + event.getId());
+    @KafkaListener(topics = "${kafka.topic.arackullanan-created}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consumeCreated(AracKullananCreatedEvent event) {
+        log.info("Arac Kullanan Created Event Received: {}", event.id());
         persistenceJpaPort.persist(
                 AracKullananJpaMapper.toAracKullananFromAracKullananCreatedEvent(event));
     }
 
     @CacheEvict(value = "arackullanan", key = "#event.id")
-    @KafkaListener(topics = "${kafka.topic.arackullanan-updated}", groupId = "voxx-arackullanan-group")
-    public void consumeUpdated(String strEvent) {
-        AracKullananUpdatedEvent event = gson.fromJson(strEvent, AracKullananUpdatedEvent.class);
-        log.info("📥 Updated Event Received: " + event.getId());
+    @KafkaListener(topics = "${kafka.topic.arackullanan-updated}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consumeUpdated(AracKullananUpdatedEvent event) {
+        log.info("Arac Kullanan Updated Event Received: {}", event.id());
         persistenceJpaPort.merge(
                 AracKullananJpaMapper.toAracKullananFromAracKullananUpdatedEvent(event)
         );
     }
 
     @CacheEvict(value = "arackullanan", key = "#event.id")
-    @KafkaListener(topics = "${kafka.topic.arackullanan-deleted}", groupId = "voxx-arackullanan-group")
-    public void consumeDeleted(String strEvent) {
-        AracKullananDeletedEvent event = gson.fromJson(strEvent, AracKullananDeletedEvent.class);
-        log.info("📥 Deleted Event Received: " + event.getId());
-        persistenceJpaPort.deleteById(event.getId());
+    @KafkaListener(topics = "${kafka.topic.arackullanan-deleted}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consumeDeleted(AracKullananDeletedEvent event) {
+        log.info("Arac Kullanan Deleted Event Received: {}", event.id());
+        persistenceJpaPort.deleteById(event.id());
     }
 }
 

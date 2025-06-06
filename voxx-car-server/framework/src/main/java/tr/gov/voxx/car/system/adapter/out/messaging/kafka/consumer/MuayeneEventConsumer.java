@@ -1,6 +1,5 @@
 package tr.gov.voxx.car.system.adapter.out.messaging.kafka.consumer;
 
-import com.nimbusds.jose.shaded.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cache.annotation.CacheEvict;
@@ -17,32 +16,28 @@ import tr.gov.voxx.car.system.domain.event.MuayeneUpdatedEvent;
 @Log4j2
 public class MuayeneEventConsumer {
     private final MuayenePersistenceJpaPort persistenceJpaPort;
-    private final Gson gson = new Gson();
 
     @CacheEvict(value = "muayene", key = "#event.id")
-    @KafkaListener(topics = "${kafka.topic.muayene-created}", groupId = "voxx-muayene-group")
-    public void consumeCreated(String strEvent) {
-        MuayeneCreatedEvent event = gson.fromJson(strEvent, MuayeneCreatedEvent.class);
-        log.info("📥 Created Event Received: " + event.getId());
+    @KafkaListener(topics = "${kafka.topic.muayene-created}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consumeCreated(MuayeneCreatedEvent event) {
+        log.info("Muayene Created Event Received: {}", event.id());
         persistenceJpaPort.persist(
                 MuayeneJpaMapper.toMuayeneFromMuayeneCreatedEvent(event));
     }
 
     @CacheEvict(value = "muayene", key = "#event.id")
-    @KafkaListener(topics = "${kafka.topic.muayene-updated}", groupId = "voxx-muayene-group")
-    public void consumeUpdated(String strEvent) {
-        MuayeneUpdatedEvent event = gson.fromJson(strEvent, MuayeneUpdatedEvent.class);
-        log.info("📥 Updated Event Received: " + event.getId());
+    @KafkaListener(topics = "${kafka.topic.muayene-updated}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consumeUpdated(MuayeneUpdatedEvent event) {
+        log.info("Muayene Updated Event Received: {}", event.id());
         persistenceJpaPort.merge(
                 MuayeneJpaMapper.toMuayeneFromMuayeneUpdatedEvent(event)
         );
     }
 
     @CacheEvict(value = "muayene", key = "#event.id")
-    @KafkaListener(topics = "${kafka.topic.muayene-deleted}", groupId = "voxx-muayene-group")
-    public void consumeDeleted(String strEvent) {
-        MuayeneDeletedEvent event = gson.fromJson(strEvent, MuayeneDeletedEvent.class);
-        log.info("📥 Deleted Event Received: " + event.getId());
-        persistenceJpaPort.deleteById(event.getId());
+    @KafkaListener(topics = "${kafka.topic.muayene-deleted}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consumeDeleted(MuayeneDeletedEvent event) {
+        log.info("Muayene Deleted Event Received: {}", event.id());
+        persistenceJpaPort.deleteById(event.id());
     }
 }

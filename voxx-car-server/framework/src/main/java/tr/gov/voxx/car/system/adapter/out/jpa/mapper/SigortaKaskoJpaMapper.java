@@ -56,27 +56,27 @@ public class SigortaKaskoJpaMapper {
 
     public static SigortaKasko toSigortaFromSigortaCreatedEvent(SigortaCreatedEvent sigortaCreatedEvent) {
         return SigortaKasko.builder()
-                .id(sigortaCreatedEvent.getId())
-                .aracFiloId(sigortaCreatedEvent.getAracFiloId())
-                .tip(sigortaCreatedEvent.getTip())
-                .sigortaSirketi(sigortaCreatedEvent.getSigortaSirketi())
-                .acente(sigortaCreatedEvent.getAcente())
-                .policeNo(sigortaCreatedEvent.getPoliceNo())
-                .baslangicTarihi(sigortaCreatedEvent.getBaslangicTarihi())
-                .bitisTarihi(sigortaCreatedEvent.getBitisTarihi())
+                .id(sigortaCreatedEvent.id())
+                .aracFiloId(sigortaCreatedEvent.aracFiloId())
+                .tip(sigortaCreatedEvent.tip())
+                .sigortaSirketi(sigortaCreatedEvent.sigortaSirketi())
+                .acente(sigortaCreatedEvent.acente())
+                .policeNo(sigortaCreatedEvent.policeNo())
+                .baslangicTarihi(sigortaCreatedEvent.baslangicTarihi())
+                .bitisTarihi(sigortaCreatedEvent.bitisTarihi())
                 .build();
     }
 
     public static SigortaKasko toSigortaFromSigortaUpdatedEvent(SigortaUpdatedEvent sigortaUpdatedEvent) {
         return SigortaKasko.builder()
-                .id(sigortaUpdatedEvent.getId())
-                .aracFiloId(sigortaUpdatedEvent.getAracFiloId())
-                .tip(sigortaUpdatedEvent.getTip())
-                .sigortaSirketi(sigortaUpdatedEvent.getSigortaSirketi())
-                .acente(sigortaUpdatedEvent.getAcente())
-                .policeNo(sigortaUpdatedEvent.getPoliceNo())
-                .baslangicTarihi(sigortaUpdatedEvent.getBaslangicTarihi())
-                .bitisTarihi(sigortaUpdatedEvent.getBitisTarihi())
+                .id(sigortaUpdatedEvent.id())
+                .aracFiloId(sigortaUpdatedEvent.aracFiloId())
+                .tip(sigortaUpdatedEvent.tip())
+                .sigortaSirketi(sigortaUpdatedEvent.sigortaSirketi())
+                .acente(sigortaUpdatedEvent.acente())
+                .policeNo(sigortaUpdatedEvent.policeNo())
+                .baslangicTarihi(sigortaUpdatedEvent.baslangicTarihi())
+                .bitisTarihi(sigortaUpdatedEvent.bitisTarihi())
                 .build();
     }
 }

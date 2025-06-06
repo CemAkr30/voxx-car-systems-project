@@ -1,12 +1,29 @@
 package tr.gov.voxx.car.system.domain.event;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
-import lombok.Data;
 import tr.gov.voxx.car.system.domain.valueobject.MarkaId;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @Builder
-@Data
-public class MarkaCreatedEvent {
-    private final MarkaId id;
-    private final String adi;
+public record MarkaCreatedEvent(
+        MarkaId id,
+        String adi
+) implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    @JsonCreator
+    public MarkaCreatedEvent(
+            @JsonProperty("id") MarkaId id,
+            @JsonProperty("adi") String adi
+    ) {
+        this.id = id;
+        this.adi = adi;
+    }
 }
+

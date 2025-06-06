@@ -47,19 +47,19 @@ public class FirmaJpaMapper {
 
     public static Firma toFirmaFromFirmaCreatedEvent(FirmaCreatedEvent firmaCreatedEvent) {
         return Firma.builder()
-                .id(firmaCreatedEvent.getId())
-                .email(firmaCreatedEvent.getEmail())
-                .unvan(firmaCreatedEvent.getUnvan())
-                .vergiNo(firmaCreatedEvent.getVergiNo())
+                .id(firmaCreatedEvent.id())
+                .email(firmaCreatedEvent.email())
+                .unvan(firmaCreatedEvent.unvan())
+                .vergiNo(firmaCreatedEvent.vergiNo())
                 .build();
     }
 
     public static Firma toFirmaFromFirmaUpdatedEvent(FirmaUpdatedEvent firmaUpdatedEvent) {
         return Firma.builder()
-                .id(firmaUpdatedEvent.getId())
-                .email(firmaUpdatedEvent.getEmail())
-                .unvan(firmaUpdatedEvent.getUnvan())
-                .vergiNo(firmaUpdatedEvent.getVergiNo())
+                .id(firmaUpdatedEvent.id())
+                .email(firmaUpdatedEvent.email())
+                .unvan(firmaUpdatedEvent.unvan())
+                .vergiNo(firmaUpdatedEvent.vergiNo())
                 .build();
     }
 }

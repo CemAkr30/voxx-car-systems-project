@@ -58,29 +58,29 @@ public class FilodanCikisJpaMapper {
 
     public static FilodanCikis toFilodanCikisFromFilodanCikisCreatedEvent(FilodanCikisCreatedEvent filodanCikisCreatedEvent) {
         return FilodanCikis.builder()
-                .id(filodanCikisCreatedEvent.getId())
-                .aracFiloId(filodanCikisCreatedEvent.getAracFiloId())
-                .filodanCikisNedeni(filodanCikisCreatedEvent.getFilodanCikisNedeni())
-                .filodanCikisTarihi(filodanCikisCreatedEvent.getFilodanCikisTarihi())
-                .alici(filodanCikisCreatedEvent.getAlici())
-                .anahtarTeslimFiyati(filodanCikisCreatedEvent.getAnahtarTeslimFiyati())
-                .aracDevirGiderleri(filodanCikisCreatedEvent.getAracDevirGiderleri())
-                .faturaYukle(filodanCikisCreatedEvent.getFaturaYukle())
-                .not(filodanCikisCreatedEvent.getNot())
+                .id(filodanCikisCreatedEvent.id())
+                .aracFiloId(filodanCikisCreatedEvent.aracFiloId())
+                .filodanCikisNedeni(filodanCikisCreatedEvent.filodanCikisNedeni())
+                .filodanCikisTarihi(filodanCikisCreatedEvent.filodanCikisTarihi())
+                .alici(filodanCikisCreatedEvent.alici())
+                .anahtarTeslimFiyati(filodanCikisCreatedEvent.anahtarTeslimFiyati())
+                .aracDevirGiderleri(filodanCikisCreatedEvent.aracDevirGiderleri())
+                .faturaYukle(filodanCikisCreatedEvent.faturaYukle())
+                .not(filodanCikisCreatedEvent.not())
                 .build();
     }
 
     public static FilodanCikis toFilodanCikisFromFilodanCikisUpdatedEvent(FilodanCikisUpdatedEvent filodanCikisUpdatedEvent) {
         return FilodanCikis.builder()
-                .id(filodanCikisUpdatedEvent.getId())
-                .aracFiloId(filodanCikisUpdatedEvent.getAracFiloId())
-                .filodanCikisNedeni(filodanCikisUpdatedEvent.getFilodanCikisNedeni())
-                .filodanCikisTarihi(filodanCikisUpdatedEvent.getFilodanCikisTarihi())
-                .alici(filodanCikisUpdatedEvent.getAlici())
-                .anahtarTeslimFiyati(filodanCikisUpdatedEvent.getAnahtarTeslimFiyati())
-                .aracDevirGiderleri(filodanCikisUpdatedEvent.getAracDevirGiderleri())
-                .faturaYukle(filodanCikisUpdatedEvent.getFaturaYukle())
-                .not(filodanCikisUpdatedEvent.getNot())
+                .id(filodanCikisUpdatedEvent.id())
+                .aracFiloId(filodanCikisUpdatedEvent.aracFiloId())
+                .filodanCikisNedeni(filodanCikisUpdatedEvent.filodanCikisNedeni())
+                .filodanCikisTarihi(filodanCikisUpdatedEvent.filodanCikisTarihi())
+                .alici(filodanCikisUpdatedEvent.alici())
+                .anahtarTeslimFiyati(filodanCikisUpdatedEvent.anahtarTeslimFiyati())
+                .aracDevirGiderleri(filodanCikisUpdatedEvent.aracDevirGiderleri())
+                .faturaYukle(filodanCikisUpdatedEvent.faturaYukle())
+                .not(filodanCikisUpdatedEvent.not())
                 .build();
     }
 }

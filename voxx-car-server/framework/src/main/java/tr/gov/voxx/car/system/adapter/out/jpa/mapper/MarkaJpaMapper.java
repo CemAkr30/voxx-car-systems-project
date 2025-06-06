@@ -43,15 +43,15 @@ public class MarkaJpaMapper {
 
     public static Marka toMarkaFromMarkaCreatedEvent(MarkaCreatedEvent markaCreatedEvent) {
         return Marka.builder()
-                .id(markaCreatedEvent.getId())
-                .adi(markaCreatedEvent.getAdi())
+                .id(markaCreatedEvent.id())
+                .adi(markaCreatedEvent.adi())
                 .build();
     }
 
     public static Marka toMarkaFromMarkaUpdatedEvent(MarkaUpdatedEvent markaUpdatedEvent) {
         return Marka.builder()
-                .id(markaUpdatedEvent.getId())
-                .adi(markaUpdatedEvent.getAdi())
+                .id(markaUpdatedEvent.id())
+                .adi(markaUpdatedEvent.adi())
                 .build();
     }
 }

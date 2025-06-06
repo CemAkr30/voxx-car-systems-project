@@ -1,38 +1,91 @@
 package tr.gov.voxx.car.system.domain.event;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
-import lombok.Data;
 import tr.gov.voxx.car.system.domain.enumeration.ParaBirimi;
 import tr.gov.voxx.car.system.domain.valueobject.AlisFaturasiId;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 
 @Builder
-@Data
-public class AlisFaturasiCreatedEvent implements Serializable {
-    private final AlisFaturasiId id;
-    private final AracFiloId aracFiloId;
-    private final Instant alisFaturasiTarihi;
-    private final String alisFaturaNo;
-    private final FirmaId saticiFirmaId;
-    private final Double listeFiyati;
-    private final Integer ekGaranti;
-    private final Double malDegeri;
-    private final Double iskonto;
-    private final Double nakliyeBedeli;
-    private final Double otvMatrah;
-    private final Double otv;
-    private final Double otvIndirimi;
-    private final Double kdv;
-    private final Double faturaToplam;
-    private final ParaBirimi paraBirimi;
-    private final String gecikmeCezasi;
-    private final Double kur;
-    private final Double faturaTry;
-    private final String faturaYukle;//dosya yolu mu verilecek
-    private final String not;
+public record AlisFaturasiCreatedEvent(
+        AlisFaturasiId id,
+        AracFiloId aracFiloId,
+        Instant alisFaturasiTarihi,
+        String alisFaturaNo,
+        FirmaId saticiFirmaId,
+        Double listeFiyati,
+        Integer ekGaranti,
+        Double malDegeri,
+        Double iskonto,
+        Double nakliyeBedeli,
+        Double otvMatrah,
+        Double otv,
+        Double otvIndirimi,
+        Double kdv,
+        Double faturaToplam,
+        ParaBirimi paraBirimi,
+        String gecikmeCezasi,
+        Double kur,
+        Double faturaTry,
+        String faturaYukle,
+        String not
+) implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    @JsonCreator
+    public AlisFaturasiCreatedEvent(
+            @JsonProperty("id") AlisFaturasiId id,
+            @JsonProperty("aracFiloId") AracFiloId aracFiloId,
+            @JsonProperty("alisFaturasiTarihi") Instant alisFaturasiTarihi,
+            @JsonProperty("alisFaturaNo") String alisFaturaNo,
+            @JsonProperty("saticiFirmaId") FirmaId saticiFirmaId,
+            @JsonProperty("listeFiyati") Double listeFiyati,
+            @JsonProperty("ekGaranti") Integer ekGaranti,
+            @JsonProperty("malDegeri") Double malDegeri,
+            @JsonProperty("iskonto") Double iskonto,
+            @JsonProperty("nakliyeBedeli") Double nakliyeBedeli,
+            @JsonProperty("otvMatrah") Double otvMatrah,
+            @JsonProperty("otv") Double otv,
+            @JsonProperty("otvIndirimi") Double otvIndirimi,
+            @JsonProperty("kdv") Double kdv,
+            @JsonProperty("faturaToplam") Double faturaToplam,
+            @JsonProperty("paraBirimi") ParaBirimi paraBirimi,
+            @JsonProperty("gecikmeCezasi") String gecikmeCezasi,
+            @JsonProperty("kur") Double kur,
+            @JsonProperty("faturaTry") Double faturaTry,
+            @JsonProperty("faturaYukle") String faturaYukle,
+            @JsonProperty("not") String not
+    ) {
+        this.id = id;
+        this.aracFiloId = aracFiloId;
+        this.alisFaturasiTarihi = alisFaturasiTarihi;
+        this.alisFaturaNo = alisFaturaNo;
+        this.saticiFirmaId = saticiFirmaId;
+        this.listeFiyati = listeFiyati;
+        this.ekGaranti = ekGaranti;
+        this.malDegeri = malDegeri;
+        this.iskonto = iskonto;
+        this.nakliyeBedeli = nakliyeBedeli;
+        this.otvMatrah = otvMatrah;
+        this.otv = otv;
+        this.otvIndirimi = otvIndirimi;
+        this.kdv = kdv;
+        this.faturaToplam = faturaToplam;
+        this.paraBirimi = paraBirimi;
+        this.gecikmeCezasi = gecikmeCezasi;
+        this.kur = kur;
+        this.faturaTry = faturaTry;
+        this.faturaYukle = faturaYukle;
+        this.not = not;
+    }
 }
+
 

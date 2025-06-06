@@ -1,6 +1,5 @@
 package tr.gov.voxx.car.system.adapter.out.messaging.kafka.consumer;
 
-import com.nimbusds.jose.shaded.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cache.annotation.CacheEvict;
@@ -17,32 +16,28 @@ import tr.gov.voxx.car.system.domain.event.MarkaUpdatedEvent;
 @Log4j2
 public class MarkaEventConsumer {
     private final MarkaPersistenceJpaPort markaPersistenceJpaPort;
-    private final Gson gson = new Gson();
 
     @CacheEvict(value = "marka", key = "#event.id")
-    @KafkaListener(topics = "${kafka.topic.marka-created}", groupId = "voxx-marka-group")
-    public void consumeCreated(String strEvent) {
-        MarkaCreatedEvent event = gson.fromJson(strEvent, MarkaCreatedEvent.class);
-        log.info("📥 Created Event Received: " + event.getId());
+    @KafkaListener(topics = "${kafka.topic.marka-created}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consumeCreated(MarkaCreatedEvent event) {
+        log.info("Marka Created Event Received: {}", event.id());
         markaPersistenceJpaPort.persist(
                 MarkaJpaMapper.toMarkaFromMarkaCreatedEvent(event));
     }
 
     @CacheEvict(value = "marka", key = "#event.id")
-    @KafkaListener(topics = "${kafka.topic.marka-updated}", groupId = "voxx-marka-group")
-    public void consumeUpdated(String strEvent) {
-        MarkaUpdatedEvent event = gson.fromJson(strEvent, MarkaUpdatedEvent.class);
-        log.info("📥 Updated Event Received: " + event.getId());
+    @KafkaListener(topics = "${kafka.topic.marka-updated}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consumeUpdated(MarkaUpdatedEvent event) {
+        log.info("Marka Updated Event Received: {}", event.id());
         markaPersistenceJpaPort.merge(
                 MarkaJpaMapper.toMarkaFromMarkaUpdatedEvent(event)
         );
     }
 
     @CacheEvict(value = "marka", key = "#event.id")
-    @KafkaListener(topics = "${kafka.topic.marka-deleted}", groupId = "voxx-marka-group")
-    public void consumeDeleted(String strEvent) {
-        MarkaDeletedEvent event = gson.fromJson(strEvent, MarkaDeletedEvent.class);
-        log.info("📥 Deleted Event Received: " + event.getId());
-        markaPersistenceJpaPort.deleteById(event.getId());
+    @KafkaListener(topics = "${kafka.topic.marka-deleted}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consumeDeleted(MarkaDeletedEvent event) {
+        log.info("Marka Deleted Event Received: {}", event.id());
+        markaPersistenceJpaPort.deleteById(event.id());
     }
 }

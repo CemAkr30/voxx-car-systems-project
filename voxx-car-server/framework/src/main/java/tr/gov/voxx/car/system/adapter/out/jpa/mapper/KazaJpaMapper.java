@@ -58,31 +58,31 @@ public class KazaJpaMapper {
 
     public static Kaza toKazaFromKazaCreatedEvent(KazaCreatedEvent event) {
         return Kaza.builder()
-                .id(event.getId())
-                .aracFiloId(event.getAracId())
-                .firmaId(event.getFirmaId())
-                .musteriId(event.getMusteriId())
-                .kazaTarihi(event.getKazaTarihi())
-                .kazaIli(event.getKazaIli())
-                .kazaNedeni(event.getKazaNedeni())
-                .kazaTutanagi(event.getKazaTutanagi())
-                .onarimDurumu(event.getOnarimDurumu())
-                .odeyenFirmaId(event.getOdeyenFirmaId())
+                .id(event.id())
+                .aracFiloId(event.aracId())
+                .firmaId(event.firmaId())
+                .musteriId(event.musteriId())
+                .kazaTarihi(event.kazaTarihi())
+                .kazaIli(event.kazaIli())
+                .kazaNedeni(event.kazaNedeni())
+                .kazaTutanagi(event.kazaTutanagi())
+                .onarimDurumu(event.onarimDurumu())
+                .odeyenFirmaId(event.odeyenFirmaId())
                 .build();
     }
 
     public static Kaza toKazaFromKazaUpdatedEvent(KazaUpdatedEvent event) {
         return Kaza.builder()
-                .id(event.getId())
-                .aracFiloId(event.getAracFiloId())
-                .firmaId(event.getFirmaId())
-                .musteriId(event.getMusteriId())
-                .kazaTarihi(event.getKazaTarihi())
-                .kazaIli(event.getKazaIli())
-                .kazaNedeni(event.getKazaNedeni())
-                .kazaTutanagi(event.getKazaTutanagi())
-                .onarimDurumu(event.getOnarimDurumu())
-                .odeyenFirmaId(event.getOdeyenFirmaId())
+                .id(event.id())
+                .aracFiloId(event.aracId())
+                .firmaId(event.firmaId())
+                .musteriId(event.musteriId())
+                .kazaTarihi(event.kazaTarihi())
+                .kazaIli(event.kazaIli())
+                .kazaNedeni(event.kazaNedeni())
+                .kazaTutanagi(event.kazaTutanagi())
+                .onarimDurumu(event.onarimDurumu())
+                .odeyenFirmaId(event.odeyenFirmaId())
                 .build();
     }
 }

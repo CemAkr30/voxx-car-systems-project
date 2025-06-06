@@ -49,19 +49,19 @@ public class HasarJpaMapper {
 
     public static Hasar toHasarFromHasarCreatedEvent(HasarCreatedEvent hasarCreatedEvent) {
         return Hasar.builder()
-                .id(hasarCreatedEvent.getId())
-                .aracFiloId(hasarCreatedEvent.getAracFiloId())
-                .hasarliParca(hasarCreatedEvent.getHasarliParca())
-                .hasarTipi(hasarCreatedEvent.getHasarTipi())
+                .id(hasarCreatedEvent.id())
+                .aracFiloId(hasarCreatedEvent.aracFiloId())
+                .hasarliParca(hasarCreatedEvent.hasarliParca())
+                .hasarTipi(hasarCreatedEvent.hasarTipi())
                 .build();
     }
 
     public static Hasar toHasarFromHasarUpdatedEvent(HasarUpdatedEvent hasarUpdatedEvent) {
         return Hasar.builder()
-                .id(hasarUpdatedEvent.getId())
-                .aracFiloId(hasarUpdatedEvent.getAracFiloId())
-                .hasarliParca(hasarUpdatedEvent.getHasarliParca())
-                .hasarTipi(hasarUpdatedEvent.getHasarTipi())
+                .id(hasarUpdatedEvent.id())
+                .aracFiloId(hasarUpdatedEvent.aracFiloId())
+                .hasarliParca(hasarUpdatedEvent.hasarliParca())
+                .hasarTipi(hasarUpdatedEvent.hasarTipi())
                 .build();
     }
 }

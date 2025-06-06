@@ -48,17 +48,17 @@ public class ModelJpaMapper {
 
     public static Model toModelFromModelCreatedEvent(ModelCreatedEvent modelCreatedEvent) {
         return Model.builder()
-                .id(modelCreatedEvent.getId())
-                .markaId(modelCreatedEvent.getMarkaId())
-                .adi(modelCreatedEvent.getAdi())
+                .id(modelCreatedEvent.id())
+                .markaId(modelCreatedEvent.markaId())
+                .adi(modelCreatedEvent.adi())
                 .build();
     }
 
     public static Model toModelFromModelUpdatedEvent(ModelUpdatedEvent modelUpdatedEvent) {
         return Model.builder()
-                .id(modelUpdatedEvent.getId())
-                .markaId(modelUpdatedEvent.getMarkaId())
-                .adi(modelUpdatedEvent.getAdi())
+                .id(modelUpdatedEvent.id())
+                .markaId(modelUpdatedEvent.markaId())
+                .adi(modelUpdatedEvent.adi())
                 .build();
     }
 }

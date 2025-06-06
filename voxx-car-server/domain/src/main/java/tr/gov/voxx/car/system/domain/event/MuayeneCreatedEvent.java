@@ -1,31 +1,68 @@
 package tr.gov.voxx.car.system.domain.event;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
-import lombok.Data;
 import tr.gov.voxx.car.system.domain.enumeration.MuayeneTipi;
 import tr.gov.voxx.car.system.domain.enumeration.OdemeTipi;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 import tr.gov.voxx.car.system.domain.valueobject.MuayeneId;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 
 @Builder
-@Data
-public class MuayeneCreatedEvent implements Serializable {
-    private final MuayeneId id;
-    private final AracFiloId aracFiloId;
-    private final MuayeneTipi muayeneTipi;
-    private final String makbuzNo;
-    private final FirmaId odeyenFirmaId;
-    private final Instant baslangicTarihi;
-    private final Instant bitisTarihi;
-    private final String gecikmeCezasi;
-    private final String not;
-    private final String yeri;
-    private final Double miktar;
-    private final OdemeTipi odemeTipi;
-    private final Boolean odendi;
+public record MuayeneCreatedEvent(
+        MuayeneId id,
+        AracFiloId aracFiloId,
+        MuayeneTipi muayeneTipi,
+        String makbuzNo,
+        FirmaId odeyenFirmaId,
+        Instant baslangicTarihi,
+        Instant bitisTarihi,
+        String gecikmeCezasi,
+        String not,
+        String yeri,
+        Double miktar,
+        OdemeTipi odemeTipi,
+        Boolean odendi
+) implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    @JsonCreator
+    public MuayeneCreatedEvent(
+            @JsonProperty("id") MuayeneId id,
+            @JsonProperty("aracFiloId") AracFiloId aracFiloId,
+            @JsonProperty("muayeneTipi") MuayeneTipi muayeneTipi,
+            @JsonProperty("makbuzNo") String makbuzNo,
+            @JsonProperty("odeyenFirmaId") FirmaId odeyenFirmaId,
+            @JsonProperty("baslangicTarihi") Instant baslangicTarihi,
+            @JsonProperty("bitisTarihi") Instant bitisTarihi,
+            @JsonProperty("gecikmeCezasi") String gecikmeCezasi,
+            @JsonProperty("not") String not,
+            @JsonProperty("yeri") String yeri,
+            @JsonProperty("miktar") Double miktar,
+            @JsonProperty("odemeTipi") OdemeTipi odemeTipi,
+            @JsonProperty("odendi") Boolean odendi
+    ) {
+        this.id = id;
+        this.aracFiloId = aracFiloId;
+        this.muayeneTipi = muayeneTipi;
+        this.makbuzNo = makbuzNo;
+        this.odeyenFirmaId = odeyenFirmaId;
+        this.baslangicTarihi = baslangicTarihi;
+        this.bitisTarihi = bitisTarihi;
+        this.gecikmeCezasi = gecikmeCezasi;
+        this.not = not;
+        this.yeri = yeri;
+        this.miktar = miktar;
+        this.odemeTipi = odemeTipi;
+        this.odendi = odendi;
+    }
 }
+
 

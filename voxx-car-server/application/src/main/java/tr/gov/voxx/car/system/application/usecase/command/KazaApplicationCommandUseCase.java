@@ -45,7 +45,7 @@ public class KazaApplicationCommandUseCase implements KazaApplicationCommandPort
         persistencePort.merge(entity);
         publisher.publish("kaza-updated-topic", KazaUpdatedEvent.builder()
                 .id(entity.getId())
-                .aracFiloId(entity.getAracFiloId())
+                .aracId(entity.getAracFiloId())
                 .firmaId(entity.getFirmaId())
                 .musteriId(entity.getMusteriId())
                 .kazaTarihi(entity.getKazaTarihi())

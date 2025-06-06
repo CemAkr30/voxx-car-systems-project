@@ -1,24 +1,56 @@
 package tr.gov.voxx.car.system.domain.event;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
-import lombok.Data;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 import tr.gov.voxx.car.system.domain.valueobject.KazaId;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.Instant;
 
-@Data
 @Builder
-public class KazaCreatedEvent {
-    private final KazaId id;
-    private final AracFiloId aracId;
-    private final FirmaId firmaId;
-    private final String musteriId;//değişecek
-    private final Instant kazaTarihi;
-    private final String kazaIli;
-    private final String kazaNedeni;
-    private final String kazaTutanagi;
-    private final String onarimDurumu;
-    private final FirmaId odeyenFirmaId;
+public record KazaCreatedEvent(
+        KazaId id,
+        AracFiloId aracId,
+        FirmaId firmaId,
+        String musteriId,
+        Instant kazaTarihi,
+        String kazaIli,
+        String kazaNedeni,
+        String kazaTutanagi,
+        String onarimDurumu,
+        FirmaId odeyenFirmaId
+) implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    @JsonCreator
+    public KazaCreatedEvent(
+            @JsonProperty("id") KazaId id,
+            @JsonProperty("aracId") AracFiloId aracId,
+            @JsonProperty("firmaId") FirmaId firmaId,
+            @JsonProperty("musteriId") String musteriId,
+            @JsonProperty("kazaTarihi") Instant kazaTarihi,
+            @JsonProperty("kazaIli") String kazaIli,
+            @JsonProperty("kazaNedeni") String kazaNedeni,
+            @JsonProperty("kazaTutanagi") String kazaTutanagi,
+            @JsonProperty("onarimDurumu") String onarimDurumu,
+            @JsonProperty("odeyenFirmaId") FirmaId odeyenFirmaId
+    ) {
+        this.id = id;
+        this.aracId = aracId;
+        this.firmaId = firmaId;
+        this.musteriId = musteriId;
+        this.kazaTarihi = kazaTarihi;
+        this.kazaIli = kazaIli;
+        this.kazaNedeni = kazaNedeni;
+        this.kazaTutanagi = kazaTutanagi;
+        this.onarimDurumu = onarimDurumu;
+        this.odeyenFirmaId = odeyenFirmaId;
+    }
 }
+

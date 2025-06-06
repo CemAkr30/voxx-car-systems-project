@@ -1,6 +1,5 @@
 package tr.gov.voxx.car.system.adapter.out.messaging.kafka.consumer;
 
-import com.nimbusds.jose.shaded.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cache.annotation.CacheEvict;
@@ -17,32 +16,28 @@ import tr.gov.voxx.car.system.domain.event.IletisimUpdatedEvent;
 @Log4j2
 public class IletisimEventConsumer {
     private final IletisimPersistenceJpaPort iletisimPersistenceJpaPort;
-    private final Gson gson = new Gson();
 
     @CacheEvict(value = "iletisim", key = "#event.id")
-    @KafkaListener(topics = "${kafka.topic.iletisim-created}", groupId = "voxx-iletisim-group")
-    public void consumeCreated(String strEvent) {
-        IletisimCreatedEvent event = gson.fromJson(strEvent, IletisimCreatedEvent.class);
-        log.info("📥 Created Event Received: " + event.getId());
+    @KafkaListener(topics = "${kafka.topic.iletisim-created}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consumeCreated(IletisimCreatedEvent event) {
+        log.info("Iletisim Created Event Received: {}", event.id());
         iletisimPersistenceJpaPort.persist(
                 IletisimJpaMapper.toIletisimFromIletisimCreatedEvent(event));
     }
 
     @CacheEvict(value = "iletisim", key = "#event.id")
-    @KafkaListener(topics = "${kafka.topic.iletisim-updated}", groupId = "voxx-iletisim-group")
-    public void consumeUpdated(String strEvent) {
-        IletisimUpdatedEvent event = gson.fromJson(strEvent, IletisimUpdatedEvent.class);
-        log.info("📥 Updated Event Received: " + event.getId());
+    @KafkaListener(topics = "${kafka.topic.iletisim-updated}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consumeUpdated(IletisimUpdatedEvent event) {
+        log.info("Iletisim Updated Event Received: {}", event.id());
         iletisimPersistenceJpaPort.merge(
                 IletisimJpaMapper.toIletisimFromIletisimUpdatedEvent(event)
         );
     }
 
     @CacheEvict(value = "iletisim", key = "#event.id")
-    @KafkaListener(topics = "${kafka.topic.iletisim-deleted}", groupId = "voxx-iletisim-group")
-    public void consumeDeleted(String strEvent) {
-        IletisimDeletedEvent event = gson.fromJson(strEvent, IletisimDeletedEvent.class);
-        log.info("📥 Deleted Event Received: " + event.getId());
-        iletisimPersistenceJpaPort.deleteById(event.getId());
+    @KafkaListener(topics = "${kafka.topic.iletisim-deleted}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consumeDeleted(IletisimDeletedEvent event) {
+        log.info("Iletisim Deleted Event Received: {}", event.id());
+        iletisimPersistenceJpaPort.deleteById(event.id());
     }
 }

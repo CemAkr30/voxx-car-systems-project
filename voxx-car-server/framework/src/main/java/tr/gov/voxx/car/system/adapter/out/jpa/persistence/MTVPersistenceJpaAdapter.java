@@ -1,63 +1,61 @@
 package tr.gov.voxx.car.system.adapter.out.jpa.persistence;
 
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import tr.gov.voxx.car.system.adapter.out.jpa.entity.MTVEntity;
 import tr.gov.voxx.car.system.adapter.out.jpa.mapper.MTVJpaMapper;
+import tr.gov.voxx.car.system.adapter.out.jpa.repository.MtvJpaRepository;
 import tr.gov.voxx.car.system.application.port.out.MTVPersistenceJpaPort;
 import tr.gov.voxx.car.system.domain.entity.Mtv;
 import tr.gov.voxx.car.system.domain.valueobject.MtvId;
 
 import java.util.List;
+import java.util.Optional;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class MTVPersistenceJpaAdapter implements MTVPersistenceJpaPort {
 
-    private final EntityManager entityManager;
+    private final MtvJpaRepository mtvJpaRepository;
 
     @Override
     @Transactional(readOnly = true)
     public Mtv findById(MtvId mtvId) {
-        MTVEntity entity = entityManager.find(MTVEntity.class, mtvId.getValue());
-        if (entity == null) {
+        Optional<MTVEntity> entity = mtvJpaRepository.findById(mtvId.getValue());
+        if (entity.isEmpty()) {
             throw new EntityNotFoundException("MTV not found: " + mtvId.getValue());
         }
-        return MTVJpaMapper.toMtv(entity);
+        return MTVJpaMapper.toMtv(entity.orElse(null));
     }
 
     @Override
     @Transactional
     public void persist(Mtv entity) {
         MTVEntity mtvEntity = MTVJpaMapper.toEntity(entity);
-        entityManager.persist(mtvEntity);
+        mtvJpaRepository.save(mtvEntity);
     }
 
     @Override
     @Transactional
     public void merge(Mtv entity) {
         MTVEntity mtvEntity = MTVJpaMapper.toEntity(entity);
-        entityManager.merge(mtvEntity);
+        mtvJpaRepository.save(mtvEntity);
     }
 
     @Override
     @Transactional
     public void deleteById(MtvId mtvId) {
-        MTVEntity entity = entityManager.find(MTVEntity.class, mtvId.getValue());
-        if (entity != null) {
-            entityManager.remove(entity);
-        }
+        Optional<MTVEntity> entity = mtvJpaRepository.findById(mtvId.getValue());
+        entity.ifPresent(mtvJpaRepository::delete);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Mtv> findAll() {
         return MTVJpaMapper.toMtvList(
-                entityManager.createQuery("select m from MTVEntity m", MTVEntity.class)
-                        .getResultList()
+                mtvJpaRepository.findAll()
         );
     }
 }

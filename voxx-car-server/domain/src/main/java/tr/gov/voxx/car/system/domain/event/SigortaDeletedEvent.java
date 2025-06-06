@@ -1,13 +1,21 @@
 package tr.gov.voxx.car.system.domain.event;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
-import lombok.Data;
 import tr.gov.voxx.car.system.domain.valueobject.SigortaId;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 @Builder
-@Data
-public class SigortaDeletedEvent implements Serializable {
-    private final SigortaId id;
+public record SigortaDeletedEvent(SigortaId id) implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    @JsonCreator
+    public SigortaDeletedEvent(
+            @JsonProperty("id") SigortaId id) {
+        this.id = id;
+    }
 }
