@@ -225,21 +225,24 @@ CREATE TABLE "tb_model" (
                             "updated_at" TIMESTAMPTZ
 );
 
-CREATE TABLE "tb_musteri" (
-                              "id" character varying PRIMARY KEY,
-                              "ad" VARCHAR(255),
-                              "soyad" VARCHAR(255),
-                              "tc_no" VARCHAR(255),
-                              "dogum_tarihi" TIMESTAMPTZ,
-                              "cinsiyet" cinsiyet,
-                              "telefon" VARCHAR(255),
-                              "email" VARCHAR(255),
-                              "adres_id" character varying,
-                              "is_deleted" BOOLEAN DEFAULT FALSE,
-                              "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
-                              "updated_at" TIMESTAMPTZ
+CREATE TABLE "tb_arackullanan" (
+                                   "id" character varying PRIMARY KEY,
+                                   "ad" VARCHAR(255),
+                                   "soyad" VARCHAR(255),
+                                   "email" VARCHAR(255),
+                                   "telefon_no" VARCHAR(255),
+                                   "adres" VARCHAR(255),
+                                   "ehliyet_no" VARCHAR(255),
+                                   "ehliyet_tipi" ehliyet_tipi,
+                                   "ehliyet_on" TEXT,
+                                   "ehliyet_arka" TEXT,
+                                   "ehliyet_bitis_tarihi" TIMESTAMPTZ,
+                                   "cinsiyet_tipi" cinsiyet,
+                                   "firma_id" VARCHAR(255),
+                                   "is_deleted" BOOLEAN DEFAULT FALSE,
+                                   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
+                                   "updated_at" TIMESTAMPTZ
 );
-
 
 -- Foreign key constraints eklemeleri:
 
@@ -293,8 +296,4 @@ ALTER TABLE "tb_kaza"
 
 ALTER TABLE "tb_model"
     ADD CONSTRAINT fk_model_marka FOREIGN KEY ("marka_id") REFERENCES "tb_marka" ("id");
-
-ALTER TABLE "tb_musteri"
-    ADD CONSTRAINT fk_musteri_adres FOREIGN KEY ("adres_id") REFERENCES "tb_adres" ("id");
-
 
