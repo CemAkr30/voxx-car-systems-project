@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import tr.gov.voxx.car.system.adapter.out.jpa.mapper.AdresJpaMapper;
+import tr.gov.voxx.car.system.adapter.out.websocket.AdresWebSocketNotifier;
 import tr.gov.voxx.car.system.application.port.out.AdresPersistenceJpaPort;
 import tr.gov.voxx.car.system.domain.event.AdresCreatedEvent;
 import tr.gov.voxx.car.system.domain.event.AdresDeletedEvent;
@@ -16,6 +17,7 @@ import tr.gov.voxx.car.system.domain.event.AdresUpdatedEvent;
 @Log4j2
 public class AdresEventConsumer {
     private final AdresPersistenceJpaPort adresPersistenceJpaPort;
+    private final AdresWebSocketNotifier adresWebSocketNotifier;
 
     @CacheEvict(value = "adres", key = "#event.id")
     @KafkaListener(topics = "${kafka.topic.adres-created}", groupId = "${spring.kafka.consumer.group-id}")
@@ -23,6 +25,7 @@ public class AdresEventConsumer {
         log.info("Adres Created Event Received: {}", event.id());
         adresPersistenceJpaPort.persist(
                 AdresJpaMapper.toAdresFromAdresCreatedEvent(event));
+        adresWebSocketNotifier.notifyAdresCreated(event);
     }
 
     @CacheEvict(value = "adres", key = "#event.id")
@@ -32,6 +35,7 @@ public class AdresEventConsumer {
         adresPersistenceJpaPort.merge(
                 AdresJpaMapper.toAdresFromAdresUpdatedEvent(event)
         );
+        adresWebSocketNotifier.notifyAdresUpdated(event);
     }
 
     @CacheEvict(value = "adres", key = "#event.id")
@@ -39,5 +43,6 @@ public class AdresEventConsumer {
     public void consumeDeleted(AdresDeletedEvent event) {
         log.info("Adres Deleted Event Received: {}", event.id());
         adresPersistenceJpaPort.deleteById(event.id());
+        adresWebSocketNotifier.notifyAdresDeleted(event);
     }
 }

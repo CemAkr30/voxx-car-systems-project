@@ -67,6 +67,11 @@
                 <artifactId>common-framework</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>tr.gov.voxx.car.server</groupId>
+                <artifactId>common-shared</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

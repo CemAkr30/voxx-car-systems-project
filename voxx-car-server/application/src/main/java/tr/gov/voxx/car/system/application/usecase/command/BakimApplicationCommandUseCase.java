@@ -62,7 +62,6 @@ public class BakimApplicationCommandUseCase implements BakimApplicationCommandPo
 
     @Override
     public void deleteById(BakimId id) {
-        persistencePort.deleteById(id);
         publisher.publish("bakim-deleted-topic", BakimDeletedEvent.builder().id(id).build());
     }
 }

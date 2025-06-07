@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import tr.gov.voxx.car.system.adapter.out.jpa.mapper.MarkaJpaMapper;
+import tr.gov.voxx.car.system.adapter.out.websocket.MarkaWebSocketNotifier;
 import tr.gov.voxx.car.system.application.port.out.MarkaPersistenceJpaPort;
 import tr.gov.voxx.car.system.domain.event.MarkaCreatedEvent;
 import tr.gov.voxx.car.system.domain.event.MarkaDeletedEvent;
@@ -16,6 +17,7 @@ import tr.gov.voxx.car.system.domain.event.MarkaUpdatedEvent;
 @Log4j2
 public class MarkaEventConsumer {
     private final MarkaPersistenceJpaPort markaPersistenceJpaPort;
+    private final MarkaWebSocketNotifier markaWebSocketNotifier;
 
     @CacheEvict(value = "marka", key = "#event.id")
     @KafkaListener(topics = "${kafka.topic.marka-created}", groupId = "${spring.kafka.consumer.group-id}")
@@ -23,6 +25,7 @@ public class MarkaEventConsumer {
         log.info("Marka Created Event Received: {}", event.id());
         markaPersistenceJpaPort.persist(
                 MarkaJpaMapper.toMarkaFromMarkaCreatedEvent(event));
+        markaWebSocketNotifier.notifyMarkaCreated(event);
     }
 
     @CacheEvict(value = "marka", key = "#event.id")
@@ -32,6 +35,7 @@ public class MarkaEventConsumer {
         markaPersistenceJpaPort.merge(
                 MarkaJpaMapper.toMarkaFromMarkaUpdatedEvent(event)
         );
+        markaWebSocketNotifier.notifyMarkaUpdated(event);
     }
 
     @CacheEvict(value = "marka", key = "#event.id")
@@ -39,5 +43,6 @@ public class MarkaEventConsumer {
     public void consumeDeleted(MarkaDeletedEvent event) {
         log.info("Marka Deleted Event Received: {}", event.id());
         markaPersistenceJpaPort.deleteById(event.id());
+        markaWebSocketNotifier.notifyMarkaDeleted(event);
     }
 }

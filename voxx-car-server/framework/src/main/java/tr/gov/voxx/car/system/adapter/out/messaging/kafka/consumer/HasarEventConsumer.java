@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import tr.gov.voxx.car.system.adapter.out.jpa.mapper.HasarJpaMapper;
+import tr.gov.voxx.car.system.adapter.out.websocket.HasarWebSocketNotifier;
 import tr.gov.voxx.car.system.application.port.out.HasarPersistenceJpaPort;
 import tr.gov.voxx.car.system.domain.event.HasarCreatedEvent;
 import tr.gov.voxx.car.system.domain.event.HasarDeletedEvent;
@@ -16,6 +17,7 @@ import tr.gov.voxx.car.system.domain.event.HasarUpdatedEvent;
 @Log4j2
 public class HasarEventConsumer {
     private final HasarPersistenceJpaPort persistenceJpaPort;
+    private final HasarWebSocketNotifier hasarWebSocketNotifier;
 
     @CacheEvict(value = "hasar", key = "#event.id")
     @KafkaListener(topics = "${kafka.topic.hasar-created}", groupId = "${spring.kafka.consumer.group-id}")
@@ -23,6 +25,7 @@ public class HasarEventConsumer {
         log.info("Hasar Created Event Received: {}", event.id());
         persistenceJpaPort.persist(
                 HasarJpaMapper.toHasarFromHasarCreatedEvent(event));
+        hasarWebSocketNotifier.notifyHasarCreated(event);
     }
 
     @CacheEvict(value = "hasar", key = "#event.id")
@@ -32,6 +35,7 @@ public class HasarEventConsumer {
         persistenceJpaPort.merge(
                 HasarJpaMapper.toHasarFromHasarUpdatedEvent(event)
         );
+        hasarWebSocketNotifier.notifyHasarUpdated(event);
     }
 
     @CacheEvict(value = "hasar", key = "#event.id")
@@ -39,6 +43,7 @@ public class HasarEventConsumer {
     public void consumeDeleted(HasarDeletedEvent event) {
         log.info("Hasar Deleted Event Received: {}", event.id());
         persistenceJpaPort.deleteById(event.id());
+        hasarWebSocketNotifier.notifyHasarDeleted(event);
     }
 }
 

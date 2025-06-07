@@ -42,7 +42,6 @@ public class KazaApplicationCommandUseCase implements KazaApplicationCommandPort
         if (existing == null)
             throw new NotFoundException("Kaza bulunamadı: " + entity.getId().getValue());
 
-        persistencePort.merge(entity);
         publisher.publish("kaza-updated-topic", KazaUpdatedEvent.builder()
                 .id(entity.getId())
                 .aracId(entity.getAracFiloId())
@@ -59,7 +58,6 @@ public class KazaApplicationCommandUseCase implements KazaApplicationCommandPort
 
     @Override
     public void deleteById(KazaId id) {
-        persistencePort.deleteById(id);
         publisher.publish("kaza-deleted", KazaDeletedEvent.builder().id(id).build());
     }
 }

@@ -5,6 +5,7 @@
     <file url="file://$PROJECT_DIR$/voxx-car-server/common/common-application/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/voxx-car-server/common/common-domain/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/voxx-car-server/common/common-framework/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/voxx-car-server/common/common-shared/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/voxx-car-server/common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/voxx-car-server/common/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/voxx-car-server/domain/src/main/java" charset="UTF-8" />

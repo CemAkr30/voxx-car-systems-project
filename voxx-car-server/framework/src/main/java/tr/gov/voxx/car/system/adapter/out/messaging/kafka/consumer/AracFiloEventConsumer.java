@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import tr.gov.voxx.car.system.adapter.out.jpa.mapper.AracFiloJpaMapper;
+import tr.gov.voxx.car.system.adapter.out.websocket.AracFiloWebSocketNotifier;
 import tr.gov.voxx.car.system.application.port.out.AracFiloPersistenceJpaPort;
 import tr.gov.voxx.car.system.domain.event.AracFiloCreatedEvent;
 import tr.gov.voxx.car.system.domain.event.AracFiloDeletedEvent;
@@ -17,6 +18,7 @@ import tr.gov.voxx.car.system.domain.event.AracFiloUpdatedEvent;
 public class AracFiloEventConsumer {
 
     private final AracFiloPersistenceJpaPort aracFiloPersistenceJpaPort;
+    private final AracFiloWebSocketNotifier aracFiloWebSocketNotifier;
 
     @CacheEvict(value = "aracFilo", key = "#event.id")
     @KafkaListener(topics = "${kafka.topic.arac-filo-created}", groupId = "${spring.kafka.consumer.group-id}")
@@ -24,6 +26,7 @@ public class AracFiloEventConsumer {
         log.info("AracFilo created event received: {}", event.id());
         aracFiloPersistenceJpaPort.persist(
                 AracFiloJpaMapper.toAracFiloFromAracFiloCreatedEvent(event));
+        aracFiloWebSocketNotifier.notifyAracFiloCreated(event);
     }
 
     @CacheEvict(value = "aracFilo", key = "#event.id")
@@ -33,6 +36,7 @@ public class AracFiloEventConsumer {
         aracFiloPersistenceJpaPort.merge(
                 AracFiloJpaMapper.toAracFiloFromAracFiloUpdatedEvent(event)
         );
+        aracFiloWebSocketNotifier.notifyAracFiloUpdated(event);
     }
 
     @CacheEvict(value = "aracFilo", key = "#event.id")
@@ -40,5 +44,6 @@ public class AracFiloEventConsumer {
     public void consumeDeleted(AracFiloDeletedEvent event) {
         log.info("AracFilo deleted event received: {}", event.id());
         aracFiloPersistenceJpaPort.deleteById(event.id());
+        aracFiloWebSocketNotifier.notifyAracFiloDeleted(event);
     }
 }

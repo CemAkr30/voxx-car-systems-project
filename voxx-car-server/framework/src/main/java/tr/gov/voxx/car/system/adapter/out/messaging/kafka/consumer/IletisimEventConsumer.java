@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import tr.gov.voxx.car.system.adapter.out.jpa.mapper.IletisimJpaMapper;
+import tr.gov.voxx.car.system.adapter.out.websocket.IletisimWebSocketNotifier;
 import tr.gov.voxx.car.system.application.port.out.IletisimPersistenceJpaPort;
 import tr.gov.voxx.car.system.domain.event.IletisimCreatedEvent;
 import tr.gov.voxx.car.system.domain.event.IletisimDeletedEvent;
@@ -16,6 +17,7 @@ import tr.gov.voxx.car.system.domain.event.IletisimUpdatedEvent;
 @Log4j2
 public class IletisimEventConsumer {
     private final IletisimPersistenceJpaPort iletisimPersistenceJpaPort;
+    private final IletisimWebSocketNotifier iletisimWebSocketNotifier;
 
     @CacheEvict(value = "iletisim", key = "#event.id")
     @KafkaListener(topics = "${kafka.topic.iletisim-created}", groupId = "${spring.kafka.consumer.group-id}")
@@ -23,6 +25,7 @@ public class IletisimEventConsumer {
         log.info("Iletisim Created Event Received: {}", event.id());
         iletisimPersistenceJpaPort.persist(
                 IletisimJpaMapper.toIletisimFromIletisimCreatedEvent(event));
+        iletisimWebSocketNotifier.notifyIletisimCreated(event);
     }
 
     @CacheEvict(value = "iletisim", key = "#event.id")
@@ -32,6 +35,7 @@ public class IletisimEventConsumer {
         iletisimPersistenceJpaPort.merge(
                 IletisimJpaMapper.toIletisimFromIletisimUpdatedEvent(event)
         );
+        iletisimWebSocketNotifier.notifyIletisimUpdated(event);
     }
 
     @CacheEvict(value = "iletisim", key = "#event.id")
@@ -39,5 +43,6 @@ public class IletisimEventConsumer {
     public void consumeDeleted(IletisimDeletedEvent event) {
         log.info("Iletisim Deleted Event Received: {}", event.id());
         iletisimPersistenceJpaPort.deleteById(event.id());
+        iletisimWebSocketNotifier.notifyIletisimDeleted(event);
     }
 }

@@ -1,7 +1,5 @@
 server:
   shutdown: graceful
-  servlet:
-    context-path: /api
   port: 9090
 
 spring:
@@ -82,7 +80,18 @@ security:
       - /swagger-ui/**
       - /v3/api-docs/**
       - /v3/api-docs
+      - /ws/**
+      - /ws
+      - /ws/info/**
+      - /ws/info
 
+app:
+  cors:
+    allowed:
+      origins: "*"
+      methods: "*"
+      headers: "*"
+      credentials: true
 
 kafka:
   topic:

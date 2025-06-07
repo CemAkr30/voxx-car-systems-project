@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import tr.gov.voxx.car.system.adapter.out.jpa.mapper.MTVJpaMapper;
+import tr.gov.voxx.car.system.adapter.out.websocket.MTVWebSocketNotifier;
 import tr.gov.voxx.car.system.application.port.out.MTVPersistenceJpaPort;
 import tr.gov.voxx.car.system.domain.event.MTVCreatedEvent;
 import tr.gov.voxx.car.system.domain.event.MTVDeletedEvent;
@@ -17,6 +18,7 @@ import tr.gov.voxx.car.system.domain.event.MTVUpdatedEvent;
 public class MTVEventConsumer {
 
     private final MTVPersistenceJpaPort persistenceJpaPort;
+    private final MTVWebSocketNotifier mtvWebSocketNotifier;
 
     @CacheEvict(value = "mtv", key = "#event.id")
     @KafkaListener(topics = "${kafka.topic.mtv-created}", groupId = "${spring.kafka.consumer.group-id}")
@@ -24,6 +26,7 @@ public class MTVEventConsumer {
         log.info("Mtv Created Event Received: {}", event.id());
         persistenceJpaPort.persist(
                 MTVJpaMapper.toMtvFromMtvCreatedEvent(event));
+        mtvWebSocketNotifier.notifyMTVCreated(event);
     }
 
     @CacheEvict(value = "mtv", key = "#event.id")
@@ -33,6 +36,7 @@ public class MTVEventConsumer {
         persistenceJpaPort.merge(
                 MTVJpaMapper.toMtvFromMtvUpdatedEvent(event)
         );
+        mtvWebSocketNotifier.notifyMTVUpdated(event);
     }
 
     @CacheEvict(value = "mtv", key = "#event.id")
@@ -40,5 +44,6 @@ public class MTVEventConsumer {
     public void consumeDeleted(MTVDeletedEvent event) {
         log.info("Mtv Deleted Event Received: {}", event.id());
         persistenceJpaPort.deleteById(event.id());
+        mtvWebSocketNotifier.notifyMTVDeleted(event);
     }
 }

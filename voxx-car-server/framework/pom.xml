@@ -30,6 +30,10 @@
             <artifactId>common-framework</artifactId>
         </dependency>
         <dependency>
+            <groupId>tr.gov.voxx.car.server</groupId>
+            <artifactId>common-shared</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
@@ -86,6 +90,10 @@
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
     </dependencies>
 

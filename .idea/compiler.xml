@@ -8,11 +8,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="common-application" />
-        <module name="common-framework" />
         <module name="framework" />
         <module name="application" />
+        <module name="common-shared" />
         <module name="common-domain" />
         <module name="domain" />
+        <module name="common-framework" />
       </profile>
     </annotationProcessing>
   </component>
@@ -23,6 +24,7 @@
       <module name="common-application" options="-parameters" />
       <module name="common-domain" options="-parameters" />
       <module name="common-framework" options="-parameters" />
+      <module name="common-shared" options="-parameters" />
       <module name="domain" options="-parameters" />
       <module name="framework" options="-parameters" />
       <module name="voxx-car-server" options="-parameters" />

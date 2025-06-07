@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import tr.gov.voxx.car.system.adapter.out.jpa.mapper.FirmaJpaMapper;
+import tr.gov.voxx.car.system.adapter.out.websocket.FirmaWebSocketNotifier;
 import tr.gov.voxx.car.system.application.port.out.FirmaPersistenceJpaPort;
 import tr.gov.voxx.car.system.domain.event.FirmaCreatedEvent;
 import tr.gov.voxx.car.system.domain.event.FirmaDeletedEvent;
@@ -16,6 +17,7 @@ import tr.gov.voxx.car.system.domain.event.FirmaUpdatedEvent;
 @Log4j2
 public class FirmaEventConsumer {
     private final FirmaPersistenceJpaPort firmaPersistenceJpaPort;
+    private final FirmaWebSocketNotifier firmaWebSocketNotifier;
 
     @CacheEvict(value = "firma", key = "#event.id")
     @KafkaListener(topics = "${kafka.topic.firma-created}", groupId = "${spring.kafka.consumer.group-id}")
@@ -23,6 +25,7 @@ public class FirmaEventConsumer {
         log.info("Firma Created Event Received: {}", event.id());
         firmaPersistenceJpaPort.persist(
                 FirmaJpaMapper.toFirmaFromFirmaCreatedEvent(event));
+        firmaWebSocketNotifier.notifyFirmaCreated(event);
     }
 
     @CacheEvict(value = "firma", key = "#event.id")
@@ -32,6 +35,7 @@ public class FirmaEventConsumer {
         firmaPersistenceJpaPort.merge(
                 FirmaJpaMapper.toFirmaFromFirmaUpdatedEvent(event)
         );
+        firmaWebSocketNotifier.notifyFirmaUpdated(event);
     }
 
     @CacheEvict(value = "firma", key = "#event.id")
@@ -39,5 +43,6 @@ public class FirmaEventConsumer {
     public void consumeDeleted(FirmaDeletedEvent event) {
         log.info("Firma Deleted Event Received: {}", event.id());
         firmaPersistenceJpaPort.deleteById(event.id());
+        firmaWebSocketNotifier.notifyFirmaDeleted(event);
     }
 }
