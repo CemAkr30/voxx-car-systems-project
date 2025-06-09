@@ -77,6 +77,19 @@ services:
     networks:
       - voxx-car-network
 
+  kafdrop:
+    image: obsidiandynamics/kafdrop:latest
+    container_name: voxx-car-kafdrop
+    depends_on:
+      - kafka
+    ports:
+      - "9000:9000"
+    environment:
+      KAFKA_BROKERCONNECT: kafka:9092
+      JVM_OPTS: "-Xms32M -Xmx64M"
+      SERVER_SERVLET_CONTEXTPATH: "/"
+    networks:
+      - voxx-car-network
 
   kc_postgres:
     container_name: kc_db
