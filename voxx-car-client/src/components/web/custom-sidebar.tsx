@@ -17,6 +17,7 @@ import {
   MapPin,
   Tag,
   Terminal,
+  Car,
 } from "lucide-react";
 
 import {
@@ -43,13 +44,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { usePathname, useRouter } from "next/navigation";
 
 const navigationItems = [
   {
     title: "Dashboard",
     icon: LayoutDashboard,
     href: "/dashboard",
-    isActive: true,
   },
 ];
 
@@ -58,19 +59,16 @@ const navigationItems2 = [
     title: "Marka",
     icon: Tag,
     href: "/vehicle/brand",
-    isActive: false,
   },
   {
     title: "Model",
     icon: Box,
     href: "/vehicle/model",
-    isActive: false,
   },
   {
     title: "Listele",
     icon: ListOrdered,
     href: "/vehicle/list",
-    isActive: false,
   },
 ];
 
@@ -79,7 +77,6 @@ const navigationItems3 = [
     title: "SSH",
     icon: Terminal,
     href: "/ssh/crash",
-    isActive: false,
   },
 ];
 
@@ -88,11 +85,11 @@ const navigationItems4 = [
     title: "Adres",
     icon: MapPin,
     href: "/address",
-    isActive: false,
   },
 ];
 
 export default function CustomSidebar() {
+  const pathname = usePathname();
   return (
     <Sidebar>
       <SidebarHeader>
@@ -101,10 +98,10 @@ export default function CustomSidebar() {
             <SidebarMenuButton size="lg" asChild>
               <a href="#">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <GalleryVerticalEnd className="size-4" />
+                  <Car className="h-5 w-5 text-white" />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-semibold">Acme Inc</span>
+                  <span className="font-semibold">Voxx Car</span>
                   <span className="text-xs text-sidebar-foreground/70">
                     Workspace
                   </span>
@@ -124,7 +121,7 @@ export default function CustomSidebar() {
             <SidebarMenu>
               {navigationItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={item.isActive}>
+                  <SidebarMenuButton asChild isActive={pathname === item.href}>
                     <a href={item.href}>
                       <item.icon className="size-4" />
                       <span>{item.title}</span>
@@ -142,7 +139,7 @@ export default function CustomSidebar() {
             <SidebarMenu>
               {navigationItems2.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={item.isActive}>
+                  <SidebarMenuButton asChild isActive={pathname === item.href}>
                     <a href={item.href}>
                       <item.icon className="size-4" />
                       <span>{item.title}</span>
@@ -160,7 +157,7 @@ export default function CustomSidebar() {
             <SidebarMenu>
               {navigationItems3.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={item.isActive}>
+                  <SidebarMenuButton asChild isActive={pathname === item.href}>
                     <a href={item.href}>
                       <item.icon className="size-4" />
                       <span>{item.title}</span>
@@ -178,7 +175,7 @@ export default function CustomSidebar() {
             <SidebarMenu>
               {navigationItems4.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={item.isActive}>
+                  <SidebarMenuButton asChild isActive={pathname === item.href}>
                     <a href={item.href}>
                       <item.icon className="size-4" />
                       <span>{item.title}</span>
