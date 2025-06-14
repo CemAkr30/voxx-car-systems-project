@@ -1,22 +1,22 @@
 version: "3.8"
 
 services:
-  #  app:
-  #    build:
-  #      context: ./voxx-car-server
-  #      dockerfile: Dockerfile
-  #    container_name: voxx-car-app
-  #    ports:
-  #      - "8080:8080"
-  #    environment:
-  #      - JAVA_OPTS=-Xms512m -Xmx1024m
-  #    restart: unless-stopped
-  #    networks:
-  #      - voxx-car-network
-  #    depends_on:
-  #      app_postgres:
-  #        condition: service_healthy
-  #
+  app:
+    build:
+      context: ./voxx-car-server
+      dockerfile: Dockerfile
+    container_name: voxx-car-app
+    ports:
+      - "9090:9090"
+    environment:
+      - JAVA_OPTS=-Xms512m -Xmx1024m
+    restart: unless-stopped
+    networks:
+      - voxx-car-network
+    depends_on:
+      app_postgres:
+        condition: service_healthy
+
   #  client:
   #    build:
   #      context: ./voxx-car-client
@@ -29,7 +29,7 @@ services:
   #      - voxx-car-network
 
   app_postgres:
-    container_name: postgres-sql-vcs
+    container_name: postgres-service
     image: postgres:14
     environment:
       POSTGRES_USER: username
@@ -50,7 +50,7 @@ services:
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
-    container_name: voxx-car-zookeeper
+    container_name: zookeeper-service
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
@@ -61,25 +61,23 @@ services:
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
+    container_name: kafka-service
     depends_on:
       - zookeeper
     ports:
       - "9092:9092"
-      - "29092:29092"
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://0.0.0.0:29092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-service:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     networks:
       - voxx-car-network
 
   kafdrop:
     image: obsidiandynamics/kafdrop:latest
-    container_name: voxx-car-kafdrop
+    container_name: kafdrop-ui
     depends_on:
       - kafka
     ports:
@@ -112,7 +110,7 @@ services:
       retries: 5
 
   keycloak:
-    container_name: kc_current
+    container_name: keycloak-service
     image: quay.io/keycloak/keycloak:23.0.6
     command: start-dev
     environment:
@@ -125,7 +123,7 @@ services:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
     ports:
-      - "8090:8080"
+      - "8080:8080"
     depends_on:
       kc_postgres:
         condition: service_healthy
@@ -134,16 +132,19 @@ services:
 
   couchbase:
     image: couchbase:community
-    container_name: couchbase
+    container_name: couchbase-service
     ports:
       - "8091-8096:8091-8096"
       - "11210:11210"
     environment:
       - COUCHBASE_ADMINISTRATOR_USERNAME=Administrator
       - COUCHBASE_ADMINISTRATOR_PASSWORD=password
+    networks:
+      - voxx-car-network
 
 networks:
   voxx-car-network:
+    name: voxx-car-network
     driver: bridge
 
 volumes:

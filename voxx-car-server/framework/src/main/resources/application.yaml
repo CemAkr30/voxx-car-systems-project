@@ -8,7 +8,7 @@ spring:
   cache:
     type: couchbase
   couchbase:
-    connection-string: couchbase://localhost
+    connection-string: couchbase://couchbase-service
     password: password
     username: Administrator
   data:
@@ -19,7 +19,7 @@ spring:
       auto-index: false
       type-key: type
   kafka:
-    bootstrap-servers: localhost:29092
+    bootstrap-servers: kafka-service:9092
     consumer:
       group-id: voxx-core-group
       auto-offset-reset: earliest
@@ -31,7 +31,7 @@ spring:
         spring.json.use.type.headers: true
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5400/voxx_car_systems
+    url: jdbc:postgresql://postgres-service:5432/voxx_car_systems
     username: username
     password: password
   jpa:
@@ -43,14 +43,21 @@ spring:
         format_sql: true
         hbm2ddl:
           auto: update
+        dialect: org.hibernate.dialect.PostgreSQLDialect
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8090/realms/voxx-car-systems
+          issuer-uri: http://keycloak-service:8080/realms/voxx-car-systems
           jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
   liquibase:
     change-log: classpath:/db/migrations/changelog.xml
+
+keycloak:
+  auth-server-url: http://keycloak-service:8080/realms/voxx-car-systems
+  client-id: voxx-car-client
+  client-secret: your-client-secret
+  grant-type: password
 
 jwt:
   auth:
@@ -84,6 +91,8 @@ security:
       - /ws
       - /ws/info/**
       - /ws/info
+      - /auth
+      - /auth/**
 
 app:
   cors:
