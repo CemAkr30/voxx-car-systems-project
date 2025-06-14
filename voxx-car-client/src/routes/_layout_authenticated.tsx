@@ -28,7 +28,6 @@ function RouteComponent() {
           </main>
         </SidebarInset>
       </SidebarProvider>
-      <Outlet />
     </React.Fragment>
   );
 }

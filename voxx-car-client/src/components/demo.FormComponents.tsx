@@ -9,7 +9,7 @@ import * as ShadcnSelect from "@/components/ui/select";
 import { Slider as ShadcnSlider } from "@/components/ui/slider";
 import { Switch as ShadcnSwitch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { LoaderCircle } from "lucide-react";
+import Spinner from "./web/spinner";
 
 export function SubscribeButton({ label }: { label: string }) {
   const form = useFormContext();
@@ -17,10 +17,7 @@ export function SubscribeButton({ label }: { label: string }) {
     <form.Subscribe selector={(state) => state.isSubmitting}>
       {(isSubmitting) => (
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting && (
-            <LoaderCircle className="animate-spin w-6 h-6 text-gray-500" />
-          )}{" "}
-          {label}
+          {isSubmitting && <Spinner />} {label}
         </Button>
       )}
     </form.Subscribe>

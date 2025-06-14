@@ -1,5 +1,5 @@
 export interface Marka {
-  id: string;
+  id: number;
   adi: string;
   createdAt: string;
   updatedAt: string;

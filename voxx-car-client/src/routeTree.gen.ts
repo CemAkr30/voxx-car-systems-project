@@ -15,7 +15,6 @@ import { Route as Layout_authenticatedIndexRouteImport } from './routes/_layout_
 import { Route as Layout_authLoginRouteImport } from './routes/_layout_auth/login'
 import { Route as Layout_authenticatedMarkaIndexRouteImport } from './routes/_layout_authenticated/marka/index'
 import { Route as Layout_authenticatedDemosDemoTanstackQueryRouteImport } from './routes/_layout_authenticated/demos/demo.tanstack-query'
-import { Route as Layout_authenticatedDemosDemoTableRouteImport } from './routes/_layout_authenticated/demos/demo.table'
 import { Route as Layout_authenticatedDemosDemoFormSimpleRouteImport } from './routes/_layout_authenticated/demos/demo.form.simple'
 import { Route as Layout_authenticatedDemosDemoFormAddressRouteImport } from './routes/_layout_authenticated/demos/demo.form.address'
 
@@ -50,12 +49,6 @@ const Layout_authenticatedDemosDemoTanstackQueryRoute =
     path: '/demos/demo/tanstack-query',
     getParentRoute: () => Layout_authenticatedRoute,
   } as any)
-const Layout_authenticatedDemosDemoTableRoute =
-  Layout_authenticatedDemosDemoTableRouteImport.update({
-    id: '/demos/demo/table',
-    path: '/demos/demo/table',
-    getParentRoute: () => Layout_authenticatedRoute,
-  } as any)
 const Layout_authenticatedDemosDemoFormSimpleRoute =
   Layout_authenticatedDemosDemoFormSimpleRouteImport.update({
     id: '/demos/demo/form/simple',
@@ -74,7 +67,6 @@ export interface FileRoutesByFullPath {
   '/login': typeof Layout_authLoginRoute
   '/': typeof Layout_authenticatedIndexRoute
   '/marka': typeof Layout_authenticatedMarkaIndexRoute
-  '/demos/demo/table': typeof Layout_authenticatedDemosDemoTableRoute
   '/demos/demo/tanstack-query': typeof Layout_authenticatedDemosDemoTanstackQueryRoute
   '/demos/demo/form/address': typeof Layout_authenticatedDemosDemoFormAddressRoute
   '/demos/demo/form/simple': typeof Layout_authenticatedDemosDemoFormSimpleRoute
@@ -84,7 +76,6 @@ export interface FileRoutesByTo {
   '/login': typeof Layout_authLoginRoute
   '/': typeof Layout_authenticatedIndexRoute
   '/marka': typeof Layout_authenticatedMarkaIndexRoute
-  '/demos/demo/table': typeof Layout_authenticatedDemosDemoTableRoute
   '/demos/demo/tanstack-query': typeof Layout_authenticatedDemosDemoTanstackQueryRoute
   '/demos/demo/form/address': typeof Layout_authenticatedDemosDemoFormAddressRoute
   '/demos/demo/form/simple': typeof Layout_authenticatedDemosDemoFormSimpleRoute
@@ -96,7 +87,6 @@ export interface FileRoutesById {
   '/_layout_auth/login': typeof Layout_authLoginRoute
   '/_layout_authenticated/': typeof Layout_authenticatedIndexRoute
   '/_layout_authenticated/marka/': typeof Layout_authenticatedMarkaIndexRoute
-  '/_layout_authenticated/demos/demo/table': typeof Layout_authenticatedDemosDemoTableRoute
   '/_layout_authenticated/demos/demo/tanstack-query': typeof Layout_authenticatedDemosDemoTanstackQueryRoute
   '/_layout_authenticated/demos/demo/form/address': typeof Layout_authenticatedDemosDemoFormAddressRoute
   '/_layout_authenticated/demos/demo/form/simple': typeof Layout_authenticatedDemosDemoFormSimpleRoute
@@ -108,7 +98,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/'
     | '/marka'
-    | '/demos/demo/table'
     | '/demos/demo/tanstack-query'
     | '/demos/demo/form/address'
     | '/demos/demo/form/simple'
@@ -118,7 +107,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/'
     | '/marka'
-    | '/demos/demo/table'
     | '/demos/demo/tanstack-query'
     | '/demos/demo/form/address'
     | '/demos/demo/form/simple'
@@ -129,7 +117,6 @@ export interface FileRouteTypes {
     | '/_layout_auth/login'
     | '/_layout_authenticated/'
     | '/_layout_authenticated/marka/'
-    | '/_layout_authenticated/demos/demo/table'
     | '/_layout_authenticated/demos/demo/tanstack-query'
     | '/_layout_authenticated/demos/demo/form/address'
     | '/_layout_authenticated/demos/demo/form/simple'
@@ -184,13 +171,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Layout_authenticatedDemosDemoTanstackQueryRouteImport
       parentRoute: typeof Layout_authenticatedRoute
     }
-    '/_layout_authenticated/demos/demo/table': {
-      id: '/_layout_authenticated/demos/demo/table'
-      path: '/demos/demo/table'
-      fullPath: '/demos/demo/table'
-      preLoaderRoute: typeof Layout_authenticatedDemosDemoTableRouteImport
-      parentRoute: typeof Layout_authenticatedRoute
-    }
     '/_layout_authenticated/demos/demo/form/simple': {
       id: '/_layout_authenticated/demos/demo/form/simple'
       path: '/demos/demo/form/simple'
@@ -223,7 +203,6 @@ const Layout_authRouteWithChildren = Layout_authRoute._addFileChildren(
 interface Layout_authenticatedRouteChildren {
   Layout_authenticatedIndexRoute: typeof Layout_authenticatedIndexRoute
   Layout_authenticatedMarkaIndexRoute: typeof Layout_authenticatedMarkaIndexRoute
-  Layout_authenticatedDemosDemoTableRoute: typeof Layout_authenticatedDemosDemoTableRoute
   Layout_authenticatedDemosDemoTanstackQueryRoute: typeof Layout_authenticatedDemosDemoTanstackQueryRoute
   Layout_authenticatedDemosDemoFormAddressRoute: typeof Layout_authenticatedDemosDemoFormAddressRoute
   Layout_authenticatedDemosDemoFormSimpleRoute: typeof Layout_authenticatedDemosDemoFormSimpleRoute
@@ -232,8 +211,6 @@ interface Layout_authenticatedRouteChildren {
 const Layout_authenticatedRouteChildren: Layout_authenticatedRouteChildren = {
   Layout_authenticatedIndexRoute: Layout_authenticatedIndexRoute,
   Layout_authenticatedMarkaIndexRoute: Layout_authenticatedMarkaIndexRoute,
-  Layout_authenticatedDemosDemoTableRoute:
-    Layout_authenticatedDemosDemoTableRoute,
   Layout_authenticatedDemosDemoTanstackQueryRoute:
     Layout_authenticatedDemosDemoTanstackQueryRoute,
   Layout_authenticatedDemosDemoFormAddressRoute:

@@ -2,17 +2,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogDescription,
-  DialogHeader,
-} from "@/components/ui/dialog";
-import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { createFileRoute } from "@tanstack/react-router";
 import {
@@ -21,8 +13,6 @@ import {
   Filter,
   RefreshCw,
   MoreHorizontal,
-  Edit,
-  Trash2,
 } from "lucide-react";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
@@ -35,51 +25,104 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
-import { DialogTrigger } from "@radix-ui/react-dialog";
-import { useAppForm } from "@/hooks/demo.form";
-import { markaCreateSchema } from "@/schemas/marka";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { markalarOptions } from "@/queries/marka";
+import MarkaDialog from "@/components/web/marka/marka-dialog";
+import { useMarkalarQuery, useOptimisticMarkaAdi } from "@/hooks/marka";
+import Spinner from "@/components/web/spinner";
+import MarkaSilDialog from "@/components/web/marka/marka-sil-dialog";
+import type { Marka } from "@/schemas/marka";
+
+interface DialogState {
+  create: boolean;
+  update: boolean;
+  delete: boolean;
+  selectedMarkaId?: number;
+  selectedMarka?: Marka;
+}
 
 export const Route = createFileRoute("/_layout_authenticated/marka/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  const { data: markalar } = useSuspenseQuery(markalarOptions(10, 10));
-
-  const form = useAppForm({
-    defaultValues: {
-      adi: "",
-    },
-    validators: {
-      onChange: markaCreateSchema,
-    },
-    onSubmit: async ({ value }) => {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      form.reset();
-    },
+  const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [dialogState, setDialogState] = useState<DialogState>({
+    create: false,
+    update: false,
+    delete: false,
   });
+  const [openDropdowns, setOpenDropdowns] = useState<Set<number>>(new Set());
+
+  const optimisticMarkaAdi = useOptimisticMarkaAdi();
+  const { data: markalar = [] } = useMarkalarQuery();
+
+  // Filter markalar based on search term
+  const filteredMarkalar = markalar.filter((marka: Marka) =>
+    marka.adi.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      setSelectedItems(markalar.map((item) => item.id));
+      setSelectedItems(filteredMarkalar.map((item: Marka) => item.id));
     } else {
       setSelectedItems([]);
     }
   };
 
-  const handleSelectItem = (id: string, checked: boolean) => {
+  const handleSelectItem = (id: number, checked: boolean) => {
     if (checked) {
       setSelectedItems((prev) => [...prev, id]);
     } else {
       setSelectedItems((prev) => prev.filter((item) => item !== id));
     }
   };
+
+  const openDialog = (type: keyof DialogState, marka?: Marka) => {
+    setDialogState({
+      create: type === "create",
+      update: type === "update",
+      delete: type === "delete",
+      selectedMarkaId: marka?.id,
+      selectedMarka: marka,
+    });
+  };
+
+  const closeDialog = () => {
+    setDialogState({
+      create: false,
+      update: false,
+      delete: false,
+    });
+    // Clear selected items when closing delete dialog
+    if (dialogState.delete) {
+      setSelectedItems([]);
+    }
+    // Close all dropdowns after dialog operations
+    setOpenDropdowns(new Set());
+  };
+
+  const handleDropdownOpenChange = (markaId: number, open: boolean) => {
+    setOpenDropdowns((prev) => {
+      const newSet = new Set(prev);
+      if (open) {
+        newSet.add(markaId);
+      } else {
+        newSet.delete(markaId);
+      }
+      return newSet;
+    });
+  };
+
+  const handleBulkDelete = () => {
+    setDialogState({
+      create: false,
+      update: false,
+      delete: true,
+      selectedMarkaId: undefined,
+      selectedMarka: undefined,
+    });
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -92,38 +135,9 @@ function RouteComponent() {
           <div className="flex items-center justify-between">
             <CardTitle>Marka Listesi</CardTitle>
             <div className="flex items-center space-x-2">
-              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <DialogTrigger asChild>
-                  <Button variant="default">Yeni Marka Ekle</Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
-                  <DialogHeader>
-                    <DialogTitle>Contact Us</DialogTitle>
-                    <DialogDescription>
-                      Fill out the form below and we'll get back to you as soon
-                      as possible.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      form.handleSubmit();
-                    }}
-                    className="space-y-6"
-                  >
-                    <form.AppField name="adi">
-                      {(field) => <field.TextField label="Kullanıcı Adı" />}
-                    </form.AppField>
-
-                    <div className="flex justify-end">
-                      <form.AppForm>
-                        <form.SubscribeButton label="Submit" />
-                      </form.AppForm>
-                    </div>
-                  </form>
-                </DialogContent>
-              </Dialog>
+              <Button onClick={() => openDialog("create")}>
+                Yeni Marka Ekle
+              </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline">
@@ -132,21 +146,14 @@ function RouteComponent() {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  {/* <DropdownMenuItem onClick={exportToExcel}>
-                    <FileText className="h-4 w-4 mr-2" />
-                    Excel
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={exportToPDF}>
-                    <FileText className="h-4 w-4 mr-2" />
-                    PDF
-                  </DropdownMenuItem> */}
+                  {/* Export options can be added here */}
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
           </div>
         </CardHeader>
         <CardContent>
-          {/* Filtreler ve Arama */}
+          {/* Filters and Search */}
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center space-x-4">
               <div className="relative">
@@ -167,24 +174,24 @@ function RouteComponent() {
                 Yenile
               </Button>
             </div>
+
             {selectedItems.length > 0 && (
               <div className="flex items-center space-x-2">
                 <Badge variant="secondary">
                   {selectedItems.length} öğe seçili
                 </Badge>
-                {/* <Button
+                <Button
                   variant="destructive"
                   size="sm"
-                  onClick={() => setIsBulkDeleteDialogOpen(true)}
+                  onClick={handleBulkDelete}
                 >
-                  <Trash className="h-4 w-4 mr-2" />
                   Seçilenleri Sil
-                </Button> */}
+                </Button>
               </div>
             )}
           </div>
 
-          {/* Tablo */}
+          {/* Table */}
           <div className="border rounded-lg">
             <Table>
               <TableHeader>
@@ -192,8 +199,8 @@ function RouteComponent() {
                   <TableHead className="w-12">
                     <Checkbox
                       checked={
-                        selectedItems.length === markalar.length &&
-                        markalar.length > 0
+                        selectedItems.length === filteredMarkalar.length &&
+                        filteredMarkalar.length > 0
                       }
                       onCheckedChange={handleSelectAll}
                     />
@@ -206,7 +213,23 @@ function RouteComponent() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {markalar.map((marka) => (
+                {optimisticMarkaAdi && (
+                  <TableRow>
+                    <TableCell>
+                      <Checkbox disabled />
+                    </TableCell>
+                    <TableCell className="font-mono text-sm">
+                      <Spinner />
+                    </TableCell>
+                    <TableCell className="font-medium">
+                      {optimisticMarkaAdi}
+                    </TableCell>
+                    <TableCell>Just Now</TableCell>
+                    <TableCell>Just Now</TableCell>
+                    <TableCell />
+                  </TableRow>
+                )}
+                {filteredMarkalar.map((marka: Marka) => (
                   <TableRow key={marka.id}>
                     <TableCell>
                       <Checkbox
@@ -223,30 +246,34 @@ function RouteComponent() {
                     <TableCell>{marka.createdAt}</TableCell>
                     <TableCell>{marka.updatedAt}</TableCell>
                     <TableCell>
-                      <DropdownMenu>
+                      <DropdownMenu
+                        open={openDropdowns.has(marka.id)}
+                        onOpenChange={(open) =>
+                          handleDropdownOpenChange(marka.id, open)
+                        }
+                      >
                         <DropdownMenuTrigger asChild>
                           <Button variant="ghost" size="sm">
                             <MoreHorizontal className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                          <DropdownMenuItem
-                            onClick={() =>
-                              console.log("edit dialog will be opened")
-                            }
+                        <DropdownMenuContent className="flex flex-col gap-1 p-1">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="justify-start"
+                            onClick={() => openDialog("update", marka)}
                           >
-                            <Edit className="h-4 w-4 mr-2" />
                             Düzenle
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={() =>
-                              console.log("delete dialog will be opened")
-                            }
-                            className="text-red-600"
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
+                            onClick={() => openDialog("delete", marka)}
                           >
-                            <Trash2 className="h-4 w-4 mr-2" />
                             Sil
-                          </DropdownMenuItem>
+                          </Button>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -256,15 +283,47 @@ function RouteComponent() {
             </Table>
           </div>
 
-          <pre>{JSON.stringify(markalar, null, 2)}</pre>
-
-          {markalar.length === 0 && (
+          {filteredMarkalar.length === 0 && !optimisticMarkaAdi && (
             <div className="text-center py-8">
-              <p className="text-gray-500">Hiç marka bulunamadı</p>
+              <p className="text-gray-500">
+                {searchTerm
+                  ? "Arama kriterlerine uygun marka bulunamadı"
+                  : "Hiç marka bulunamadı"}
+              </p>
             </div>
           )}
         </CardContent>
       </Card>
+
+      {/* Dialogs */}
+      {dialogState.create && (
+        <MarkaDialog
+          mode="create"
+          open={dialogState.create}
+          close={closeDialog}
+        />
+      )}
+
+      {dialogState.update && dialogState.selectedMarka && (
+        <MarkaDialog
+          mode="update"
+          open={dialogState.update}
+          close={closeDialog}
+          initialValues={dialogState.selectedMarka}
+        />
+      )}
+
+      {dialogState.delete && (
+        <MarkaSilDialog
+          open={dialogState.delete}
+          close={closeDialog}
+          selectedMarkalar={
+            dialogState.selectedMarkaId
+              ? [dialogState.selectedMarkaId]
+              : selectedItems
+          }
+        />
+      )}
     </div>
   );
 }
