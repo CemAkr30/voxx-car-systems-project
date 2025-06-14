@@ -1,8 +1,6 @@
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogTrigger,
   DialogHeader,
   DialogTitle,
   DialogDescription,
@@ -69,11 +67,6 @@ export default function MarkaDialog(props: MarkaDialogProps) {
         form.reset();
       }}
     >
-      <DialogTrigger asChild>
-        <Button variant="default">
-          {mode === "create" ? "Yeni Marka Ekle" : "Markayı Güncelle"}
-        </Button>
-      </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>

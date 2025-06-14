@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogTrigger,
   DialogHeader,
   DialogTitle,
   DialogDescription,
@@ -26,11 +25,6 @@ export default function MarkaSilDialog({
 
   return (
     <Dialog open={open} onOpenChange={close}>
-      <DialogTrigger asChild>
-        <Button variant="default">
-          Toplam ({selectedMarkalar.length}) markayı Sil
-        </Button>
-      </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Seçili Markaları Sil</DialogTitle>
