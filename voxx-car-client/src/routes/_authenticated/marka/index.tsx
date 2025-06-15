@@ -39,7 +39,7 @@ interface DialogState {
   selectedMarka?: Marka;
 }
 
-export const Route = createFileRoute("/_layout_authenticated/marka/")({
+export const Route = createFileRoute("/_authenticated/marka/")({
   component: RouteComponent,
 });
 

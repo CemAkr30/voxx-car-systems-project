@@ -7,13 +7,15 @@ import {
 } from "@/components/ui/card";
 import { useAppForm } from "@/hooks/demo.form";
 import { loginSchema } from "@/schemas/auth";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { Shield } from "lucide-react";
 
-export const Route = createFileRoute("/_layout_auth/login")({
+export const Route = createFileRoute("/_authentication/login")({
   component: RouteComponent,
 });
 function RouteComponent() {
+  const router = useRouter();
+
   const form = useAppForm({
     defaultValues: {
       kullaniciAdi: "",
@@ -24,7 +26,11 @@ function RouteComponent() {
     },
     onSubmit: async ({ value }) => {
       console.log(value);
-      alert("form submitted successfully");
+      localStorage.setItem(
+        "accessToken",
+        !Math.round(Math.random()) ? "1" : "2"
+      );
+      router.navigate({ to: "/" });
     },
   });
 

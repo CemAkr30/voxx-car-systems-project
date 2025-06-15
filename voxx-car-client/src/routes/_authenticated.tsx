@@ -3,12 +3,19 @@ import {
   SidebarInset,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import React from "react";
 import { Separator } from "@/components/ui/separator";
 import CustomSidebar from "@/components/web/custom-sidebar";
 
-export const Route = createFileRoute("/_layout_authenticated")({
+export const Route = createFileRoute("/_authenticated")({
+  beforeLoad: () => {
+    if (!true) {
+      throw redirect({
+        to: "/login",
+      });
+    }
+  },
   component: RouteComponent,
 });
 
