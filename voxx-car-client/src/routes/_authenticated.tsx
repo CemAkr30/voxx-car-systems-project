@@ -9,10 +9,11 @@ import { Separator } from "@/components/ui/separator";
 import CustomSidebar from "@/components/web/custom-sidebar";
 
 export const Route = createFileRoute("/_authenticated")({
-  beforeLoad: () => {
-    if (!true) {
+  beforeLoad: ({ context: { user } }) => {
+    if (!user) {
       throw redirect({
         to: "/login",
+        statusCode: 301,
       });
     }
   },
