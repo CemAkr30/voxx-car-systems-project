@@ -90,7 +90,11 @@ export default function MarkaDialog(props: MarkaDialogProps) {
 
           <div className="flex justify-end">
             <form.AppForm>
-              <form.SubscribeButton label="Submit" />
+              <form.SubscribeButton
+                label={
+                  mode === "create" ? "Yeni Marka Ekle" : "Markayı Güncelle"
+                }
+              />
             </form.AppForm>
           </div>
         </form>

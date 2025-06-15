@@ -7,15 +7,15 @@ import {
 import type { CreateMarkaRequest, Marka } from "@/schemas/marka";
 import {
   useMutation,
-  useQuery,
   useQueryClient,
+  useSuspenseQuery,
   type QueryKey,
 } from "@tanstack/react-query";
 
 const queryKey: QueryKey = ["markalar"];
 
 export const useMarkalarQuery = () =>
-  useQuery({
+  useSuspenseQuery({
     queryKey,
     queryFn: async () => await getAllMarka(),
   });
@@ -72,7 +72,7 @@ export const useUpdateMarkaMutation = (onSuccess?: () => void) => {
       return { previousMarkalar };
     },
     onSuccess() {
-      queryClient.invalidateQueries({ queryKey });
+      queryClient.refetchQueries({ queryKey });
       onSuccess?.();
     },
     onError(...[, , context]) {
@@ -100,7 +100,7 @@ export const useDeleteMarkaMutation = (onSuccess?: () => void) => {
       return { previousMarkalar };
     },
     onSuccess() {
-      queryClient.invalidateQueries({ queryKey });
+      queryClient.refetchQueries({ queryKey });
       onSuccess?.();
     },
     onError(...[, , context]) {

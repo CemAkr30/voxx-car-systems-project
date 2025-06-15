@@ -2,6 +2,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import React from "react";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
+  head: () => ({
+    meta: [
+      {
+        title: "Dashboard",
+      },
+      { name: "description", content: "Learn more about MyApp" },
+    ],
+  }),
   component: RouteComponent,
 });
 
