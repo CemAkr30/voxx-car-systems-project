@@ -26,50 +26,44 @@ import {
 } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
 import MarkaDialog from "@/components/web/marka/marka-dialog";
-import { useMarkalarQuery, useOptimisticMarkaAdi } from "@/hooks/marka";
-import Spinner from "@/components/web/spinner";
+import { useMarkalarQuery } from "@/hooks/use-marka-hooks";
 import MarkaSilDialog from "@/components/web/marka/marka-sil-dialog";
 import type { Marka } from "@/schemas/marka";
+import { formatDate } from "@/lib/utils";
 
 interface DialogState {
   create: boolean;
   update: boolean;
   delete: boolean;
-  selectedMarkaId?: number;
+  selectedMarkaId?: string;
   selectedMarka?: Marka;
 }
 
-export const Route = createFileRoute("/_layout_authenticated/marka/")({
+export const Route = createFileRoute("/_authenticated/marka/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [dialogState, setDialogState] = useState<DialogState>({
     create: false,
     update: false,
     delete: false,
   });
-  const [openDropdowns, setOpenDropdowns] = useState<Set<number>>(new Set());
+  const [openDropdowns, setOpenDropdowns] = useState<Set<string>>(new Set());
 
-  const optimisticMarkaAdi = useOptimisticMarkaAdi();
   const { data: markalar = [] } = useMarkalarQuery();
-
-  // Filter markalar based on search term
-  const filteredMarkalar = markalar.filter((marka: Marka) =>
-    marka.adi.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      setSelectedItems(filteredMarkalar.map((item: Marka) => item.id));
+      setSelectedItems(markalar.map((item: Marka) => item.id));
     } else {
       setSelectedItems([]);
     }
   };
 
-  const handleSelectItem = (id: number, checked: boolean) => {
+  const handleSelectItem = (id: string, checked: boolean) => {
     if (checked) {
       setSelectedItems((prev) => [...prev, id]);
     } else {
@@ -101,7 +95,7 @@ function RouteComponent() {
     setOpenDropdowns(new Set());
   };
 
-  const handleDropdownOpenChange = (markaId: number, open: boolean) => {
+  const handleDropdownOpenChange = (markaId: string, open: boolean) => {
     setOpenDropdowns((prev) => {
       const newSet = new Set(prev);
       if (open) {
@@ -198,14 +192,10 @@ function RouteComponent() {
                 <TableRow>
                   <TableHead className="w-12">
                     <Checkbox
-                      checked={
-                        selectedItems.length === filteredMarkalar.length &&
-                        filteredMarkalar.length > 0
-                      }
+                      checked={false}
                       onCheckedChange={handleSelectAll}
                     />
                   </TableHead>
-                  <TableHead>ID</TableHead>
                   <TableHead>Marka Adı</TableHead>
                   <TableHead>Oluşturulma Tarihi</TableHead>
                   <TableHead>Güncellenme Tarihi</TableHead>
@@ -213,23 +203,7 @@ function RouteComponent() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {optimisticMarkaAdi && (
-                  <TableRow>
-                    <TableCell>
-                      <Checkbox disabled />
-                    </TableCell>
-                    <TableCell className="font-mono text-sm">
-                      <Spinner />
-                    </TableCell>
-                    <TableCell className="font-medium">
-                      {optimisticMarkaAdi}
-                    </TableCell>
-                    <TableCell>Just Now</TableCell>
-                    <TableCell>Just Now</TableCell>
-                    <TableCell />
-                  </TableRow>
-                )}
-                {filteredMarkalar.map((marka: Marka) => (
+                {markalar.map((marka: Marka) => (
                   <TableRow key={marka.id}>
                     <TableCell>
                       <Checkbox
@@ -239,12 +213,9 @@ function RouteComponent() {
                         }
                       />
                     </TableCell>
-                    <TableCell className="font-mono text-sm">
-                      {marka.id}
-                    </TableCell>
                     <TableCell className="font-medium">{marka.adi}</TableCell>
-                    <TableCell>{marka.createdAt}</TableCell>
-                    <TableCell>{marka.updatedAt}</TableCell>
+                    <TableCell>{formatDate(marka.createdAt)}</TableCell>
+                    <TableCell>{formatDate(marka.updatedAt)}</TableCell>
                     <TableCell>
                       <DropdownMenu
                         open={openDropdowns.has(marka.id)}
@@ -282,16 +253,6 @@ function RouteComponent() {
               </TableBody>
             </Table>
           </div>
-
-          {filteredMarkalar.length === 0 && !optimisticMarkaAdi && (
-            <div className="text-center py-8">
-              <p className="text-gray-500">
-                {searchTerm
-                  ? "Arama kriterlerine uygun marka bulunamadı"
-                  : "Hiç marka bulunamadı"}
-              </p>
-            </div>
-          )}
         </CardContent>
       </Card>
 

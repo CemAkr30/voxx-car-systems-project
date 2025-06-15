@@ -7,13 +7,13 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { useDeleteMarkaMutation } from "@/hooks/marka";
+import { useDeleteMarkaMutation } from "@/hooks/use-marka-hooks";
 import { RefreshCw } from "lucide-react";
 
 interface MarkaDialogDeleteProps {
   open: boolean;
   close: () => void;
-  selectedMarkalar: number[];
+  selectedMarkalar: string[];
 }
 
 export default function MarkaSilDialog({
