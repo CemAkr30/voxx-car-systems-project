@@ -26,7 +26,10 @@ import {
 } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
 import MarkaDialog from "@/components/web/marka/marka-dialog";
-import { useMarkalarQuery, useOptimisticMarkaAdi } from "@/hooks/marka";
+import {
+  useMarkalarQuery,
+  useOptimisticMarkaAdi,
+} from "@/hooks/use-marka-hooks";
 import Spinner from "@/components/web/spinner";
 import MarkaSilDialog from "@/components/web/marka/marka-sil-dialog";
 import type { Marka } from "@/schemas/marka";

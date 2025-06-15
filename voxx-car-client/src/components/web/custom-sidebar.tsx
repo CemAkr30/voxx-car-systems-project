@@ -42,6 +42,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "../ui/collapsible";
+import { useQueryClient } from "@tanstack/react-query";
 
 const navItems = [
   {
@@ -97,10 +98,16 @@ const navItems = [
 ];
 
 export default function CustomSidebar() {
+  const queryClient = useQueryClient();
   const pathname = useLocation({
     select: (location) => location.pathname,
   });
   const router = useRouter();
+  function logoutUser() {
+    queryClient.removeQueries({ queryKey: ["authUser"] });
+    localStorage.removeItem("accessToken");
+    router.navigate({ to: "/login" });
+  }
   return (
     <Sidebar>
       <SidebarHeader>
@@ -193,7 +200,7 @@ export default function CustomSidebar() {
                   <span>Settings</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={logoutUser}>
                   <LogOut className="mr-2 size-4" />
                   <span>Log out</span>
                 </DropdownMenuItem>

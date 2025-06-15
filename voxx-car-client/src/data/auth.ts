@@ -1,4 +1,5 @@
 export default async function getCurrentUser() {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   const accessToken = localStorage.getItem("accessToken") || null;
   switch (accessToken) {
     case "1": {

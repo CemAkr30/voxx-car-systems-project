@@ -5,8 +5,10 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
+import { authUserQueryOptions } from "@/hooks/use-auth-hooks";
 import { useAppForm } from "@/hooks/demo.form";
 import { loginSchema } from "@/schemas/auth";
+import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { Shield } from "lucide-react";
 
@@ -15,6 +17,7 @@ export const Route = createFileRoute("/_authentication/login")({
 });
 function RouteComponent() {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const form = useAppForm({
     defaultValues: {
@@ -25,7 +28,7 @@ function RouteComponent() {
       onChange: loginSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log(value);
+      await queryClient.invalidateQueries(authUserQueryOptions);
       localStorage.setItem(
         "accessToken",
         !Math.round(Math.random()) ? "1" : "2"

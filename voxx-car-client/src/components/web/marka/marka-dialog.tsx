@@ -6,7 +6,10 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { useAppForm } from "@/hooks/demo.form";
-import { useCreateMarkaMutation, useUpdateMarkaMutation } from "@/hooks/marka";
+import {
+  useCreateMarkaMutation,
+  useUpdateMarkaMutation,
+} from "@/hooks/use-marka-hooks";
 import {
   markaCreateSchema,
   markaUpdateSchema,
