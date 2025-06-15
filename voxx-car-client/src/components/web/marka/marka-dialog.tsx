@@ -14,7 +14,7 @@ import {
   markaCreateSchema,
   markaUpdateSchema,
   type CreateMarkaRequest,
-  type UpdateMarkaRequest,
+  type Marka,
 } from "@/schemas/marka";
 
 interface MarkaDialogCreateProps {
@@ -27,7 +27,7 @@ interface MarkaDialogUpdateProps {
   mode: "update";
   open: boolean;
   close: () => void;
-  initialValues: UpdateMarkaRequest;
+  initialValues: Marka;
 }
 
 type MarkaDialogProps = MarkaDialogCreateProps | MarkaDialogUpdateProps;
@@ -37,9 +37,7 @@ export default function MarkaDialog(props: MarkaDialogProps) {
 
   const createMarkaMutation = useCreateMarkaMutation(close);
   const updateMarkaMutation =
-    mode === "create"
-      ? null
-      : useUpdateMarkaMutation(props.initialValues.id, close);
+    mode === "create" ? null : useUpdateMarkaMutation(close);
 
   const form = useAppForm({
     defaultValues:
@@ -52,13 +50,14 @@ export default function MarkaDialog(props: MarkaDialogProps) {
       onChange: mode === "create" ? markaCreateSchema : markaUpdateSchema,
     },
     onSubmit: async ({ formApi, value }) => {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      if (mode === "create") {
-        createMarkaMutation.mutateAsync(value as CreateMarkaRequest);
-      } else if (mode === "update") {
-        updateMarkaMutation!.mutateAsync(value as UpdateMarkaRequest);
-      }
-      formApi.reset();
+      try {
+        if (mode === "create") {
+          await createMarkaMutation.mutateAsync(value as CreateMarkaRequest);
+        } else if (mode === "update") {
+          await updateMarkaMutation!.mutateAsync(value as Marka);
+        }
+        formApi.reset();
+      } catch (error) {}
     },
   });
 

@@ -36,13 +36,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Link, useLocation, useRouter } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "../ui/collapsible";
 import { useQueryClient } from "@tanstack/react-query";
+import usePath from "@/hooks/use-path";
 
 const navItems = [
   {
@@ -99,9 +100,7 @@ const navItems = [
 
 export default function CustomSidebar() {
   const queryClient = useQueryClient();
-  const pathname = useLocation({
-    select: (location) => location.pathname,
-  });
+  const pathname = usePath();
   const router = useRouter();
   function logoutUser() {
     queryClient.removeQueries({ queryKey: ["authUser"] });

@@ -13,7 +13,7 @@ import { RefreshCw } from "lucide-react";
 interface MarkaDialogDeleteProps {
   open: boolean;
   close: () => void;
-  selectedMarkalar: number[];
+  selectedMarkalar: string[];
 }
 
 export default function MarkaSilDialog({

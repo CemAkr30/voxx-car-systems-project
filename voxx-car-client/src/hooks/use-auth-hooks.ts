@@ -1,5 +1,7 @@
 import getCurrentUser from "@/data/auth";
-import { queryOptions, useQuery } from "@tanstack/react-query";
+import { login } from "@/requests/auth";
+import type { LoginRequest, LoginResponse } from "@/schemas/auth";
+import { queryOptions, useMutation, useQuery } from "@tanstack/react-query";
 
 export const authUserQueryOptions = queryOptions({
   queryKey: ["authUser"],
@@ -11,4 +13,12 @@ export const authUserQueryOptions = queryOptions({
 
 export const useAuthUser = () => {
   return useQuery(authUserQueryOptions);
+};
+
+export const useAuthLoginMutation = () => {
+  return useMutation({
+    mutationKey: ["login"],
+    mutationFn: async (credentials: LoginRequest): Promise<LoginResponse> =>
+      await login(credentials),
+  });
 };

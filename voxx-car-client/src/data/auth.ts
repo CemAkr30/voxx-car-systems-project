@@ -9,6 +9,6 @@ export default async function getCurrentUser() {
       return { id: 2, name: "Cem Akar" };
     }
     default:
-      return null;
+      return { id: 3, name: "Berk Öncü" };
   }
 }
