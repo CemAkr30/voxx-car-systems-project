@@ -26,7 +26,10 @@ import {
 } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
 import MarkaDialog from "@/components/web/marka/marka-dialog";
-import { useMarkalarQuery } from "@/hooks/use-marka-hooks";
+import {
+  markalarGetQueryOptions,
+  useMarkalarQuery,
+} from "@/hooks/use-marka-hooks";
 import MarkaSilDialog from "@/components/web/marka/marka-sil-dialog";
 import type { Marka } from "@/schemas/marka";
 import { formatDate } from "@/lib/utils";
@@ -40,6 +43,8 @@ interface DialogState {
 }
 
 export const Route = createFileRoute("/_authenticated/marka/")({
+  loader: ({ context: { queryClient } }) =>
+    queryClient.prefetchQuery(markalarGetQueryOptions),
   component: RouteComponent,
 });
 

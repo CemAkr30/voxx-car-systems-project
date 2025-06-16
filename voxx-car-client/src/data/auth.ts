@@ -1,13 +1,6 @@
+import { axiosClient } from "@/lib/axios";
+
 export default async function getCurrentUser() {
-  const accessToken = localStorage.getItem("accessToken") || null;
-  switch (accessToken) {
-    case "1": {
-      return { id: 1, name: "Bülent Güven" };
-    }
-    case "2": {
-      return { id: 2, name: "Cem Akar" };
-    }
-    default:
-      return { id: 3, name: "Berk Öncü" };
-  }
+  const { data } = await axiosClient.get("/auth/userinfo");
+  return data;
 }

@@ -6,6 +6,7 @@ import {
 } from "@/requests/marka";
 import type { CreateMarkaRequest, Marka } from "@/schemas/marka";
 import {
+  queryOptions,
   useMutation,
   useQueryClient,
   useSuspenseQuery,
@@ -14,11 +15,12 @@ import {
 
 const queryKey: QueryKey = ["markalar"];
 
-export const useMarkalarQuery = () =>
-  useSuspenseQuery({
-    queryKey,
-    queryFn: async () => await getAllMarka(),
-  });
+export const markalarGetQueryOptions = queryOptions({
+  queryKey,
+  queryFn: async () => await getAllMarka(),
+});
+
+export const useMarkalarQuery = () => useSuspenseQuery(markalarGetQueryOptions);
 
 export const useCreateMarkaMutation = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
@@ -42,7 +44,7 @@ export const useCreateMarkaMutation = (onSuccess?: () => void) => {
       return { previousMarkalar };
     },
     onSuccess() {
-      queryClient.refetchQueries({ queryKey });
+      queryClient.invalidateQueries({ queryKey });
       onSuccess?.();
     },
     onError(...[, , context]) {
@@ -72,7 +74,7 @@ export const useUpdateMarkaMutation = (onSuccess?: () => void) => {
       return { previousMarkalar };
     },
     onSuccess() {
-      queryClient.refetchQueries({ queryKey });
+      queryClient.invalidateQueries({ queryKey });
       onSuccess?.();
     },
     onError(...[, , context]) {
@@ -100,7 +102,7 @@ export const useDeleteMarkaMutation = (onSuccess?: () => void) => {
       return { previousMarkalar };
     },
     onSuccess() {
-      queryClient.refetchQueries({ queryKey });
+      queryClient.invalidateQueries({ queryKey });
       onSuccess?.();
     },
     onError(...[, , context]) {
