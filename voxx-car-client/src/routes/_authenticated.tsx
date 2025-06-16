@@ -28,6 +28,8 @@ const getTitle = (path: string) => {
       return "Dashboard";
     case "/marka":
       return "Marka";
+    case "/model":
+      return "Model";
     default:
       return "Dashboard";
   }
