@@ -10,8 +10,11 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import tr.gov.voxx.car.system.application.dto.webservice.AuthWebServiceDto;
+import tr.gov.voxx.car.system.application.dto.webservice.UserInfoDto;
 import tr.gov.voxx.car.system.application.port.out.AuthWebServicePort;
 import tr.gov.voxx.car.system.config.security.KeyCloakAuthConfig;
+import tr.gov.voxx.car.system.config.security.SessionCache;
+import tr.gov.voxx.car.system.config.security.UserContext;
 
 @Component
 @RequiredArgsConstructor
@@ -22,6 +25,7 @@ public class AuthWebServiceAdapter implements AuthWebServicePort {
 
     @Override
     public AuthWebServiceDto login(String username, String password) {
+
         String authUrl = keyCloakAuthConfig.getAuthServerUrl() + "/protocol/openid-connect/token";
 
         MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
@@ -40,5 +44,29 @@ public class AuthWebServiceAdapter implements AuthWebServicePort {
                 authUrl, entity, AuthWebServiceDto.class);
 
         return response.getBody();
+    }
+
+    @Override
+    public UserInfoDto userInfo(String authorizationHeader) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("Invalid authorization header");
+        }
+
+        String token = authorizationHeader.substring(7);
+        UserContext userContext = SessionCache.getInstance().getByToken(token);
+
+        if (userContext == null || userContext.isExpired()) {
+            throw new SecurityException("Invalid or expired token");
+        }
+
+        return new UserInfoDto(
+                userContext.userId(),
+                userContext.username(),
+                userContext.name(),
+                userContext.email(),
+                userContext.roles(),
+                userContext.sessionId(),
+                userContext.expirationTime()
+        );
     }
 }
