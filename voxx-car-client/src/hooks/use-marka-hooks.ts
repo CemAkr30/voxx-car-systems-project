@@ -86,18 +86,12 @@ export const useUpdateMarkaMutation = (onSuccess?: () => void) => {
 export const useDeleteMarkaMutation = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (ids: string[]) => {
-      if (ids.length === 1) {
-        await deleteMarka(ids[0]);
-      } else {
-        await Promise.all(ids.map(async (id) => await deleteMarka(id)));
-      }
-    },
-    onMutate: async (ids: string[]) => {
+    mutationFn: async (id: string) => await deleteMarka(id),
+    onMutate: async (id: string) => {
       await queryClient.cancelQueries({ queryKey });
       const previousMarkalar = queryClient.getQueryData(queryKey);
       queryClient.setQueryData(queryKey, (old: Marka[]) =>
-        old.filter((marka) => !ids.includes(marka.id))
+        old.filter((marka) => id !== marka.id)
       );
       return { previousMarkalar };
     },

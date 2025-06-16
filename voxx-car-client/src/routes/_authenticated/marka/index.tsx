@@ -38,7 +38,6 @@ interface DialogState {
   create: boolean;
   update: boolean;
   delete: boolean;
-  selectedMarkaId?: string;
   selectedMarka?: Marka;
 }
 
@@ -81,7 +80,6 @@ function RouteComponent() {
       create: type === "create",
       update: type === "update",
       delete: type === "delete",
-      selectedMarkaId: marka?.id,
       selectedMarka: marka,
     });
   };
@@ -117,7 +115,6 @@ function RouteComponent() {
       create: false,
       update: false,
       delete: true,
-      selectedMarkaId: undefined,
       selectedMarka: undefined,
     });
   };
@@ -195,12 +192,12 @@ function RouteComponent() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-12">
+                  {/* <TableHead className="w-12">
                     <Checkbox
                       checked={false}
                       onCheckedChange={handleSelectAll}
                     />
-                  </TableHead>
+                  </TableHead> */}
                   <TableHead>Marka Adı</TableHead>
                   <TableHead>Oluşturulma Tarihi</TableHead>
                   <TableHead>Güncellenme Tarihi</TableHead>
@@ -210,14 +207,14 @@ function RouteComponent() {
               <TableBody>
                 {markalar.map((marka: Marka) => (
                   <TableRow key={marka.id}>
-                    <TableCell>
+                    {/* <TableCell>
                       <Checkbox
                         checked={selectedItems.includes(marka.id)}
                         onCheckedChange={(checked) =>
                           handleSelectItem(marka.id, checked as boolean)
                         }
                       />
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell className="font-medium">{marka.adi}</TableCell>
                     <TableCell>{formatDate(marka.createdAt)}</TableCell>
                     <TableCell>{formatDate(marka.updatedAt)}</TableCell>
@@ -283,11 +280,7 @@ function RouteComponent() {
         <MarkaSilDialog
           open={dialogState.delete}
           close={closeDialog}
-          selectedMarkalar={
-            dialogState.selectedMarkaId
-              ? [dialogState.selectedMarkaId]
-              : selectedItems
-          }
+          selectedMarka={dialogState.selectedMarka!}
         />
       )}
     </div>

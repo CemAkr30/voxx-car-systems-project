@@ -14,7 +14,6 @@ import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthenticationLoginRouteImport } from './routes/_authentication/login'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
-import { Route as AuthenticatedModelIndexRouteImport } from './routes/_authenticated/model/index'
 import { Route as AuthenticatedMarkaIndexRouteImport } from './routes/_authenticated/marka/index'
 
 const AuthenticationRoute = AuthenticationRouteImport.update({
@@ -40,11 +39,6 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
-const AuthenticatedModelIndexRoute = AuthenticatedModelIndexRouteImport.update({
-  id: '/model/',
-  path: '/model/',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
 const AuthenticatedMarkaIndexRoute = AuthenticatedMarkaIndexRouteImport.update({
   id: '/marka/',
   path: '/marka/',
@@ -57,7 +51,6 @@ export interface FileRoutesByFullPath {
   '/login': typeof AuthenticationLoginRoute
   '/': typeof AuthenticatedIndexRoute
   '/marka': typeof AuthenticatedMarkaIndexRoute
-  '/model': typeof AuthenticatedModelIndexRoute
 }
 export interface FileRoutesByTo {
   '': typeof AuthenticationRouteWithChildren
@@ -65,7 +58,6 @@ export interface FileRoutesByTo {
   '/login': typeof AuthenticationLoginRoute
   '/': typeof AuthenticatedIndexRoute
   '/marka': typeof AuthenticatedMarkaIndexRoute
-  '/model': typeof AuthenticatedModelIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -75,13 +67,12 @@ export interface FileRoutesById {
   '/_authentication/login': typeof AuthenticationLoginRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/marka/': typeof AuthenticatedMarkaIndexRoute
-  '/_authenticated/model/': typeof AuthenticatedModelIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/dashboard' | '/login' | '/' | '/marka' | '/model'
+  fullPaths: '' | '/dashboard' | '/login' | '/' | '/marka'
   fileRoutesByTo: FileRoutesByTo
-  to: '' | '/dashboard' | '/login' | '/' | '/marka' | '/model'
+  to: '' | '/dashboard' | '/login' | '/' | '/marka'
   id:
     | '__root__'
     | '/_authenticated'
@@ -90,7 +81,6 @@ export interface FileRouteTypes {
     | '/_authentication/login'
     | '/_authenticated/'
     | '/_authenticated/marka/'
-    | '/_authenticated/model/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -135,13 +125,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/model/': {
-      id: '/_authenticated/model/'
-      path: '/model'
-      fullPath: '/model'
-      preLoaderRoute: typeof AuthenticatedModelIndexRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
     '/_authenticated/marka/': {
       id: '/_authenticated/marka/'
       path: '/marka'
@@ -156,14 +139,12 @@ interface AuthenticatedRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedMarkaIndexRoute: typeof AuthenticatedMarkaIndexRoute
-  AuthenticatedModelIndexRoute: typeof AuthenticatedModelIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedMarkaIndexRoute: AuthenticatedMarkaIndexRoute,
-  AuthenticatedModelIndexRoute: AuthenticatedModelIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(

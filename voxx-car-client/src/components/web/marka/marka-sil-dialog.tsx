@@ -8,18 +8,19 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { useDeleteMarkaMutation } from "@/hooks/use-marka-hooks";
+import type { Marka } from "@/schemas/marka";
 import { RefreshCw } from "lucide-react";
 
 interface MarkaDialogDeleteProps {
   open: boolean;
   close: () => void;
-  selectedMarkalar: string[];
+  selectedMarka: Marka;
 }
 
 export default function MarkaSilDialog({
   open,
   close,
-  selectedMarkalar,
+  selectedMarka,
 }: MarkaDialogDeleteProps) {
   const deleteMarkaMutation = useDeleteMarkaMutation(close);
 
@@ -27,10 +28,10 @@ export default function MarkaSilDialog({
     <Dialog open={open} onOpenChange={close}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Seçili Markaları Sil</DialogTitle>
+          <DialogTitle>Seçili Markayı Sil</DialogTitle>
           <DialogDescription>
-            {selectedMarkalar.length} markayı silmek istediğinizden emin
-            misiniz? Bu işlem geri alınamaz.
+            {selectedMarka.adi} markayı silmek istediğinizden emin misiniz? Bu
+            işlem geri alınamaz.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
@@ -39,7 +40,7 @@ export default function MarkaSilDialog({
           </Button>
           <Button
             variant="destructive"
-            onClick={() => deleteMarkaMutation.mutateAsync(selectedMarkalar)}
+            onClick={() => deleteMarkaMutation.mutateAsync(selectedMarka.id)}
             disabled={deleteMarkaMutation.isPending}
           >
             {deleteMarkaMutation.isPending ? (
