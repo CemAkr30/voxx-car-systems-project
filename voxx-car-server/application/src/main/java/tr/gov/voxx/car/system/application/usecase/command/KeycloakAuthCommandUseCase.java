@@ -3,6 +3,7 @@ package tr.gov.voxx.car.system.application.usecase.command;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tr.gov.voxx.car.system.application.dto.webservice.AuthWebServiceDto;
+import tr.gov.voxx.car.system.application.dto.webservice.UserInfoDto;
 import tr.gov.voxx.car.system.application.port.in.AuthApplicationCommandPort;
 import tr.gov.voxx.car.system.application.port.out.AuthWebServicePort;
 
@@ -15,5 +16,10 @@ public class KeycloakAuthCommandUseCase implements AuthApplicationCommandPort {
     @Override
     public AuthWebServiceDto login(String username, String password) {
         return authWebServicePort.login(username, password);
+    }
+
+    @Override
+    public UserInfoDto userInfo(String authorizationHeader) {
+        return authWebServicePort.userInfo(authorizationHeader);
     }
 }

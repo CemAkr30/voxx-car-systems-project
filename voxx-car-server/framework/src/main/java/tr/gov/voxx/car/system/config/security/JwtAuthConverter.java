@@ -11,9 +11,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -24,7 +22,7 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
             new JwtGrantedAuthoritiesConverter();
     private final KeyCloakConfig properties;
 
-    public JwtAuthConverter(KeyCloakConfig properties){
+    public JwtAuthConverter(KeyCloakConfig properties) {
         this.properties = properties;
     }
 
@@ -37,10 +35,10 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
         return new JwtAuthenticationToken(jwt, authorities, getPrincipleName(jwt));
     }
 
-    private String getPrincipleName(Jwt jwt){
+    private String getPrincipleName(Jwt jwt) {
         String name = JwtClaimNames.SUB;
 
-        if(properties.getPrincipleAttribute()!=null){
+        if (properties.getPrincipleAttribute() != null) {
             name = properties.getPrincipleAttribute();
         }
 
@@ -48,20 +46,45 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
     }
 
     @SuppressWarnings("unchecked")
-    private Collection<? extends GrantedAuthority> extractRoles(Jwt jwt){
-        Map<String, Object> resourceAccess = jwt.getClaim("resource_access");
+    private Collection<? extends GrantedAuthority> extractRoles(Jwt jwt) {
+        // First check if we have this user in cache
+        String token = jwt.getTokenValue();
+        UserContext cachedContext = SessionCache.getInstance().getByToken(token);
 
+        if (cachedContext != null && !cachedContext.isExpired()) {
+            // Return roles from cache
+            return cachedContext.roles().stream()
+                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                    .collect(Collectors.toSet());
+        }
+
+        // If not in cache or expired, extract from JWT
+        Map<String, Object> resourceAccess = jwt.getClaim("resource_access");
         Map<String, Object> resource;
         Collection<String> resourceRoles;
 
-        if(resourceAccess==null
+        if (resourceAccess == null
                 || (resource = (Map<String, Object>) resourceAccess.get(properties.getResourceId())) == null
-                || (resourceRoles = (Collection<String>) resource.get("roles")) == null){
+                || (resourceRoles = (Collection<String>) resource.get("roles")) == null) {
             return Set.of();
         }
 
+        // Create UserContext and cache it
+        UserContext userContext = new UserContext(
+                jwt.getSubject(),
+                jwt.getClaim("preferred_username"),
+                jwt.getClaim("name"),
+                jwt.getClaim("email"),
+                new HashSet<>(resourceRoles),
+                jwt.getClaim("sid"),
+                token,
+                Objects.requireNonNull(jwt.getExpiresAt()).getEpochSecond()
+        );
+
+        SessionCache.getInstance().put(userContext);
+
         return resourceRoles.stream()
-                .map(role-> new SimpleGrantedAuthority("ROLE_" + role))
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toSet());
     }
 
