@@ -4,7 +4,7 @@ import type { CreateMarkaRequest, Marka } from "@/schemas/marka";
 import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
-export const getAllMarka = async () => {
+export const getAllMarka = async (): Promise<Marka[]> => {
   const { data } = await axiosClient.get(`${urls.marka}`);
   return data;
 };

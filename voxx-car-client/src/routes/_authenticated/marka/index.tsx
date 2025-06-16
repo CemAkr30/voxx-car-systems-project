@@ -24,7 +24,6 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
-import { Checkbox } from "@/components/ui/checkbox";
 import MarkaDialog from "@/components/web/marka/marka-dialog";
 import {
   markalarGetQueryOptions,
