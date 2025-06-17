@@ -17,13 +17,12 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
   SidebarRail,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
@@ -37,54 +36,77 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useLocation } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "../ui/collapsible";
+import { useQueryClient } from "@tanstack/react-query";
+import usePath from "@/hooks/use-path";
 
-const navigationItems = [
+const navItems = [
   {
     title: "Dashboard",
-    icon: LayoutDashboard,
-    href: "/dashboard",
-  },
-];
-
-const navigationItems2 = [
-  {
-    title: "Marka",
-    icon: Tag,
-    href: "/marka",
+    children: [
+      {
+        title: "Dashboard",
+        icon: LayoutDashboard,
+        href: "/dashboard",
+      },
+    ],
   },
   {
-    title: "Model",
-    icon: Box,
-    href: "/model",
+    title: "Araç",
+    children: [
+      {
+        title: "Marka",
+        icon: Tag,
+        href: "/marka",
+      },
+      {
+        title: "Model",
+        icon: Box,
+        href: "/model",
+      },
+      {
+        title: "Listele",
+        icon: ListOrdered,
+        href: "/liste",
+      },
+    ],
   },
-  {
-    title: "Listele",
-    icon: ListOrdered,
-    href: "/liste",
-  },
-];
-
-const navigationItems3 = [
   {
     title: "SSH",
-    icon: Terminal,
-    href: "/ssh/crash",
+    children: [
+      {
+        title: "SSH",
+        icon: Terminal,
+        href: "/ssh/crash",
+      },
+    ],
   },
-];
-
-const navigationItems4 = [
   {
     title: "Adres",
-    icon: MapPin,
-    href: "/address",
+    children: [
+      {
+        title: "Adres",
+        icon: MapPin,
+        href: "/address",
+      },
+    ],
   },
 ];
 
 export default function CustomSidebar() {
-  const pathname = useLocation({
-    select: (location) => location.pathname,
-  });
+  const queryClient = useQueryClient();
+  const pathname = usePath();
+  const router = useRouter();
+  function logoutUser() {
+    queryClient.removeQueries({ queryKey: ["authUser"] });
+    localStorage.removeItem("accessToken");
+    router.navigate({ to: "/login" });
+  }
   return (
     <Sidebar>
       <SidebarHeader>
@@ -110,77 +132,34 @@ export default function CustomSidebar() {
       <SidebarSeparator />
 
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Dashboard</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {navigationItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={pathname === item.href}>
-                    <a href={item.href}>
-                      <item.icon className="size-4" />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel>Araç</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {navigationItems2.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={pathname === item.href}>
-                    <a href={item.href}>
-                      <item.icon className="size-4" />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel>SSH</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {navigationItems3.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={pathname === item.href}>
-                    <a href={item.href}>
-                      <item.icon className="size-4" />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel>Adres</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {navigationItems4.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={pathname === item.href}>
-                    <a href={item.href}>
-                      <item.icon className="size-4" />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {navItems.map((item) => (
+          <SidebarMenu key={item.title}>
+            <Collapsible defaultOpen className="group/collapsible">
+              <SidebarMenuItem>
+                <CollapsibleTrigger asChild>
+                  <SidebarMenuButton>{item.title}</SidebarMenuButton>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <SidebarMenuSub>
+                    {item.children.map((child) => (
+                      <SidebarMenuSubItem key={`${item.title}-${child.title}`}>
+                        <SidebarMenuButton
+                          asChild
+                          isActive={pathname === child.href}
+                        >
+                          <Link to={child.href}>
+                            <child.icon className="size-4" />
+                            <span>{child.title}</span>
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuSubItem>
+                    ))}
+                  </SidebarMenuSub>
+                </CollapsibleContent>
+              </SidebarMenuItem>
+            </Collapsible>
+          </SidebarMenu>
+        ))}
       </SidebarContent>
 
       <SidebarSeparator className="mt-auto" />
@@ -220,7 +199,7 @@ export default function CustomSidebar() {
                   <span>Settings</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={logoutUser}>
                   <LogOut className="mr-2 size-4" />
                   <span>Log out</span>
                 </DropdownMenuItem>

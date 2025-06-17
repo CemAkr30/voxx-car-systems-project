@@ -9,222 +9,163 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as Layout_authenticatedRouteImport } from './routes/_layout_authenticated'
-import { Route as Layout_authRouteImport } from './routes/_layout_auth'
-import { Route as Layout_authenticatedIndexRouteImport } from './routes/_layout_authenticated/index'
-import { Route as Layout_authLoginRouteImport } from './routes/_layout_auth/login'
-import { Route as Layout_authenticatedMarkaIndexRouteImport } from './routes/_layout_authenticated/marka/index'
-import { Route as Layout_authenticatedDemosDemoTanstackQueryRouteImport } from './routes/_layout_authenticated/demos/demo.tanstack-query'
-import { Route as Layout_authenticatedDemosDemoFormSimpleRouteImport } from './routes/_layout_authenticated/demos/demo.form.simple'
-import { Route as Layout_authenticatedDemosDemoFormAddressRouteImport } from './routes/_layout_authenticated/demos/demo.form.address'
+import { Route as AuthenticationRouteImport } from './routes/_authentication'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
+import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticationLoginRouteImport } from './routes/_authentication/login'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedMarkaIndexRouteImport } from './routes/_authenticated/marka/index'
 
-const Layout_authenticatedRoute = Layout_authenticatedRouteImport.update({
-  id: '/_layout_authenticated',
+const AuthenticationRoute = AuthenticationRouteImport.update({
+  id: '/_authentication',
   getParentRoute: () => rootRouteImport,
 } as any)
-const Layout_authRoute = Layout_authRouteImport.update({
-  id: '/_layout_auth',
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
-const Layout_authenticatedIndexRoute =
-  Layout_authenticatedIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => Layout_authenticatedRoute,
-  } as any)
-const Layout_authLoginRoute = Layout_authLoginRouteImport.update({
+const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticationLoginRoute = AuthenticationLoginRouteImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => Layout_authRoute,
+  getParentRoute: () => AuthenticationRoute,
 } as any)
-const Layout_authenticatedMarkaIndexRoute =
-  Layout_authenticatedMarkaIndexRouteImport.update({
-    id: '/marka/',
-    path: '/marka/',
-    getParentRoute: () => Layout_authenticatedRoute,
-  } as any)
-const Layout_authenticatedDemosDemoTanstackQueryRoute =
-  Layout_authenticatedDemosDemoTanstackQueryRouteImport.update({
-    id: '/demos/demo/tanstack-query',
-    path: '/demos/demo/tanstack-query',
-    getParentRoute: () => Layout_authenticatedRoute,
-  } as any)
-const Layout_authenticatedDemosDemoFormSimpleRoute =
-  Layout_authenticatedDemosDemoFormSimpleRouteImport.update({
-    id: '/demos/demo/form/simple',
-    path: '/demos/demo/form/simple',
-    getParentRoute: () => Layout_authenticatedRoute,
-  } as any)
-const Layout_authenticatedDemosDemoFormAddressRoute =
-  Layout_authenticatedDemosDemoFormAddressRouteImport.update({
-    id: '/demos/demo/form/address',
-    path: '/demos/demo/form/address',
-    getParentRoute: () => Layout_authenticatedRoute,
-  } as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedMarkaIndexRoute = AuthenticatedMarkaIndexRouteImport.update({
+  id: '/marka/',
+  path: '/marka/',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '': typeof Layout_authenticatedRouteWithChildren
-  '/login': typeof Layout_authLoginRoute
-  '/': typeof Layout_authenticatedIndexRoute
-  '/marka': typeof Layout_authenticatedMarkaIndexRoute
-  '/demos/demo/tanstack-query': typeof Layout_authenticatedDemosDemoTanstackQueryRoute
-  '/demos/demo/form/address': typeof Layout_authenticatedDemosDemoFormAddressRoute
-  '/demos/demo/form/simple': typeof Layout_authenticatedDemosDemoFormSimpleRoute
+  '': typeof AuthenticationRouteWithChildren
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/login': typeof AuthenticationLoginRoute
+  '/': typeof AuthenticatedIndexRoute
+  '/marka': typeof AuthenticatedMarkaIndexRoute
 }
 export interface FileRoutesByTo {
-  '': typeof Layout_authRouteWithChildren
-  '/login': typeof Layout_authLoginRoute
-  '/': typeof Layout_authenticatedIndexRoute
-  '/marka': typeof Layout_authenticatedMarkaIndexRoute
-  '/demos/demo/tanstack-query': typeof Layout_authenticatedDemosDemoTanstackQueryRoute
-  '/demos/demo/form/address': typeof Layout_authenticatedDemosDemoFormAddressRoute
-  '/demos/demo/form/simple': typeof Layout_authenticatedDemosDemoFormSimpleRoute
+  '': typeof AuthenticationRouteWithChildren
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/login': typeof AuthenticationLoginRoute
+  '/': typeof AuthenticatedIndexRoute
+  '/marka': typeof AuthenticatedMarkaIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/_layout_auth': typeof Layout_authRouteWithChildren
-  '/_layout_authenticated': typeof Layout_authenticatedRouteWithChildren
-  '/_layout_auth/login': typeof Layout_authLoginRoute
-  '/_layout_authenticated/': typeof Layout_authenticatedIndexRoute
-  '/_layout_authenticated/marka/': typeof Layout_authenticatedMarkaIndexRoute
-  '/_layout_authenticated/demos/demo/tanstack-query': typeof Layout_authenticatedDemosDemoTanstackQueryRoute
-  '/_layout_authenticated/demos/demo/form/address': typeof Layout_authenticatedDemosDemoFormAddressRoute
-  '/_layout_authenticated/demos/demo/form/simple': typeof Layout_authenticatedDemosDemoFormSimpleRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/_authentication': typeof AuthenticationRouteWithChildren
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authentication/login': typeof AuthenticationLoginRoute
+  '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/marka/': typeof AuthenticatedMarkaIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | ''
-    | '/login'
-    | '/'
-    | '/marka'
-    | '/demos/demo/tanstack-query'
-    | '/demos/demo/form/address'
-    | '/demos/demo/form/simple'
+  fullPaths: '' | '/dashboard' | '/login' | '/' | '/marka'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | ''
-    | '/login'
-    | '/'
-    | '/marka'
-    | '/demos/demo/tanstack-query'
-    | '/demos/demo/form/address'
-    | '/demos/demo/form/simple'
+  to: '' | '/dashboard' | '/login' | '/' | '/marka'
   id:
     | '__root__'
-    | '/_layout_auth'
-    | '/_layout_authenticated'
-    | '/_layout_auth/login'
-    | '/_layout_authenticated/'
-    | '/_layout_authenticated/marka/'
-    | '/_layout_authenticated/demos/demo/tanstack-query'
-    | '/_layout_authenticated/demos/demo/form/address'
-    | '/_layout_authenticated/demos/demo/form/simple'
+    | '/_authenticated'
+    | '/_authentication'
+    | '/_authenticated/dashboard'
+    | '/_authentication/login'
+    | '/_authenticated/'
+    | '/_authenticated/marka/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  Layout_authRoute: typeof Layout_authRouteWithChildren
-  Layout_authenticatedRoute: typeof Layout_authenticatedRouteWithChildren
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  AuthenticationRoute: typeof AuthenticationRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_layout_authenticated': {
-      id: '/_layout_authenticated'
+    '/_authentication': {
+      id: '/_authentication'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof Layout_authenticatedRouteImport
+      preLoaderRoute: typeof AuthenticationRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_layout_auth': {
-      id: '/_layout_auth'
+    '/_authenticated': {
+      id: '/_authenticated'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof Layout_authRouteImport
+      preLoaderRoute: typeof AuthenticatedRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_layout_authenticated/': {
-      id: '/_layout_authenticated/'
+    '/_authenticated/': {
+      id: '/_authenticated/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof Layout_authenticatedIndexRouteImport
-      parentRoute: typeof Layout_authenticatedRoute
+      preLoaderRoute: typeof AuthenticatedIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
-    '/_layout_auth/login': {
-      id: '/_layout_auth/login'
+    '/_authentication/login': {
+      id: '/_authentication/login'
       path: '/login'
       fullPath: '/login'
-      preLoaderRoute: typeof Layout_authLoginRouteImport
-      parentRoute: typeof Layout_authRoute
+      preLoaderRoute: typeof AuthenticationLoginRouteImport
+      parentRoute: typeof AuthenticationRoute
     }
-    '/_layout_authenticated/marka/': {
-      id: '/_layout_authenticated/marka/'
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/marka/': {
+      id: '/_authenticated/marka/'
       path: '/marka'
       fullPath: '/marka'
-      preLoaderRoute: typeof Layout_authenticatedMarkaIndexRouteImport
-      parentRoute: typeof Layout_authenticatedRoute
-    }
-    '/_layout_authenticated/demos/demo/tanstack-query': {
-      id: '/_layout_authenticated/demos/demo/tanstack-query'
-      path: '/demos/demo/tanstack-query'
-      fullPath: '/demos/demo/tanstack-query'
-      preLoaderRoute: typeof Layout_authenticatedDemosDemoTanstackQueryRouteImport
-      parentRoute: typeof Layout_authenticatedRoute
-    }
-    '/_layout_authenticated/demos/demo/form/simple': {
-      id: '/_layout_authenticated/demos/demo/form/simple'
-      path: '/demos/demo/form/simple'
-      fullPath: '/demos/demo/form/simple'
-      preLoaderRoute: typeof Layout_authenticatedDemosDemoFormSimpleRouteImport
-      parentRoute: typeof Layout_authenticatedRoute
-    }
-    '/_layout_authenticated/demos/demo/form/address': {
-      id: '/_layout_authenticated/demos/demo/form/address'
-      path: '/demos/demo/form/address'
-      fullPath: '/demos/demo/form/address'
-      preLoaderRoute: typeof Layout_authenticatedDemosDemoFormAddressRouteImport
-      parentRoute: typeof Layout_authenticatedRoute
+      preLoaderRoute: typeof AuthenticatedMarkaIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
   }
 }
 
-interface Layout_authRouteChildren {
-  Layout_authLoginRoute: typeof Layout_authLoginRoute
+interface AuthenticatedRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedMarkaIndexRoute: typeof AuthenticatedMarkaIndexRoute
 }
 
-const Layout_authRouteChildren: Layout_authRouteChildren = {
-  Layout_authLoginRoute: Layout_authLoginRoute,
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedMarkaIndexRoute: AuthenticatedMarkaIndexRoute,
 }
 
-const Layout_authRouteWithChildren = Layout_authRoute._addFileChildren(
-  Layout_authRouteChildren,
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
 )
 
-interface Layout_authenticatedRouteChildren {
-  Layout_authenticatedIndexRoute: typeof Layout_authenticatedIndexRoute
-  Layout_authenticatedMarkaIndexRoute: typeof Layout_authenticatedMarkaIndexRoute
-  Layout_authenticatedDemosDemoTanstackQueryRoute: typeof Layout_authenticatedDemosDemoTanstackQueryRoute
-  Layout_authenticatedDemosDemoFormAddressRoute: typeof Layout_authenticatedDemosDemoFormAddressRoute
-  Layout_authenticatedDemosDemoFormSimpleRoute: typeof Layout_authenticatedDemosDemoFormSimpleRoute
+interface AuthenticationRouteChildren {
+  AuthenticationLoginRoute: typeof AuthenticationLoginRoute
 }
 
-const Layout_authenticatedRouteChildren: Layout_authenticatedRouteChildren = {
-  Layout_authenticatedIndexRoute: Layout_authenticatedIndexRoute,
-  Layout_authenticatedMarkaIndexRoute: Layout_authenticatedMarkaIndexRoute,
-  Layout_authenticatedDemosDemoTanstackQueryRoute:
-    Layout_authenticatedDemosDemoTanstackQueryRoute,
-  Layout_authenticatedDemosDemoFormAddressRoute:
-    Layout_authenticatedDemosDemoFormAddressRoute,
-  Layout_authenticatedDemosDemoFormSimpleRoute:
-    Layout_authenticatedDemosDemoFormSimpleRoute,
+const AuthenticationRouteChildren: AuthenticationRouteChildren = {
+  AuthenticationLoginRoute: AuthenticationLoginRoute,
 }
 
-const Layout_authenticatedRouteWithChildren =
-  Layout_authenticatedRoute._addFileChildren(Layout_authenticatedRouteChildren)
+const AuthenticationRouteWithChildren = AuthenticationRoute._addFileChildren(
+  AuthenticationRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
-  Layout_authRoute: Layout_authRouteWithChildren,
-  Layout_authenticatedRoute: Layout_authenticatedRouteWithChildren,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  AuthenticationRoute: AuthenticationRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

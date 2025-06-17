@@ -5,26 +5,37 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
+import {
+  authUserQueryOptions,
+  useAuthLoginMutation,
+} from "@/hooks/use-auth-hooks";
 import { useAppForm } from "@/hooks/demo.form";
-import { loginSchema } from "@/schemas/auth";
-import { createFileRoute } from "@tanstack/react-router";
+import { loginRequestSchema } from "@/schemas/auth";
+import { useQueryClient } from "@tanstack/react-query";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { Shield } from "lucide-react";
 
-export const Route = createFileRoute("/_layout_auth/login")({
+export const Route = createFileRoute("/_authentication/login")({
   component: RouteComponent,
 });
 function RouteComponent() {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const loginMutation = useAuthLoginMutation();
+
   const form = useAppForm({
     defaultValues: {
-      kullaniciAdi: "",
-      parola: "",
+      username: "",
+      password: "",
     },
     validators: {
-      onChange: loginSchema,
+      onChange: loginRequestSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log(value);
-      alert("form submitted successfully");
+      const { accessToken } = await loginMutation.mutateAsync(value);
+      await queryClient.invalidateQueries(authUserQueryOptions);
+      localStorage.setItem("accessToken", accessToken);
+      router.navigate({ to: "/" });
     },
   });
 
@@ -53,11 +64,11 @@ function RouteComponent() {
             }}
             className="space-y-6"
           >
-            <form.AppField name="kullaniciAdi">
+            <form.AppField name="username">
               {(field) => <field.TextField label="Kullanıcı Adı" />}
             </form.AppField>
 
-            <form.AppField name="parola">
+            <form.AppField name="password">
               {(field) => <field.TextField label="Parola" />}
             </form.AppField>
 
