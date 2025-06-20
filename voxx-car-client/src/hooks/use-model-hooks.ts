@@ -12,7 +12,7 @@ import {
 	useSuspenseQuery,
 } from "@tanstack/react-query";
 
-export function modellerGetQueryOptions() {
+export function getModellerQueryOptions() {
 	return queryOptions({
 		queryKey: ["modeller"],
 		queryFn: getAllModel,
@@ -20,7 +20,7 @@ export function modellerGetQueryOptions() {
 }
 
 export const useModellerQuery = () =>
-	useSuspenseQuery(modellerGetQueryOptions());
+	useSuspenseQuery(getModellerQueryOptions());
 
 export const useCreateModelMutation = (onSuccess?: () => void) => {
 	const queryClient = useQueryClient();
@@ -30,10 +30,10 @@ export const useCreateModelMutation = (onSuccess?: () => void) => {
 		},
 		onSuccess() {
 			queryClient.refetchQueries({
-				queryKey: modellerGetQueryOptions().queryKey,
+				queryKey: getModellerQueryOptions().queryKey,
 			});
 			queryClient.invalidateQueries({
-				queryKey: modellerGetQueryOptions().queryKey,
+				queryKey: getModellerQueryOptions().queryKey,
 			});
 			onSuccess?.();
 		},
@@ -46,10 +46,10 @@ export const useUpdateModelMutation = (onSuccess?: () => void) => {
 		mutationFn: async (model: Model) => await updateModel(model),
 		onSuccess() {
 			queryClient.refetchQueries({
-				queryKey: modellerGetQueryOptions().queryKey,
+				queryKey: getModellerQueryOptions().queryKey,
 			});
 			queryClient.invalidateQueries({
-				queryKey: modellerGetQueryOptions().queryKey,
+				queryKey: getModellerQueryOptions().queryKey,
 			});
 			onSuccess?.();
 		},
@@ -62,10 +62,10 @@ export const useDeleteModelMutation = (onSuccess?: () => void) => {
 		mutationFn: async (id: string) => await deleteModel(id),
 		onSuccess() {
 			queryClient.refetchQueries({
-				queryKey: modellerGetQueryOptions().queryKey,
+				queryKey: getModellerQueryOptions().queryKey,
 			});
 			queryClient.invalidateQueries({
-				queryKey: modellerGetQueryOptions().queryKey,
+				queryKey: getModellerQueryOptions().queryKey,
 			});
 			onSuccess?.();
 		},

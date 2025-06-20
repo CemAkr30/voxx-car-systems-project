@@ -5,7 +5,6 @@ import {
 	DialogTitle,
 	DialogDescription,
 } from "@/components/ui/dialog";
-import { AdresTipi } from "@/enums";
 import { useAppForm } from "@/hooks/demo.form";
 import {
 	useCreateAdresMutation,
@@ -22,6 +21,7 @@ interface AdresDialogCreateProps {
 	mode: "create";
 	open: boolean;
 	close: () => void;
+	initialValues: { firmaId: string };
 }
 
 interface AdresDialogUpdateProps {
@@ -44,8 +44,8 @@ export default function AdresDialog(props: AdresDialogProps) {
 		defaultValues:
 			mode === "create"
 				? {
+						...props.initialValues,
 						aciklama: "",
-						firmaId: "",
 						tip: "",
 					}
 				: props.initialValues,

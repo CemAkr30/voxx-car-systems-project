@@ -2,6 +2,18 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
+	TableHeader,
+	TableRow,
+	TableHead,
+	TableBody,
+	TableCell,
+	Table,
+} from "@/components/ui/table";
+import AdresDialog from "@/components/web/adres/adres-dialog";
+import AdresSilDialog from "@/components/web/adres/adres-sil-dialog";
+import { formatDate } from "@/lib/utils";
+import type { Adres } from "@/schemas/adres";
+import {
 	DropdownMenu,
 	DropdownMenuTrigger,
 	DropdownMenuContent,
@@ -15,23 +27,9 @@ import {
 	MoreHorizontal,
 } from "lucide-react";
 import { useState } from "react";
+import { getAdreslerQueryOptions } from "@/hooks/use-adres-hooks";
 import { Badge } from "@/components/ui/badge";
-import {
-	Table,
-	TableHeader,
-	TableRow,
-	TableHead,
-	TableBody,
-	TableCell,
-} from "@/components/ui/table";
-import type { Adres } from "@/schemas/adres";
-import { formatDate } from "@/lib/utils";
-import AdresDialog from "@/components/web/adres/adres-dialog";
-import AdresSilDialog from "@/components/web/adres/adres-sil-dialog";
-import {
-	adreslerGetQueryOptions,
-	useAdreslerQuery,
-} from "@/hooks/use-adres-hooks";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 interface DialogState {
 	create: boolean;
@@ -40,13 +38,17 @@ interface DialogState {
 	selectedAdres?: Adres;
 }
 
-export const Route = createFileRoute("/_authenticated/adres/")({
-	loader: ({ context: { queryClient } }) =>
-		queryClient.prefetchQuery(adreslerGetQueryOptions()),
+export const Route = createFileRoute(
+	"/_authenticated/firma/$firmaId/_layout/adres/",
+)({
+	loader: async ({ context: { queryClient }, params: { firmaId } }) => {
+		await queryClient.prefetchQuery(getAdreslerQueryOptions());
+	},
 	component: RouteComponent,
 });
 
 function RouteComponent() {
+	const { firmaId } = Route.useParams();
 	const [selectedItems, setSelectedItems] = useState<string[]>([]);
 	const [searchTerm, setSearchTerm] = useState<string>("");
 	const [dialogState, setDialogState] = useState<DialogState>({
@@ -56,7 +58,7 @@ function RouteComponent() {
 	});
 	const [openDropdowns, setOpenDropdowns] = useState<Set<string>>(new Set());
 
-	const { data: adreslar = [] } = useAdreslerQuery();
+	const { data: adreslar = [] } = useSuspenseQuery(getAdreslerQueryOptions());
 
 	const handleSelectAll = (checked: boolean) => {
 		if (checked) {
@@ -271,6 +273,7 @@ function RouteComponent() {
 					mode="create"
 					open={dialogState.create}
 					close={closeDialog}
+					initialValues={{ firmaId }}
 				/>
 			)}
 

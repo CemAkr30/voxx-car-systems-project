@@ -6,7 +6,6 @@ import {
 	ChevronDown,
 	Box,
 	LayoutDashboard,
-	ListOrdered,
 	MapPin,
 	Tag,
 	Terminal,
@@ -58,7 +57,7 @@ const navItems = [
 		],
 	},
 	{
-		title: "Araç",
+		title: "Tanımlar",
 		children: [
 			{
 				title: "Marka",
@@ -70,15 +69,15 @@ const navItems = [
 				icon: Box,
 				href: "/model",
 			},
+		],
+	},
+	{
+		title: "Firmalar",
+		children: [
 			{
 				title: "Firma",
 				icon: BriefcaseBusiness,
 				href: "/firma",
-			},
-			{
-				title: "Listele",
-				icon: ListOrdered,
-				href: "/liste",
 			},
 		],
 	},

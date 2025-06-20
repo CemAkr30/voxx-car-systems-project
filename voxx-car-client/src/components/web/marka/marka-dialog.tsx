@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { useAppForm } from "@/hooks/demo.form";
 import {
-	markalarGetQueryOptions,
+	getMarkalarQueryOptions,
 	useCreateMarkaMutation,
 	useUpdateMarkaMutation,
 } from "@/hooks/use-marka-hooks";
@@ -57,7 +57,7 @@ export default function MarkaDialog(props: MarkaDialogProps) {
 				if (mode === "create") {
 					await createMarkaMutation.mutateAsync(value as CreateMarkaRequest);
 					queryClient.invalidateQueries({
-						queryKey: markalarGetQueryOptions().queryKey,
+						queryKey: getMarkalarQueryOptions().queryKey,
 					});
 				} else if (mode === "update") {
 					await updateMarkaMutation!.mutateAsync(value as Marka);

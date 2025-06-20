@@ -8,6 +8,8 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from '@tanstack/react-router'
+
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticationRouteImport } from './routes/_authentication'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
@@ -17,7 +19,14 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedModelIndexRouteImport } from './routes/_authenticated/model/index'
 import { Route as AuthenticatedMarkaIndexRouteImport } from './routes/_authenticated/marka/index'
 import { Route as AuthenticatedFirmaIndexRouteImport } from './routes/_authenticated/firma/index'
-import { Route as AuthenticatedAdresIndexRouteImport } from './routes/_authenticated/adres/index'
+import { Route as AuthenticatedFirmaFirmaIdLayoutRouteImport } from './routes/_authenticated/firma/$firmaId/_layout'
+import { Route as AuthenticatedFirmaFirmaIdLayoutKullanilanAraclarIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/kullanilan-araclar/index'
+import { Route as AuthenticatedFirmaFirmaIdLayoutDetayIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/detay/index'
+import { Route as AuthenticatedFirmaFirmaIdLayoutAdresIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/adres/index'
+
+const AuthenticatedFirmaFirmaIdRouteImport = createFileRoute(
+  '/_authenticated/firma/$firmaId',
+)()
 
 const AuthenticationRoute = AuthenticationRouteImport.update({
   id: '/_authentication',
@@ -42,6 +51,12 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedFirmaFirmaIdRoute =
+  AuthenticatedFirmaFirmaIdRouteImport.update({
+    id: '/firma/$firmaId',
+    path: '/firma/$firmaId',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedModelIndexRoute = AuthenticatedModelIndexRouteImport.update({
   id: '/model/',
   path: '/model/',
@@ -57,31 +72,55 @@ const AuthenticatedFirmaIndexRoute = AuthenticatedFirmaIndexRouteImport.update({
   path: '/firma/',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
-const AuthenticatedAdresIndexRoute = AuthenticatedAdresIndexRouteImport.update({
-  id: '/adres/',
-  path: '/adres/',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
+const AuthenticatedFirmaFirmaIdLayoutRoute =
+  AuthenticatedFirmaFirmaIdLayoutRouteImport.update({
+    id: '/_layout',
+    getParentRoute: () => AuthenticatedFirmaFirmaIdRoute,
+  } as any)
+const AuthenticatedFirmaFirmaIdLayoutKullanilanAraclarIndexRoute =
+  AuthenticatedFirmaFirmaIdLayoutKullanilanAraclarIndexRouteImport.update({
+    id: '/kullanilan-araclar/',
+    path: '/kullanilan-araclar/',
+    getParentRoute: () => AuthenticatedFirmaFirmaIdLayoutRoute,
+  } as any)
+const AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute =
+  AuthenticatedFirmaFirmaIdLayoutDetayIndexRouteImport.update({
+    id: '/detay/',
+    path: '/detay/',
+    getParentRoute: () => AuthenticatedFirmaFirmaIdLayoutRoute,
+  } as any)
+const AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute =
+  AuthenticatedFirmaFirmaIdLayoutAdresIndexRouteImport.update({
+    id: '/adres/',
+    path: '/adres/',
+    getParentRoute: () => AuthenticatedFirmaFirmaIdLayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '': typeof AuthenticationRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/login': typeof AuthenticationLoginRoute
   '/': typeof AuthenticatedIndexRoute
-  '/adres': typeof AuthenticatedAdresIndexRoute
   '/firma': typeof AuthenticatedFirmaIndexRoute
   '/marka': typeof AuthenticatedMarkaIndexRoute
   '/model': typeof AuthenticatedModelIndexRoute
+  '/firma/$firmaId': typeof AuthenticatedFirmaFirmaIdLayoutRouteWithChildren
+  '/firma/$firmaId/adres': typeof AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute
+  '/firma/$firmaId/detay': typeof AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute
+  '/firma/$firmaId/kullanilan-araclar': typeof AuthenticatedFirmaFirmaIdLayoutKullanilanAraclarIndexRoute
 }
 export interface FileRoutesByTo {
   '': typeof AuthenticationRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/login': typeof AuthenticationLoginRoute
   '/': typeof AuthenticatedIndexRoute
-  '/adres': typeof AuthenticatedAdresIndexRoute
   '/firma': typeof AuthenticatedFirmaIndexRoute
   '/marka': typeof AuthenticatedMarkaIndexRoute
   '/model': typeof AuthenticatedModelIndexRoute
+  '/firma/$firmaId': typeof AuthenticatedFirmaFirmaIdLayoutRouteWithChildren
+  '/firma/$firmaId/adres': typeof AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute
+  '/firma/$firmaId/detay': typeof AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute
+  '/firma/$firmaId/kullanilan-araclar': typeof AuthenticatedFirmaFirmaIdLayoutKullanilanAraclarIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -90,10 +129,14 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authentication/login': typeof AuthenticationLoginRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
-  '/_authenticated/adres/': typeof AuthenticatedAdresIndexRoute
   '/_authenticated/firma/': typeof AuthenticatedFirmaIndexRoute
   '/_authenticated/marka/': typeof AuthenticatedMarkaIndexRoute
   '/_authenticated/model/': typeof AuthenticatedModelIndexRoute
+  '/_authenticated/firma/$firmaId': typeof AuthenticatedFirmaFirmaIdRouteWithChildren
+  '/_authenticated/firma/$firmaId/_layout': typeof AuthenticatedFirmaFirmaIdLayoutRouteWithChildren
+  '/_authenticated/firma/$firmaId/_layout/adres/': typeof AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute
+  '/_authenticated/firma/$firmaId/_layout/detay/': typeof AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute
+  '/_authenticated/firma/$firmaId/_layout/kullanilan-araclar/': typeof AuthenticatedFirmaFirmaIdLayoutKullanilanAraclarIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -102,20 +145,26 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/'
-    | '/adres'
     | '/firma'
     | '/marka'
     | '/model'
+    | '/firma/$firmaId'
+    | '/firma/$firmaId/adres'
+    | '/firma/$firmaId/detay'
+    | '/firma/$firmaId/kullanilan-araclar'
   fileRoutesByTo: FileRoutesByTo
   to:
     | ''
     | '/dashboard'
     | '/login'
     | '/'
-    | '/adres'
     | '/firma'
     | '/marka'
     | '/model'
+    | '/firma/$firmaId'
+    | '/firma/$firmaId/adres'
+    | '/firma/$firmaId/detay'
+    | '/firma/$firmaId/kullanilan-araclar'
   id:
     | '__root__'
     | '/_authenticated'
@@ -123,10 +172,14 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authentication/login'
     | '/_authenticated/'
-    | '/_authenticated/adres/'
     | '/_authenticated/firma/'
     | '/_authenticated/marka/'
     | '/_authenticated/model/'
+    | '/_authenticated/firma/$firmaId'
+    | '/_authenticated/firma/$firmaId/_layout'
+    | '/_authenticated/firma/$firmaId/_layout/adres/'
+    | '/_authenticated/firma/$firmaId/_layout/detay/'
+    | '/_authenticated/firma/$firmaId/_layout/kullanilan-araclar/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -171,6 +224,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/firma/$firmaId': {
+      id: '/_authenticated/firma/$firmaId'
+      path: '/firma/$firmaId'
+      fullPath: '/firma/$firmaId'
+      preLoaderRoute: typeof AuthenticatedFirmaFirmaIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/model/': {
       id: '/_authenticated/model/'
       path: '/model'
@@ -192,32 +252,89 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFirmaIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/adres/': {
-      id: '/_authenticated/adres/'
+    '/_authenticated/firma/$firmaId/_layout': {
+      id: '/_authenticated/firma/$firmaId/_layout'
+      path: '/firma/$firmaId'
+      fullPath: '/firma/$firmaId'
+      preLoaderRoute: typeof AuthenticatedFirmaFirmaIdLayoutRouteImport
+      parentRoute: typeof AuthenticatedFirmaFirmaIdRoute
+    }
+    '/_authenticated/firma/$firmaId/_layout/kullanilan-araclar/': {
+      id: '/_authenticated/firma/$firmaId/_layout/kullanilan-araclar/'
+      path: '/kullanilan-araclar'
+      fullPath: '/firma/$firmaId/kullanilan-araclar'
+      preLoaderRoute: typeof AuthenticatedFirmaFirmaIdLayoutKullanilanAraclarIndexRouteImport
+      parentRoute: typeof AuthenticatedFirmaFirmaIdLayoutRoute
+    }
+    '/_authenticated/firma/$firmaId/_layout/detay/': {
+      id: '/_authenticated/firma/$firmaId/_layout/detay/'
+      path: '/detay'
+      fullPath: '/firma/$firmaId/detay'
+      preLoaderRoute: typeof AuthenticatedFirmaFirmaIdLayoutDetayIndexRouteImport
+      parentRoute: typeof AuthenticatedFirmaFirmaIdLayoutRoute
+    }
+    '/_authenticated/firma/$firmaId/_layout/adres/': {
+      id: '/_authenticated/firma/$firmaId/_layout/adres/'
       path: '/adres'
-      fullPath: '/adres'
-      preLoaderRoute: typeof AuthenticatedAdresIndexRouteImport
-      parentRoute: typeof AuthenticatedRoute
+      fullPath: '/firma/$firmaId/adres'
+      preLoaderRoute: typeof AuthenticatedFirmaFirmaIdLayoutAdresIndexRouteImport
+      parentRoute: typeof AuthenticatedFirmaFirmaIdLayoutRoute
     }
   }
 }
 
+interface AuthenticatedFirmaFirmaIdLayoutRouteChildren {
+  AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute: typeof AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute
+  AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute: typeof AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute
+  AuthenticatedFirmaFirmaIdLayoutKullanilanAraclarIndexRoute: typeof AuthenticatedFirmaFirmaIdLayoutKullanilanAraclarIndexRoute
+}
+
+const AuthenticatedFirmaFirmaIdLayoutRouteChildren: AuthenticatedFirmaFirmaIdLayoutRouteChildren =
+  {
+    AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute:
+      AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute,
+    AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute:
+      AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute,
+    AuthenticatedFirmaFirmaIdLayoutKullanilanAraclarIndexRoute:
+      AuthenticatedFirmaFirmaIdLayoutKullanilanAraclarIndexRoute,
+  }
+
+const AuthenticatedFirmaFirmaIdLayoutRouteWithChildren =
+  AuthenticatedFirmaFirmaIdLayoutRoute._addFileChildren(
+    AuthenticatedFirmaFirmaIdLayoutRouteChildren,
+  )
+
+interface AuthenticatedFirmaFirmaIdRouteChildren {
+  AuthenticatedFirmaFirmaIdLayoutRoute: typeof AuthenticatedFirmaFirmaIdLayoutRouteWithChildren
+}
+
+const AuthenticatedFirmaFirmaIdRouteChildren: AuthenticatedFirmaFirmaIdRouteChildren =
+  {
+    AuthenticatedFirmaFirmaIdLayoutRoute:
+      AuthenticatedFirmaFirmaIdLayoutRouteWithChildren,
+  }
+
+const AuthenticatedFirmaFirmaIdRouteWithChildren =
+  AuthenticatedFirmaFirmaIdRoute._addFileChildren(
+    AuthenticatedFirmaFirmaIdRouteChildren,
+  )
+
 interface AuthenticatedRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
-  AuthenticatedAdresIndexRoute: typeof AuthenticatedAdresIndexRoute
   AuthenticatedFirmaIndexRoute: typeof AuthenticatedFirmaIndexRoute
   AuthenticatedMarkaIndexRoute: typeof AuthenticatedMarkaIndexRoute
   AuthenticatedModelIndexRoute: typeof AuthenticatedModelIndexRoute
+  AuthenticatedFirmaFirmaIdRoute: typeof AuthenticatedFirmaFirmaIdRouteWithChildren
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
-  AuthenticatedAdresIndexRoute: AuthenticatedAdresIndexRoute,
   AuthenticatedFirmaIndexRoute: AuthenticatedFirmaIndexRoute,
   AuthenticatedMarkaIndexRoute: AuthenticatedMarkaIndexRoute,
   AuthenticatedModelIndexRoute: AuthenticatedModelIndexRoute,
+  AuthenticatedFirmaFirmaIdRoute: AuthenticatedFirmaFirmaIdRouteWithChildren,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(

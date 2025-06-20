@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/table";
 import { formatDate } from "@/lib/utils";
 import {
-	modellerGetQueryOptions,
+	getModellerQueryOptions,
 	useModellerQuery,
 } from "@/hooks/use-model-hooks";
 import type { Model } from "@/schemas/model";
@@ -42,7 +42,7 @@ interface DialogState {
 
 export const Route = createFileRoute("/_authenticated/model/")({
 	loader: ({ context: { queryClient } }) =>
-		queryClient.prefetchQuery(modellerGetQueryOptions()),
+		queryClient.prefetchQuery(getModellerQueryOptions()),
 	component: RouteComponent,
 });
 

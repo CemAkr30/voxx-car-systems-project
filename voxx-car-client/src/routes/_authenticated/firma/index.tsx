@@ -6,7 +6,7 @@ import {
 	DropdownMenuTrigger,
 	DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
 	Download,
 	Search,
@@ -29,7 +29,7 @@ import { formatDate } from "@/lib/utils";
 import FirmaDialog from "@/components/web/firma/firma-dialog";
 import FirmaSilDialog from "@/components/web/firma/firma-sil-dialog";
 import {
-	firmalarGetQueryOptions,
+	getFirmalarQueryOptions,
 	useFirmalarQuery,
 } from "@/hooks/use-firma-hooks";
 
@@ -42,7 +42,7 @@ interface DialogState {
 
 export const Route = createFileRoute("/_authenticated/firma/")({
 	loader: ({ context: { queryClient } }) =>
-		queryClient.prefetchQuery(firmalarGetQueryOptions()),
+		queryClient.prefetchQuery(getFirmalarQueryOptions()),
 	component: RouteComponent,
 });
 
@@ -216,7 +216,14 @@ function RouteComponent() {
                       />
                     </TableCell> */}
 										<TableCell>{firma.id}</TableCell>
-										<TableCell className="font-medium">{firma.unvan}</TableCell>
+										<TableCell className="font-medium">
+											<Link
+												to="/firma/$firmaId/detay"
+												params={{ firmaId: firma.id }}
+											>
+												{firma.unvan}
+											</Link>
+										</TableCell>
 										<TableCell>{formatDate(firma.createdAt)}</TableCell>
 										<TableCell>{formatDate(firma.updatedAt)}</TableCell>
 										<TableCell>
