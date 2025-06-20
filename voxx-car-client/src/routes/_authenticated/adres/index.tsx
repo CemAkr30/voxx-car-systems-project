@@ -28,7 +28,10 @@ import type { Adres } from "@/schemas/adres";
 import { formatDate } from "@/lib/utils";
 import AdresDialog from "@/components/web/adres/adres-dialog";
 import AdresSilDialog from "@/components/web/adres/adres-sil-dialog";
-import { adreslarGetQueryOptions, useAdreslarQuery } from "@/hooks/use-adres-hooks";
+import {
+  adreslerGetQueryOptions,
+  useAdreslerQuery,
+} from "@/hooks/use-adres-hooks";
 
 interface DialogState {
   create: boolean;
@@ -39,7 +42,7 @@ interface DialogState {
 
 export const Route = createFileRoute("/_authenticated/adres/")({
   loader: ({ context: { queryClient } }) =>
-    queryClient.prefetchQuery(adreslarGetQueryOptions),
+    queryClient.prefetchQuery(adreslerGetQueryOptions()),
   component: RouteComponent,
 });
 
@@ -53,7 +56,7 @@ function RouteComponent() {
   });
   const [openDropdowns, setOpenDropdowns] = useState<Set<string>>(new Set());
 
-  const { data: adreslar = [] } = useAdreslarQuery();
+  const { data: adreslar = [] } = useAdreslerQuery();
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
@@ -213,8 +216,12 @@ function RouteComponent() {
                         }
                       />
                     </TableCell> */}
-                    <TableCell className="font-medium">{adres.firmaId}</TableCell>
-                    <TableCell className="font-medium">{adres.aciklama}</TableCell>
+                    <TableCell className="font-medium">
+                      {adres.firmaId}
+                    </TableCell>
+                    <TableCell className="font-medium">
+                      {adres.aciklama}
+                    </TableCell>
                     <TableCell className="font-medium">{adres.tip}</TableCell>
                     <TableCell>{formatDate(adres.createdAt)}</TableCell>
                     <TableCell>{formatDate(adres.updatedAt)}</TableCell>

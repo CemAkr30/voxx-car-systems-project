@@ -42,7 +42,7 @@ interface DialogState {
 
 export const Route = createFileRoute("/_authenticated/model/")({
   loader: ({ context: { queryClient } }) =>
-    queryClient.prefetchQuery(modellerGetQueryOptions),
+    queryClient.prefetchQuery(modellerGetQueryOptions()),
   component: RouteComponent,
 });
 

@@ -42,7 +42,7 @@ interface DialogState {
 
 export const Route = createFileRoute("/_authenticated/marka/")({
   loader: ({ context: { queryClient } }) =>
-    queryClient.prefetchQuery(markalarGetQueryOptions),
+    queryClient.prefetchQuery(markalarGetQueryOptions()),
   component: RouteComponent,
 });
 

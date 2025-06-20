@@ -25,8 +25,8 @@ function RouteComponent() {
 
   const form = useAppForm({
     defaultValues: {
-      username: "",
-      password: "",
+      username: "app_admin",
+      password: "app_admin123",
     },
     validators: {
       onChange: loginRequestSchema,

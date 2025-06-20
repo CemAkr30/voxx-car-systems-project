@@ -12,12 +12,15 @@ import {
   useSuspenseQuery,
 } from "@tanstack/react-query";
 
-export const firmalarGetQueryOptions = queryOptions({
-  queryKey: ["firmalar"],
-  queryFn: async () => await getAllFirma(),
-});
+export function firmalarGetQueryOptions() {
+  return queryOptions({
+    queryKey: ["firmalar"],
+    queryFn: getAllFirma,
+  });
+}
 
-export const useFirmalarQuery = () => useSuspenseQuery(firmalarGetQueryOptions);
+export const useFirmalarQuery = () =>
+  useSuspenseQuery(firmalarGetQueryOptions());
 
 export const useCreateFirmaMutation = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
@@ -27,8 +30,12 @@ export const useCreateFirmaMutation = (onSuccess?: () => void) => {
       await createFirma(firma);
     },
     onSuccess() {
-      queryClient.refetchQueries({ queryKey: ["firmalar"] });
-      queryClient.invalidateQueries({ queryKey: ["firmalar"] });
+      queryClient.refetchQueries({
+        queryKey: firmalarGetQueryOptions().queryKey,
+      });
+      queryClient.invalidateQueries({
+        queryKey: firmalarGetQueryOptions().queryKey,
+      });
       onSuccess?.();
     },
   });
@@ -39,8 +46,12 @@ export const useUpdateFirmaMutation = (onSuccess?: () => void) => {
   return useMutation({
     mutationFn: async (firma: Firma) => await updateFirma(firma),
     onSuccess() {
-      queryClient.refetchQueries({ queryKey: ["firmalar"] });
-      queryClient.invalidateQueries({ queryKey: ["firmalar"] });
+      queryClient.refetchQueries({
+        queryKey: firmalarGetQueryOptions().queryKey,
+      });
+      queryClient.invalidateQueries({
+        queryKey: firmalarGetQueryOptions().queryKey,
+      });
       onSuccess?.();
     },
   });
@@ -51,8 +62,12 @@ export const useDeleteFirmaMutation = (onSuccess?: () => void) => {
   return useMutation({
     mutationFn: async (id: string) => await deleteFirma(id),
     onSuccess() {
-      queryClient.refetchQueries({ queryKey: ["firmalar"] });
-      queryClient.invalidateQueries({ queryKey: ["firmalar"] });
+      queryClient.refetchQueries({
+        queryKey: firmalarGetQueryOptions().queryKey,
+      });
+      queryClient.invalidateQueries({
+        queryKey: firmalarGetQueryOptions().queryKey,
+      });
       onSuccess?.();
     },
   });

@@ -12,12 +12,15 @@ import {
   useSuspenseQuery,
 } from "@tanstack/react-query";
 
-export const modellerGetQueryOptions = queryOptions({
-  queryKey: ["modeller"],
-  queryFn: async () => await getAllModel(),
-});
+export function modellerGetQueryOptions() {
+  return queryOptions({
+    queryKey: ["modeller"],
+    queryFn: getAllModel,
+  });
+}
 
-export const useModellerQuery = () => useSuspenseQuery(modellerGetQueryOptions);
+export const useModellerQuery = () =>
+  useSuspenseQuery(modellerGetQueryOptions());
 
 export const useCreateModelMutation = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
@@ -26,8 +29,12 @@ export const useCreateModelMutation = (onSuccess?: () => void) => {
       await createModel(model);
     },
     onSuccess() {
-      queryClient.refetchQueries({ queryKey: ["modeller"] });
-      queryClient.invalidateQueries({ queryKey: ["modeller"] });
+      queryClient.refetchQueries({
+        queryKey: modellerGetQueryOptions().queryKey,
+      });
+      queryClient.invalidateQueries({
+        queryKey: modellerGetQueryOptions().queryKey,
+      });
       onSuccess?.();
     },
   });
@@ -38,8 +45,12 @@ export const useUpdateModelMutation = (onSuccess?: () => void) => {
   return useMutation({
     mutationFn: async (model: Model) => await updateModel(model),
     onSuccess() {
-      queryClient.refetchQueries({ queryKey: ["modeller"] });
-      queryClient.invalidateQueries({ queryKey: ["modeller"] });
+      queryClient.refetchQueries({
+        queryKey: modellerGetQueryOptions().queryKey,
+      });
+      queryClient.invalidateQueries({
+        queryKey: modellerGetQueryOptions().queryKey,
+      });
       onSuccess?.();
     },
   });
@@ -50,8 +61,12 @@ export const useDeleteModelMutation = (onSuccess?: () => void) => {
   return useMutation({
     mutationFn: async (id: string) => await deleteModel(id),
     onSuccess() {
-      queryClient.refetchQueries({ queryKey: ["modeller"] });
-      queryClient.invalidateQueries({ queryKey: ["modeller"] });
+      queryClient.refetchQueries({
+        queryKey: modellerGetQueryOptions().queryKey,
+      });
+      queryClient.invalidateQueries({
+        queryKey: modellerGetQueryOptions().queryKey,
+      });
       onSuccess?.();
     },
   });

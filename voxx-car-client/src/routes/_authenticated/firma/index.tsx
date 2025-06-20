@@ -28,7 +28,10 @@ import type { Firma } from "@/schemas/firma";
 import { formatDate } from "@/lib/utils";
 import FirmaDialog from "@/components/web/firma/firma-dialog";
 import FirmaSilDialog from "@/components/web/firma/firma-sil-dialog";
-import { firmalarGetQueryOptions, useFirmalarQuery } from "@/hooks/use-firma-hooks";
+import {
+  firmalarGetQueryOptions,
+  useFirmalarQuery,
+} from "@/hooks/use-firma-hooks";
 
 interface DialogState {
   create: boolean;
@@ -39,7 +42,7 @@ interface DialogState {
 
 export const Route = createFileRoute("/_authenticated/firma/")({
   loader: ({ context: { queryClient } }) =>
-    queryClient.prefetchQuery(firmalarGetQueryOptions),
+    queryClient.prefetchQuery(firmalarGetQueryOptions()),
   component: RouteComponent,
 });
 
