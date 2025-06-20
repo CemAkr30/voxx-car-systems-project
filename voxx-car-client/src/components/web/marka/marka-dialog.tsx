@@ -1,104 +1,110 @@
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+	DialogDescription,
 } from "@/components/ui/dialog";
 import { useAppForm } from "@/hooks/demo.form";
 import {
-  useCreateMarkaMutation,
-  useUpdateMarkaMutation,
+	markalarGetQueryOptions,
+	useCreateMarkaMutation,
+	useUpdateMarkaMutation,
 } from "@/hooks/use-marka-hooks";
 import {
-  markaCreateSchema,
-  markaUpdateSchema,
-  type CreateMarkaRequest,
-  type Marka,
+	markaCreateSchema,
+	markaUpdateSchema,
+	type CreateMarkaRequest,
+	type Marka,
 } from "@/schemas/marka";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface MarkaDialogCreateProps {
-  mode: "create";
-  open: boolean;
-  close: () => void;
+	mode: "create";
+	open: boolean;
+	close: () => void;
 }
 
 interface MarkaDialogUpdateProps {
-  mode: "update";
-  open: boolean;
-  close: () => void;
-  initialValues: Marka;
+	mode: "update";
+	open: boolean;
+	close: () => void;
+	initialValues: Marka;
 }
 
 type MarkaDialogProps = MarkaDialogCreateProps | MarkaDialogUpdateProps;
 
 export default function MarkaDialog(props: MarkaDialogProps) {
-  const { mode, open, close } = props;
+	const { mode, open, close } = props;
+	const queryClient = useQueryClient();
 
-  const createMarkaMutation = useCreateMarkaMutation(close);
-  const updateMarkaMutation =
-    mode === "create" ? null : useUpdateMarkaMutation(close);
+	const createMarkaMutation = useCreateMarkaMutation(close);
+	const updateMarkaMutation =
+		mode === "create" ? null : useUpdateMarkaMutation(close);
 
-  const form = useAppForm({
-    defaultValues:
-      mode === "create"
-        ? {
-            adi: "",
-          }
-        : props.initialValues,
-    validators: {
-      onChange: mode === "create" ? markaCreateSchema : markaUpdateSchema,
-    },
-    onSubmit: async ({ formApi, value }) => {
-      try {
-        if (mode === "create") {
-          await createMarkaMutation.mutateAsync(value as CreateMarkaRequest);
-        } else if (mode === "update") {
-          await updateMarkaMutation!.mutateAsync(value as Marka);
-        }
-        formApi.reset();
-      } catch (error) {}
-    },
-  });
+	const form = useAppForm({
+		defaultValues:
+			mode === "create"
+				? {
+						adi: "",
+					}
+				: props.initialValues,
+		validators: {
+			onChange: mode === "create" ? markaCreateSchema : markaUpdateSchema,
+		},
+		onSubmit: async ({ formApi, value }) => {
+			try {
+				if (mode === "create") {
+					await createMarkaMutation.mutateAsync(value as CreateMarkaRequest);
+					queryClient.invalidateQueries({
+						queryKey: markalarGetQueryOptions().queryKey,
+					});
+				} else if (mode === "update") {
+					await updateMarkaMutation!.mutateAsync(value as Marka);
+				}
+				formApi.reset();
+			} catch (error) {}
+		},
+	});
 
-  return (
-    <Dialog
-      open={open}
-      onOpenChange={() => {
-        close();
-        form.reset();
-      }}
-    >
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>
-            {mode === "create" ? "Yeni Marka Ekle" : "Markayı Güncelle"}
-          </DialogTitle>
-          <DialogDescription>Açıklama</DialogDescription>
-        </DialogHeader>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            form.handleSubmit();
-          }}
-          className="space-y-6"
-        >
-          <form.AppField name="adi">
-            {(field) => <field.TextField label="Marka Adı" />}
-          </form.AppField>
+	return (
+		<Dialog
+			open={open}
+			onOpenChange={() => {
+				close();
+				form.reset();
+			}}
+		>
+			<DialogContent className="sm:max-w-[425px]">
+				<DialogHeader>
+					<DialogTitle>
+						{mode === "create" ? "Yeni Marka Ekle" : "Markayı Güncelle"}
+					</DialogTitle>
+					<DialogDescription>Açıklama</DialogDescription>
+				</DialogHeader>
+				<form
+					onSubmit={(e) => {
+						e.preventDefault();
+						e.stopPropagation();
+						form.handleSubmit();
+					}}
+					className="space-y-6"
+				>
+					<form.AppField name="adi">
+						{(field) => <field.TextField label="Marka Adı" />}
+					</form.AppField>
 
-          <div className="flex justify-end">
-            <form.AppForm>
-              <form.SubscribeButton
-                label={
-                  mode === "create" ? "Yeni Marka Ekle" : "Markayı Güncelle"
-                }
-              />
-            </form.AppForm>
-          </div>
-        </form>
-      </DialogContent>
-    </Dialog>
-  );
+					<div className="flex justify-end">
+						<form.AppForm>
+							<form.SubscribeButton
+								label={
+									mode === "create" ? "Yeni Marka Ekle" : "Markayı Güncelle"
+								}
+							/>
+						</form.AppForm>
+					</div>
+				</form>
+			</DialogContent>
+		</Dialog>
+	);
 }
