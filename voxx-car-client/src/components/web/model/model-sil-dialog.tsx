@@ -11,7 +11,7 @@ import { useDeleteModelMutation } from "@/hooks/use-model-hooks";
 import type { Model } from "@/schemas/model";
 import { RefreshCw } from "lucide-react";
 
-interface MarkaDialogDeleteProps {
+interface ModelDialogDeleteProps {
   open: boolean;
   close: () => void;
   selectedModel: Model;
@@ -21,7 +21,7 @@ export default function ModelSilDialog({
   open,
   close,
   selectedModel,
-}: MarkaDialogDeleteProps) {
+}: ModelDialogDeleteProps) {
   const deleteModelMutation = useDeleteModelMutation(close);
 
   return (
