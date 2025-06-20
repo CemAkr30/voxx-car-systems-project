@@ -43,7 +43,7 @@ export default function AdresDialog(props: AdresDialogProps) {
         ? {
           aciklama: "",
           firmaId: "",
-          tip: AdresTipi[0]
+          tip: ""
         }
         : props.initialValues,
     validators: {
@@ -85,7 +85,7 @@ export default function AdresDialog(props: AdresDialogProps) {
           className="space-y-6"
         >
           <form.AppField name="firmaId">
-            {(field) => <field.TextField label="Adres Adı" />}
+            {(field) => <field.TextField label="Firma Id" />}
           </form.AppField>
           <form.AppField name="aciklama">
             {(field) => <field.TextArea label="Açıklama" />}
