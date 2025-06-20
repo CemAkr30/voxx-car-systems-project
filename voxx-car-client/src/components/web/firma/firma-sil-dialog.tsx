@@ -1,36 +1,36 @@
 import {Button} from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
 } from "@/components/ui/dialog";
-import {useDeleteMarkaMutation} from "@/hooks/use-firma-hooks.ts";
-import type {Firma} from "@/schemas/marka";
+import type {Firma} from "@/schemas/firma";
 import {RefreshCw} from "lucide-react";
+import {useDeleteFirmaMutation} from "@/hooks/use-firma-hooks.ts";
 
-interface MarkaDialogDeleteProps {
+interface FirmaDialogDeleteProps {
     open: boolean;
     close: () => void;
-    selectedMarka: Firma;
+    selectedFirma: Firma;
 }
 
-export default function MarkaSilDialog({
+export default function FirmaSilDialog({
                                            open,
                                            close,
-                                           selectedMarka,
-                                       }: MarkaDialogDeleteProps) {
-    const deleteMarkaMutation = useDeleteMarkaMutation(close);
+                                           selectedFirma,
+                                       }: FirmaDialogDeleteProps) {
+    const deleteFirmaMutation = useDeleteFirmaMutation(close);
 
     return (
         <Dialog open={open} onOpenChange={close}>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Seçili Markayı Sil</DialogTitle>
+                    <DialogTitle>Seçili Firmayı Sil</DialogTitle>
                     <DialogDescription>
-                        {selectedMarka.adi} markayı silmek istediğinizden emin misiniz? Bu
+                        {selectedFirma.unvan} firmayı silmek istediğinizden emin misiniz? Bu
                         işlem geri alınamaz.
                     </DialogDescription>
                 </DialogHeader>
@@ -40,10 +40,10 @@ export default function MarkaSilDialog({
                     </Button>
                     <Button
                         variant="destructive"
-                        onClick={() => deleteMarkaMutation.mutateAsync(selectedMarka.id)}
-                        disabled={deleteMarkaMutation.isPending}
+                        onClick={() => deleteFirmaMutation.mutateAsync(selectedFirma.id)}
+                        disabled={deleteFirmaMutation.isPending}
                     >
-                        {deleteMarkaMutation.isPending ? (
+                        {deleteFirmaMutation.isPending ? (
                             <RefreshCw className="h-4 w-4 mr-2 animate-spin"/>
                         ) : null}
                         Tümünü Sil

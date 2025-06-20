@@ -1,35 +1,37 @@
 import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle,} from "@/components/ui/dialog";
 import {useAppForm} from "@/hooks/demo.form";
 import {useCreateFirmaMutation, useUpdateFirmaMutation,} from "@/hooks/use-firma-hooks.ts";
-import {type CreateFirmaRequest, type Firma, firmaCreateSchema, firmaUpdateSchema,} from "@/schemas/marka";
+import {type CreateFirmaRequest, type Firma, firmaCreateSchema, firmaUpdateSchema,} from "@/schemas/firma";
 
-interface MarkaDialogCreateProps {
+interface FirmaDialogCreateProps {
     mode: "create";
     open: boolean;
     close: () => void;
 }
 
-interface MarkaDialogUpdateProps {
+interface FirmaDialogUpdateProps {
     mode: "update";
     open: boolean;
     close: () => void;
     initialValues: Firma;
 }
 
-type MarkaDialogProps = MarkaDialogCreateProps | MarkaDialogUpdateProps;
+type FirmaDialogProps = FirmaDialogCreateProps | FirmaDialogUpdateProps;
 
-export default function MarkaDialog(props: MarkaDialogProps) {
+export default function FirmaDialog(props: FirmaDialogProps) {
     const {mode, open, close} = props;
 
-    const createMarkaMutation = useCreateFirmaMutation(close);
-    const updateMarkaMutation =
+    const createFirmaMutation = useCreateFirmaMutation(close);
+    const updateFirmaMutation =
         mode === "create" ? null : useUpdateFirmaMutation(close);
 
     const form = useAppForm({
         defaultValues:
             mode === "create"
                 ? {
-                    adi: "",
+                    unvan: "",
+                    email: "",
+                    vergiNo: "",
                 }
                 : props.initialValues,
         validators: {
@@ -38,9 +40,9 @@ export default function MarkaDialog(props: MarkaDialogProps) {
         onSubmit: async ({formApi, value}) => {
             try {
                 if (mode === "create") {
-                    await createMarkaMutation.mutateAsync(value as CreateFirmaRequest);
+                    await createFirmaMutation.mutateAsync(value as CreateFirmaRequest);
                 } else if (mode === "update") {
-                    await updateMarkaMutation!.mutateAsync(value as Firma);
+                    await updateFirmaMutation!.mutateAsync(value as Firma);
                 }
                 formApi.reset();
             } catch (error) {
@@ -59,7 +61,7 @@ export default function MarkaDialog(props: MarkaDialogProps) {
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
                     <DialogTitle>
-                        {mode === "create" ? "Yeni Marka Ekle" : "Markayı Güncelle"}
+                        {mode === "create" ? "Yeni Firma Ekle" : "Firmayı Güncelle"}
                     </DialogTitle>
                     <DialogDescription>Açıklama</DialogDescription>
                 </DialogHeader>
@@ -71,15 +73,23 @@ export default function MarkaDialog(props: MarkaDialogProps) {
                     }}
                     className="space-y-6"
                 >
-                    <form.AppField name="adi">
-                        {(field) => <field.TextField label="Marka Adı"/>}
+                    <form.AppField name="unvan">
+                        {(field) => <field.TextField label="Firma unvan"/>}
+                    </form.AppField>
+
+                    <form.AppField name="email">
+                        {(field) => <field.TextField label="Firma email"/>}
+                    </form.AppField>
+
+                    <form.AppField name="vergiNo">
+                        {(field) => <field.TextField label="Firma vergiNo"/>}
                     </form.AppField>
 
                     <div className="flex justify-end">
                         <form.AppForm>
                             <form.SubscribeButton
                                 label={
-                                    mode === "create" ? "Yeni Marka Ekle" : "Markayı Güncelle"
+                                    mode === "create" ? "Yeni Firma Ekle" : "Firmayı Güncelle"
                                 }
                             />
                         </form.AppForm>
