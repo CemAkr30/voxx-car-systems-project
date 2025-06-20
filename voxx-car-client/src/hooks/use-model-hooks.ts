@@ -39,6 +39,7 @@ export const useUpdateModelMutation = (onSuccess?: () => void) => {
     mutationFn: async (model: Model) => await updateModel(model),
     onSuccess() {
       queryClient.refetchQueries({ queryKey: ["modeller"] });
+      queryClient.invalidateQueries({ queryKey: ["modeller"] });
       onSuccess?.();
     },
   });
@@ -50,6 +51,7 @@ export const useDeleteModelMutation = (onSuccess?: () => void) => {
     mutationFn: async (id: string) => await deleteModel(id),
     onSuccess() {
       queryClient.refetchQueries({ queryKey: ["modeller"] });
+      queryClient.invalidateQueries({ queryKey: ["modeller"] });
       onSuccess?.();
     },
   });

@@ -40,6 +40,7 @@ export const useUpdateFirmaMutation = (onSuccess?: () => void) => {
     mutationFn: async (firma: Firma) => await updateFirma(firma),
     onSuccess() {
       queryClient.refetchQueries({ queryKey: ["firmalar"] });
+      queryClient.invalidateQueries({ queryKey: ["firmalar"] });
       onSuccess?.();
     },
   });
@@ -51,6 +52,7 @@ export const useDeleteFirmaMutation = (onSuccess?: () => void) => {
     mutationFn: async (id: string) => await deleteFirma(id),
     onSuccess() {
       queryClient.refetchQueries({ queryKey: ["firmalar"] });
+      queryClient.invalidateQueries({ queryKey: ["firmalar"] });
       onSuccess?.();
     },
   });
