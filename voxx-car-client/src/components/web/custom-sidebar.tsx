@@ -11,6 +11,7 @@ import {
   Tag,
   Terminal,
   Car,
+  BriefcaseBusiness,
 } from "lucide-react";
 
 import {
@@ -68,6 +69,11 @@ const navItems = [
         title: "Model",
         icon: Box,
         href: "/model",
+      },
+      {
+        title: "Firma",
+        icon: BriefcaseBusiness,
+        href: "/firma",
       },
       {
         title: "Listele",

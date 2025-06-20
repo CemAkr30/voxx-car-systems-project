@@ -7,30 +7,30 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { useDeleteModelMutation } from "@/hooks/use-model-hooks";
-import type { Model } from "@/schemas/model";
+import { useDeleteFirmaMutation } from "@/hooks/use-firma-hooks";
+import type { Firma } from "@/schemas/firma";
 import { RefreshCw } from "lucide-react";
 
-interface ModelDialogDeleteProps {
+interface FirmaDialogDeleteProps {
   open: boolean;
   close: () => void;
-  selectedModel: Model;
+  selectedFirma: Firma;
 }
 
-export default function ModelSilDialog({
+export default function FirmaSilDialog({
   open,
   close,
-  selectedModel,
-}: ModelDialogDeleteProps) {
-  const deleteModelMutation = useDeleteModelMutation(close);
+  selectedFirma,
+}: FirmaDialogDeleteProps) {
+  const deleteFirmaMutation = useDeleteFirmaMutation(close);
 
   return (
     <Dialog open={open} onOpenChange={close}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Seçili Modeli Sil</DialogTitle>
+          <DialogTitle>Seçili Firmayı Sil</DialogTitle>
           <DialogDescription>
-            {selectedModel.adi} modeli silmek istediğinizden emin misiniz? Bu
+            {selectedFirma.unvan} firmayı silmek istediğinizden emin misiniz? Bu
             işlem geri alınamaz.
           </DialogDescription>
         </DialogHeader>
@@ -40,10 +40,10 @@ export default function ModelSilDialog({
           </Button>
           <Button
             variant="destructive"
-            onClick={() => deleteModelMutation.mutateAsync(selectedModel.id)}
-            disabled={deleteModelMutation.isPending}
+            onClick={() => deleteFirmaMutation.mutateAsync(selectedFirma.id)}
+            disabled={deleteFirmaMutation.isPending}
           >
-            {deleteModelMutation.isPending ? (
+            {deleteFirmaMutation.isPending ? (
               <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
             ) : null}
             Tümünü Sil
