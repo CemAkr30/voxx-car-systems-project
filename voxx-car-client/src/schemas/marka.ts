@@ -9,6 +9,5 @@ export const markaUpdateSchema = markaCreateSchema.extend({
   id: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),
-  deletedAt: z.string().optional(),
 });
 export type Marka = z.infer<typeof markaUpdateSchema>;

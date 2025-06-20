@@ -98,7 +98,7 @@ const navItems = [
       {
         title: "Adres",
         icon: MapPin,
-        href: "/address",
+        href: "/adres",
       },
     ],
   },

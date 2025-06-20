@@ -82,7 +82,7 @@ export function TextArea({
 
   return (
     <div>
-      <Label htmlFor={label} className="mb-2 text-xl font-bold">
+      <Label htmlFor={label} className="text-gray-700 font-medium">
         {label}
       </Label>
       <ShadcnTextarea
@@ -91,6 +91,7 @@ export function TextArea({
         onBlur={field.handleBlur}
         rows={rows}
         onChange={(e) => field.handleChange(e.target.value)}
+        className="h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
       />
       {field.state.meta.isTouched && <ErrorMessages errors={errors} />}
     </div>

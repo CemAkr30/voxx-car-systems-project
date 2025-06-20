@@ -40,6 +40,7 @@ export const useUpdateMarkaMutation = (onSuccess?: () => void) => {
     mutationFn: async (marka: Marka) => await updateMarka(marka),
     onSuccess() {
       queryClient.refetchQueries({ queryKey: ["markalar"] });
+      queryClient.invalidateQueries({ queryKey: ["markalar"] });
       onSuccess?.();
     },
   });
@@ -51,6 +52,7 @@ export const useDeleteMarkaMutation = (onSuccess?: () => void) => {
     mutationFn: async (id: string) => await deleteMarka(id),
     onSuccess() {
       queryClient.refetchQueries({ queryKey: ["markalar"] });
+      queryClient.invalidateQueries({ queryKey: ["markalar"] });
       onSuccess?.();
     },
   });

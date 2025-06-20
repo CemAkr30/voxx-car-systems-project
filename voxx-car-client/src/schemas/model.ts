@@ -10,6 +10,5 @@ export const modelUpdateSchema = modelCreateSchema.extend({
   id: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),
-  deletedAt: z.string().optional(),
 });
 export type Model = z.infer<typeof modelUpdateSchema>;

@@ -24,22 +24,22 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
-import type { Firma } from "@/schemas/firma";
+import type { Adres } from "@/schemas/adres";
 import { formatDate } from "@/lib/utils";
-import FirmaDialog from "@/components/web/firma/firma-dialog";
-import FirmaSilDialog from "@/components/web/firma/firma-sil-dialog";
-import { firmalarGetQueryOptions, useFirmalarQuery } from "@/hooks/use-firma-hooks";
+import AdresDialog from "@/components/web/adres/adres-dialog";
+import AdresSilDialog from "@/components/web/adres/adres-sil-dialog";
+import { adreslarGetQueryOptions, useAdreslarQuery } from "@/hooks/use-adres-hooks";
 
 interface DialogState {
   create: boolean;
   update: boolean;
   delete: boolean;
-  selectedFirma?: Firma;
+  selectedAdres?: Adres;
 }
 
-export const Route = createFileRoute("/_authenticated/firma/")({
+export const Route = createFileRoute("/_authenticated/adres/")({
   loader: ({ context: { queryClient } }) =>
-    queryClient.prefetchQuery(firmalarGetQueryOptions),
+    queryClient.prefetchQuery(adreslarGetQueryOptions),
   component: RouteComponent,
 });
 
@@ -53,11 +53,11 @@ function RouteComponent() {
   });
   const [openDropdowns, setOpenDropdowns] = useState<Set<string>>(new Set());
 
-  const { data: firmalar = [] } = useFirmalarQuery();
+  const { data: adreslar = [] } = useAdreslarQuery();
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      setSelectedItems(firmalar.map((item: Firma) => item.id));
+      setSelectedItems(adreslar.map((item: Adres) => item.id));
     } else {
       setSelectedItems([]);
     }
@@ -71,12 +71,12 @@ function RouteComponent() {
     }
   };
 
-  const openDialog = (type: keyof DialogState, firma?: Firma) => {
+  const openDialog = (type: keyof DialogState, adres?: Adres) => {
     setDialogState({
       create: type === "create",
       update: type === "update",
       delete: type === "delete",
-      selectedFirma: firma,
+      selectedAdres: adres,
     });
   };
 
@@ -94,13 +94,13 @@ function RouteComponent() {
     setOpenDropdowns(new Set());
   };
 
-  const handleDropdownOpenChange = (firmaId: string, open: boolean) => {
+  const handleDropdownOpenChange = (adresId: string, open: boolean) => {
     setOpenDropdowns((prev) => {
       const newSet = new Set(prev);
       if (open) {
-        newSet.add(firmaId);
+        newSet.add(adresId);
       } else {
-        newSet.delete(firmaId);
+        newSet.delete(adresId);
       }
       return newSet;
     });
@@ -111,24 +111,24 @@ function RouteComponent() {
       create: false,
       update: false,
       delete: true,
-      selectedFirma: undefined,
+      selectedAdres: undefined,
     });
   };
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Firma Yönetimi</h1>
-        <p className="text-gray-600 mt-2">Araç firmalarını yönetin</p>
+        <h1 className="text-3xl font-bold text-gray-900">Adres Yönetimi</h1>
+        <p className="text-gray-600 mt-2">Araç adreslarını yönetin</p>
       </div>
 
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle>Firma Listesi</CardTitle>
+            <CardTitle>Adres Listesi</CardTitle>
             <div className="flex items-center space-x-2">
               <Button onClick={() => openDialog("create")}>
-                Yeni Firma Ekle
+                Yeni Adres Ekle
               </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -151,7 +151,7 @@ function RouteComponent() {
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                 <Input
-                  placeholder="Firma ara..."
+                  placeholder="Adres ara..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10 w-64"
@@ -195,32 +195,34 @@ function RouteComponent() {
                     />
                   </TableHead> */}
                   <TableHead>Firma Id</TableHead>
-                  <TableHead>Firma Adı</TableHead>
+                  <TableHead>Açıklama</TableHead>
+                  <TableHead>Tip</TableHead>
                   <TableHead>Oluşturulma Tarihi</TableHead>
                   <TableHead>Güncellenme Tarihi</TableHead>
                   <TableHead className="w-12">İşlemler</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {firmalar.map((firma: Firma) => (
-                  <TableRow key={firma.id}>
+                {adreslar.map((adres: Adres) => (
+                  <TableRow key={adres.id}>
                     {/* <TableCell>
                       <Checkbox
-                        checked={selectedItems.includes(firma.id)}
+                        checked={selectedItems.includes(adres.id)}
                         onCheckedChange={(checked) =>
-                          handleSelectItem(firma.id, checked as boolean)
+                          handleSelectItem(adres.id, checked as boolean)
                         }
                       />
                     </TableCell> */}
-                    <TableCell>{firma.id}</TableCell>
-                    <TableCell className="font-medium">{firma.unvan}</TableCell>
-                    <TableCell>{formatDate(firma.createdAt)}</TableCell>
-                    <TableCell>{formatDate(firma.updatedAt)}</TableCell>
+                    <TableCell className="font-medium">{adres.firmaId}</TableCell>
+                    <TableCell className="font-medium">{adres.aciklama}</TableCell>
+                    <TableCell className="font-medium">{adres.tip}</TableCell>
+                    <TableCell>{formatDate(adres.createdAt)}</TableCell>
+                    <TableCell>{formatDate(adres.updatedAt)}</TableCell>
                     <TableCell>
                       <DropdownMenu
-                        open={openDropdowns.has(firma.id)}
+                        open={openDropdowns.has(adres.id)}
                         onOpenChange={(open) =>
-                          handleDropdownOpenChange(firma.id, open)
+                          handleDropdownOpenChange(adres.id, open)
                         }
                       >
                         <DropdownMenuTrigger asChild>
@@ -233,7 +235,7 @@ function RouteComponent() {
                             variant="ghost"
                             size="sm"
                             className="justify-start"
-                            onClick={() => openDialog("update", firma)}
+                            onClick={() => openDialog("update", adres)}
                           >
                             Düzenle
                           </Button>
@@ -241,7 +243,7 @@ function RouteComponent() {
                             variant="ghost"
                             size="sm"
                             className="justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
-                            onClick={() => openDialog("delete", firma)}
+                            onClick={() => openDialog("delete", adres)}
                           >
                             Sil
                           </Button>
@@ -258,27 +260,27 @@ function RouteComponent() {
 
       {/* Dialogs */}
       {dialogState.create && (
-        <FirmaDialog
+        <AdresDialog
           mode="create"
           open={dialogState.create}
           close={closeDialog}
         />
       )}
 
-      {dialogState.update && dialogState.selectedFirma && (
-        <FirmaDialog
+      {dialogState.update && dialogState.selectedAdres && (
+        <AdresDialog
           mode="update"
           open={dialogState.update}
           close={closeDialog}
-          initialValues={dialogState.selectedFirma}
+          initialValues={dialogState.selectedAdres}
         />
       )}
 
       {dialogState.delete && (
-        <FirmaSilDialog
+        <AdresSilDialog
           open={dialogState.delete}
           close={closeDialog}
-          selectedFirma={dialogState.selectedFirma!}
+          selectedAdres={dialogState.selectedAdres!}
         />
       )}
     </div>
