@@ -10,6 +10,7 @@ import { Slider as ShadcnSlider } from "@/components/ui/slider";
 import { Switch as ShadcnSwitch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import Spinner from "./web/spinner";
+import type React from "react";
 
 export function SubscribeButton({ label }: { label: string }) {
 	const form = useFormContext();
@@ -46,10 +47,8 @@ function ErrorMessages({
 export function TextField({
 	label,
 	placeholder,
-}: {
-	label: string;
-	placeholder?: string;
-}) {
+	...props
+}: React.ComponentProps<"input"> & { label?: string }) {
 	const field = useFieldContext<string>();
 	const errors = useStore(field.store, (state) => state.meta.errors);
 
@@ -59,6 +58,7 @@ export function TextField({
 				{label}
 			</Label>
 			<Input
+				{...props}
 				value={field.state.value}
 				placeholder={placeholder}
 				onBlur={field.handleBlur}

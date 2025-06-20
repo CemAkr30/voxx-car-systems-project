@@ -44,6 +44,8 @@ export default function FirmaDialog(props: FirmaDialogProps) {
 			mode === "create"
 				? {
 						unvan: "",
+						vergiNo: "",
+						email: "",
 					}
 				: props.initialValues,
 		validators: {
@@ -86,6 +88,16 @@ export default function FirmaDialog(props: FirmaDialogProps) {
 				>
 					<form.AppField name="unvan">
 						{(field) => <field.TextField label="Firma Adı" />}
+					</form.AppField>
+
+					<form.AppField name="vergiNo">
+						{(field) => <field.TextField label="Vergi Numarası" />}
+					</form.AppField>
+
+					<form.AppField name="email">
+						{(field) => (
+							<field.TextField label="Firma Mail Adres" type="email" />
+						)}
 					</form.AppField>
 
 					<div className="flex justify-end">

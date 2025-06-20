@@ -2,6 +2,8 @@ import { z } from "zod";
 
 export const firmaCreateSchema = z.object({
 	unvan: z.string().min(1, "Firma adı gereklidir"),
+	email: z.string().email("Mail formatını kontrol ediniz"),
+	vergiNo: z.string().min(1, "Vergi no gereklidir"),
 });
 export type CreateFirmaRequest = z.infer<typeof firmaCreateSchema>;
 
