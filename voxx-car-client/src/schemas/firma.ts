@@ -9,6 +9,5 @@ export const firmaUpdateSchema = firmaCreateSchema.extend({
   id: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),
-  deletedAt: z.string().optional(),
 });
 export type Firma = z.infer<typeof firmaUpdateSchema>;
