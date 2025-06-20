@@ -30,7 +30,7 @@ export default function FirmaSilDialog({
         <DialogHeader>
           <DialogTitle>Seçili Firmayı Sil</DialogTitle>
           <DialogDescription>
-            {selectedFirma.adi} firmayı silmek istediğinizden emin misiniz? Bu
+            {selectedFirma.unvan} firmayı silmek istediğinizden emin misiniz? Bu
             işlem geri alınamaz.
           </DialogDescription>
         </DialogHeader>
