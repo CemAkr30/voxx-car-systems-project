@@ -194,6 +194,7 @@ function RouteComponent() {
                       onCheckedChange={handleSelectAll}
                     />
                   </TableHead> */}
+                  <TableHead>Firma Id</TableHead>
                   <TableHead>Firma Adı</TableHead>
                   <TableHead>Oluşturulma Tarihi</TableHead>
                   <TableHead>Güncellenme Tarihi</TableHead>
@@ -211,6 +212,7 @@ function RouteComponent() {
                         }
                       />
                     </TableCell> */}
+                    <TableCell>{firma.id}</TableCell>
                     <TableCell className="font-medium">{firma.unvan}</TableCell>
                     <TableCell>{formatDate(firma.createdAt)}</TableCell>
                     <TableCell>{formatDate(firma.updatedAt)}</TableCell>
