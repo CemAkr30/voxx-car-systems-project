@@ -2,71 +2,71 @@ import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import React from "react";
 
 export const Route = createFileRoute("/_authentication")({
-  beforeLoad: ({ context: { user } }) => {
-    if (user) {
-      throw redirect({
-        to: "/",
-      });
-    }
-  },
-  component: RouteComponent,
+	beforeLoad: ({ context: { user } }) => {
+		if (user) {
+			throw redirect({
+				to: "/",
+			});
+		}
+	},
+	component: RouteComponent,
 });
 
 function RouteComponent() {
-  return (
-    <React.Fragment>
-      <div className="min-h-screen flex">
-        <div className="w-full lg:w-1/3 xl:w-1/4 flex bg-white">
-          <Outlet />
-        </div>
+	return (
+		<React.Fragment>
+			<div className="min-h-screen flex">
+				<div className="w-full lg:w-1/3 xl:w-1/4 flex bg-white">
+					<Outlet />
+				</div>
 
-        <div className="hidden lg:flex lg:w-2/3 xl:w-3/4 relative bg-gray-900 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 animate-gradient-shift" />
+				<div className="hidden lg:flex lg:w-2/3 xl:w-3/4 relative bg-gray-900 overflow-hidden">
+					<div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 animate-gradient-shift" />
 
-          <div className="absolute inset-0">
-            <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-blue-400 rounded-full animate-float-slow opacity-60" />
-            <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-white rounded-full animate-float-medium opacity-40" />
-            <div className="absolute bottom-1/4 left-1/3 w-1.5 h-1.5 bg-blue-300 rounded-full animate-float-fast opacity-50" />
-            <div className="absolute top-2/3 right-1/4 w-1 h-1 bg-indigo-300 rounded-full animate-float-slow opacity-30" />
-            <div className="absolute bottom-1/3 right-1/2 w-2 h-2 bg-purple-400 rounded-full animate-float-medium opacity-40" />
-          </div>
-          <div className="relative w-full h-full">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 via-transparent to-purple-900/20 animate-pulse-slow" />
-            <div className="absolute inset-0 flex flex-col justify-center items-center text-white p-12">
-              <div className="text-center space-y-6 max-w-2xl">
-                <h1 className="text-5xl font-bold mb-4 animate-fade-in-up">
-                  Voxx Car Systems
-                </h1>
-                <p className="text-xl text-blue-100 leading-relaxed animate-fade-in-up-delay">
-                  Gelişmiş araç yönetim sistemi ile filonuzu kontrol altında
-                  tutun. Gerçek zamanlı takip, akıllı analiz ve güvenli yönetim.
-                </p>
-                <div className="flex items-center justify-center space-x-8 mt-8">
-                  <div className="text-center animate-fade-in-up-delay-1 hover:scale-110 transition-transform duration-300">
-                    <div className="text-3xl font-bold text-blue-300 animate-pulse-number">
-                      24/7
-                    </div>
-                    <div className="text-sm text-blue-200">Monitoring</div>
-                  </div>
-                  <div className="text-center animate-fade-in-up-delay-2 hover:scale-110 transition-transform duration-300">
-                    <div className="text-3xl font-bold text-blue-300 animate-pulse-number">
-                      99.9%
-                    </div>
-                    <div className="text-sm text-blue-200">Uptime</div>
-                  </div>
-                  <div className="text-center animate-fade-in-up-delay-3 hover:scale-110 transition-transform duration-300">
-                    <div className="text-3xl font-bold text-blue-300 animate-pulse-number">
-                      1000+
-                    </div>
-                    <div className="text-sm text-blue-200">Vehicles</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+					<div className="absolute inset-0">
+						<div className="absolute top-1/4 left-1/4 w-2 h-2 bg-blue-400 rounded-full animate-float-slow opacity-60" />
+						<div className="absolute top-1/3 right-1/3 w-1 h-1 bg-white rounded-full animate-float-medium opacity-40" />
+						<div className="absolute bottom-1/4 left-1/3 w-1.5 h-1.5 bg-blue-300 rounded-full animate-float-fast opacity-50" />
+						<div className="absolute top-2/3 right-1/4 w-1 h-1 bg-indigo-300 rounded-full animate-float-slow opacity-30" />
+						<div className="absolute bottom-1/3 right-1/2 w-2 h-2 bg-purple-400 rounded-full animate-float-medium opacity-40" />
+					</div>
+					<div className="relative w-full h-full">
+						<div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 via-transparent to-purple-900/20 animate-pulse-slow" />
+						<div className="absolute inset-0 flex flex-col justify-center items-center text-white p-12">
+							<div className="text-center space-y-6 max-w-2xl">
+								<h1 className="text-5xl font-bold mb-4 animate-fade-in-up">
+									Voxx Car Systems
+								</h1>
+								<p className="text-xl text-blue-100 leading-relaxed animate-fade-in-up-delay">
+									Gelişmiş araç yönetim sistemi ile filonuzu kontrol altında
+									tutun. Gerçek zamanlı takip, akıllı analiz ve güvenli yönetim.
+								</p>
+								<div className="flex items-center justify-center space-x-8 mt-8">
+									<div className="text-center animate-fade-in-up-delay-1 hover:scale-110 transition-transform duration-300">
+										<div className="text-3xl font-bold text-blue-300 animate-pulse-number">
+											24/7
+										</div>
+										<div className="text-sm text-blue-200">Monitoring</div>
+									</div>
+									<div className="text-center animate-fade-in-up-delay-2 hover:scale-110 transition-transform duration-300">
+										<div className="text-3xl font-bold text-blue-300 animate-pulse-number">
+											99.9%
+										</div>
+										<div className="text-sm text-blue-200">Uptime</div>
+									</div>
+									<div className="text-center animate-fade-in-up-delay-3 hover:scale-110 transition-transform duration-300">
+										<div className="text-3xl font-bold text-blue-300 animate-pulse-number">
+											1000+
+										</div>
+										<div className="text-sm text-blue-200">Vehicles</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
-        <style>{`
+				<style>{`
           @keyframes gradient-shift {
             0%,
             100% {
@@ -188,7 +188,7 @@ function RouteComponent() {
             animation: pulse-number 3s ease-in-out infinite;
           }
         `}</style>
-      </div>
-    </React.Fragment>
-  );
+			</div>
+		</React.Fragment>
+	);
 }

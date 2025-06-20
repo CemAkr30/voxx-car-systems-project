@@ -9,27 +9,27 @@ import ErrorPage from "@/components/web/error.tsx";
 import { authUserQueryOptions } from "@/hooks/use-auth-hooks.ts";
 
 interface MyRouterContext {
-  queryClient: QueryClient;
+	queryClient: QueryClient;
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
-  beforeLoad: async ({ context: { queryClient } }) => {
-    await queryClient.prefetchQuery(authUserQueryOptions);
-    const user = queryClient.getQueryData(["authUser"]);
-    return { user };
-  },
-  component: RouteComponent,
-  notFoundComponent: NotFound,
-  errorComponent: ErrorPage,
+	beforeLoad: async ({ context: { queryClient } }) => {
+		await queryClient.prefetchQuery(authUserQueryOptions);
+		const user = queryClient.getQueryData(["authUser"]);
+		return { user };
+	},
+	component: RouteComponent,
+	notFoundComponent: NotFound,
+	errorComponent: ErrorPage,
 });
 
 function RouteComponent() {
-  return (
-    <>
-      <Outlet />
-      <TanStackRouterDevtools />
+	return (
+		<>
+			<Outlet />
+			<TanStackRouterDevtools />
 
-      <TanStackQueryLayout />
-    </>
-  );
+			<TanStackQueryLayout />
+		</>
+	);
 }
