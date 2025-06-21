@@ -57,4 +57,11 @@ public class AdresPersistenceJpaAdapter implements AdresPersistenceJpaPort {
                 adresJpaRepository.findAll()
         );
     }
+
+    @Override
+    public List<Adres> findFirmaIdGetAll(String firmaId) {
+        return AdresJpaMapper.toAdresList(
+                adresJpaRepository.findByFirmaId(firmaId)
+        );
+    }
 }
