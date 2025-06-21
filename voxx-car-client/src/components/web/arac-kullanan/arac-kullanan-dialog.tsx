@@ -58,9 +58,14 @@ export default function AracKullananDialog(props: AracKullananDialogProps) {
 		value: ehliyet,
 	}));
 
-	const createAracKullananMutation = useCreateAracKullananMutation(props.initialValues.firmaId, close);
+	const createAracKullananMutation = useCreateAracKullananMutation(
+		props.initialValues.firmaId,
+		close,
+	);
 	const updateAracKullananMutation =
-		mode === "create" ? null : useUpdateAracKullananMutation(props.initialValues.firmaId, close);
+		mode === "create"
+			? null
+			: useUpdateAracKullananMutation(props.initialValues.firmaId, close);
 
 	const form = useAppForm({
 		defaultValues:
@@ -133,12 +138,12 @@ export default function AracKullananDialog(props: AracKullananDialogProps) {
 						<form.AppField name="soyad">
 							{(field) => <field.TextField label="Soyisim" />}
 						</form.AppField>
-						</div>
-						<form.AppField name="email">
-							{(field) => <field.TextField label="Email" type="email" />}
-						</form.AppField>
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-							<form.AppField name="telefonNo">
+					</div>
+					<form.AppField name="email">
+						{(field) => <field.TextField label="Email" type="email" />}
+					</form.AppField>
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+						<form.AppField name="telefonNo">
 							{(field) => <field.TextField label="Telefon Numarası" />}
 						</form.AppField>
 						<form.AppField name="ehliyetNo">

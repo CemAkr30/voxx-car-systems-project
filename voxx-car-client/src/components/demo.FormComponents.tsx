@@ -136,7 +136,11 @@ export function DatePicker({
 					</Button>
 				</PopoverTrigger>
 				<PopoverContent className="w-auto p-0">
-					<Calendar mode="single" selected={field.state.value} onSelect={(e) => field.handleChange(e || new Date())}  />
+					<Calendar
+						mode="single"
+						selected={field.state.value}
+						onSelect={(e) => field.handleChange(e || new Date())}
+					/>
 				</PopoverContent>
 			</Popover>
 			{field.state.meta.isTouched && <ErrorMessages errors={errors} />}

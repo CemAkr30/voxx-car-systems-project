@@ -131,7 +131,9 @@ function RouteComponent() {
 	const [_, setOpenDropdowns] = useState<Set<string>>(new Set());
 
 	const { data: firmalar = [] } = useSuspenseQuery(getFirmalarQueryOptions());
-	const { data: adresler = [] } = useSuspenseQuery(getAdreslerByFirmaIdQueryOptions(firmaId));
+	const { data: adresler = [] } = useSuspenseQuery(
+		getAdreslerByFirmaIdQueryOptions(firmaId),
+	);
 
 	const openDialog = (type: keyof DialogState, adres?: Adres) => {
 		setDialogState({

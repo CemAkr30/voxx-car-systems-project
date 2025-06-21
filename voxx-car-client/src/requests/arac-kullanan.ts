@@ -7,8 +7,12 @@ import type {
 import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
-export const getAllAracKullananlarByFirmaId = async (firmaId: string): Promise<AracKullanan[]> => {
-	const { data } = await axiosClient.get(`${urls.firma}/${firmaId}/arackullanan`);
+export const getAllAracKullananlarByFirmaId = async (
+	firmaId: string,
+): Promise<AracKullanan[]> => {
+	const { data } = await axiosClient.get(
+		`${urls.firma}/${firmaId}/arackullanan`,
+	);
 	return data;
 };
 

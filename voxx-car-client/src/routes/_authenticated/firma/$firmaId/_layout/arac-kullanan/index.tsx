@@ -29,7 +29,9 @@ export const Route = createFileRoute(
 	loader: async ({ context: { queryClient }, params: { firmaId } }) => {
 		console.log({ firmaId });
 		await queryClient.prefetchQuery(getFirmalarQueryOptions());
-		await queryClient.prefetchQuery(getAracKullananlarByFirmaIdQueryOptions(firmaId));
+		await queryClient.prefetchQuery(
+			getAracKullananlarByFirmaIdQueryOptions(firmaId),
+		);
 	},
 	component: RouteComponent,
 });
@@ -45,7 +47,7 @@ function RouteComponent() {
 	const { data: firmalar = [] } = useSuspenseQuery(getFirmalarQueryOptions());
 	const { data: aracKullananler = [] } = useSuspenseQuery(
 		getAracKullananlarByFirmaIdQueryOptions(firmaId),
-	)
+	);
 
 	const openDialog = (type: keyof DialogState, aracKullanan?: AracKullanan) => {
 		setDialogState({
@@ -53,17 +55,17 @@ function RouteComponent() {
 			update: type === "update",
 			delete: type === "delete",
 			selectedAracKullanan: aracKullanan,
-		})
-	}
+		});
+	};
 
 	const closeDialog = () => {
 		setDialogState({
 			create: false,
 			update: false,
 			delete: false,
-		})
+		});
 		setOpenDropdowns(new Set());
-	}
+	};
 
 	return (
 		<div className="space-y-8">
@@ -205,7 +207,7 @@ function RouteComponent() {
 											</div>
 										</TableCell>
 									</TableRow>
-								)
+								);
 							})}
 						</TableBody>
 					</Table>
@@ -258,7 +260,12 @@ function RouteComponent() {
 					mode="update"
 					open={dialogState.update}
 					close={closeDialog}
-					initialValues={{...dialogState.selectedAracKullanan, ehliyetBitisTarihi: new Date(dialogState.selectedAracKullanan.ehliyetBitisTarihi)}}
+					initialValues={{
+						...dialogState.selectedAracKullanan,
+						ehliyetBitisTarihi: new Date(
+							dialogState.selectedAracKullanan.ehliyetBitisTarihi,
+						),
+					}}
 					firmalar={firmalar}
 				/>
 			)}
@@ -271,5 +278,5 @@ function RouteComponent() {
 				/>
 			)}
 		</div>
-	)
+	);
 }

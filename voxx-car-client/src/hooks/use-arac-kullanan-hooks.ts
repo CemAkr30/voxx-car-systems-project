@@ -14,13 +14,16 @@ import {
 	useQueryClient,
 } from "@tanstack/react-query";
 
-export function getAracKullananlarByFirmaIdQueryOptions(firmaId:string) {
+export function getAracKullananlarByFirmaIdQueryOptions(firmaId: string) {
 	return queryOptions({
-		queryKey: ["firma", {firmaId} ,"arac-kullananlar"],
-		queryFn: ()=>getAllAracKullananlarByFirmaId(firmaId),
+		queryKey: ["firma", { firmaId }, "arac-kullananlar"],
+		queryFn: () => getAllAracKullananlarByFirmaId(firmaId),
 	});
 }
-export const useCreateAracKullananMutation = (firmaId:string, onSuccess?: () => void) => {
+export const useCreateAracKullananMutation = (
+	firmaId: string,
+	onSuccess?: () => void,
+) => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
@@ -41,7 +44,10 @@ export const useCreateAracKullananMutation = (firmaId:string, onSuccess?: () => 
 	});
 };
 
-export const useUpdateAracKullananMutation = (firmaId:string, onSuccess?: () => void) => {
+export const useUpdateAracKullananMutation = (
+	firmaId: string,
+	onSuccess?: () => void,
+) => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: async (aracKullanan: AracKullanan) =>
@@ -58,7 +64,10 @@ export const useUpdateAracKullananMutation = (firmaId:string, onSuccess?: () => 
 	});
 };
 
-export const useDeleteAracKullananMutation = (firmaId:string, onSuccess?: () => void) => {
+export const useDeleteAracKullananMutation = (
+	firmaId: string,
+	onSuccess?: () => void,
+) => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: async (id: string) => await deleteAracKullanan(id),

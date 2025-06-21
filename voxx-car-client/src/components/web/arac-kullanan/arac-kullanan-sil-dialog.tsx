@@ -22,7 +22,10 @@ export default function AracKullananSilDialog({
 	close,
 	selectedAracKullanan,
 }: AracKullananDialogDeleteProps) {
-	const deleteAracKullananMutation = useDeleteAracKullananMutation(selectedAracKullanan.firmaId, close);
+	const deleteAracKullananMutation = useDeleteAracKullananMutation(
+		selectedAracKullanan.firmaId,
+		close,
+	);
 
 	return (
 		<Dialog open={open} onOpenChange={close}>

@@ -23,7 +23,7 @@ export function getAdreslerQueryOptions() {
 export function getAdreslerByFirmaIdQueryOptions(firmaId: string) {
 	return queryOptions({
 		queryKey: ["firma", { firmaId }, "adres"],
-		queryFn: ()=>getAdresByFirmaId(firmaId),
+		queryFn: () => getAdresByFirmaId(firmaId),
 	});
 }
 

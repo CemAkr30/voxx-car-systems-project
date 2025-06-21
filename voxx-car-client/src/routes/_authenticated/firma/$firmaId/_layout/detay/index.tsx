@@ -109,13 +109,12 @@ function RouteComponent() {
 						</div>
 						<div className="p-6">
 							<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-								<div className="space-y-4">
 									<div>
 										<Label className="text-sm font-medium text-slate-600 dark:text-slate-400">
 											Firma Adı
 										</Label>
 										<p className="text-slate-900 dark:text-slate-100 font-medium">
-											{"companyData.name"}
+											{firma.unvan}
 										</p>
 									</div>
 									<div>
@@ -123,7 +122,7 @@ function RouteComponent() {
 											Vergi Numarası
 										</Label>
 										<p className="text-slate-900 dark:text-slate-100 font-mono">
-											{"companyData.taxNumber"}
+											{firma.vergiNo}
 										</p>
 									</div>
 									<div>
@@ -142,8 +141,6 @@ function RouteComponent() {
 											{"companyData.mersisNumber"}
 										</p>
 									</div>
-								</div>
-								<div className="space-y-4">
 									<div>
 										<Label className="text-sm font-medium text-slate-600 dark:text-slate-400">
 											Hukuki Statü
@@ -177,7 +174,6 @@ function RouteComponent() {
 											{"companyData.status"}
 										</span>
 									</div>
-								</div>
 							</div>
 							<div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-700">
 								<Label className="text-sm font-medium text-slate-600 dark:text-slate-400">
@@ -231,7 +227,7 @@ function RouteComponent() {
 										E-posta
 									</p>
 									<p className="text-slate-900 dark:text-slate-100 font-medium">
-										{"companyData.email"}
+										{firma.email}
 									</p>
 								</div>
 							</div>
