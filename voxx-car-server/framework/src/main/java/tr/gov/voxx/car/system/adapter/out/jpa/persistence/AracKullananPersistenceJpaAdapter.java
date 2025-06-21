@@ -57,5 +57,12 @@ public class AracKullananPersistenceJpaAdapter implements AracKullananPersistenc
                 aracKullananJpaRepository.findAll()
         );
     }
+
+    @Override
+    public List<AracKullanan> findFirmaIdGetAll(String firmaId) {
+        return AracKullananJpaMapper.toAracKullananList(
+                aracKullananJpaRepository.findByFirmaId(firmaId)
+        );
+    }
 }
 

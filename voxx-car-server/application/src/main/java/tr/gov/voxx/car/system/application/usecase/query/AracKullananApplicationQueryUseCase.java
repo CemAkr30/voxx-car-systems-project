@@ -27,4 +27,9 @@ public class AracKullananApplicationQueryUseCase implements AracKullananApplicat
     public List<AracKullanan> getAll() {
         return aracKullananPersistenceJpaPort.findAll();
     }
+
+    @Override
+    public List<AracKullanan> findFirmaIdGetAll(String firmaId) {
+        return aracKullananPersistenceJpaPort.findFirmaIdGetAll(firmaId);
+    }
 }
