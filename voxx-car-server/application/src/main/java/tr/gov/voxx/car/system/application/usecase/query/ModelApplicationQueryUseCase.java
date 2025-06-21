@@ -26,5 +26,10 @@ public class ModelApplicationQueryUseCase implements ModelApplicationQueryPort {
     public List<Model> getAll() {
         return modelPersistenceJpaPort.findAll();
     }
+
+    @Override
+    public List<Model> findMarkaIdGetAll(String markaId) {
+        return modelPersistenceJpaPort.findMarkaIdGetAll(markaId);
+    }
 }
 

@@ -36,6 +36,7 @@ public class AracKullananApplicationCommandUseCase implements AracKullananApplic
                 .ehliyetArka(entity.getEhliyetArka())
                 .ehliyetBitisTarihi(entity.getEhliyetBitisTarihi())
                 .cinsiyetTipi(entity.getCinsiyetTipi())
+                .soyad(entity.getSoyad())
                 .firmaId(entity.getFirmaId())
                 .build());
     }
@@ -62,6 +63,7 @@ public class AracKullananApplicationCommandUseCase implements AracKullananApplic
                 .ehliyetArka(entity.getEhliyetArka())
                 .ehliyetBitisTarihi(entity.getEhliyetBitisTarihi())
                 .cinsiyetTipi(entity.getCinsiyetTipi())
+                .soyad(entity.getSoyad())
                 .firmaId(entity.getFirmaId())
                 .build());
     }

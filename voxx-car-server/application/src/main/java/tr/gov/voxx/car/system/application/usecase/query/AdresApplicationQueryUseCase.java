@@ -26,4 +26,9 @@ public class AdresApplicationQueryUseCase implements AdresApplicationQueryPort {
     public List<Adres> getAll() {
         return adresPersistenceJpaPort.findAll();
     }
+
+    @Override
+    public List<Adres> findFirmaIdGetAll(String firmaId) {
+        return adresPersistenceJpaPort.findFirmaIdGetAll(firmaId);
+    }
 }
