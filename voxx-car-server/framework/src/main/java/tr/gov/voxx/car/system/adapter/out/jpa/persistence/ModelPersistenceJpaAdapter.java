@@ -71,4 +71,11 @@ public class ModelPersistenceJpaAdapter implements ModelPersistenceJpaPort {
         Model model = ModelJpaMapper.toModel(results.get(0));
         return Optional.of(model);
     }
+
+    @Override
+    public List<Model> findMarkaIdGetAll(String markaId) {
+        return ModelJpaMapper.toModelList(
+                modelJpaRepository.findByMarkaId(markaId)
+        );
+    }
 }
