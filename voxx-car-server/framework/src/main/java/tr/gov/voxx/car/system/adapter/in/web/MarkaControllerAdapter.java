@@ -72,7 +72,7 @@ public class MarkaControllerAdapter {
     }
 
     @GetMapping("/{id}/model")
-    @Operation(summary = "Model Kaynağına Göre Markaları Getir", description = "Belirtilen Marka ID ile ilgili bütün modelleri getirir")
+    @Operation(summary = "Marka Kaynağına Göre Modelleri Getir", description = "Belirtilen Marka ID ile ilgili bütün modelleri getirir")
     public ResponseEntity<List<ModelResponse>> findByMarkaIdGetAllModel(@PathVariable("id") String markaId) {
         List<Model> modelList = modelApplicationQueryPort.findMarkaIdGetAll(markaId);
         return ResponseEntity.ok(ModelMapper.toResponseList(modelList));
