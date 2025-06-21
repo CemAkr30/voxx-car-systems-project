@@ -109,71 +109,71 @@ function RouteComponent() {
 						</div>
 						<div className="p-6">
 							<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-									<div>
-										<Label className="text-sm font-medium text-slate-600 dark:text-slate-400">
-											Firma Adı
-										</Label>
-										<p className="text-slate-900 dark:text-slate-100 font-medium">
-											{firma.unvan}
-										</p>
-									</div>
-									<div>
-										<Label className="text-sm font-medium text-slate-600 dark:text-slate-400">
-											Vergi Numarası
-										</Label>
-										<p className="text-slate-900 dark:text-slate-100 font-mono">
-											{firma.vergiNo}
-										</p>
-									</div>
-									<div>
-										<Label className="text-sm font-medium text-slate-600 dark:text-slate-400">
-											Ticaret Sicil No
-										</Label>
-										<p className="text-slate-900 dark:text-slate-100 font-mono">
-											{"companyData.tradeRegistryNumber"}
-										</p>
-									</div>
-									<div>
-										<Label className="text-sm font-medium text-slate-600 dark:text-slate-400">
-											MERSİS No
-										</Label>
-										<p className="text-slate-900 dark:text-slate-100 font-mono">
-											{"companyData.mersisNumber"}
-										</p>
-									</div>
-									<div>
-										<Label className="text-sm font-medium text-slate-600 dark:text-slate-400">
-											Hukuki Statü
-										</Label>
-										<p className="text-slate-900 dark:text-slate-100">
-											{"companyData.legalStatus"}
-										</p>
-									</div>
-									<div>
-										<Label className="text-sm font-medium text-slate-600 dark:text-slate-400">
-											Sermaye
-										</Label>
-										<p className="text-slate-900 dark:text-slate-100 font-semibold">
-											₺{"companyData.capital.toLocaleString()"}
-										</p>
-									</div>
-									<div>
-										<Label className="text-sm font-medium text-slate-600 dark:text-slate-400">
-											Sektör
-										</Label>
-										<p className="text-slate-900 dark:text-slate-100">
-											{"companyData.sector"}
-										</p>
-									</div>
-									<div>
-										<Label className="text-sm font-medium text-slate-600 dark:text-slate-400">
-											Durum
-										</Label>
-										<span className="inline-flex items-center gap-1 px-2 py-1 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-medium rounded-full">
-											<div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
-											{"companyData.status"}
-										</span>
-									</div>
+								<div>
+									<Label className="text-sm font-medium text-slate-600 dark:text-slate-400">
+										Firma Adı
+									</Label>
+									<p className="text-slate-900 dark:text-slate-100 font-medium">
+										{firma.unvan}
+									</p>
+								</div>
+								<div>
+									<Label className="text-sm font-medium text-slate-600 dark:text-slate-400">
+										Vergi Numarası
+									</Label>
+									<p className="text-slate-900 dark:text-slate-100 font-mono">
+										{firma.vergiNo}
+									</p>
+								</div>
+								<div>
+									<Label className="text-sm font-medium text-slate-600 dark:text-slate-400">
+										Ticaret Sicil No
+									</Label>
+									<p className="text-slate-900 dark:text-slate-100 font-mono">
+										{"companyData.tradeRegistryNumber"}
+									</p>
+								</div>
+								<div>
+									<Label className="text-sm font-medium text-slate-600 dark:text-slate-400">
+										MERSİS No
+									</Label>
+									<p className="text-slate-900 dark:text-slate-100 font-mono">
+										{"companyData.mersisNumber"}
+									</p>
+								</div>
+								<div>
+									<Label className="text-sm font-medium text-slate-600 dark:text-slate-400">
+										Hukuki Statü
+									</Label>
+									<p className="text-slate-900 dark:text-slate-100">
+										{"companyData.legalStatus"}
+									</p>
+								</div>
+								<div>
+									<Label className="text-sm font-medium text-slate-600 dark:text-slate-400">
+										Sermaye
+									</Label>
+									<p className="text-slate-900 dark:text-slate-100 font-semibold">
+										₺{"companyData.capital.toLocaleString()"}
+									</p>
+								</div>
+								<div>
+									<Label className="text-sm font-medium text-slate-600 dark:text-slate-400">
+										Sektör
+									</Label>
+									<p className="text-slate-900 dark:text-slate-100">
+										{"companyData.sector"}
+									</p>
+								</div>
+								<div>
+									<Label className="text-sm font-medium text-slate-600 dark:text-slate-400">
+										Durum
+									</Label>
+									<span className="inline-flex items-center gap-1 px-2 py-1 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-medium rounded-full">
+										<div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+										{"companyData.status"}
+									</span>
+								</div>
 							</div>
 							<div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-700">
 								<Label className="text-sm font-medium text-slate-600 dark:text-slate-400">

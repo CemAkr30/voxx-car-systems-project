@@ -1,12 +1,19 @@
-const createUrls = (version: string, endpoints: string[]) => {
+const createUrls = <T extends readonly string[]>(
+	version: string,
+	endpoints: T,
+) => {
 	const baseUrl = `/${version}`;
-	return endpoints.reduce((acc: Record<string, string>, endpoint: string) => {
-		acc[endpoint] = `${baseUrl}/${endpoint}`;
-		return acc;
-	}, {});
+	return endpoints.reduce(
+		(acc, endpoint) => {
+			acc[endpoint as T[number]] = `${baseUrl}/${endpoint}`;
+			return acc;
+		},
+		{} as Record<T[number], string>,
+	);
 };
 
-const currentVersion = "v1";
+const currentVersion = "v1" as const;
+
 const endpoints = [
 	"marka",
 	"adres",
@@ -23,7 +30,7 @@ const endpoints = [
 	"mtv",
 	"muayene",
 	"sigorta",
-];
+] as const;
 
 const urls = createUrls(currentVersion, endpoints);
 
