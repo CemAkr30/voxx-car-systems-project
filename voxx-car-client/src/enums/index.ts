@@ -10,3 +10,5 @@ export const AdresTipi = [
 	"YETKILI_BAYI",
 	"DIGER",
 ] as const;
+
+export type AdresTipi = (typeof AdresTipi)[number];

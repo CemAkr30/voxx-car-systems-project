@@ -171,9 +171,6 @@ function RouteComponent() {
 								)}
 							</div>
 							<div className="flex items-center gap-3">
-								<Button className="px-4 py-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-xl text-white font-medium transition-all duration-200 border border-white/30 hover:border-white/40">
-									Rapor Al
-								</Button>
 								<Button
 									onClick={() => setUpdateModal(true)}
 									className="px-4 py-2 bg-white hover:bg-white/90 rounded-xl text-indigo-600 font-medium transition-all duration-200 shadow-lg hover:shadow-xl"
