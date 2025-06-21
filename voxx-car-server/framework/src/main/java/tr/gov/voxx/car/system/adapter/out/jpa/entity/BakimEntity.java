@@ -1,7 +1,6 @@
 package tr.gov.voxx.car.system.adapter.out.jpa.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import lombok.*;
 import tr.gov.voxx.car.system.common.framework.persistence.AbstractEntity;
@@ -21,7 +20,6 @@ public class BakimEntity extends AbstractEntity {
     private Double iscilikTutari;
     private Double toplamTutar;
     private String faturaNo;
-    @Lob
     private String fatura;
     private String notlar;
     private String odeyenFirmaId;
