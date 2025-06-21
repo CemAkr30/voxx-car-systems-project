@@ -59,7 +59,7 @@ export default function FirmaDialog(props: FirmaDialogProps) {
 					await updateFirmaMutation!.mutateAsync(value as Firma);
 				}
 				formApi.reset();
-			} catch (error) {}
+			} catch (_error) {}
 		},
 	});
 

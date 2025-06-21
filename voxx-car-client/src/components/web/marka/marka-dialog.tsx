@@ -63,7 +63,7 @@ export default function MarkaDialog(props: MarkaDialogProps) {
 					await updateMarkaMutation!.mutateAsync(value as Marka);
 				}
 				formApi.reset();
-			} catch (error) {}
+			} catch (_error) {}
 		},
 	});
 

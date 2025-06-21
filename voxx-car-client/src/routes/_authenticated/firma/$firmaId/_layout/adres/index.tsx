@@ -44,6 +44,7 @@ export const Route = createFileRoute(
 	"/_authenticated/firma/$firmaId/_layout/adres/",
 )({
 	loader: async ({ context: { queryClient }, params: { firmaId } }) => {
+		console.log({ firmaId });
 		await queryClient.prefetchQuery(getFirmalarQueryOptions());
 		await queryClient.prefetchQuery(getAdreslerQueryOptions());
 	},
@@ -123,14 +124,12 @@ const getAddressTypeInfo = (type: AdresTipi) => {
 
 function RouteComponent() {
 	const { firmaId } = Route.useParams();
-	const [selectedItems, setSelectedItems] = useState<string[]>([]);
-	const [searchTerm, setSearchTerm] = useState<string>("");
 	const [dialogState, setDialogState] = useState<DialogState>({
 		create: false,
 		update: false,
 		delete: false,
 	});
-	const [openDropdowns, setOpenDropdowns] = useState<Set<string>>(new Set());
+	const [_, setOpenDropdowns] = useState<Set<string>>(new Set());
 
 	const { data: adresler = [] } = useSuspenseQuery(getAdreslerQueryOptions());
 	const { data: firmalar = [] } = useSuspenseQuery(getFirmalarQueryOptions());
@@ -150,46 +149,16 @@ function RouteComponent() {
 			update: false,
 			delete: false,
 		});
-		// Clear selected items when closing delete dialog
-		if (dialogState.delete) {
-			setSelectedItems([]);
-		}
-		// Close all dropdowns after dialog operations
 		setOpenDropdowns(new Set());
-	};
-
-	const handleDropdownOpenChange = (adresId: string, open: boolean) => {
-		setOpenDropdowns((prev) => {
-			const newSet = new Set(prev);
-			if (open) {
-				newSet.add(adresId);
-			} else {
-				newSet.delete(adresId);
-			}
-			return newSet;
-		});
-	};
-
-	const handleBulkDelete = () => {
-		setDialogState({
-			create: false,
-			update: false,
-			delete: true,
-			selectedAdres: undefined,
-		});
 	};
 
 	return (
 		<div className="space-y-8">
-			{/* Header Section */}
 			<div className="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-2xl shadow-xl">
 				<div className="absolute inset-0 bg-black/10" />
 				<div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent" />
-
-				{/* Floating Elements */}
 				<div className="absolute top-4 right-4 w-24 h-24 bg-white/10 rounded-full blur-xl" />
 				<div className="absolute bottom-4 left-4 w-16 h-16 bg-white/5 rounded-full blur-lg" />
-
 				<div className="relative p-8">
 					<div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
 						<div className="flex items-center gap-4">
@@ -206,7 +175,6 @@ function RouteComponent() {
 								<p className="text-white/80 text-lg">Firma ID: #{firmaId}</p>
 							</div>
 						</div>
-
 						<div className="flex items-center gap-3">
 							<div className="bg-white/10 backdrop-blur-sm rounded-xl px-4 py-2 border border-white/20">
 								<span className="text-white/80 text-sm">Toplam Adres: </span>
@@ -266,7 +234,7 @@ function RouteComponent() {
 							</TableRow>
 						</TableHeader>
 						<TableBody>
-							{adresler.map((adres, index) => {
+							{adresler.map((adres) => {
 								const adresTip = getAddressTypeInfo(adres.tip);
 								return (
 									<TableRow
@@ -383,7 +351,7 @@ function RouteComponent() {
 					mode="create"
 					open={dialogState.create}
 					close={closeDialog}
-					initialValues={{firmaId}}
+					initialValues={{ firmaId }}
 					firmalar={firmalar}
 				/>
 			)}

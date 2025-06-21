@@ -58,22 +58,6 @@ function RouteComponent() {
 
 	const { data: markalar = [] } = useMarkalarQuery();
 
-	const handleSelectAll = (checked: boolean) => {
-		if (checked) {
-			setSelectedItems(markalar.map((item: Marka) => item.id));
-		} else {
-			setSelectedItems([]);
-		}
-	};
-
-	const handleSelectItem = (id: string, checked: boolean) => {
-		if (checked) {
-			setSelectedItems((prev) => [...prev, id]);
-		} else {
-			setSelectedItems((prev) => prev.filter((item) => item !== id));
-		}
-	};
-
 	const openDialog = (type: keyof DialogState, marka?: Marka) => {
 		setDialogState({
 			create: type === "create",
@@ -207,14 +191,6 @@ function RouteComponent() {
 							<TableBody>
 								{markalar.map((marka: Marka) => (
 									<TableRow key={marka.id}>
-										{/* <TableCell>
-                      <Checkbox
-                        checked={selectedItems.includes(marka.id)}
-                        onCheckedChange={(checked) =>
-                          handleSelectItem(marka.id, checked as boolean)
-                        }
-                      />
-                    </TableCell> */}
 										<TableCell>{marka.id}</TableCell>
 										<TableCell className="font-medium">{marka.adi}</TableCell>
 										<TableCell>{formatDate(marka.createdAt)}</TableCell>

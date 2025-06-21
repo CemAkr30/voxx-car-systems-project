@@ -46,9 +46,7 @@ export default function AdresDialog(props: AdresDialogProps) {
 		[firmalar],
 	);
 
-	const adresTipiOptions = AdresTipi.map(tip => ({ label: tip, value: tip }))
-
-	console.log(adresTipiOptions)
+	const adresTipiOptions = AdresTipi.map((tip) => ({ label: tip, value: tip }));
 
 	const createAdresMutation = useCreateAdresMutation(close);
 	const updateAdresMutation =
@@ -74,7 +72,7 @@ export default function AdresDialog(props: AdresDialogProps) {
 					await updateAdresMutation!.mutateAsync(value as Adres);
 				}
 				formApi.reset();
-			} catch (error) {}
+			} catch (_error) {}
 		},
 	});
 
@@ -108,7 +106,9 @@ export default function AdresDialog(props: AdresDialogProps) {
 						{(field) => <field.TextArea label="Açıklama" />}
 					</form.AppField>
 					<form.AppField name="tip">
-						{(field) => <field.Select label="Adres Tipi" values={adresTipiOptions} />}
+						{(field) => (
+							<field.Select label="Adres Tipi" values={adresTipiOptions} />
+						)}
 					</form.AppField>
 
 					<div className="flex justify-end">

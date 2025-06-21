@@ -58,22 +58,6 @@ function RouteComponent() {
 
 	const { data: firmalar = [] } = useFirmalarQuery();
 
-	const handleSelectAll = (checked: boolean) => {
-		if (checked) {
-			setSelectedItems(firmalar.map((item: Firma) => item.id));
-		} else {
-			setSelectedItems([]);
-		}
-	};
-
-	const handleSelectItem = (id: string, checked: boolean) => {
-		if (checked) {
-			setSelectedItems((prev) => [...prev, id]);
-		} else {
-			setSelectedItems((prev) => prev.filter((item) => item !== id));
-		}
-	};
-
 	const openDialog = (type: keyof DialogState, firma?: Firma) => {
 		setDialogState({
 			create: type === "create",
@@ -207,14 +191,6 @@ function RouteComponent() {
 							<TableBody>
 								{firmalar.map((firma: Firma) => (
 									<TableRow key={firma.id}>
-										{/* <TableCell>
-                      <Checkbox
-                        checked={selectedItems.includes(firma.id)}
-                        onCheckedChange={(checked) =>
-                          handleSelectItem(firma.id, checked as boolean)
-                        }
-                      />
-                    </TableCell> */}
 										<TableCell>{firma.id}</TableCell>
 										<TableCell className="font-medium">
 											<Link

@@ -10,30 +10,39 @@ import {
 	useCreateModelMutation,
 	useUpdateModelMutation,
 } from "@/hooks/use-model-hooks";
+import type { Marka } from "@/schemas/marka";
 import {
 	modelCreateSchema,
 	modelUpdateSchema,
 	type CreateModelRequest,
 	type Model,
 } from "@/schemas/model";
+import { useMemo } from "react";
 
 interface ModelDialogCreateProps {
 	mode: "create";
 	open: boolean;
 	close: () => void;
+	markalar: Marka[];
 }
 
 interface ModelDialogUpdateProps {
 	mode: "update";
 	open: boolean;
 	close: () => void;
+	markalar: Marka[];
 	initialValues: Model;
 }
 
 type ModelDialogProps = ModelDialogCreateProps | ModelDialogUpdateProps;
 
 export default function ModelDialog(props: ModelDialogProps) {
-	const { mode, open, close } = props;
+	const { mode, open, close, markalar } = props;
+
+	const markalarOptions = useMemo(
+		() => markalar.map((marka) => ({ label: marka.adi, value: marka.id })),
+		[markalar],
+	);
 
 	const createModelMutation = useCreateModelMutation(close);
 	const updateModelMutation =
@@ -58,7 +67,7 @@ export default function ModelDialog(props: ModelDialogProps) {
 					await updateModelMutation!.mutateAsync(value as Model);
 				}
 				formApi.reset();
-			} catch (error) {}
+			} catch (_error) {}
 		},
 	});
 
@@ -86,7 +95,7 @@ export default function ModelDialog(props: ModelDialogProps) {
 					className="space-y-6"
 				>
 					<form.AppField name="markaId">
-						{(field) => <field.TextField label="Marka Id" />}
+						{(field) => <field.Select label="Marka" values={markalarOptions} />}
 					</form.AppField>
 
 					<form.AppField name="adi">
