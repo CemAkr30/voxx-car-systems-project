@@ -6,15 +6,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import {
 	ArrowUpRight,
-	Building2,
-	Calendar,
-	Car,
-	Mail,
-	MapPin,
-	Receipt,
-	Star,
-	TrendingUp,
-	Users,
+	Building2, Car, MapPin
 } from "lucide-react";
 import { useState } from "react";
 
@@ -67,93 +59,6 @@ function RouteComponent() {
 								Firma bilgilerinizi kolayca yönetin, güncelleyin ve takip edin.
 								Tüm işlemlerinizi tek yerden kontrol edin.
 							</p>
-						</div>
-
-						{/* Right Side - Stats Cards */}
-						<div className="grid grid-cols-2 lg:grid-cols-2 gap-4 lg:min-w-[600px]">
-							<div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
-								<div className="flex items-center gap-3">
-									<div className="p-2 bg-white/20 rounded-lg">
-										<Users className="h-5 w-5 text-white" />
-									</div>
-									<div>
-										<p className="text-white/70 text-sm">Toplam Çalışan</p>
-										<p className="text-white font-bold text-xl">45</p>
-									</div>
-								</div>
-							</div>
-
-							<div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
-								<div className="flex items-center gap-3">
-									<div className="p-2 bg-white/20 rounded-lg">
-										<Calendar className="h-5 w-5 text-white" />
-									</div>
-									<div>
-										<p className="text-white/70 text-sm">Kuruluş</p>
-										<p className="text-white font-bold text-xl">2020</p>
-									</div>
-								</div>
-							</div>
-
-							<div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
-								<div className="flex items-center gap-3">
-									<div className="p-2 bg-white/20 rounded-lg">
-										<TrendingUp className="h-5 w-5 text-white" />
-									</div>
-									<div>
-										<p className="text-white/70 text-sm">Durum</p>
-										<div className="flex items-center gap-1">
-											<div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-											<p className="text-white font-bold">Aktif</p>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
-								<div className="flex items-center gap-3">
-									<div className="p-2 bg-white/20 rounded-lg">
-										<Star className="h-5 w-5 text-white" />
-									</div>
-									<div>
-										<p className="text-white/70 text-sm">Değerlendirme</p>
-										<div className="flex items-center gap-1">
-											<p className="text-white font-bold text-xl">4.8</p>
-											<Star className="h-4 w-4 text-yellow-300 fill-current" />
-										</div>
-									</div>
-								</div>
-							</div>
-
-							{/* New Tax Number Card */}
-							<div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
-								<div className="flex items-center gap-3">
-									<div className="p-2 bg-white/20 rounded-lg">
-										<Receipt className="h-5 w-5 text-white" />
-									</div>
-									<div className="min-w-0 flex-1">
-										<p className="text-white/70 text-sm">Vergi No</p>
-										<p className="text-white font-bold text-lg truncate">
-											{firma.vergiNo}
-										</p>
-									</div>
-								</div>
-							</div>
-
-							{/* New Email Address Card */}
-							<div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
-								<div className="flex items-center gap-3">
-									<div className="p-2 bg-white/20 rounded-lg">
-										<Mail className="h-5 w-5 text-white" />
-									</div>
-									<div className="min-w-0 flex-1">
-										<p className="text-white/70 text-sm">E-posta</p>
-										<p className="text-white font-bold text-sm truncate">
-											{firma.email}
-										</p>
-									</div>
-								</div>
-							</div>
 						</div>
 					</div>
 
