@@ -1,6 +1,7 @@
 import {
 	createAdres,
 	deleteAdres,
+	getAdresByFirmaId,
 	getAllAdres,
 	updateAdres,
 } from "@/requests/adres";
@@ -19,10 +20,10 @@ export function getAdreslerQueryOptions() {
 	});
 }
 
-export function getAdresQueryOptions(firmaId: string) {
+export function getAdreslerByFirmaIdQueryOptions(firmaId: string) {
 	return queryOptions({
-		queryKey: ["adres", { firmaId }],
-		queryFn: getAllAdres,
+		queryKey: ["firma", { firmaId }, "adres"],
+		queryFn: ()=>getAdresByFirmaId(firmaId),
 	});
 }
 

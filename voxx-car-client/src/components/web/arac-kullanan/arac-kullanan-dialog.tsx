@@ -58,9 +58,9 @@ export default function AracKullananDialog(props: AracKullananDialogProps) {
 		value: ehliyet,
 	}));
 
-	const createAracKullananMutation = useCreateAracKullananMutation(close);
+	const createAracKullananMutation = useCreateAracKullananMutation(props.initialValues.firmaId, close);
 	const updateAracKullananMutation =
-		mode === "create" ? null : useUpdateAracKullananMutation(close);
+		mode === "create" ? null : useUpdateAracKullananMutation(props.initialValues.firmaId, close);
 
 	const form = useAppForm({
 		defaultValues:
@@ -70,9 +70,13 @@ export default function AracKullananDialog(props: AracKullananDialogProps) {
 						ad: "",
 						soyad: "",
 						adres: "",
+						email: "",
 						cinsiyetTipi: "",
+						ehliyetTipi: "",
 						ehliyetOn: "on",
 						ehliyetArka: "arka",
+						telefonNo: "",
+						ehliyetNo: "",
 					}
 				: props.initialValues,
 		validators: {
@@ -102,9 +106,6 @@ export default function AracKullananDialog(props: AracKullananDialogProps) {
 			}}
 		>
 			<DialogContent className="sm:max-w-[425px]">
-			<pre>
-				{JSON.stringify(form.state.values, null,3)}
-			</pre>
 				<DialogHeader>
 					<DialogTitle>
 						{mode === "create"

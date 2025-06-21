@@ -10,7 +10,7 @@ import type { AracKullanan } from "@/schemas/arac-kullanan";
 import { createFileRoute } from "@tanstack/react-router";
 import { MapPin, Plus, Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { getAracKullananlerQueryOptions } from "@/hooks/use-arac-kullanan-hooks";
+import { getAracKullananlarByFirmaIdQueryOptions } from "@/hooks/use-arac-kullanan-hooks";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getFirmalarQueryOptions } from "@/hooks/use-firma-hooks";
 import { Button } from "@/components/ui/button";
@@ -29,7 +29,7 @@ export const Route = createFileRoute(
 	loader: async ({ context: { queryClient }, params: { firmaId } }) => {
 		console.log({ firmaId });
 		await queryClient.prefetchQuery(getFirmalarQueryOptions());
-		await queryClient.prefetchQuery(getAracKullananlerQueryOptions());
+		await queryClient.prefetchQuery(getAracKullananlarByFirmaIdQueryOptions(firmaId));
 	},
 	component: RouteComponent,
 });
@@ -42,10 +42,10 @@ function RouteComponent() {
 	});
 	const [_, setOpenDropdowns] = useState<Set<string>>(new Set());
 
-	const { data: aracKullananler = [] } = useSuspenseQuery(
-		getAracKullananlerQueryOptions(),
-	)
 	const { data: firmalar = [] } = useSuspenseQuery(getFirmalarQueryOptions());
+	const { data: aracKullananler = [] } = useSuspenseQuery(
+		getAracKullananlarByFirmaIdQueryOptions(firmaId),
+	)
 
 	const openDialog = (type: keyof DialogState, aracKullanan?: AracKullanan) => {
 		setDialogState({
@@ -126,9 +126,6 @@ function RouteComponent() {
 						<TableHeader>
 							<TableRow className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/10 dark:to-purple-950/10 hover:from-indigo-100 hover:to-purple-100 dark:hover:from-indigo-950/20 dark:hover:to-purple-950/20">
 								<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-									Tip
-								</TableHead>
-								<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 									AracKullanan
 								</TableHead>
 								<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
@@ -155,7 +152,6 @@ function RouteComponent() {
 										key={aracKullanan.id}
 										className="hover:bg-gradient-to-r hover:from-indigo-50/50 hover:to-purple-50/50 dark:hover:from-indigo-950/10 dark:hover:to-purple-950/10 transition-all duration-200"
 									>
-										<TableCell>"icon"</TableCell>
 										<TableCell>
 											<div className="max-w-xs">
 												<p className="font-medium text-slate-900 dark:text-slate-100 truncate">
@@ -166,10 +162,10 @@ function RouteComponent() {
 										<TableCell>
 											<div>
 												<p className="font-medium text-slate-900 dark:text-slate-100">
-													{"aracKullanan.city"}
+													{aracKullanan.telefonNo}
 												</p>
 												<p className="text-sm text-slate-500 dark:text-slate-400">
-													{"aracKullanan.district"}
+													{aracKullanan.email}
 												</p>
 											</div>
 										</TableCell>
@@ -262,7 +258,7 @@ function RouteComponent() {
 					mode="update"
 					open={dialogState.update}
 					close={closeDialog}
-					initialValues={dialogState.selectedAracKullanan}
+					initialValues={{...dialogState.selectedAracKullanan, ehliyetBitisTarihi: new Date(dialogState.selectedAracKullanan.ehliyetBitisTarihi)}}
 					firmalar={firmalar}
 				/>
 			)}

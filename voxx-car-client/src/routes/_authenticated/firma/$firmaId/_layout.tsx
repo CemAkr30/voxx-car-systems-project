@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import FirmaDialog from "@/components/web/firma/firma-dialog";
+import { getAdreslerByFirmaIdQueryOptions } from "@/hooks/use-adres-hooks";
+import { getAracKullananlarByFirmaIdQueryOptions } from "@/hooks/use-arac-kullanan-hooks";
 import { getFirmaQueryOptions } from "@/hooks/use-firma-hooks";
 import { cn, relativeDate } from "@/lib/utils";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -10,6 +12,8 @@ import { useState } from "react";
 export const Route = createFileRoute("/_authenticated/firma/$firmaId/_layout")({
 	loader: async ({ context: { queryClient }, params: { firmaId } }) => {
 		await queryClient.prefetchQuery(getFirmaQueryOptions(firmaId));
+		await queryClient.prefetchQuery(getAdreslerByFirmaIdQueryOptions(firmaId))
+		await queryClient.prefetchQuery(getAracKullananlarByFirmaIdQueryOptions(firmaId))
 	},
 	component: RouteComponent,
 });

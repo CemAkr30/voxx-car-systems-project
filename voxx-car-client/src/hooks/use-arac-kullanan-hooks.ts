@@ -1,7 +1,7 @@
 import {
 	createAracKullanan,
 	deleteAracKullanan,
-	getAllAracKullanan,
+	getAllAracKullananlarByFirmaId,
 	updateAracKullanan,
 } from "@/requests/arac-kullanan";
 import type {
@@ -12,27 +12,15 @@ import {
 	queryOptions,
 	useMutation,
 	useQueryClient,
-	useSuspenseQuery,
 } from "@tanstack/react-query";
 
-export function getAracKullananlerQueryOptions() {
+export function getAracKullananlarByFirmaIdQueryOptions(firmaId:string) {
 	return queryOptions({
-		queryKey: ["aracKullananler"],
-		queryFn: getAllAracKullanan,
+		queryKey: ["firma", {firmaId} ,"arac-kullananlar"],
+		queryFn: ()=>getAllAracKullananlarByFirmaId(firmaId),
 	});
 }
-
-export function getAracKullananQueryOptions(firmaId: string) {
-	return queryOptions({
-		queryKey: ["aracKullanan", { firmaId }],
-		queryFn: getAllAracKullanan,
-	});
-}
-
-export const useAracKullananlerQuery = () =>
-	useSuspenseQuery(getAracKullananlerQueryOptions());
-
-export const useCreateAracKullananMutation = (onSuccess?: () => void) => {
+export const useCreateAracKullananMutation = (firmaId:string, onSuccess?: () => void) => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
@@ -43,43 +31,43 @@ export const useCreateAracKullananMutation = (onSuccess?: () => void) => {
 		},
 		onSuccess() {
 			queryClient.refetchQueries({
-				queryKey: getAracKullananlerQueryOptions().queryKey,
+				queryKey: getAracKullananlarByFirmaIdQueryOptions(firmaId).queryKey,
 			});
 			queryClient.invalidateQueries({
-				queryKey: getAracKullananlerQueryOptions().queryKey,
+				queryKey: getAracKullananlarByFirmaIdQueryOptions(firmaId).queryKey,
 			});
 			onSuccess?.();
 		},
 	});
 };
 
-export const useUpdateAracKullananMutation = (onSuccess?: () => void) => {
+export const useUpdateAracKullananMutation = (firmaId:string, onSuccess?: () => void) => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: async (aracKullanan: AracKullanan) =>
 			await updateAracKullanan(aracKullanan),
 		onSuccess() {
 			queryClient.refetchQueries({
-				queryKey: getAracKullananlerQueryOptions().queryKey,
+				queryKey: getAracKullananlarByFirmaIdQueryOptions(firmaId).queryKey,
 			});
 			queryClient.invalidateQueries({
-				queryKey: getAracKullananlerQueryOptions().queryKey,
+				queryKey: getAracKullananlarByFirmaIdQueryOptions(firmaId).queryKey,
 			});
 			onSuccess?.();
 		},
 	});
 };
 
-export const useDeleteAracKullananMutation = (onSuccess?: () => void) => {
+export const useDeleteAracKullananMutation = (firmaId:string, onSuccess?: () => void) => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: async (id: string) => await deleteAracKullanan(id),
 		onSuccess() {
 			queryClient.refetchQueries({
-				queryKey: getAracKullananlerQueryOptions().queryKey,
+				queryKey: getAracKullananlarByFirmaIdQueryOptions(firmaId).queryKey,
 			});
 			queryClient.invalidateQueries({
-				queryKey: getAracKullananlerQueryOptions().queryKey,
+				queryKey: getAracKullananlarByFirmaIdQueryOptions(firmaId).queryKey,
 			});
 			onSuccess?.();
 		},

@@ -25,7 +25,7 @@ import {
 	Wrench,
 } from "lucide-react";
 import { useState } from "react";
-import { getAdreslerQueryOptions } from "@/hooks/use-adres-hooks";
+import { getAdreslerByFirmaIdQueryOptions } from "@/hooks/use-adres-hooks";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getFirmalarQueryOptions } from "@/hooks/use-firma-hooks";
 import type { AdresTipi } from "@/enums";
@@ -44,9 +44,8 @@ export const Route = createFileRoute(
 	"/_authenticated/firma/$firmaId/_layout/adres/",
 )({
 	loader: async ({ context: { queryClient }, params: { firmaId } }) => {
-		console.log({ firmaId });
 		await queryClient.prefetchQuery(getFirmalarQueryOptions());
-		await queryClient.prefetchQuery(getAdreslerQueryOptions());
+		await queryClient.prefetchQuery(getAdreslerByFirmaIdQueryOptions(firmaId));
 	},
 	component: RouteComponent,
 });
@@ -131,8 +130,8 @@ function RouteComponent() {
 	});
 	const [_, setOpenDropdowns] = useState<Set<string>>(new Set());
 
-	const { data: adresler = [] } = useSuspenseQuery(getAdreslerQueryOptions());
 	const { data: firmalar = [] } = useSuspenseQuery(getFirmalarQueryOptions());
+	const { data: adresler = [] } = useSuspenseQuery(getAdreslerByFirmaIdQueryOptions(firmaId));
 
 	const openDialog = (type: keyof DialogState, adres?: Adres) => {
 		setDialogState({
