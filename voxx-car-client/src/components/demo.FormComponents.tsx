@@ -2,6 +2,7 @@ import { useStore } from "@tanstack/react-form";
 
 import { useFieldContext, useFormContext } from "../hooks/demo.form-context";
 
+import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea as ShadcnTextarea } from "@/components/ui/textarea";
@@ -11,6 +12,9 @@ import { Switch as ShadcnSwitch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import Spinner from "./web/spinner";
 import type React from "react";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { Calendar } from "./ui/calendar";
 export function SubscribeButton({ label }: { label: string }) {
 	const form = useFormContext();
 	return (
@@ -98,6 +102,43 @@ export function TextArea({
 				onChange={(e) => field.handleChange(e.target.value)}
 				className="min-h-[80px] border-gray-300 focus:border-blue-500 focus:ring-blue-500 resize-none"
 			/>
+			{field.state.meta.isTouched && <ErrorMessages errors={errors} />}
+		</div>
+	);
+}
+
+export function DatePicker({
+	label,
+}: {
+	label: string;
+}) {
+	const field = useFieldContext<Date>();
+	const errors = useStore(field.store, (state) => state.meta.errors);
+
+	return (
+		<div className="space-y-2">
+			<Label htmlFor={label} className="text-sm font-medium text-gray-700">
+				{label}
+			</Label>
+			<Popover>
+				<PopoverTrigger asChild>
+					<Button
+						variant="outline"
+						data-empty={!field.state.value}
+						className="data-[empty=true]:text-muted-foreground w-full justify-start text-left font-normal"
+					>
+						<CalendarIcon />
+						{field.state.value ? (
+							format(field.state.value, "PPP")
+						) : (
+							<span>Pick a date</span>
+						)}
+					</Button>
+				</PopoverTrigger>
+				<PopoverContent className="w-auto p-0">
+					<Calendar mode="single" selected={field.state.value} onSelect={(e) => field.handleChange(e || new Date())}  />
+				</PopoverContent>
+			</Popover>
 			{field.state.meta.isTouched && <ErrorMessages errors={errors} />}
 		</div>
 	);

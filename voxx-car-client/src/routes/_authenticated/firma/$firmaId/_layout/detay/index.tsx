@@ -5,11 +5,13 @@ import { createFileRoute } from "@tanstack/react-router";
 import {
 	Building2,
 	Calendar,
-	DollarSign, Globe,
+	DollarSign,
+	Globe,
 	Mail,
 	MapPin,
-	Phone, TrendingUp,
-	Users
+	Phone,
+	TrendingUp,
+	Users,
 } from "lucide-react";
 
 export const Route = createFileRoute(
@@ -178,7 +180,7 @@ function RouteComponent() {
 								</div>
 							</div>
 							<div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-700">
-								<Label  className="text-sm font-medium text-slate-600 dark:text-slate-400">
+								<Label className="text-sm font-medium text-slate-600 dark:text-slate-400">
 									Açıklama
 								</Label>
 								<p className="text-slate-900 dark:text-slate-100 mt-2 leading-relaxed">

@@ -4,10 +4,7 @@ import { getFirmaQueryOptions } from "@/hooks/use-firma-hooks";
 import { cn, relativeDate } from "@/lib/utils";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
-import {
-	ArrowUpRight,
-	Building2, Car, MapPin
-} from "lucide-react";
+import { ArrowUpRight, Building2, Car, MapPin } from "lucide-react";
 import { useState } from "react";
 
 export const Route = createFileRoute("/_authenticated/firma/$firmaId/_layout")({
@@ -174,7 +171,7 @@ function RouteComponent() {
 					</div>
 				</Link>
 				<Link
-					to="/firma/$firmaId/kullanilan-araclar"
+					to="/firma/$firmaId/arac-kullanan"
 					params={{ firmaId }}
 					className="group"
 				>

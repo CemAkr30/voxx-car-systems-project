@@ -20,8 +20,8 @@ import { Route as AuthenticatedModelIndexRouteImport } from './routes/_authentic
 import { Route as AuthenticatedMarkaIndexRouteImport } from './routes/_authenticated/marka/index'
 import { Route as AuthenticatedFirmaIndexRouteImport } from './routes/_authenticated/firma/index'
 import { Route as AuthenticatedFirmaFirmaIdLayoutRouteImport } from './routes/_authenticated/firma/$firmaId/_layout'
-import { Route as AuthenticatedFirmaFirmaIdLayoutKullanilanAraclarIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/kullanilan-araclar/index'
 import { Route as AuthenticatedFirmaFirmaIdLayoutDetayIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/detay/index'
+import { Route as AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/arac-kullanan/index'
 import { Route as AuthenticatedFirmaFirmaIdLayoutAdresIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/adres/index'
 
 const AuthenticatedFirmaFirmaIdRouteImport = createFileRoute(
@@ -77,16 +77,16 @@ const AuthenticatedFirmaFirmaIdLayoutRoute =
     id: '/_layout',
     getParentRoute: () => AuthenticatedFirmaFirmaIdRoute,
   } as any)
-const AuthenticatedFirmaFirmaIdLayoutKullanilanAraclarIndexRoute =
-  AuthenticatedFirmaFirmaIdLayoutKullanilanAraclarIndexRouteImport.update({
-    id: '/kullanilan-araclar/',
-    path: '/kullanilan-araclar/',
-    getParentRoute: () => AuthenticatedFirmaFirmaIdLayoutRoute,
-  } as any)
 const AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute =
   AuthenticatedFirmaFirmaIdLayoutDetayIndexRouteImport.update({
     id: '/detay/',
     path: '/detay/',
+    getParentRoute: () => AuthenticatedFirmaFirmaIdLayoutRoute,
+  } as any)
+const AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute =
+  AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRouteImport.update({
+    id: '/arac-kullanan/',
+    path: '/arac-kullanan/',
     getParentRoute: () => AuthenticatedFirmaFirmaIdLayoutRoute,
   } as any)
 const AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute =
@@ -106,8 +106,8 @@ export interface FileRoutesByFullPath {
   '/model': typeof AuthenticatedModelIndexRoute
   '/firma/$firmaId': typeof AuthenticatedFirmaFirmaIdLayoutRouteWithChildren
   '/firma/$firmaId/adres': typeof AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute
+  '/firma/$firmaId/arac-kullanan': typeof AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute
   '/firma/$firmaId/detay': typeof AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute
-  '/firma/$firmaId/kullanilan-araclar': typeof AuthenticatedFirmaFirmaIdLayoutKullanilanAraclarIndexRoute
 }
 export interface FileRoutesByTo {
   '': typeof AuthenticationRouteWithChildren
@@ -119,8 +119,8 @@ export interface FileRoutesByTo {
   '/model': typeof AuthenticatedModelIndexRoute
   '/firma/$firmaId': typeof AuthenticatedFirmaFirmaIdLayoutRouteWithChildren
   '/firma/$firmaId/adres': typeof AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute
+  '/firma/$firmaId/arac-kullanan': typeof AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute
   '/firma/$firmaId/detay': typeof AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute
-  '/firma/$firmaId/kullanilan-araclar': typeof AuthenticatedFirmaFirmaIdLayoutKullanilanAraclarIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -135,8 +135,8 @@ export interface FileRoutesById {
   '/_authenticated/firma/$firmaId': typeof AuthenticatedFirmaFirmaIdRouteWithChildren
   '/_authenticated/firma/$firmaId/_layout': typeof AuthenticatedFirmaFirmaIdLayoutRouteWithChildren
   '/_authenticated/firma/$firmaId/_layout/adres/': typeof AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute
+  '/_authenticated/firma/$firmaId/_layout/arac-kullanan/': typeof AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute
   '/_authenticated/firma/$firmaId/_layout/detay/': typeof AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute
-  '/_authenticated/firma/$firmaId/_layout/kullanilan-araclar/': typeof AuthenticatedFirmaFirmaIdLayoutKullanilanAraclarIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -150,8 +150,8 @@ export interface FileRouteTypes {
     | '/model'
     | '/firma/$firmaId'
     | '/firma/$firmaId/adres'
+    | '/firma/$firmaId/arac-kullanan'
     | '/firma/$firmaId/detay'
-    | '/firma/$firmaId/kullanilan-araclar'
   fileRoutesByTo: FileRoutesByTo
   to:
     | ''
@@ -163,8 +163,8 @@ export interface FileRouteTypes {
     | '/model'
     | '/firma/$firmaId'
     | '/firma/$firmaId/adres'
+    | '/firma/$firmaId/arac-kullanan'
     | '/firma/$firmaId/detay'
-    | '/firma/$firmaId/kullanilan-araclar'
   id:
     | '__root__'
     | '/_authenticated'
@@ -178,8 +178,8 @@ export interface FileRouteTypes {
     | '/_authenticated/firma/$firmaId'
     | '/_authenticated/firma/$firmaId/_layout'
     | '/_authenticated/firma/$firmaId/_layout/adres/'
+    | '/_authenticated/firma/$firmaId/_layout/arac-kullanan/'
     | '/_authenticated/firma/$firmaId/_layout/detay/'
-    | '/_authenticated/firma/$firmaId/_layout/kullanilan-araclar/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -259,18 +259,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFirmaFirmaIdLayoutRouteImport
       parentRoute: typeof AuthenticatedFirmaFirmaIdRoute
     }
-    '/_authenticated/firma/$firmaId/_layout/kullanilan-araclar/': {
-      id: '/_authenticated/firma/$firmaId/_layout/kullanilan-araclar/'
-      path: '/kullanilan-araclar'
-      fullPath: '/firma/$firmaId/kullanilan-araclar'
-      preLoaderRoute: typeof AuthenticatedFirmaFirmaIdLayoutKullanilanAraclarIndexRouteImport
-      parentRoute: typeof AuthenticatedFirmaFirmaIdLayoutRoute
-    }
     '/_authenticated/firma/$firmaId/_layout/detay/': {
       id: '/_authenticated/firma/$firmaId/_layout/detay/'
       path: '/detay'
       fullPath: '/firma/$firmaId/detay'
       preLoaderRoute: typeof AuthenticatedFirmaFirmaIdLayoutDetayIndexRouteImport
+      parentRoute: typeof AuthenticatedFirmaFirmaIdLayoutRoute
+    }
+    '/_authenticated/firma/$firmaId/_layout/arac-kullanan/': {
+      id: '/_authenticated/firma/$firmaId/_layout/arac-kullanan/'
+      path: '/arac-kullanan'
+      fullPath: '/firma/$firmaId/arac-kullanan'
+      preLoaderRoute: typeof AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRouteImport
       parentRoute: typeof AuthenticatedFirmaFirmaIdLayoutRoute
     }
     '/_authenticated/firma/$firmaId/_layout/adres/': {
@@ -285,18 +285,18 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedFirmaFirmaIdLayoutRouteChildren {
   AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute: typeof AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute
+  AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute: typeof AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute
   AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute: typeof AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute
-  AuthenticatedFirmaFirmaIdLayoutKullanilanAraclarIndexRoute: typeof AuthenticatedFirmaFirmaIdLayoutKullanilanAraclarIndexRoute
 }
 
 const AuthenticatedFirmaFirmaIdLayoutRouteChildren: AuthenticatedFirmaFirmaIdLayoutRouteChildren =
   {
     AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute:
       AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute,
+    AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute:
+      AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute,
     AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute:
       AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute,
-    AuthenticatedFirmaFirmaIdLayoutKullanilanAraclarIndexRoute:
-      AuthenticatedFirmaFirmaIdLayoutKullanilanAraclarIndexRoute,
   }
 
 const AuthenticatedFirmaFirmaIdLayoutRouteWithChildren =
