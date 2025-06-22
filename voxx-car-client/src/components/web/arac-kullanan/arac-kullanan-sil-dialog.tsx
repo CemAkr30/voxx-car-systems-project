@@ -29,13 +29,13 @@ export default function AracKullananSilDialog({
 
 	return (
 		<Dialog open={open} onOpenChange={close}>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent className="sm:max-w-[550px]">
 				<DialogHeader>
-					<DialogTitle>Seçili AracKullananyı Sil</DialogTitle>
+					<DialogTitle>Seçili Araç Kullananı Sil</DialogTitle>
 					<DialogDescription>
-						{`${selectedAracKullanan.ad} ${selectedAracKullanan.soyad}`} araç
-						kullanıcısını silmek istediğinizden emin misiniz? Bu işlem geri
-						alınamaz.
+						Araç kullanan{" "}
+						<i>{`${selectedAracKullanan.ad} ${selectedAracKullanan.soyad}`}</i>{" "}
+						silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.
 					</DialogDescription>
 				</DialogHeader>
 				<DialogFooter>
@@ -52,7 +52,7 @@ export default function AracKullananSilDialog({
 						{deleteAracKullananMutation.isPending ? (
 							<RefreshCw className="h-4 w-4 mr-2 animate-spin" />
 						) : null}
-						Tümünü Sil
+						Sil
 					</Button>
 				</DialogFooter>
 			</DialogContent>

@@ -1,9 +1,11 @@
+import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
 	DialogHeader,
 	DialogTitle,
 	DialogDescription,
+	DialogFooter,
 } from "@/components/ui/dialog";
 import { useAppForm } from "@/hooks/demo.form";
 import {
@@ -17,6 +19,7 @@ import {
 	type CreateModelRequest,
 	type Model,
 } from "@/schemas/model";
+import { RefreshCw } from "lucide-react";
 import { useMemo } from "react";
 
 interface ModelDialogCreateProps {
@@ -79,12 +82,14 @@ export default function ModelDialog(props: ModelDialogProps) {
 				form.reset();
 			}}
 		>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent className="sm:max-w-[550px]">
 				<DialogHeader>
 					<DialogTitle>
-						{mode === "create" ? "Yeni Model Ekle" : "Modeli Güncelle"}
+						{mode === "create" ? "Yeni Model Ekle" : "Seçili Modeli Güncelle"}
 					</DialogTitle>
-					<DialogDescription>Açıklama</DialogDescription>
+					<DialogDescription>
+						{mode === "create" ? "Yeni model eklemek için formu eksiksiz doldurunuz" : "Seçili Modeli Güncelle"}
+					</DialogDescription>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {
@@ -102,15 +107,25 @@ export default function ModelDialog(props: ModelDialogProps) {
 						{(field) => <field.TextField label="Model Adı" />}
 					</form.AppField>
 
-					<div className="flex justify-end">
-						<form.AppForm>
-							<form.SubscribeButton
-								label={
-									mode === "create" ? "Yeni Model Ekle" : "Modeli Güncelle"
-								}
-							/>
-						</form.AppForm>
-					</div>
+					<DialogFooter>
+						<Button variant="outline" onClick={close}>
+							İptal
+						</Button>
+						<Button
+							disabled={
+								mode === "create"
+									? createModelMutation.isPending
+									: updateModelMutation!.isPending
+							}
+						>
+							{mode === "create" ? (
+								createModelMutation.isPending
+							) : updateModelMutation!.isPending ? (
+								<RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+							) : null}
+							{mode === "create" ? "Yeni Model Ekle" : "Seçili Modeli Güncelle"}
+						</Button>
+					</DialogFooter>
 				</form>
 			</DialogContent>
 		</Dialog>

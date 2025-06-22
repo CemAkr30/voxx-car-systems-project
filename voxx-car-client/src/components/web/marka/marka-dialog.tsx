@@ -1,9 +1,11 @@
+import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
 	DialogHeader,
 	DialogTitle,
 	DialogDescription,
+	DialogFooter,
 } from "@/components/ui/dialog";
 import { useAppForm } from "@/hooks/demo.form";
 import {
@@ -18,6 +20,7 @@ import {
 	type Marka,
 } from "@/schemas/marka";
 import { useQueryClient } from "@tanstack/react-query";
+import { RefreshCw } from "lucide-react";
 
 interface MarkaDialogCreateProps {
 	mode: "create";
@@ -75,12 +78,14 @@ export default function MarkaDialog(props: MarkaDialogProps) {
 				form.reset();
 			}}
 		>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent className="sm:max-w-[550px]">
 				<DialogHeader>
 					<DialogTitle>
-						{mode === "create" ? "Yeni Marka Ekle" : "Markayı Güncelle"}
+						{mode === "create" ? "Yeni Marka Ekle" : "Seçili Markayı Güncelle"}
 					</DialogTitle>
-					<DialogDescription>Açıklama</DialogDescription>
+					<DialogDescription>
+						{mode === "create" ? "Yeni marka eklemek için formu eksiksiz doldurunuz" : "Seçili Markayı Güncelle"}
+					</DialogDescription>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {
@@ -94,15 +99,25 @@ export default function MarkaDialog(props: MarkaDialogProps) {
 						{(field) => <field.TextField label="Marka Adı" />}
 					</form.AppField>
 
-					<div className="flex justify-end">
-						<form.AppForm>
-							<form.SubscribeButton
-								label={
-									mode === "create" ? "Yeni Marka Ekle" : "Markayı Güncelle"
-								}
-							/>
-						</form.AppForm>
-					</div>
+					<DialogFooter>
+						<Button variant="outline" onClick={close}>
+							İptal
+						</Button>
+						<Button
+							disabled={
+								mode === "create"
+									? createMarkaMutation.isPending
+									: updateMarkaMutation!.isPending
+							}
+						>
+							{mode === "create" ? (
+								createMarkaMutation.isPending
+							) : updateMarkaMutation!.isPending ? (
+								<RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+							) : null}
+							{mode === "create" ? "Yeni Marka Ekle" : "Seçili Markayı Güncelle"}
+						</Button>
+					</DialogFooter>
 				</form>
 			</DialogContent>
 		</Dialog>

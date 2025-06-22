@@ -26,12 +26,12 @@ export default function FirmaSilDialog({
 
 	return (
 		<Dialog open={open} onOpenChange={close}>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent className="sm:max-w-[550px]">
 				<DialogHeader>
 					<DialogTitle>Seçili Firmayı Sil</DialogTitle>
 					<DialogDescription>
-						{selectedFirma.unvan} firmayı silmek istediğinizden emin misiniz? Bu
-						işlem geri alınamaz.
+						<i>{selectedFirma.unvan}</i> firmayı silmek istediğinizden emin
+						misiniz? Bu işlem geri alınamaz.
 					</DialogDescription>
 				</DialogHeader>
 				<DialogFooter>

@@ -1,9 +1,11 @@
+import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
 	DialogHeader,
 	DialogTitle,
 	DialogDescription,
+	DialogFooter,
 } from "@/components/ui/dialog";
 import { AdresTipi } from "@/enums";
 import { useAppForm } from "@/hooks/demo.form";
@@ -18,6 +20,7 @@ import {
 	adresUpdateSchema,
 } from "@/schemas/adres";
 import type { Firma } from "@/schemas/firma";
+import { RefreshCw } from "lucide-react";
 import { useMemo } from "react";
 
 interface AdresDialogCreateProps {
@@ -84,12 +87,14 @@ export default function AdresDialog(props: AdresDialogProps) {
 				form.reset();
 			}}
 		>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent className="sm:max-w-[550px]">
 				<DialogHeader>
 					<DialogTitle>
-						{mode === "create" ? "Yeni Adres Ekle" : "Adresyı Güncelle"}
+						{mode === "create" ? "Yeni Adres Ekle" : "Seçili Adresi Güncelle"}
 					</DialogTitle>
-					<DialogDescription>Açıklama</DialogDescription>
+					<DialogDescription>
+						{mode === "create" ? "Yeni adres eklemek için formu eksiksiz doldurunuz" : "Seçili Adresi Güncelle"}
+					</DialogDescription>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {
@@ -111,15 +116,25 @@ export default function AdresDialog(props: AdresDialogProps) {
 						)}
 					</form.AppField>
 
-					<div className="flex justify-end">
-						<form.AppForm>
-							<form.SubscribeButton
-								label={
-									mode === "create" ? "Yeni Adres Ekle" : "Adresyı Güncelle"
-								}
-							/>
-						</form.AppForm>
-					</div>
+					<DialogFooter>
+						<Button variant="outline" onClick={close}>
+							İptal
+						</Button>
+						<Button
+							disabled={
+								mode === "create"
+									? createAdresMutation.isPending
+									: updateAdresMutation!.isPending
+							}
+						>
+							{mode === "create" ? (
+								createAdresMutation.isPending
+							) : updateAdresMutation!.isPending ? (
+								<RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+							) : null}
+							{mode === "create" ? "Yeni Adres Ekle" : "Seçili Adresi Güncelle"}
+						</Button>
+					</DialogFooter>
 				</form>
 			</DialogContent>
 		</Dialog>

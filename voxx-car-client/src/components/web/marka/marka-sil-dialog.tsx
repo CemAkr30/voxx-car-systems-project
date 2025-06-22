@@ -26,12 +26,12 @@ export default function MarkaSilDialog({
 
 	return (
 		<Dialog open={open} onOpenChange={close}>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent className="sm:max-w-[550px]">
 				<DialogHeader>
 					<DialogTitle>Seçili Markayı Sil</DialogTitle>
 					<DialogDescription>
-						{selectedMarka.adi} markayı silmek istediğinizden emin misiniz? Bu
-						işlem geri alınamaz.
+						Seçili marka <i>{selectedMarka.adi}</i> silmek istediğinizden emin
+						misiniz? Bu işlem geri alınamaz.
 					</DialogDescription>
 				</DialogHeader>
 				<DialogFooter>
@@ -46,7 +46,7 @@ export default function MarkaSilDialog({
 						{deleteMarkaMutation.isPending ? (
 							<RefreshCw className="h-4 w-4 mr-2 animate-spin" />
 						) : null}
-						Tümünü Sil
+						Sil
 					</Button>
 				</DialogFooter>
 			</DialogContent>

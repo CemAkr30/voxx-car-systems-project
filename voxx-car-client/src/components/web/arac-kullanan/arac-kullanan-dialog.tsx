@@ -1,9 +1,11 @@
+import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
 	DialogHeader,
 	DialogTitle,
 	DialogDescription,
+	DialogFooter,
 } from "@/components/ui/dialog";
 import { CinsiyetTipi, EhliyetTipi } from "@/enums";
 import { useAppForm } from "@/hooks/demo.form";
@@ -18,6 +20,7 @@ import {
 	aracKullananUpdateSchema,
 } from "@/schemas/arac-kullanan";
 import type { Firma } from "@/schemas/firma";
+import { RefreshCw } from "lucide-react";
 import { useMemo } from "react";
 
 interface AracKullananDialogCreateProps {
@@ -110,14 +113,14 @@ export default function AracKullananDialog(props: AracKullananDialogProps) {
 				form.reset();
 			}}
 		>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent className="sm:max-w-[550px]">
 				<DialogHeader>
 					<DialogTitle>
-						{mode === "create"
-							? "Yeni AracKullanan Ekle"
-							: "AracKullananyı Güncelle"}
+						{mode === "create" ? "Yeni Araç Kullanan Ekle" : "Seçili Araç Kullananı Güncelle"}
 					</DialogTitle>
-					<DialogDescription>Açıklama</DialogDescription>
+					<DialogDescription>
+						{mode === "create" ? "Yeni araç kullanan eklemek için formu eksiksiz doldurunuz" : "Seçili Araç Kullananı Güncelle"}
+					</DialogDescription>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {
@@ -172,17 +175,25 @@ export default function AracKullananDialog(props: AracKullananDialogProps) {
 						{(field) => <field.TextArea label="Adres" />}
 					</form.AppField>
 
-					<div className="flex justify-end">
-						<form.AppForm>
-							<form.SubscribeButton
-								label={
-									mode === "create"
-										? "Yeni AracKullanan Ekle"
-										: "AracKullananyı Güncelle"
-								}
-							/>
-						</form.AppForm>
-					</div>
+					<DialogFooter>
+						<Button variant="outline" onClick={close}>
+							İptal
+						</Button>
+						<Button
+							disabled={
+								mode === "create"
+									? createAracKullananMutation.isPending
+									: updateAracKullananMutation!.isPending
+							}
+						>
+							{mode === "create" ? (
+								createAracKullananMutation.isPending
+							) : updateAracKullananMutation!.isPending ? (
+								<RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+							) : null}
+							{mode === "create" ? "Yeni Araç Kullanan Ekle" : "Seçili Araç Kullananı Güncelle"}
+						</Button>
+					</DialogFooter>
 				</form>
 			</DialogContent>
 		</Dialog>
