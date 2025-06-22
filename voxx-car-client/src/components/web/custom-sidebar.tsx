@@ -1,4 +1,3 @@
-"use client";
 import {
 	Settings,
 	LogOut,
@@ -6,9 +5,7 @@ import {
 	ChevronDown,
 	Box,
 	LayoutDashboard,
-	MapPin,
 	Tag,
-	Terminal,
 	Car,
 	BriefcaseBusiness,
 } from "lucide-react";
@@ -78,26 +75,6 @@ const navItems = [
 				title: "Firma",
 				icon: BriefcaseBusiness,
 				href: "/firma",
-			},
-		],
-	},
-	{
-		title: "SSH",
-		children: [
-			{
-				title: "SSH",
-				icon: Terminal,
-				href: "/ssh/crash",
-			},
-		],
-	},
-	{
-		title: "Adres",
-		children: [
-			{
-				title: "Adres",
-				icon: MapPin,
-				href: "/adres",
 			},
 		],
 	},
