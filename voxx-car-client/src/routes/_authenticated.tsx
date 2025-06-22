@@ -9,6 +9,8 @@ import { Separator } from "@/components/ui/separator";
 import CustomSidebar from "@/components/web/custom-sidebar";
 import { Toaster } from "@/components/ui/sonner";
 import usePath from "@/hooks/use-path";
+import { authUserQueryOptions } from "@/hooks/use-auth-hooks";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/_authenticated")({
 	beforeLoad: ({ context: { user } }) => {
@@ -18,6 +20,9 @@ export const Route = createFileRoute("/_authenticated")({
 				statusCode: 301,
 			});
 		}
+	},
+	loader: async ({ context: { queryClient } }) => {
+		await queryClient.prefetchQuery(authUserQueryOptions());
 	},
 	component: RouteComponent,
 });
@@ -41,10 +46,11 @@ const getTitle = (path: string) => {
 
 function RouteComponent() {
 	const path = usePath();
+	const { data: user } = useSuspenseQuery(authUserQueryOptions());
 	return (
 		<React.Fragment>
 			<SidebarProvider>
-				<CustomSidebar />
+				<CustomSidebar user={user} />
 				<SidebarInset>
 					<header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
 						<SidebarTrigger className="-ml-1" />

@@ -41,6 +41,7 @@ import {
 } from "../ui/collapsible";
 import { useQueryClient } from "@tanstack/react-query";
 import usePath from "@/hooks/use-path";
+import type { User as TUser } from "@/schemas/user";
 
 const navItems = [
 	{
@@ -80,7 +81,7 @@ const navItems = [
 	},
 ];
 
-export default function CustomSidebar() {
+export default function CustomSidebar({ user }: { user: TUser }) {
 	const queryClient = useQueryClient();
 	const pathname = usePath();
 	const router = useRouter();
@@ -160,9 +161,9 @@ export default function CustomSidebar() {
 										<AvatarFallback>JD</AvatarFallback>
 									</Avatar>
 									<div className="flex flex-col items-start">
-										<span>John Doe</span>
+										<span>{user.name}</span>
 										<span className="text-xs text-sidebar-foreground/70">
-											john@example.com
+											{user.email}
 										</span>
 									</div>
 									<ChevronDown className="ml-auto size-4 opacity-50" />
