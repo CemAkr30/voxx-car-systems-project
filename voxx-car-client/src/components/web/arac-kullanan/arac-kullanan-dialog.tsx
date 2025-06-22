@@ -116,10 +116,14 @@ export default function AracKullananDialog(props: AracKullananDialogProps) {
 			<DialogContent className="sm:max-w-[550px]">
 				<DialogHeader>
 					<DialogTitle>
-						{mode === "create" ? "Yeni Araç Kullanan Ekle" : "Seçili Araç Kullananı Güncelle"}
+						{mode === "create"
+							? "Yeni Araç Kullanan Ekle"
+							: "Seçili Araç Kullananı Güncelle"}
 					</DialogTitle>
 					<DialogDescription>
-						{mode === "create" ? "Yeni araç kullanan eklemek için formu eksiksiz doldurunuz" : "Seçili Araç Kullananı Güncelle"}
+						{mode === "create"
+							? "Yeni araç kullanan eklemek için formu eksiksiz doldurunuz"
+							: "Seçili Araç Kullananı Güncelle"}
 					</DialogDescription>
 				</DialogHeader>
 				<form
@@ -191,7 +195,9 @@ export default function AracKullananDialog(props: AracKullananDialogProps) {
 							) : updateAracKullananMutation!.isPending ? (
 								<RefreshCw className="h-4 w-4 mr-2 animate-spin" />
 							) : null}
-							{mode === "create" ? "Yeni Araç Kullanan Ekle" : "Seçili Araç Kullananı Güncelle"}
+							{mode === "create"
+								? "Yeni Araç Kullanan Ekle"
+								: "Seçili Araç Kullananı Güncelle"}
 						</Button>
 					</DialogFooter>
 				</form>

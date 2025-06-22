@@ -80,7 +80,9 @@ export default function FirmaDialog(props: FirmaDialogProps) {
 						{mode === "create" ? "Yeni Firma Ekle" : "Seçili Firmayı Güncelle"}
 					</DialogTitle>
 					<DialogDescription>
-						{mode === "create" ? "Yeni firma eklemek için formu eksiksiz doldurunuz" : "Seçili Firmayı Güncelle"}
+						{mode === "create"
+							? "Yeni firma eklemek için formu eksiksiz doldurunuz"
+							: "Seçili Firmayı Güncelle"}
 					</DialogDescription>
 				</DialogHeader>
 				<form
@@ -121,7 +123,9 @@ export default function FirmaDialog(props: FirmaDialogProps) {
 							) : updateFirmaMutation!.isPending ? (
 								<RefreshCw className="h-4 w-4 mr-2 animate-spin" />
 							) : null}
-							{mode === "create" ? "Yeni Firma Ekle" : "Seçili Firmayı Güncelle"}
+							{mode === "create"
+								? "Yeni Firma Ekle"
+								: "Seçili Firmayı Güncelle"}
 						</Button>
 					</DialogFooter>
 				</form>

@@ -84,7 +84,9 @@ export default function MarkaDialog(props: MarkaDialogProps) {
 						{mode === "create" ? "Yeni Marka Ekle" : "Seçili Markayı Güncelle"}
 					</DialogTitle>
 					<DialogDescription>
-						{mode === "create" ? "Yeni marka eklemek için formu eksiksiz doldurunuz" : "Seçili Markayı Güncelle"}
+						{mode === "create"
+							? "Yeni marka eklemek için formu eksiksiz doldurunuz"
+							: "Seçili Markayı Güncelle"}
 					</DialogDescription>
 				</DialogHeader>
 				<form
@@ -115,7 +117,9 @@ export default function MarkaDialog(props: MarkaDialogProps) {
 							) : updateMarkaMutation!.isPending ? (
 								<RefreshCw className="h-4 w-4 mr-2 animate-spin" />
 							) : null}
-							{mode === "create" ? "Yeni Marka Ekle" : "Seçili Markayı Güncelle"}
+							{mode === "create"
+								? "Yeni Marka Ekle"
+								: "Seçili Markayı Güncelle"}
 						</Button>
 					</DialogFooter>
 				</form>

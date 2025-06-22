@@ -93,7 +93,9 @@ export default function AdresDialog(props: AdresDialogProps) {
 						{mode === "create" ? "Yeni Adres Ekle" : "Seçili Adresi Güncelle"}
 					</DialogTitle>
 					<DialogDescription>
-						{mode === "create" ? "Yeni adres eklemek için formu eksiksiz doldurunuz" : "Seçili Adresi Güncelle"}
+						{mode === "create"
+							? "Yeni adres eklemek için formu eksiksiz doldurunuz"
+							: "Seçili Adresi Güncelle"}
 					</DialogDescription>
 				</DialogHeader>
 				<form

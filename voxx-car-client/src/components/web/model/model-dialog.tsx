@@ -88,7 +88,9 @@ export default function ModelDialog(props: ModelDialogProps) {
 						{mode === "create" ? "Yeni Model Ekle" : "Seçili Modeli Güncelle"}
 					</DialogTitle>
 					<DialogDescription>
-						{mode === "create" ? "Yeni model eklemek için formu eksiksiz doldurunuz" : "Seçili Modeli Güncelle"}
+						{mode === "create"
+							? "Yeni model eklemek için formu eksiksiz doldurunuz"
+							: "Seçili Modeli Güncelle"}
 					</DialogDescription>
 				</DialogHeader>
 				<form
