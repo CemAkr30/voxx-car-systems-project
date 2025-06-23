@@ -12,7 +12,7 @@ import {
 	useSuspenseQuery,
 } from "@tanstack/react-query";
 
-export function markalarGetQueryOptions() {
+export function getMarkalarQueryOptions() {
 	return queryOptions({
 		queryKey: ["markalar"],
 		queryFn: getAllMarka,
@@ -20,7 +20,7 @@ export function markalarGetQueryOptions() {
 }
 
 export const useMarkalarQuery = () =>
-	useSuspenseQuery(markalarGetQueryOptions());
+	useSuspenseQuery(getMarkalarQueryOptions());
 
 export const useCreateMarkaMutation = (onSuccess?: () => void) => {
 	const queryClient = useQueryClient();
@@ -31,10 +31,10 @@ export const useCreateMarkaMutation = (onSuccess?: () => void) => {
 		},
 		onSuccess() {
 			queryClient.refetchQueries({
-				queryKey: markalarGetQueryOptions().queryKey,
+				queryKey: getMarkalarQueryOptions().queryKey,
 			});
 			queryClient.invalidateQueries({
-				queryKey: markalarGetQueryOptions().queryKey,
+				queryKey: getMarkalarQueryOptions().queryKey,
 			});
 			onSuccess?.();
 		},
@@ -47,10 +47,10 @@ export const useUpdateMarkaMutation = (onSuccess?: () => void) => {
 		mutationFn: async (marka: Marka) => await updateMarka(marka),
 		onSuccess() {
 			queryClient.refetchQueries({
-				queryKey: markalarGetQueryOptions().queryKey,
+				queryKey: getMarkalarQueryOptions().queryKey,
 			});
 			queryClient.invalidateQueries({
-				queryKey: markalarGetQueryOptions().queryKey,
+				queryKey: getMarkalarQueryOptions().queryKey,
 			});
 			onSuccess?.();
 		},
@@ -63,10 +63,10 @@ export const useDeleteMarkaMutation = (onSuccess?: () => void) => {
 		mutationFn: async (id: string) => await deleteMarka(id),
 		onSuccess() {
 			queryClient.refetchQueries({
-				queryKey: markalarGetQueryOptions().queryKey,
+				queryKey: getMarkalarQueryOptions().queryKey,
 			});
 			queryClient.invalidateQueries({
-				queryKey: markalarGetQueryOptions().queryKey,
+				queryKey: getMarkalarQueryOptions().queryKey,
 			});
 			onSuccess?.();
 		},

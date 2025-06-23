@@ -26,12 +26,12 @@ export default function ModelSilDialog({
 
 	return (
 		<Dialog open={open} onOpenChange={close}>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent className="sm:max-w-[550px]">
 				<DialogHeader>
 					<DialogTitle>Seçili Modeli Sil</DialogTitle>
 					<DialogDescription>
-						{selectedModel.adi} modeli silmek istediğinizden emin misiniz? Bu
-						işlem geri alınamaz.
+						Seçili model <i>{selectedModel.adi}</i> silmek istediğinizden emin
+						misiniz? Bu işlem geri alınamaz.
 					</DialogDescription>
 				</DialogHeader>
 				<DialogFooter>

@@ -1,6 +1,7 @@
 import {
 	createAdres,
 	deleteAdres,
+	getAdresByFirmaId,
 	getAllAdres,
 	updateAdres,
 } from "@/requests/adres";
@@ -12,15 +13,22 @@ import {
 	useSuspenseQuery,
 } from "@tanstack/react-query";
 
-export function adreslerGetQueryOptions() {
+export function getAdreslerQueryOptions() {
 	return queryOptions({
 		queryKey: ["adresler"],
 		queryFn: getAllAdres,
 	});
 }
 
+export function getAdreslerByFirmaIdQueryOptions(firmaId: string) {
+	return queryOptions({
+		queryKey: ["firma", { firmaId }, "adres"],
+		queryFn: () => getAdresByFirmaId(firmaId),
+	});
+}
+
 export const useAdreslerQuery = () =>
-	useSuspenseQuery(adreslerGetQueryOptions());
+	useSuspenseQuery(getAdreslerQueryOptions());
 
 export const useCreateAdresMutation = (onSuccess?: () => void) => {
 	const queryClient = useQueryClient();
@@ -31,10 +39,10 @@ export const useCreateAdresMutation = (onSuccess?: () => void) => {
 		},
 		onSuccess() {
 			queryClient.refetchQueries({
-				queryKey: adreslerGetQueryOptions().queryKey,
+				queryKey: getAdreslerQueryOptions().queryKey,
 			});
 			queryClient.invalidateQueries({
-				queryKey: adreslerGetQueryOptions().queryKey,
+				queryKey: getAdreslerQueryOptions().queryKey,
 			});
 			onSuccess?.();
 		},
@@ -47,10 +55,10 @@ export const useUpdateAdresMutation = (onSuccess?: () => void) => {
 		mutationFn: async (adres: Adres) => await updateAdres(adres),
 		onSuccess() {
 			queryClient.refetchQueries({
-				queryKey: adreslerGetQueryOptions().queryKey,
+				queryKey: getAdreslerQueryOptions().queryKey,
 			});
 			queryClient.invalidateQueries({
-				queryKey: adreslerGetQueryOptions().queryKey,
+				queryKey: getAdreslerQueryOptions().queryKey,
 			});
 			onSuccess?.();
 		},
@@ -63,10 +71,10 @@ export const useDeleteAdresMutation = (onSuccess?: () => void) => {
 		mutationFn: async (id: string) => await deleteAdres(id),
 		onSuccess() {
 			queryClient.refetchQueries({
-				queryKey: adreslerGetQueryOptions().queryKey,
+				queryKey: getAdreslerQueryOptions().queryKey,
 			});
 			queryClient.invalidateQueries({
-				queryKey: adreslerGetQueryOptions().queryKey,
+				queryKey: getAdreslerQueryOptions().queryKey,
 			});
 			onSuccess?.();
 		},

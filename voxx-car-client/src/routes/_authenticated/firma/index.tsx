@@ -6,7 +6,7 @@ import {
 	DropdownMenuTrigger,
 	DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
 	Download,
 	Search,
@@ -29,7 +29,7 @@ import { formatDate } from "@/lib/utils";
 import FirmaDialog from "@/components/web/firma/firma-dialog";
 import FirmaSilDialog from "@/components/web/firma/firma-sil-dialog";
 import {
-	firmalarGetQueryOptions,
+	getFirmalarQueryOptions,
 	useFirmalarQuery,
 } from "@/hooks/use-firma-hooks";
 
@@ -42,7 +42,7 @@ interface DialogState {
 
 export const Route = createFileRoute("/_authenticated/firma/")({
 	loader: ({ context: { queryClient } }) =>
-		queryClient.prefetchQuery(firmalarGetQueryOptions()),
+		queryClient.prefetchQuery(getFirmalarQueryOptions()),
 	component: RouteComponent,
 });
 
@@ -57,22 +57,6 @@ function RouteComponent() {
 	const [openDropdowns, setOpenDropdowns] = useState<Set<string>>(new Set());
 
 	const { data: firmalar = [] } = useFirmalarQuery();
-
-	const handleSelectAll = (checked: boolean) => {
-		if (checked) {
-			setSelectedItems(firmalar.map((item: Firma) => item.id));
-		} else {
-			setSelectedItems([]);
-		}
-	};
-
-	const handleSelectItem = (id: string, checked: boolean) => {
-		if (checked) {
-			setSelectedItems((prev) => [...prev, id]);
-		} else {
-			setSelectedItems((prev) => prev.filter((item) => item !== id));
-		}
-	};
 
 	const openDialog = (type: keyof DialogState, firma?: Firma) => {
 		setDialogState({
@@ -207,16 +191,15 @@ function RouteComponent() {
 							<TableBody>
 								{firmalar.map((firma: Firma) => (
 									<TableRow key={firma.id}>
-										{/* <TableCell>
-                      <Checkbox
-                        checked={selectedItems.includes(firma.id)}
-                        onCheckedChange={(checked) =>
-                          handleSelectItem(firma.id, checked as boolean)
-                        }
-                      />
-                    </TableCell> */}
 										<TableCell>{firma.id}</TableCell>
-										<TableCell className="font-medium">{firma.unvan}</TableCell>
+										<TableCell className="font-medium">
+											<Link
+												to="/firma/$firmaId/detay"
+												params={{ firmaId: firma.id }}
+											>
+												{firma.unvan}
+											</Link>
+										</TableCell>
 										<TableCell>{formatDate(firma.createdAt)}</TableCell>
 										<TableCell>{formatDate(firma.updatedAt)}</TableCell>
 										<TableCell>

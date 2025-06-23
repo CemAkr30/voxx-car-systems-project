@@ -16,3 +16,31 @@ export function formatDate(date: string) {
 		second: "2-digit",
 	}).format(formattedDate);
 }
+
+export function relativeDate(date: string) {
+	const now = new Date();
+	const past = new Date(date);
+	const diffInSeconds = Math.floor((now.getTime() - past.getTime()) / 1000);
+
+	const rtf = new Intl.RelativeTimeFormat("tr-TR", { numeric: "auto" });
+
+	const divisions: { amount: number; unit: Intl.RelativeTimeFormatUnit }[] = [
+		{ amount: 60, unit: "second" },
+		{ amount: 60, unit: "minute" },
+		{ amount: 24, unit: "hour" },
+		{ amount: 7, unit: "day" },
+		{ amount: 4.34524, unit: "week" },
+		{ amount: 12, unit: "month" },
+		{ amount: Number.POSITIVE_INFINITY, unit: "year" },
+	];
+
+	let duration = diffInSeconds;
+	for (const { amount, unit } of divisions) {
+		if (Math.abs(duration) < amount) {
+			return rtf.format(-Math.round(duration), unit);
+		}
+		duration = duration / amount;
+	}
+
+	return rtf.format(-Math.round(duration), "year");
+}

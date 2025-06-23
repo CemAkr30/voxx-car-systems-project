@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/table";
 import MarkaDialog from "@/components/web/marka/marka-dialog";
 import {
-	markalarGetQueryOptions,
+	getMarkalarQueryOptions,
 	useMarkalarQuery,
 } from "@/hooks/use-marka-hooks";
 import MarkaSilDialog from "@/components/web/marka/marka-sil-dialog";
@@ -42,7 +42,7 @@ interface DialogState {
 
 export const Route = createFileRoute("/_authenticated/marka/")({
 	loader: ({ context: { queryClient } }) =>
-		queryClient.prefetchQuery(markalarGetQueryOptions()),
+		queryClient.prefetchQuery(getMarkalarQueryOptions()),
 	component: RouteComponent,
 });
 
@@ -57,22 +57,6 @@ function RouteComponent() {
 	const [openDropdowns, setOpenDropdowns] = useState<Set<string>>(new Set());
 
 	const { data: markalar = [] } = useMarkalarQuery();
-
-	const handleSelectAll = (checked: boolean) => {
-		if (checked) {
-			setSelectedItems(markalar.map((item: Marka) => item.id));
-		} else {
-			setSelectedItems([]);
-		}
-	};
-
-	const handleSelectItem = (id: string, checked: boolean) => {
-		if (checked) {
-			setSelectedItems((prev) => [...prev, id]);
-		} else {
-			setSelectedItems((prev) => prev.filter((item) => item !== id));
-		}
-	};
 
 	const openDialog = (type: keyof DialogState, marka?: Marka) => {
 		setDialogState({
@@ -207,14 +191,6 @@ function RouteComponent() {
 							<TableBody>
 								{markalar.map((marka: Marka) => (
 									<TableRow key={marka.id}>
-										{/* <TableCell>
-                      <Checkbox
-                        checked={selectedItems.includes(marka.id)}
-                        onCheckedChange={(checked) =>
-                          handleSelectItem(marka.id, checked as boolean)
-                        }
-                      />
-                    </TableCell> */}
 										<TableCell>{marka.id}</TableCell>
 										<TableCell className="font-medium">{marka.adi}</TableCell>
 										<TableCell>{formatDate(marka.createdAt)}</TableCell>

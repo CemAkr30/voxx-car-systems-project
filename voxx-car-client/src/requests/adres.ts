@@ -9,6 +9,11 @@ export const getAllAdres = async (): Promise<Adres[]> => {
 	return data;
 };
 
+export const getAdresByFirmaId = async (firmaId: string): Promise<Adres[]> => {
+	const { data } = await axiosClient.get(`${urls.firma}/${firmaId}/adres`);
+	return data;
+};
+
 export const createAdres = async (adres: CreateAdresRequest): Promise<void> => {
 	try {
 		await axiosClient.post<Adres>(`${urls.adres}`, adres);

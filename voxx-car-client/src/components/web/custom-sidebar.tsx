@@ -1,4 +1,3 @@
-"use client";
 import {
 	Settings,
 	LogOut,
@@ -6,10 +5,7 @@ import {
 	ChevronDown,
 	Box,
 	LayoutDashboard,
-	ListOrdered,
-	MapPin,
 	Tag,
-	Terminal,
 	Car,
 	BriefcaseBusiness,
 } from "lucide-react";
@@ -45,6 +41,7 @@ import {
 } from "../ui/collapsible";
 import { useQueryClient } from "@tanstack/react-query";
 import usePath from "@/hooks/use-path";
+import type { User as TUser } from "@/schemas/user";
 
 const navItems = [
 	{
@@ -58,7 +55,7 @@ const navItems = [
 		],
 	},
 	{
-		title: "Araç",
+		title: "Tanımlar",
 		children: [
 			{
 				title: "Marka",
@@ -70,41 +67,21 @@ const navItems = [
 				icon: Box,
 				href: "/model",
 			},
+		],
+	},
+	{
+		title: "Firmalar",
+		children: [
 			{
 				title: "Firma",
 				icon: BriefcaseBusiness,
 				href: "/firma",
 			},
-			{
-				title: "Listele",
-				icon: ListOrdered,
-				href: "/liste",
-			},
-		],
-	},
-	{
-		title: "SSH",
-		children: [
-			{
-				title: "SSH",
-				icon: Terminal,
-				href: "/ssh/crash",
-			},
-		],
-	},
-	{
-		title: "Adres",
-		children: [
-			{
-				title: "Adres",
-				icon: MapPin,
-				href: "/adres",
-			},
 		],
 	},
 ];
 
-export default function CustomSidebar() {
+export default function CustomSidebar({ user }: { user: TUser }) {
 	const queryClient = useQueryClient();
 	const pathname = usePath();
 	const router = useRouter();
@@ -184,9 +161,9 @@ export default function CustomSidebar() {
 										<AvatarFallback>JD</AvatarFallback>
 									</Avatar>
 									<div className="flex flex-col items-start">
-										<span>John Doe</span>
+										<span>{user.name}</span>
 										<span className="text-xs text-sidebar-foreground/70">
-											john@example.com
+											{user.email}
 										</span>
 									</div>
 									<ChevronDown className="ml-auto size-4 opacity-50" />

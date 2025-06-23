@@ -1,9 +1,11 @@
+import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
 	DialogHeader,
 	DialogTitle,
 	DialogDescription,
+	DialogFooter,
 } from "@/components/ui/dialog";
 import { useAppForm } from "@/hooks/demo.form";
 import {
@@ -16,6 +18,7 @@ import {
 	type CreateFirmaRequest,
 	type Firma,
 } from "@/schemas/firma";
+import { RefreshCw } from "lucide-react";
 
 interface FirmaDialogCreateProps {
 	mode: "create";
@@ -44,6 +47,8 @@ export default function FirmaDialog(props: FirmaDialogProps) {
 			mode === "create"
 				? {
 						unvan: "",
+						vergiNo: "",
+						email: "",
 					}
 				: props.initialValues,
 		validators: {
@@ -57,7 +62,7 @@ export default function FirmaDialog(props: FirmaDialogProps) {
 					await updateFirmaMutation!.mutateAsync(value as Firma);
 				}
 				formApi.reset();
-			} catch (error) {}
+			} catch (_error) {}
 		},
 	});
 
@@ -69,12 +74,16 @@ export default function FirmaDialog(props: FirmaDialogProps) {
 				form.reset();
 			}}
 		>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent className="sm:max-w-[550px]">
 				<DialogHeader>
 					<DialogTitle>
-						{mode === "create" ? "Yeni Firma Ekle" : "Firmayı Güncelle"}
+						{mode === "create" ? "Yeni Firma Ekle" : "Seçili Firmayı Güncelle"}
 					</DialogTitle>
-					<DialogDescription>Açıklama</DialogDescription>
+					<DialogDescription>
+						{mode === "create"
+							? "Yeni firma eklemek için formu eksiksiz doldurunuz"
+							: "Seçili Firmayı Güncelle"}
+					</DialogDescription>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {
@@ -88,15 +97,37 @@ export default function FirmaDialog(props: FirmaDialogProps) {
 						{(field) => <field.TextField label="Firma Adı" />}
 					</form.AppField>
 
-					<div className="flex justify-end">
-						<form.AppForm>
-							<form.SubscribeButton
-								label={
-									mode === "create" ? "Yeni Firma Ekle" : "Firmayı Güncelle"
-								}
-							/>
-						</form.AppForm>
-					</div>
+					<form.AppField name="vergiNo">
+						{(field) => <field.TextField label="Vergi Numarası" />}
+					</form.AppField>
+
+					<form.AppField name="email">
+						{(field) => (
+							<field.TextField label="Firma Mail Adres" type="email" />
+						)}
+					</form.AppField>
+
+					<DialogFooter>
+						<Button variant="outline" onClick={close}>
+							İptal
+						</Button>
+						<Button
+							disabled={
+								mode === "create"
+									? createFirmaMutation.isPending
+									: updateFirmaMutation!.isPending
+							}
+						>
+							{mode === "create" ? (
+								createFirmaMutation.isPending
+							) : updateFirmaMutation!.isPending ? (
+								<RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+							) : null}
+							{mode === "create"
+								? "Yeni Firma Ekle"
+								: "Seçili Firmayı Güncelle"}
+						</Button>
+					</DialogFooter>
 				</form>
 			</DialogContent>
 		</Dialog>

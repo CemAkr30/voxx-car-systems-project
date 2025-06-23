@@ -9,6 +9,11 @@ export const getAllFirma = async (): Promise<Firma[]> => {
 	return data;
 };
 
+export const getFirma = async (id: string): Promise<Firma> => {
+	const { data } = await axiosClient.get(`${urls.firma}/${id}`);
+	return data;
+};
+
 export const createFirma = async (firma: CreateFirmaRequest): Promise<void> => {
 	try {
 		await axiosClient.post<Firma>(`${urls.firma}`, firma);

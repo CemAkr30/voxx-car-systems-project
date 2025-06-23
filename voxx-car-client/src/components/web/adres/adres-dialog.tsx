@@ -1,9 +1,11 @@
+import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
 	DialogHeader,
 	DialogTitle,
 	DialogDescription,
+	DialogFooter,
 } from "@/components/ui/dialog";
 import { AdresTipi } from "@/enums";
 import { useAppForm } from "@/hooks/demo.form";
@@ -17,11 +19,16 @@ import {
 	adresCreateSchema,
 	adresUpdateSchema,
 } from "@/schemas/adres";
+import type { Firma } from "@/schemas/firma";
+import { RefreshCw } from "lucide-react";
+import { useMemo } from "react";
 
 interface AdresDialogCreateProps {
 	mode: "create";
 	open: boolean;
 	close: () => void;
+	initialValues: { firmaId: string };
+	firmalar: Firma[];
 }
 
 interface AdresDialogUpdateProps {
@@ -29,12 +36,20 @@ interface AdresDialogUpdateProps {
 	open: boolean;
 	close: () => void;
 	initialValues: Adres;
+	firmalar: Firma[];
 }
 
 type AdresDialogProps = AdresDialogCreateProps | AdresDialogUpdateProps;
 
 export default function AdresDialog(props: AdresDialogProps) {
-	const { mode, open, close } = props;
+	const { mode, open, close, firmalar } = props;
+
+	const firmalarOptions = useMemo(
+		() => firmalar.map((firma) => ({ label: firma.unvan, value: firma.id })),
+		[firmalar],
+	);
+
+	const adresTipiOptions = AdresTipi.map((tip) => ({ label: tip, value: tip }));
 
 	const createAdresMutation = useCreateAdresMutation(close);
 	const updateAdresMutation =
@@ -44,8 +59,8 @@ export default function AdresDialog(props: AdresDialogProps) {
 		defaultValues:
 			mode === "create"
 				? {
+						...props.initialValues,
 						aciklama: "",
-						firmaId: "",
 						tip: "",
 					}
 				: props.initialValues,
@@ -60,7 +75,7 @@ export default function AdresDialog(props: AdresDialogProps) {
 					await updateAdresMutation!.mutateAsync(value as Adres);
 				}
 				formApi.reset();
-			} catch (error) {}
+			} catch (_error) {}
 		},
 	});
 
@@ -72,12 +87,16 @@ export default function AdresDialog(props: AdresDialogProps) {
 				form.reset();
 			}}
 		>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent className="sm:max-w-[550px]">
 				<DialogHeader>
 					<DialogTitle>
-						{mode === "create" ? "Yeni Adres Ekle" : "Adresyı Güncelle"}
+						{mode === "create" ? "Yeni Adres Ekle" : "Seçili Adresi Güncelle"}
 					</DialogTitle>
-					<DialogDescription>Açıklama</DialogDescription>
+					<DialogDescription>
+						{mode === "create"
+							? "Yeni adres eklemek için formu eksiksiz doldurunuz"
+							: "Seçili Adresi Güncelle"}
+					</DialogDescription>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {
@@ -88,24 +107,36 @@ export default function AdresDialog(props: AdresDialogProps) {
 					className="space-y-6"
 				>
 					<form.AppField name="firmaId">
-						{(field) => <field.TextField label="Firma Id" />}
+						{(field) => <field.Select label="Firma" values={firmalarOptions} />}
 					</form.AppField>
 					<form.AppField name="aciklama">
 						{(field) => <field.TextArea label="Açıklama" />}
 					</form.AppField>
 					<form.AppField name="tip">
-						{(field) => <field.TextField label="Tip" />}
+						{(field) => (
+							<field.Select label="Adres Tipi" values={adresTipiOptions} />
+						)}
 					</form.AppField>
 
-					<div className="flex justify-end">
-						<form.AppForm>
-							<form.SubscribeButton
-								label={
-									mode === "create" ? "Yeni Adres Ekle" : "Adresyı Güncelle"
-								}
-							/>
-						</form.AppForm>
-					</div>
+					<DialogFooter>
+						<Button variant="outline" onClick={close}>
+							İptal
+						</Button>
+						<Button
+							disabled={
+								mode === "create"
+									? createAdresMutation.isPending
+									: updateAdresMutation!.isPending
+							}
+						>
+							{mode === "create" ? (
+								createAdresMutation.isPending
+							) : updateAdresMutation!.isPending ? (
+								<RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+							) : null}
+							{mode === "create" ? "Yeni Adres Ekle" : "Seçili Adresi Güncelle"}
+						</Button>
+					</DialogFooter>
 				</form>
 			</DialogContent>
 		</Dialog>

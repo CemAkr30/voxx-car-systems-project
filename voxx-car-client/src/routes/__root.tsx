@@ -14,8 +14,8 @@ interface MyRouterContext {
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
 	beforeLoad: async ({ context: { queryClient } }) => {
-		await queryClient.prefetchQuery(authUserQueryOptions);
-		const user = queryClient.getQueryData(["authUser"]);
+		await queryClient.prefetchQuery(authUserQueryOptions());
+		const user = queryClient.getQueryData(authUserQueryOptions().queryKey);
 		return { user };
 	},
 	component: RouteComponent,
@@ -27,7 +27,7 @@ function RouteComponent() {
 	return (
 		<>
 			<Outlet />
-			<TanStackRouterDevtools />
+			<TanStackRouterDevtools position="bottom-right" />
 
 			<TanStackQueryLayout />
 		</>

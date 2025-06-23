@@ -26,12 +26,16 @@ import {
 } from "@/components/ui/table";
 import { formatDate } from "@/lib/utils";
 import {
-	modellerGetQueryOptions,
+	getModellerQueryOptions,
 	useModellerQuery,
 } from "@/hooks/use-model-hooks";
 import type { Model } from "@/schemas/model";
 import ModelDialog from "@/components/web/model/model-dialog";
 import ModelSilDialog from "@/components/web/model/model-sil-dialog";
+import {
+	getMarkalarQueryOptions,
+	useMarkalarQuery,
+} from "@/hooks/use-marka-hooks";
 
 interface DialogState {
 	create: boolean;
@@ -41,8 +45,10 @@ interface DialogState {
 }
 
 export const Route = createFileRoute("/_authenticated/model/")({
-	loader: ({ context: { queryClient } }) =>
-		queryClient.prefetchQuery(modellerGetQueryOptions()),
+	loader: async ({ context: { queryClient } }) => {
+		await queryClient.prefetchQuery(getMarkalarQueryOptions());
+		await queryClient.prefetchQuery(getModellerQueryOptions());
+	},
 	component: RouteComponent,
 });
 
@@ -57,22 +63,7 @@ function RouteComponent() {
 	const [openDropdowns, setOpenDropdowns] = useState<Set<string>>(new Set());
 
 	const { data: modeller = [] } = useModellerQuery();
-
-	const handleSelectAll = (checked: boolean) => {
-		if (checked) {
-			setSelectedItems(modeller.map((item: Model) => item.id));
-		} else {
-			setSelectedItems([]);
-		}
-	};
-
-	const handleSelectItem = (id: string, checked: boolean) => {
-		if (checked) {
-			setSelectedItems((prev) => [...prev, id]);
-		} else {
-			setSelectedItems((prev) => prev.filter((item) => item !== id));
-		}
-	};
+	const { data: markalar = [] } = useMarkalarQuery();
 
 	const openDialog = (type: keyof DialogState, model?: Model) => {
 		setDialogState({
@@ -265,6 +256,7 @@ function RouteComponent() {
 					mode="create"
 					open={dialogState.create}
 					close={closeDialog}
+					markalar={markalar}
 				/>
 			)}
 
@@ -273,6 +265,7 @@ function RouteComponent() {
 					mode="update"
 					open={dialogState.update}
 					close={closeDialog}
+					markalar={markalar}
 					initialValues={dialogState.selectedModel}
 				/>
 			)}

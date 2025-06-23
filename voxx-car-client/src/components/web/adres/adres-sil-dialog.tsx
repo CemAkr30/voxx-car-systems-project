@@ -26,12 +26,12 @@ export default function AdresSilDialog({
 
 	return (
 		<Dialog open={open} onOpenChange={close}>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent className="sm:max-w-[550px]">
 				<DialogHeader>
-					<DialogTitle>Seçili Adresyı Sil</DialogTitle>
+					<DialogTitle>Seçili Adresi Sil</DialogTitle>
 					<DialogDescription>
-						{selectedAdres.aciklama} adresyı silmek istediğinizden emin misiniz?
-						Bu işlem geri alınamaz.
+						Seçili adres <i>{selectedAdres.aciklama}</i> silmek istediğinizden
+						emin misiniz? Bu işlem geri alınamaz.
 					</DialogDescription>
 				</DialogHeader>
 				<DialogFooter>
@@ -46,7 +46,7 @@ export default function AdresSilDialog({
 						{deleteAdresMutation.isPending ? (
 							<RefreshCw className="h-4 w-4 mr-2 animate-spin" />
 						) : null}
-						Tümünü Sil
+						Sil
 					</Button>
 				</DialogFooter>
 			</DialogContent>
