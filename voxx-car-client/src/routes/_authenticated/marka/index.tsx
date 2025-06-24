@@ -25,13 +25,11 @@ import {
 	TableCell,
 } from "@/components/ui/table";
 import MarkaDialog from "@/components/web/marka/marka-dialog";
-import {
-	getMarkalarQueryOptions,
-	useMarkalarQuery,
-} from "@/hooks/use-marka-hooks";
+import { getMarkalarQueryOptions } from "@/hooks/use-marka-hooks";
 import MarkaSilDialog from "@/components/web/marka/marka-sil-dialog";
 import type { Marka } from "@/schemas/marka";
 import { formatDate } from "@/lib/utils";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 interface DialogState {
 	create: boolean;
@@ -56,7 +54,7 @@ function RouteComponent() {
 	});
 	const [openDropdowns, setOpenDropdowns] = useState<Set<string>>(new Set());
 
-	const { data: markalar = [] } = useMarkalarQuery();
+	const { data: markalar = [] } = useSuspenseQuery(getMarkalarQueryOptions());
 
 	const openDialog = (type: keyof DialogState, marka?: Marka) => {
 		setDialogState({

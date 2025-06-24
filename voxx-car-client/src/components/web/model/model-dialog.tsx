@@ -114,6 +114,7 @@ export default function ModelDialog(props: ModelDialogProps) {
 							İptal
 						</Button>
 						<Button
+							type="submit"
 							disabled={
 								mode === "create"
 									? createModelMutation.isPending

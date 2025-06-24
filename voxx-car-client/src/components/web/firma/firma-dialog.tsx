@@ -112,6 +112,7 @@ export default function FirmaDialog(props: FirmaDialogProps) {
 							İptal
 						</Button>
 						<Button
+							type="submit"
 							disabled={
 								mode === "create"
 									? createFirmaMutation.isPending

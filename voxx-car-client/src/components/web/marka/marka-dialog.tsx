@@ -106,6 +106,7 @@ export default function MarkaDialog(props: MarkaDialogProps) {
 							İptal
 						</Button>
 						<Button
+							type="submit"
 							disabled={
 								mode === "create"
 									? createMarkaMutation.isPending

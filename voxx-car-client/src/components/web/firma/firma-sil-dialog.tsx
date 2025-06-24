@@ -46,7 +46,7 @@ export default function FirmaSilDialog({
 						{deleteFirmaMutation.isPending ? (
 							<RefreshCw className="h-4 w-4 mr-2 animate-spin" />
 						) : null}
-						Tümünü Sil
+						Sil
 					</Button>
 				</DialogFooter>
 			</DialogContent>

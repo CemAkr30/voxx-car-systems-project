@@ -33,12 +33,9 @@ export const useCreateAracKullananMutation = (
 			await createAracKullanan(aracKullanan);
 		},
 		onSuccess() {
-			queryClient.refetchQueries({
-				queryKey: getAracKullananlarByFirmaIdQueryOptions(firmaId).queryKey,
-			});
-			queryClient.invalidateQueries({
-				queryKey: getAracKullananlarByFirmaIdQueryOptions(firmaId).queryKey,
-			});
+			queryClient.invalidateQueries(
+				getAracKullananlarByFirmaIdQueryOptions(firmaId),
+			);
 			onSuccess?.();
 		},
 	});
@@ -53,12 +50,9 @@ export const useUpdateAracKullananMutation = (
 		mutationFn: async (aracKullanan: AracKullanan) =>
 			await updateAracKullanan(aracKullanan),
 		onSuccess() {
-			queryClient.refetchQueries({
-				queryKey: getAracKullananlarByFirmaIdQueryOptions(firmaId).queryKey,
-			});
-			queryClient.invalidateQueries({
-				queryKey: getAracKullananlarByFirmaIdQueryOptions(firmaId).queryKey,
-			});
+			queryClient.invalidateQueries(
+				getAracKullananlarByFirmaIdQueryOptions(firmaId),
+			);
 			onSuccess?.();
 		},
 	});
@@ -72,12 +66,9 @@ export const useDeleteAracKullananMutation = (
 	return useMutation({
 		mutationFn: async (id: string) => await deleteAracKullanan(id),
 		onSuccess() {
-			queryClient.refetchQueries({
-				queryKey: getAracKullananlarByFirmaIdQueryOptions(firmaId).queryKey,
-			});
-			queryClient.invalidateQueries({
-				queryKey: getAracKullananlarByFirmaIdQueryOptions(firmaId).queryKey,
-			});
+			queryClient.invalidateQueries(
+				getAracKullananlarByFirmaIdQueryOptions(firmaId),
+			);
 			onSuccess?.();
 		},
 	});

@@ -123,6 +123,7 @@ export default function AdresDialog(props: AdresDialogProps) {
 							İptal
 						</Button>
 						<Button
+							type="submit"
 							disabled={
 								mode === "create"
 									? createAdresMutation.isPending

@@ -4,11 +4,6 @@ import type { CreateAdresRequest, Adres } from "@/schemas/adres";
 import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
-export const getAllAdres = async (): Promise<Adres[]> => {
-	const { data } = await axiosClient.get(`${urls.adres}`);
-	return data;
-};
-
 export const getAdresByFirmaId = async (firmaId: string): Promise<Adres[]> => {
 	const { data } = await axiosClient.get(`${urls.firma}/${firmaId}/adres`);
 	return data;

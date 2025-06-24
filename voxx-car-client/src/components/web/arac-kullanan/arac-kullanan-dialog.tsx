@@ -184,6 +184,7 @@ export default function AracKullananDialog(props: AracKullananDialogProps) {
 							İptal
 						</Button>
 						<Button
+							type="submit"
 							disabled={
 								mode === "create"
 									? createAracKullananMutation.isPending
