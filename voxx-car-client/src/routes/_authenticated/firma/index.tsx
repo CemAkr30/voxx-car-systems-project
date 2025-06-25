@@ -28,10 +28,8 @@ import type { Firma } from "@/schemas/firma";
 import { formatDate } from "@/lib/utils";
 import FirmaDialog from "@/components/web/firma/firma-dialog";
 import FirmaSilDialog from "@/components/web/firma/firma-sil-dialog";
-import {
-	getFirmalarQueryOptions,
-	useFirmalarQuery,
-} from "@/hooks/use-firma-hooks";
+import { getFirmalarQueryOptions } from "@/hooks/use-firma-hooks";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 interface DialogState {
 	create: boolean;
@@ -56,7 +54,7 @@ function RouteComponent() {
 	});
 	const [openDropdowns, setOpenDropdowns] = useState<Set<string>>(new Set());
 
-	const { data: firmalar = [] } = useFirmalarQuery();
+	const { data: firmalar = [] } = useSuspenseQuery(getFirmalarQueryOptions());
 
 	const openDialog = (type: keyof DialogState, firma?: Firma) => {
 		setDialogState({

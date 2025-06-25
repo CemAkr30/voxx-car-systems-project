@@ -91,21 +91,13 @@ function RouteComponent() {
 							</div>
 						</div>
 						<div className="flex items-center gap-3">
-							<div className="bg-white/10 backdrop-blur-sm rounded-xl px-4 py-2 border border-white/20">
-								<span className="text-white/80 text-sm">
-									Toplam AracKullanan:{" "}
-								</span>
-								<span className="text-white font-bold text-lg">
-									{aracKullananler.length}
-								</span>
-							</div>
 							<Button
 								onClick={() => openDialog("create")}
 								type="button"
 								className="flex items-center gap-2 px-4 py-2 bg-white hover:bg-white/90 rounded-xl text-indigo-600 font-medium transition-all duration-200 shadow-lg hover:shadow-xl"
 							>
 								<Plus className="h-4 w-4" />
-								Yeni AracKullanan
+								Yeni Arac Kullanan
 							</Button>
 						</div>
 					</div>

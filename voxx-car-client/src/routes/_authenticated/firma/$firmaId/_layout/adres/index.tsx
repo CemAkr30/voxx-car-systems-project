@@ -177,12 +177,6 @@ function RouteComponent() {
 							</div>
 						</div>
 						<div className="flex items-center gap-3">
-							<div className="bg-white/10 backdrop-blur-sm rounded-xl px-4 py-2 border border-white/20">
-								<span className="text-white/80 text-sm">Toplam Adres: </span>
-								<span className="text-white font-bold text-lg">
-									{adresler.length}
-								</span>
-							</div>
 							<Button
 								onClick={() => openDialog("create")}
 								type="button"

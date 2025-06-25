@@ -10,7 +10,6 @@ import {
 	queryOptions,
 	useMutation,
 	useQueryClient,
-	useSuspenseQuery,
 } from "@tanstack/react-query";
 
 export function getFirmalarQueryOptions() {
@@ -27,9 +26,6 @@ export function getFirmaQueryOptions(firmaId: string) {
 	});
 }
 
-export const useFirmalarQuery = () =>
-	useSuspenseQuery(getFirmalarQueryOptions());
-
 export const useCreateFirmaMutation = (onSuccess?: () => void) => {
 	const queryClient = useQueryClient();
 
@@ -38,12 +34,7 @@ export const useCreateFirmaMutation = (onSuccess?: () => void) => {
 			await createFirma(firma);
 		},
 		onSuccess() {
-			queryClient.refetchQueries({
-				queryKey: getFirmalarQueryOptions().queryKey,
-			});
-			queryClient.invalidateQueries({
-				queryKey: getFirmalarQueryOptions().queryKey,
-			});
+			queryClient.invalidateQueries(getFirmalarQueryOptions());
 			onSuccess?.();
 		},
 	});
@@ -52,14 +43,12 @@ export const useCreateFirmaMutation = (onSuccess?: () => void) => {
 export const useUpdateFirmaMutation = (onSuccess?: () => void) => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: async (firma: Firma) => await updateFirma(firma),
+		mutationFn: async (firma: Firma) => {
+			await updateFirma(firma);
+			await queryClient.invalidateQueries(getFirmaQueryOptions(firma.id));
+		},
 		onSuccess() {
-			queryClient.refetchQueries({
-				queryKey: getFirmalarQueryOptions().queryKey,
-			});
-			queryClient.invalidateQueries({
-				queryKey: getFirmalarQueryOptions().queryKey,
-			});
+			queryClient.invalidateQueries(getFirmalarQueryOptions());
 			onSuccess?.();
 		},
 	});
@@ -70,12 +59,7 @@ export const useDeleteFirmaMutation = (onSuccess?: () => void) => {
 	return useMutation({
 		mutationFn: async (id: string) => await deleteFirma(id),
 		onSuccess() {
-			queryClient.refetchQueries({
-				queryKey: getFirmalarQueryOptions().queryKey,
-			});
-			queryClient.invalidateQueries({
-				queryKey: getFirmalarQueryOptions().queryKey,
-			});
+			queryClient.invalidateQueries(getFirmalarQueryOptions());
 			onSuccess?.();
 		},
 	});

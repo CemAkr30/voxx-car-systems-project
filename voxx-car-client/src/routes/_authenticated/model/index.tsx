@@ -25,17 +25,12 @@ import {
 	TableCell,
 } from "@/components/ui/table";
 import { formatDate } from "@/lib/utils";
-import {
-	getModellerQueryOptions,
-	useModellerQuery,
-} from "@/hooks/use-model-hooks";
+import { getModellerQueryOptions } from "@/hooks/use-model-hooks";
 import type { Model } from "@/schemas/model";
 import ModelDialog from "@/components/web/model/model-dialog";
 import ModelSilDialog from "@/components/web/model/model-sil-dialog";
-import {
-	getMarkalarQueryOptions,
-	useMarkalarQuery,
-} from "@/hooks/use-marka-hooks";
+import { getMarkalarQueryOptions } from "@/hooks/use-marka-hooks";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 interface DialogState {
 	create: boolean;
@@ -62,8 +57,8 @@ function RouteComponent() {
 	});
 	const [openDropdowns, setOpenDropdowns] = useState<Set<string>>(new Set());
 
-	const { data: modeller = [] } = useModellerQuery();
-	const { data: markalar = [] } = useMarkalarQuery();
+	const { data: modeller = [] } = useSuspenseQuery(getModellerQueryOptions());
+	const { data: markalar = [] } = useSuspenseQuery(getMarkalarQueryOptions());
 
 	const openDialog = (type: keyof DialogState, model?: Model) => {
 		setDialogState({

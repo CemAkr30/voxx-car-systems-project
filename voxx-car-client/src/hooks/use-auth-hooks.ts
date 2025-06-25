@@ -2,6 +2,7 @@ import getCurrentUser from "@/data/auth";
 import { login } from "@/requests/auth";
 import type { LoginRequest, LoginResponse } from "@/schemas/auth";
 import { queryOptions, useMutation } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
 
 export function authUserQueryOptions() {
 	return queryOptions({
@@ -14,9 +15,11 @@ export function authUserQueryOptions() {
 }
 
 export const useAuthLoginMutation = () => {
+	const navigate = useNavigate();
 	return useMutation({
 		mutationKey: ["login"],
 		mutationFn: async (credentials: LoginRequest): Promise<LoginResponse> =>
 			await login(credentials),
+		onSuccess: () => navigate({ to: "/" }),
 	});
 };

@@ -207,10 +207,10 @@ function RouteComponent() {
 							</div>
 							<div className="space-y-2">
 								<h3 className="font-bold text-lg text-slate-900 dark:text-slate-100 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors">
-									Kullanılan Araçlar
+									Araç Kullananlar
 								</h3>
 								<p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-									Firmada kullanılan araç listesi
+									Firmada araç kullanan kişilerin listesi
 								</p>
 							</div>
 						</div>

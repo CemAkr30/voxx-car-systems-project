@@ -9,7 +9,6 @@ import {
 	queryOptions,
 	useMutation,
 	useQueryClient,
-	useSuspenseQuery,
 } from "@tanstack/react-query";
 
 export function getMarkalarQueryOptions() {
@@ -19,9 +18,6 @@ export function getMarkalarQueryOptions() {
 	});
 }
 
-export const useMarkalarQuery = () =>
-	useSuspenseQuery(getMarkalarQueryOptions());
-
 export const useCreateMarkaMutation = (onSuccess?: () => void) => {
 	const queryClient = useQueryClient();
 
@@ -30,12 +26,7 @@ export const useCreateMarkaMutation = (onSuccess?: () => void) => {
 			await createMarka(marka);
 		},
 		onSuccess() {
-			queryClient.refetchQueries({
-				queryKey: getMarkalarQueryOptions().queryKey,
-			});
-			queryClient.invalidateQueries({
-				queryKey: getMarkalarQueryOptions().queryKey,
-			});
+			queryClient.invalidateQueries(getMarkalarQueryOptions());
 			onSuccess?.();
 		},
 	});
@@ -44,14 +35,11 @@ export const useCreateMarkaMutation = (onSuccess?: () => void) => {
 export const useUpdateMarkaMutation = (onSuccess?: () => void) => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: async (marka: Marka) => await updateMarka(marka),
+		mutationFn: async (marka: Marka) => {
+			await updateMarka(marka);
+		},
 		onSuccess() {
-			queryClient.refetchQueries({
-				queryKey: getMarkalarQueryOptions().queryKey,
-			});
-			queryClient.invalidateQueries({
-				queryKey: getMarkalarQueryOptions().queryKey,
-			});
+			queryClient.invalidateQueries(getMarkalarQueryOptions());
 			onSuccess?.();
 		},
 	});
@@ -60,14 +48,11 @@ export const useUpdateMarkaMutation = (onSuccess?: () => void) => {
 export const useDeleteMarkaMutation = (onSuccess?: () => void) => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: async (id: string) => await deleteMarka(id),
+		mutationFn: async (id: string) => {
+			await deleteMarka(id);
+		},
 		onSuccess() {
-			queryClient.refetchQueries({
-				queryKey: getMarkalarQueryOptions().queryKey,
-			});
-			queryClient.invalidateQueries({
-				queryKey: getMarkalarQueryOptions().queryKey,
-			});
+			queryClient.invalidateQueries(getMarkalarQueryOptions());
 			onSuccess?.();
 		},
 	});
