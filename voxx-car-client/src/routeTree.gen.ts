@@ -15,7 +15,10 @@ import { Route as AuthenticationRouteImport } from './routes/_authentication'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthenticationLoginRouteImport } from './routes/_authentication/login'
+import { Route as AuthenticatedVehicleRouteImport } from './routes/_authenticated/vehicle'
+import { Route as AuthenticatedDriverRouteImport } from './routes/_authenticated/driver'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedAddressRouteImport } from './routes/_authenticated/address'
 import { Route as AuthenticatedModelIndexRouteImport } from './routes/_authenticated/model/index'
 import { Route as AuthenticatedMarkaIndexRouteImport } from './routes/_authenticated/marka/index'
 import { Route as AuthenticatedFirmaIndexRouteImport } from './routes/_authenticated/firma/index'
@@ -47,9 +50,24 @@ const AuthenticationLoginRoute = AuthenticationLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => AuthenticationRoute,
 } as any)
+const AuthenticatedVehicleRoute = AuthenticatedVehicleRouteImport.update({
+  id: '/vehicle',
+  path: '/vehicle',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedDriverRoute = AuthenticatedDriverRouteImport.update({
+  id: '/driver',
+  path: '/driver',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedAddressRoute = AuthenticatedAddressRouteImport.update({
+  id: '/address',
+  path: '/address',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedFirmaFirmaIdRoute =
@@ -105,7 +123,10 @@ const AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute =
 
 export interface FileRoutesByFullPath {
   '': typeof AuthenticationRouteWithChildren
+  '/address': typeof AuthenticatedAddressRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/driver': typeof AuthenticatedDriverRoute
+  '/vehicle': typeof AuthenticatedVehicleRoute
   '/login': typeof AuthenticationLoginRoute
   '/': typeof AuthenticatedIndexRoute
   '/firma': typeof AuthenticatedFirmaIndexRoute
@@ -119,7 +140,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '': typeof AuthenticationRouteWithChildren
+  '/address': typeof AuthenticatedAddressRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/driver': typeof AuthenticatedDriverRoute
+  '/vehicle': typeof AuthenticatedVehicleRoute
   '/login': typeof AuthenticationLoginRoute
   '/': typeof AuthenticatedIndexRoute
   '/firma': typeof AuthenticatedFirmaIndexRoute
@@ -134,7 +158,10 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/_authentication': typeof AuthenticationRouteWithChildren
+  '/_authenticated/address': typeof AuthenticatedAddressRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/driver': typeof AuthenticatedDriverRoute
+  '/_authenticated/vehicle': typeof AuthenticatedVehicleRoute
   '/_authentication/login': typeof AuthenticationLoginRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/firma/': typeof AuthenticatedFirmaIndexRoute
@@ -151,7 +178,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | ''
+    | '/address'
     | '/dashboard'
+    | '/driver'
+    | '/vehicle'
     | '/login'
     | '/'
     | '/firma'
@@ -165,7 +195,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | ''
+    | '/address'
     | '/dashboard'
+    | '/driver'
+    | '/vehicle'
     | '/login'
     | '/'
     | '/firma'
@@ -179,7 +212,10 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_authenticated'
     | '/_authentication'
+    | '/_authenticated/address'
     | '/_authenticated/dashboard'
+    | '/_authenticated/driver'
+    | '/_authenticated/vehicle'
     | '/_authentication/login'
     | '/_authenticated/'
     | '/_authenticated/firma/'
@@ -228,11 +264,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticationLoginRouteImport
       parentRoute: typeof AuthenticationRoute
     }
+    '/_authenticated/vehicle': {
+      id: '/_authenticated/vehicle'
+      path: '/vehicle'
+      fullPath: '/vehicle'
+      preLoaderRoute: typeof AuthenticatedVehicleRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/driver': {
+      id: '/_authenticated/driver'
+      path: '/driver'
+      fullPath: '/driver'
+      preLoaderRoute: typeof AuthenticatedDriverRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/address': {
+      id: '/_authenticated/address'
+      path: '/address'
+      fullPath: '/address'
+      preLoaderRoute: typeof AuthenticatedAddressRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/firma/$firmaId': {
@@ -341,7 +398,10 @@ const AuthenticatedFirmaFirmaIdRouteWithChildren =
   )
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedAddressRoute: typeof AuthenticatedAddressRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedDriverRoute: typeof AuthenticatedDriverRoute
+  AuthenticatedVehicleRoute: typeof AuthenticatedVehicleRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedFirmaIndexRoute: typeof AuthenticatedFirmaIndexRoute
   AuthenticatedMarkaIndexRoute: typeof AuthenticatedMarkaIndexRoute
@@ -350,7 +410,10 @@ interface AuthenticatedRouteChildren {
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedAddressRoute: AuthenticatedAddressRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedDriverRoute: AuthenticatedDriverRoute,
+  AuthenticatedVehicleRoute: AuthenticatedVehicleRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedFirmaIndexRoute: AuthenticatedFirmaIndexRoute,
   AuthenticatedMarkaIndexRoute: AuthenticatedMarkaIndexRoute,

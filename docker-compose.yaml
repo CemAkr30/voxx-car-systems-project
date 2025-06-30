@@ -1,163 +1,101 @@
-version: "3.8"
-
 services:
-  app:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: voxxcar-postgres
+    environment:
+      POSTGRES_DB: voxxcar
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./voxx-car-server/internal/framework/migrations:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - voxxcar-network
+
+  # Redis for caching (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: voxxcar-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - voxxcar-network
+
+  # Go Backend Server
+  backend:
     build:
       context: ./voxx-car-server
       dockerfile: Dockerfile
-    container_name: voxx-car-app
-    ports:
-      - "9090:9090"
+      target: production
+    container_name: voxxcar-backend
     environment:
-      - JAVA_OPTS=-Xms512m -Xmx1024m
-      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
-    restart: unless-stopped
-    networks:
-      - voxx-car-network
-    depends_on:
-      app_postgres:
-        condition: service_healthy
-
-  #  client:
-  #    build:
-  #      context: ./voxx-car-client
-  #      dockerfile: Dockerfile
-  #    container_name: voxx-car-ui
-  #    ports:
-  #      - "3000:80"
-  #    restart: unless-stopped
-  #    networks:
-  #      - voxx-car-network
-
-  app_postgres:
-    container_name: postgres-service
-    image: postgres:14
-    environment:
-      POSTGRES_USER: username
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: voxx_car_systems
-    volumes:
-      - app-db:/var/lib/postgresql/data
-    ports:
-      - "5400:5432"
-    networks:
-      - voxx-car-network
-    restart: unless-stopped
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U username -d voxx_car_systems" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  zookeeper:
-    image: confluentinc/cp-zookeeper:7.5.0
-    container_name: zookeeper-service
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-    ports:
-      - "2181:2181"
-    networks:
-      - voxx-car-network
-
-  kafka:
-    image: confluentinc/cp-kafka:7.5.0
-    container_name: kafka-service
-    depends_on:
-      - zookeeper
-    ports:
-      - "9092:9092"
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://${KAFKA_HOST_NAME}:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-    networks:
-      - voxx-car-network
-
-  kafdrop:
-    image: obsidiandynamics/kafdrop:latest
-    container_name: kafdrop-ui
-    depends_on:
-      - kafka
-    ports:
-      - "9000:9000"
-    environment:
-      KAFKA_BROKERCONNECT: kafka:9092
-      JVM_OPTS: "-Xms32M -Xmx64M"
-      SERVER_SERVLET_CONTEXTPATH: "/"
-    networks:
-      - voxx-car-network
-
-  kc_postgres:
-    container_name: kc_db
-    image: postgres:14
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: keycloak
-      POSTGRES_PASSWORD: 123456
-      POSTGRES_DB: keycloak
-    volumes:
-      - kc-db:/var/lib/postgresql/data
-    networks:
-      - voxx-car-network
-    restart: unless-stopped
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U keycloak -d keycloak" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  keycloak:
-    container_name: keycloak-service
-    image: quay.io/keycloak/keycloak:23.0.6
-    command: start-dev --import-realm
-    environment:
-      DB_VENDOR: postgres
-      DB_ADDR: kc_postgres
-      DB_PORT: "5432"
-      DB_DATABASE: keycloak
-      DB_USER: keycloak
-      DB_PASSWORD: 123456
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
+      - APP_ENV=production
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=voxxcar
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     ports:
       - "8080:8080"
-    volumes:
-      - ./infrastructure/keycloak/realm-config:/opt/keycloak/data/import
     depends_on:
-      kc_postgres:
+      postgres:
         condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     networks:
-      - voxx-car-network
+      - voxxcar-network
+    restart: unless-stopped
 
-  couchbase:
-    image: couchbase:community
-    container_name: couchbase-service
+  # React Frontend
+  frontend:
+    build:
+      context: ./voxx-car-client
+      dockerfile: Dockerfile
+      target: production
+    container_name: voxxcar-frontend
     ports:
-      - "8091-8094:8091-8094"
-      - "11210:11210"
-    environment:
-      CB_ADMIN_USERNAME: Administrator
-      CB_ADMIN_PASSWORD: password
-      CB_BUCKET_NAME: car-bucket
-      CB_USER: caruser
-      CB_USER_PASSWORD: caruserpass
-      CB_BUCKET_RAMSIZE: 512
-    volumes:
-      - ./infrastructure/couchbase/entrypoint.sh:/opt/couchbase/entrypoint.sh:ro
+      - "80:80"
+    depends_on:
+      - backend
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     networks:
-      - voxx-car-network
-    entrypoint: [ "/bin/bash", "/opt/couchbase/entrypoint.sh" ]
-
-networks:
-  voxx-car-network:
-    name: voxx-car-network
-    driver: bridge
+      - voxxcar-network
+    restart: unless-stopped
 
 volumes:
-  app-db:
-  kc-db:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  voxxcar-network:
+    driver: bridge

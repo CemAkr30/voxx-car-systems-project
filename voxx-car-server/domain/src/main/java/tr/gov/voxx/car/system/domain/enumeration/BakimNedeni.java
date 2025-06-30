@@ -1,5 +1,0 @@
-package tr.gov.voxx.car.system.domain.enumeration;
-
-public enum BakimNedeni {
-    YILLIK, HASAR
-}
