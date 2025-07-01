@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea as ShadcnTextarea } from "@/components/ui/textarea";
 import * as ShadcnSelect from "@/components/ui/select";
 import { Slider as ShadcnSlider } from "@/components/ui/slider";
+import { Checkbox as ShadcnCheckbox } from "@/components/ui/checkbox";
 import { Switch as ShadcnSwitch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import Spinner from "./web/spinner";
@@ -52,7 +53,7 @@ export function TextField({
 	placeholder,
 	...props
 }: React.ComponentProps<"input"> & { label?: string }) {
-	const field = useFieldContext<string>();
+	const field = useFieldContext<string | number>();
 	const errors = useStore(field.store, (state) => state.meta.errors);
 
 	return (
@@ -68,7 +69,11 @@ export function TextField({
 				value={field.state.value}
 				placeholder={placeholder}
 				onBlur={field.handleBlur}
-				onChange={(e) => field.handleChange(e.target.value)}
+				onChange={(e) =>
+					field.handleChange(
+						props.type === "number" ? +e.target.value : e.target.value,
+					)
+				}
 				className="h-10 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
 			/>
 			{field.state.meta.isTouched && <ErrorMessages errors={errors} />}
@@ -109,8 +114,10 @@ export function TextArea({
 
 export function DatePicker({
 	label,
+	disabled = false,
 }: {
 	label: string;
+	disabled?: boolean;
 }) {
 	const field = useFieldContext<Date>();
 	const errors = useStore(field.store, (state) => state.meta.errors);
@@ -125,14 +132,13 @@ export function DatePicker({
 					<Button
 						variant="outline"
 						data-empty={!field.state.value}
-						className="data-[empty=true]:text-muted-foreground w-full justify-start text-left font-normal"
+						className="data-[empty=true]:text-muted-foreground w-full justify-start text-left font-normal h-10"
+						disabled={disabled}
 					>
 						<CalendarIcon />
-						{field.state.value ? (
-							format(field.state.value, "PPP")
-						) : (
-							<span>Pick a date</span>
-						)}
+						{field.state.value
+							? format(field.state.value, "PPP")
+							: format(new Date(), "PPP")}
 					</Button>
 				</PopoverTrigger>
 				<PopoverContent className="w-auto p-0">
@@ -148,14 +154,36 @@ export function DatePicker({
 	);
 }
 
+export function Checkbox({
+	label,
+}: {
+	label: string;
+}) {
+	const field = useFieldContext<boolean>();
+	const errors = useStore(field.store, (state) => state.meta.errors);
+
+	return (
+		<div className="space-y-2">
+			<Label className="text-sm font-medium text-gray-700">{label}</Label>
+			<ShadcnCheckbox
+				checked={field.state.value}
+				onCheckedChange={(checked: boolean) => field.handleChange(checked)}
+			/>
+			{field.state.meta.isTouched && <ErrorMessages errors={errors} />}
+		</div>
+	);
+}
+
 export function Select({
 	label,
 	values,
 	placeholder,
+	disabled = false,
 }: {
 	label: string;
 	values: Array<{ label: string; value: string }>;
 	placeholder?: string;
+	disabled?: boolean;
 }) {
 	const field = useFieldContext<string>();
 	const errors = useStore(field.store, (state) => state.meta.errors);
@@ -164,6 +192,7 @@ export function Select({
 		<div className="space-y-2">
 			<Label className="text-sm font-medium text-gray-700">{label}</Label>
 			<ShadcnSelect.Select
+				disabled={disabled}
 				name={field.name}
 				value={field.state.value}
 				onValueChange={(value) => field.handleChange(value)}
@@ -173,8 +202,11 @@ export function Select({
 				</ShadcnSelect.SelectTrigger>
 				<ShadcnSelect.SelectContent>
 					<ShadcnSelect.SelectGroup>
-						{values.map((value) => (
-							<ShadcnSelect.SelectItem key={value.value} value={value.value}>
+						{values.map((value, index) => (
+							<ShadcnSelect.SelectItem
+								key={`${value.value}-index-${index}`}
+								value={value.value}
+							>
 								{value.label}
 							</ShadcnSelect.SelectItem>
 						))}

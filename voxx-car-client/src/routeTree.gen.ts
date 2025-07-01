@@ -19,8 +19,10 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedModelIndexRouteImport } from './routes/_authenticated/model/index'
 import { Route as AuthenticatedMarkaIndexRouteImport } from './routes/_authenticated/marka/index'
 import { Route as AuthenticatedFirmaIndexRouteImport } from './routes/_authenticated/firma/index'
+import { Route as AuthenticatedAracFiloIndexRouteImport } from './routes/_authenticated/arac-filo/index'
 import { Route as AuthenticatedFirmaFirmaIdLayoutRouteImport } from './routes/_authenticated/firma/$firmaId/_layout'
 import { Route as AuthenticatedFirmaFirmaIdLayoutIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/index'
+import { Route as AuthenticatedAracFiloForm_layoutOlusturIndexRouteImport } from './routes/_authenticated/arac-filo/_form_layout/olustur/index'
 import { Route as AuthenticatedFirmaFirmaIdLayoutDetayIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/detay/index'
 import { Route as AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/arac-kullanan/index'
 import { Route as AuthenticatedFirmaFirmaIdLayoutAdresIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/adres/index'
@@ -73,6 +75,12 @@ const AuthenticatedFirmaIndexRoute = AuthenticatedFirmaIndexRouteImport.update({
   path: '/firma/',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedAracFiloIndexRoute =
+  AuthenticatedAracFiloIndexRouteImport.update({
+    id: '/arac-filo/',
+    path: '/arac-filo/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedFirmaFirmaIdLayoutRoute =
   AuthenticatedFirmaFirmaIdLayoutRouteImport.update({
     id: '/_layout',
@@ -83,6 +91,12 @@ const AuthenticatedFirmaFirmaIdLayoutIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedFirmaFirmaIdLayoutRoute,
+  } as any)
+const AuthenticatedAracFiloForm_layoutOlusturIndexRoute =
+  AuthenticatedAracFiloForm_layoutOlusturIndexRouteImport.update({
+    id: '/arac-filo/_form_layout/olustur/',
+    path: '/arac-filo/olustur/',
+    getParentRoute: () => AuthenticatedRoute,
   } as any)
 const AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute =
   AuthenticatedFirmaFirmaIdLayoutDetayIndexRouteImport.update({
@@ -108,10 +122,12 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/login': typeof AuthenticationLoginRoute
   '/': typeof AuthenticatedIndexRoute
+  '/arac-filo': typeof AuthenticatedAracFiloIndexRoute
   '/firma': typeof AuthenticatedFirmaIndexRoute
   '/marka': typeof AuthenticatedMarkaIndexRoute
   '/model': typeof AuthenticatedModelIndexRoute
   '/firma/$firmaId': typeof AuthenticatedFirmaFirmaIdLayoutRouteWithChildren
+  '/arac-filo/olustur': typeof AuthenticatedAracFiloForm_layoutOlusturIndexRoute
   '/firma/$firmaId/': typeof AuthenticatedFirmaFirmaIdLayoutIndexRoute
   '/firma/$firmaId/adres': typeof AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute
   '/firma/$firmaId/arac-kullanan': typeof AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute
@@ -122,10 +138,12 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/login': typeof AuthenticationLoginRoute
   '/': typeof AuthenticatedIndexRoute
+  '/arac-filo': typeof AuthenticatedAracFiloIndexRoute
   '/firma': typeof AuthenticatedFirmaIndexRoute
   '/marka': typeof AuthenticatedMarkaIndexRoute
   '/model': typeof AuthenticatedModelIndexRoute
   '/firma/$firmaId': typeof AuthenticatedFirmaFirmaIdLayoutIndexRoute
+  '/arac-filo/olustur': typeof AuthenticatedAracFiloForm_layoutOlusturIndexRoute
   '/firma/$firmaId/adres': typeof AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute
   '/firma/$firmaId/arac-kullanan': typeof AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute
   '/firma/$firmaId/detay': typeof AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute
@@ -137,11 +155,13 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authentication/login': typeof AuthenticationLoginRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/arac-filo/': typeof AuthenticatedAracFiloIndexRoute
   '/_authenticated/firma/': typeof AuthenticatedFirmaIndexRoute
   '/_authenticated/marka/': typeof AuthenticatedMarkaIndexRoute
   '/_authenticated/model/': typeof AuthenticatedModelIndexRoute
   '/_authenticated/firma/$firmaId': typeof AuthenticatedFirmaFirmaIdRouteWithChildren
   '/_authenticated/firma/$firmaId/_layout': typeof AuthenticatedFirmaFirmaIdLayoutRouteWithChildren
+  '/_authenticated/arac-filo/_form_layout/olustur/': typeof AuthenticatedAracFiloForm_layoutOlusturIndexRoute
   '/_authenticated/firma/$firmaId/_layout/': typeof AuthenticatedFirmaFirmaIdLayoutIndexRoute
   '/_authenticated/firma/$firmaId/_layout/adres/': typeof AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute
   '/_authenticated/firma/$firmaId/_layout/arac-kullanan/': typeof AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute
@@ -154,10 +174,12 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/'
+    | '/arac-filo'
     | '/firma'
     | '/marka'
     | '/model'
     | '/firma/$firmaId'
+    | '/arac-filo/olustur'
     | '/firma/$firmaId/'
     | '/firma/$firmaId/adres'
     | '/firma/$firmaId/arac-kullanan'
@@ -168,10 +190,12 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/'
+    | '/arac-filo'
     | '/firma'
     | '/marka'
     | '/model'
     | '/firma/$firmaId'
+    | '/arac-filo/olustur'
     | '/firma/$firmaId/adres'
     | '/firma/$firmaId/arac-kullanan'
     | '/firma/$firmaId/detay'
@@ -182,11 +206,13 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authentication/login'
     | '/_authenticated/'
+    | '/_authenticated/arac-filo/'
     | '/_authenticated/firma/'
     | '/_authenticated/marka/'
     | '/_authenticated/model/'
     | '/_authenticated/firma/$firmaId'
     | '/_authenticated/firma/$firmaId/_layout'
+    | '/_authenticated/arac-filo/_form_layout/olustur/'
     | '/_authenticated/firma/$firmaId/_layout/'
     | '/_authenticated/firma/$firmaId/_layout/adres/'
     | '/_authenticated/firma/$firmaId/_layout/arac-kullanan/'
@@ -263,6 +289,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFirmaIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/arac-filo/': {
+      id: '/_authenticated/arac-filo/'
+      path: '/arac-filo'
+      fullPath: '/arac-filo'
+      preLoaderRoute: typeof AuthenticatedAracFiloIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/firma/$firmaId/_layout': {
       id: '/_authenticated/firma/$firmaId/_layout'
       path: '/firma/$firmaId'
@@ -276,6 +309,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/firma/$firmaId/'
       preLoaderRoute: typeof AuthenticatedFirmaFirmaIdLayoutIndexRouteImport
       parentRoute: typeof AuthenticatedFirmaFirmaIdLayoutRoute
+    }
+    '/_authenticated/arac-filo/_form_layout/olustur/': {
+      id: '/_authenticated/arac-filo/_form_layout/olustur/'
+      path: '/arac-filo/olustur'
+      fullPath: '/arac-filo/olustur'
+      preLoaderRoute: typeof AuthenticatedAracFiloForm_layoutOlusturIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/firma/$firmaId/_layout/detay/': {
       id: '/_authenticated/firma/$firmaId/_layout/detay/'
@@ -343,19 +383,24 @@ const AuthenticatedFirmaFirmaIdRouteWithChildren =
 interface AuthenticatedRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedAracFiloIndexRoute: typeof AuthenticatedAracFiloIndexRoute
   AuthenticatedFirmaIndexRoute: typeof AuthenticatedFirmaIndexRoute
   AuthenticatedMarkaIndexRoute: typeof AuthenticatedMarkaIndexRoute
   AuthenticatedModelIndexRoute: typeof AuthenticatedModelIndexRoute
   AuthenticatedFirmaFirmaIdRoute: typeof AuthenticatedFirmaFirmaIdRouteWithChildren
+  AuthenticatedAracFiloForm_layoutOlusturIndexRoute: typeof AuthenticatedAracFiloForm_layoutOlusturIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedAracFiloIndexRoute: AuthenticatedAracFiloIndexRoute,
   AuthenticatedFirmaIndexRoute: AuthenticatedFirmaIndexRoute,
   AuthenticatedMarkaIndexRoute: AuthenticatedMarkaIndexRoute,
   AuthenticatedModelIndexRoute: AuthenticatedModelIndexRoute,
   AuthenticatedFirmaFirmaIdRoute: AuthenticatedFirmaFirmaIdRouteWithChildren,
+  AuthenticatedAracFiloForm_layoutOlusturIndexRoute:
+    AuthenticatedAracFiloForm_layoutOlusturIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(

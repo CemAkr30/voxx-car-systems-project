@@ -2,6 +2,7 @@ import {
 	createModel,
 	deleteModel,
 	getAllModel,
+	getModelByMarkaId,
 	updateModel,
 } from "@/requests/model";
 import type { CreateModelRequest, Model } from "@/schemas/model";
@@ -15,6 +16,14 @@ export function getModellerQueryOptions() {
 	return queryOptions({
 		queryKey: ["modeller"],
 		queryFn: getAllModel,
+	});
+}
+
+export function getModellerByMarkaIdQueryOptions(markaId: string) {
+	return queryOptions({
+		queryKey: ["modeller", { markaId }],
+		queryFn: () => getModelByMarkaId(markaId),
+		enabled: markaId !== null || markaId !== "",
 	});
 }
 

@@ -1,6 +1,7 @@
 import { createFormHook } from "@tanstack/react-form";
 
 import {
+	Checkbox,
 	DatePicker,
 	Select,
 	SubscribeButton,
@@ -15,6 +16,7 @@ export const { useAppForm } = createFormHook({
 		Select,
 		DatePicker,
 		TextArea,
+		Checkbox,
 	},
 	formComponents: {
 		SubscribeButton,
