@@ -6,7 +6,7 @@ import {
 	DropdownMenuTrigger,
 	DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import {
 	Download,
 	Search,
@@ -42,6 +42,7 @@ export const Route = createFileRoute("/_authenticated/arac-filo/")({
 });
 
 function RouteComponent() {
+	const router = useRouter();
 	const [selectedItems, setSelectedItems] = useState<string[]>([]);
 	const [searchTerm, setSearchTerm] = useState<string>("");
 	const [dialogState, setDialogState] = useState<DialogState>({
@@ -209,7 +210,12 @@ function RouteComponent() {
 														variant="ghost"
 														size="sm"
 														className="justify-start"
-														// onClick={() => openDialog("update", aracFilo)}
+														onClick={() =>
+															router.navigate({
+																to: "/arac-filo/$aracFiloId/guncelle",
+																params: { aracFiloId: aracFilo.id },
+															})
+														}
 													>
 														Düzenle
 													</Button>

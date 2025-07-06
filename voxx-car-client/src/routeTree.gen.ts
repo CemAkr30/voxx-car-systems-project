@@ -26,6 +26,7 @@ import { Route as AuthenticatedAracFiloForm_layoutOlusturIndexRouteImport } from
 import { Route as AuthenticatedFirmaFirmaIdLayoutDetayIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/detay/index'
 import { Route as AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/arac-kullanan/index'
 import { Route as AuthenticatedFirmaFirmaIdLayoutAdresIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/adres/index'
+import { Route as AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRouteImport } from './routes/_authenticated/arac-filo/_form_layout/$aracFiloId/guncelle/index'
 
 const AuthenticatedFirmaFirmaIdRouteImport = createFileRoute(
   '/_authenticated/firma/$firmaId',
@@ -116,6 +117,12 @@ const AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute =
     path: '/adres/',
     getParentRoute: () => AuthenticatedFirmaFirmaIdLayoutRoute,
   } as any)
+const AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRoute =
+  AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRouteImport.update({
+    id: '/arac-filo/_form_layout/$aracFiloId/guncelle/',
+    path: '/arac-filo/$aracFiloId/guncelle/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '': typeof AuthenticationRouteWithChildren
@@ -129,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/firma/$firmaId': typeof AuthenticatedFirmaFirmaIdLayoutRouteWithChildren
   '/arac-filo/olustur': typeof AuthenticatedAracFiloForm_layoutOlusturIndexRoute
   '/firma/$firmaId/': typeof AuthenticatedFirmaFirmaIdLayoutIndexRoute
+  '/arac-filo/$aracFiloId/guncelle': typeof AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRoute
   '/firma/$firmaId/adres': typeof AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute
   '/firma/$firmaId/arac-kullanan': typeof AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute
   '/firma/$firmaId/detay': typeof AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute
@@ -144,6 +152,7 @@ export interface FileRoutesByTo {
   '/model': typeof AuthenticatedModelIndexRoute
   '/firma/$firmaId': typeof AuthenticatedFirmaFirmaIdLayoutIndexRoute
   '/arac-filo/olustur': typeof AuthenticatedAracFiloForm_layoutOlusturIndexRoute
+  '/arac-filo/$aracFiloId/guncelle': typeof AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRoute
   '/firma/$firmaId/adres': typeof AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute
   '/firma/$firmaId/arac-kullanan': typeof AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute
   '/firma/$firmaId/detay': typeof AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute
@@ -163,6 +172,7 @@ export interface FileRoutesById {
   '/_authenticated/firma/$firmaId/_layout': typeof AuthenticatedFirmaFirmaIdLayoutRouteWithChildren
   '/_authenticated/arac-filo/_form_layout/olustur/': typeof AuthenticatedAracFiloForm_layoutOlusturIndexRoute
   '/_authenticated/firma/$firmaId/_layout/': typeof AuthenticatedFirmaFirmaIdLayoutIndexRoute
+  '/_authenticated/arac-filo/_form_layout/$aracFiloId/guncelle/': typeof AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRoute
   '/_authenticated/firma/$firmaId/_layout/adres/': typeof AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute
   '/_authenticated/firma/$firmaId/_layout/arac-kullanan/': typeof AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute
   '/_authenticated/firma/$firmaId/_layout/detay/': typeof AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute
@@ -181,6 +191,7 @@ export interface FileRouteTypes {
     | '/firma/$firmaId'
     | '/arac-filo/olustur'
     | '/firma/$firmaId/'
+    | '/arac-filo/$aracFiloId/guncelle'
     | '/firma/$firmaId/adres'
     | '/firma/$firmaId/arac-kullanan'
     | '/firma/$firmaId/detay'
@@ -196,6 +207,7 @@ export interface FileRouteTypes {
     | '/model'
     | '/firma/$firmaId'
     | '/arac-filo/olustur'
+    | '/arac-filo/$aracFiloId/guncelle'
     | '/firma/$firmaId/adres'
     | '/firma/$firmaId/arac-kullanan'
     | '/firma/$firmaId/detay'
@@ -214,6 +226,7 @@ export interface FileRouteTypes {
     | '/_authenticated/firma/$firmaId/_layout'
     | '/_authenticated/arac-filo/_form_layout/olustur/'
     | '/_authenticated/firma/$firmaId/_layout/'
+    | '/_authenticated/arac-filo/_form_layout/$aracFiloId/guncelle/'
     | '/_authenticated/firma/$firmaId/_layout/adres/'
     | '/_authenticated/firma/$firmaId/_layout/arac-kullanan/'
     | '/_authenticated/firma/$firmaId/_layout/detay/'
@@ -338,6 +351,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFirmaFirmaIdLayoutAdresIndexRouteImport
       parentRoute: typeof AuthenticatedFirmaFirmaIdLayoutRoute
     }
+    '/_authenticated/arac-filo/_form_layout/$aracFiloId/guncelle/': {
+      id: '/_authenticated/arac-filo/_form_layout/$aracFiloId/guncelle/'
+      path: '/arac-filo/$aracFiloId/guncelle'
+      fullPath: '/arac-filo/$aracFiloId/guncelle'
+      preLoaderRoute: typeof AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
@@ -389,6 +409,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedModelIndexRoute: typeof AuthenticatedModelIndexRoute
   AuthenticatedFirmaFirmaIdRoute: typeof AuthenticatedFirmaFirmaIdRouteWithChildren
   AuthenticatedAracFiloForm_layoutOlusturIndexRoute: typeof AuthenticatedAracFiloForm_layoutOlusturIndexRoute
+  AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRoute: typeof AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
@@ -401,6 +422,8 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedFirmaFirmaIdRoute: AuthenticatedFirmaFirmaIdRouteWithChildren,
   AuthenticatedAracFiloForm_layoutOlusturIndexRoute:
     AuthenticatedAracFiloForm_layoutOlusturIndexRoute,
+  AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRoute:
+    AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(

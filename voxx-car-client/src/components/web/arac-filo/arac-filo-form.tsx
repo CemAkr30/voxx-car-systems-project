@@ -17,6 +17,7 @@ import { type Marka } from "@/schemas/marka";
 import type { Model } from "@/schemas/model";
 import { useStore } from "@tanstack/react-form";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
 import {
 	Building,
 	Car,
@@ -26,7 +27,7 @@ import {
 	Shield,
 	Wrench,
 } from "lucide-react";
-import { useMemo, useEffect } from "react";
+import React, { useMemo } from "react";
 
 interface AracFiloFormCreateProps {
 	mode: "create";
@@ -49,43 +50,59 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 	const createAracFiloMutation = useCreateAracFiloMutation();
 	const updateAracFiloMutation =
 		mode === "create" ? null : useUpdateAracFiloMutation();
+	const navigate = useNavigate();
 
 	const form = useAppForm({
 		defaultValues:
 			mode === "create"
 				? {
-					plaka: "",
-					markaId: "",
-					modelId: "",
-					modelYili: "",
-					aracTipi: "",
-					segment: "",
-					motorNo: "",
-					sasiNo: "",
-					renk: "",
-					kasaTipi: "",
-					lastikTipi: "",
-					filoyaGirisTarihi: new Date(),
-					filoyaGirisKm: "",
-					tescilTarihi: new Date(),
-					trafigeCikisTarihi: new Date(),
-					garantisiVarMi: false,
-					garantiBitisTarihi: new Date(),
-					garantiSuresiYil: "",
-					garantiKm: "",
-					tramer: false,
-					tramerTutari: 0,
-					sonKmTarihi: new Date(),
-					sonKm: "",
-					sonYakitMiktari: "",
-					kiralandiMi: false,
-					kiralandigiTarih: new Date(),
-					kontratSuresi: "",
-					kiralikBitisTarihi: new Date(),
-					kiralayanFirmaId: "",
-					filoDurum: 0,
-				}
-				: props.initialValues,
+						plaka: "",
+						markaId: "",
+						modelId: "",
+						modelYili: "",
+						aracTipi: "",
+						segment: "",
+						motorNo: "",
+						sasiNo: "",
+						renk: "",
+						kasaTipi: "",
+						lastikTipi: "",
+						filoyaGirisTarihi: new Date(),
+						filoyaGirisKm: "",
+						tescilTarihi: new Date(),
+						trafigeCikisTarihi: new Date(),
+						garantisiVarMi: false,
+						garantiBitisTarihi: new Date(),
+						garantiSuresiYil: "",
+						garantiKm: "",
+						tramer: false,
+						tramerTutari: 0,
+						sonKmTarihi: new Date(),
+						sonKm: "",
+						sonYakitMiktari: "",
+						kiralandiMi: false,
+						kiralandigiTarih: new Date(),
+						kontratSuresi: "",
+						kiralikBitisTarihi: new Date(),
+						kiralayanFirmaId: "",
+						filoDurum: 0,
+					}
+				: {
+						...props.initialValues,
+						filoyaGirisTarihi: new Date(props.initialValues.filoyaGirisTarihi),
+						tescilTarihi: new Date(props.initialValues.tescilTarihi),
+						trafigeCikisTarihi: new Date(
+							props.initialValues.trafigeCikisTarihi,
+						),
+						sonKmTarihi: new Date(props.initialValues.sonKmTarihi),
+						garantiBitisTarihi: new Date(
+							props.initialValues.garantiBitisTarihi,
+						),
+						kiralandigiTarih: new Date(props.initialValues.kiralandigiTarih),
+						kiralikBitisTarihi: new Date(
+							props.initialValues.kiralikBitisTarihi,
+						),
+					},
 		validators: {
 			onChange: mode === "create" ? aracFiloCreateSchema : aracFiloUpdateSchema,
 			onChangeAsyncDebounceMs: 500, // Debounce async validation to prevent rapid revalidation
@@ -99,6 +116,7 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 				} else if (mode === "update") {
 					await updateAracFiloMutation!.mutateAsync(value as AracFilo);
 				}
+				navigate({ to: "/arac-filo" });
 				formApi.reset();
 			} catch (error) {
 				console.error("Form submission error:", error);
@@ -106,15 +124,10 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 		},
 	});
 
-	const { tramer, garantisiVarMi, kiralandiMi, markaId } = useStore(
-		form.store,
-		(state) => ({
-			tramer: state.values.tramer,
-			markaId: state.values.markaId,
-			garantisiVarMi: state.values.garantisiVarMi,
-			kiralandiMi: state.values.kiralandiMi,
-		}),
-	);
+	const { markaId, canSubmit } = useStore(form.store, (state) => ({
+		markaId: state.values.markaId,
+		canSubmit: state.canSubmit,
+	}));
 
 	const markalarOptions = useMemo(
 		() =>
@@ -159,40 +172,26 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 	const isSubmitting =
 		mode === "create"
 			? createAracFiloMutation.isPending
-			: updateAracFiloMutation?.isPending ?? false;
+			: (updateAracFiloMutation?.isPending ?? false);
 
 	const isModelSelectDisabled =
-		!markaId || isModellerLoading || isModellerFetching || modellerOptions.length === 0;
-
-	// Fix: Reset conditional fields when their booleans change
-	useEffect(() => {
-		if (!garantisiVarMi) {
-			form.setFieldValue("garantiSuresiYil", "");
-			form.setFieldValue("garantiKm", "");
-			form.setFieldValue("garantiBitisTarihi", new Date());
-		}
-		if (!tramer) {
-			form.setFieldValue("tramerTutari", 0);
-		}
-		if (!kiralandiMi) {
-			form.setFieldValue("kiralandigiTarih", new Date());
-			form.setFieldValue("kontratSuresi", "");
-			form.setFieldValue("kiralikBitisTarihi", new Date());
-			form.setFieldValue("kiralayanFirmaId", "");
-		}
-	}, [garantisiVarMi, tramer, kiralandiMi, form]);
-
-	// Fix: Validate form on mount and when values change to ensure canSubmit is up-to-date
-	useEffect(() => {
-		form.validateAllFields("change");
-	}, [form, markaId, modellerOptions]);
+		!markaId ||
+		isModellerLoading ||
+		isModellerFetching ||
+		modellerOptions.length === 0;
 
 	return (
 		<div className="max-w-6xl mx-auto p-6 space-y-6">
 			<div className="text-center space-y-2">
-				<h1 className="text-3xl font-bold">Araç Filo Kayıt Formu</h1>
+				<h1 className="text-3xl font-bold">
+					{mode === "create"
+						? "Araç Filo Kayıt Formu"
+						: "Araç Filo Güncelleme Formu"}
+				</h1>
 				<p className="text-muted-foreground">
-					Yeni araç bilgilerini eksiksiz doldurunuz
+					{mode === "create"
+						? "Yeni araç bilgilerini eksiksiz doldurunuz"
+						: "Araç bilgilerini yenisi ile güncelleyin"}
 				</p>
 			</div>
 			<form
@@ -257,7 +256,10 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 							</form.AppField>
 							<form.AppField name="modelYili">
 								{(field) => (
-									<field.TextField label="Model Yılı" placeholder="Model Yılı" />
+									<field.TextField
+										label="Model Yılı"
+										placeholder="Model Yılı"
+									/>
 								)}
 							</form.AppField>
 							<form.AppField name="segment">
@@ -303,7 +305,10 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 							</form.AppField>
 							<form.AppField name="lastikTipi">
 								{(field) => (
-									<field.TextField label="Lastik Tipi" placeholder="Lastik Tipi" />
+									<field.TextField
+										label="Lastik Tipi"
+										placeholder="Lastik Tipi"
+									/>
 								)}
 							</form.AppField>
 						</div>
@@ -381,32 +386,38 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 							{(field) => <field.Checkbox label="Garanti var mı?" />}
 						</form.AppField>
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-							<form.AppField name="garantiSuresiYil">
-								{(field) => (
-									<field.TextField
-										label="Garanti Süresi (Yıl)"
-										placeholder="Garanti Süresi (Yıl)"
-										disabled={!garantisiVarMi}
-									/>
+							<form.Subscribe selector={(state) => state.values.garantisiVarMi}>
+								{(garantisiVarMi) => (
+									<React.Fragment>
+										<form.AppField name="garantiSuresiYil">
+											{(field) => (
+												<field.TextField
+													label="Garanti Süresi (Yıl)"
+													placeholder="Garanti Süresi (Yıl)"
+													disabled={!garantisiVarMi}
+												/>
+											)}
+										</form.AppField>
+										<form.AppField name="garantiBitisTarihi">
+											{(field) => (
+												<field.DatePicker
+													label="Garanti Bitiş Tarihi"
+													disabled={!garantisiVarMi}
+												/>
+											)}
+										</form.AppField>
+										<form.AppField name="garantiKm">
+											{(field) => (
+												<field.TextField
+													label="Garanti Km"
+													placeholder="Garanti Km"
+													disabled={!garantisiVarMi}
+												/>
+											)}
+										</form.AppField>
+									</React.Fragment>
 								)}
-							</form.AppField>
-							<form.AppField name="garantiBitisTarihi">
-								{(field) => (
-									<field.DatePicker
-										label="Garanti Bitiş Tarihi"
-										disabled={!garantisiVarMi}
-									/>
-								)}
-							</form.AppField>
-							<form.AppField name="garantiKm">
-								{(field) => (
-									<field.TextField
-										label="Garanti Km"
-										placeholder="Garanti Km"
-										disabled={!garantisiVarMi}
-									/>
-								)}
-							</form.AppField>
+							</form.Subscribe>
 						</div>
 					</CardContent>
 				</Card>
@@ -421,15 +432,19 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 						<form.AppField name="tramer">
 							{(field) => <field.Checkbox label="Tramer kaydı var mı?" />}
 						</form.AppField>
-						<form.AppField name="tramerTutari">
-							{(field) => (
-								<field.TextField
-									label="Tramer Tutarı"
-									placeholder="0"
-									disabled={!tramer}
-								/>
+						<form.Subscribe selector={(state) => state.values.tramer}>
+							{(tramer) => (
+								<form.AppField name="tramerTutari">
+									{(field) => (
+										<field.TextField
+											label="Tramer Tutarı"
+											placeholder="0"
+											disabled={!tramer}
+										/>
+									)}
+								</form.AppField>
 							)}
-						</form.AppField>
+						</form.Subscribe>
 					</CardContent>
 				</Card>
 				<Card>
@@ -444,41 +459,47 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 							{(field) => <field.Checkbox label="Araç kiralandı mı?" />}
 						</form.AppField>
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-							<form.AppField name="kiralandigiTarih">
-								{(field) => (
-									<field.DatePicker
-										label="Kiralandığı Tarih"
-										disabled={!kiralandiMi}
-									/>
+							<form.Subscribe selector={(state) => state.values.kiralandiMi}>
+								{(kiralandiMi) => (
+									<React.Fragment>
+										<form.AppField name="kiralandigiTarih">
+											{(field) => (
+												<field.DatePicker
+													label="Kiralandığı Tarih"
+													disabled={!kiralandiMi}
+												/>
+											)}
+										</form.AppField>
+										<form.AppField name="kontratSuresi">
+											{(field) => (
+												<field.TextField
+													label="Kontrat Süresi"
+													placeholder="Kontrat Süresi"
+													disabled={!kiralandiMi}
+												/>
+											)}
+										</form.AppField>
+										<form.AppField name="kiralikBitisTarihi">
+											{(field) => (
+												<field.DatePicker
+													label="Kiralık Bitiş Tarihi"
+													disabled={!kiralandiMi}
+												/>
+											)}
+										</form.AppField>
+										<form.AppField name="kiralayanFirmaId">
+											{(field) => (
+												<field.Select
+													label="Kiralayan Firma"
+													values={firmalarOptions}
+													placeholder="Kiralayan Firma"
+													disabled={!kiralandiMi}
+												/>
+											)}
+										</form.AppField>
+									</React.Fragment>
 								)}
-							</form.AppField>
-							<form.AppField name="kontratSuresi">
-								{(field) => (
-									<field.TextField
-										label="Kontrat Süresi"
-										placeholder="Kontrat Süresi"
-										disabled={!kiralandiMi}
-									/>
-								)}
-							</form.AppField>
-							<form.AppField name="kiralikBitisTarihi">
-								{(field) => (
-									<field.DatePicker
-										label="Kiralık Bitiş Tarihi"
-										disabled={!kiralandiMi}
-									/>
-								)}
-							</form.AppField>
-							<form.AppField name="kiralayanFirmaId">
-								{(field) => (
-									<field.Select
-										label="Kiralayan Firma"
-										values={firmalarOptions}
-										placeholder="Kiralayan Firma"
-										disabled={!kiralandiMi}
-									/>
-								)}
-							</form.AppField>
+							</form.Subscribe>
 						</div>
 					</CardContent>
 				</Card>
@@ -505,7 +526,7 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 					>
 						İptal
 					</Button>
-					<Button type="submit" disabled={isSubmitting}>
+					<Button type="submit" disabled={isSubmitting || !canSubmit}>
 						{isSubmitting && (
 							<RefreshCw className="h-4 w-4 mr-2 animate-spin" />
 						)}
