@@ -189,7 +189,7 @@ function RouteComponent() {
 											>
 												{aracFilo.unvan}
 											</Link> */}
-											arac filo
+											{aracFilo.plaka}
 										</TableCell>
 										<TableCell>{formatDate(aracFilo.createdAt)}</TableCell>
 										<TableCell>{formatDate(aracFilo.updatedAt)}</TableCell>
