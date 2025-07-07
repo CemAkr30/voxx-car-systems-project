@@ -79,6 +79,16 @@ const navItems = [
 			},
 		],
 	},
+	{
+		title: "Filo",
+		children: [
+			{
+				title: "Araçlar",
+				icon: Car,
+				href: "/arac-filo",
+			},
+		],
+	},
 ];
 
 export default function CustomSidebar({ user }: { user: TUser }) {

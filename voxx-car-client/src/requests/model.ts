@@ -9,6 +9,15 @@ export const getAllModel = async (): Promise<Model[]> => {
 	return data;
 };
 
+export const getModelByMarkaId = async (markaId: string): Promise<Model[]> => {
+	try {
+		const { data } = await axiosClient.get(`${urls.marka}/${markaId}/model`);
+		return data;
+	} catch (_error) {
+		return [];
+	}
+};
+
 export const createModel = async (model: CreateModelRequest): Promise<void> => {
 	try {
 		await axiosClient.post<Model>(`${urls.model}`, model);
