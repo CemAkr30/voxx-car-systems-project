@@ -25,6 +25,7 @@ import { Route as AuthenticatedFirmaFirmaIdLayoutRouteImport } from './routes/_a
 import { Route as AuthenticatedAracFiloAracFiloIdLayoutRouteImport } from './routes/_authenticated/arac-filo/$aracFiloId/_layout'
 import { Route as AuthenticatedFirmaFirmaIdLayoutIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/index'
 import { Route as AuthenticatedAracFiloForm_layoutOlusturIndexRouteImport } from './routes/_authenticated/arac-filo/_form_layout/olustur/index'
+import { Route as AuthenticatedAracFiloAracFiloIdLayoutIndexRouteImport } from './routes/_authenticated/arac-filo/$aracFiloId/_layout/index'
 import { Route as AuthenticatedFirmaFirmaIdLayoutIletisimIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/iletisim/index'
 import { Route as AuthenticatedFirmaFirmaIdLayoutDetayIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/detay/index'
 import { Route as AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/arac-kullanan/index'
@@ -138,6 +139,12 @@ const AuthenticatedAracFiloForm_layoutOlusturIndexRoute =
     path: '/olustur/',
     getParentRoute: () => AuthenticatedAracFiloForm_layoutRoute,
   } as any)
+const AuthenticatedAracFiloAracFiloIdLayoutIndexRoute =
+  AuthenticatedAracFiloAracFiloIdLayoutIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedAracFiloAracFiloIdLayoutRoute,
+  } as any)
 const AuthenticatedFirmaFirmaIdLayoutIletisimIndexRoute =
   AuthenticatedFirmaFirmaIdLayoutIletisimIndexRouteImport.update({
     id: '/iletisim/',
@@ -235,6 +242,7 @@ export interface FileRoutesByFullPath {
   '/model': typeof AuthenticatedModelIndexRoute
   '/arac-filo/$aracFiloId': typeof AuthenticatedAracFiloAracFiloIdLayoutRouteWithChildren
   '/firma/$firmaId': typeof AuthenticatedFirmaFirmaIdLayoutRouteWithChildren
+  '/arac-filo/$aracFiloId/': typeof AuthenticatedAracFiloAracFiloIdLayoutIndexRoute
   '/arac-filo/olustur': typeof AuthenticatedAracFiloForm_layoutOlusturIndexRoute
   '/firma/$firmaId/': typeof AuthenticatedFirmaFirmaIdLayoutIndexRoute
   '/arac-filo/$aracFiloId/alis-faturasi': typeof AuthenticatedAracFiloAracFiloIdLayoutAlisFaturasiIndexRoute
@@ -261,7 +269,7 @@ export interface FileRoutesByTo {
   '/firma': typeof AuthenticatedFirmaIndexRoute
   '/marka': typeof AuthenticatedMarkaIndexRoute
   '/model': typeof AuthenticatedModelIndexRoute
-  '/arac-filo/$aracFiloId': typeof AuthenticatedAracFiloAracFiloIdLayoutRouteWithChildren
+  '/arac-filo/$aracFiloId': typeof AuthenticatedAracFiloAracFiloIdLayoutIndexRoute
   '/firma/$firmaId': typeof AuthenticatedFirmaFirmaIdLayoutIndexRoute
   '/arac-filo/olustur': typeof AuthenticatedAracFiloForm_layoutOlusturIndexRoute
   '/arac-filo/$aracFiloId/alis-faturasi': typeof AuthenticatedAracFiloAracFiloIdLayoutAlisFaturasiIndexRoute
@@ -296,6 +304,7 @@ export interface FileRoutesById {
   '/_authenticated/arac-filo/$aracFiloId/_layout': typeof AuthenticatedAracFiloAracFiloIdLayoutRouteWithChildren
   '/_authenticated/firma/$firmaId': typeof AuthenticatedFirmaFirmaIdRouteWithChildren
   '/_authenticated/firma/$firmaId/_layout': typeof AuthenticatedFirmaFirmaIdLayoutRouteWithChildren
+  '/_authenticated/arac-filo/$aracFiloId/_layout/': typeof AuthenticatedAracFiloAracFiloIdLayoutIndexRoute
   '/_authenticated/arac-filo/_form_layout/olustur/': typeof AuthenticatedAracFiloForm_layoutOlusturIndexRoute
   '/_authenticated/firma/$firmaId/_layout/': typeof AuthenticatedFirmaFirmaIdLayoutIndexRoute
   '/_authenticated/arac-filo/$aracFiloId/_layout/alis-faturasi/': typeof AuthenticatedAracFiloAracFiloIdLayoutAlisFaturasiIndexRoute
@@ -327,6 +336,7 @@ export interface FileRouteTypes {
     | '/model'
     | '/arac-filo/$aracFiloId'
     | '/firma/$firmaId'
+    | '/arac-filo/$aracFiloId/'
     | '/arac-filo/olustur'
     | '/firma/$firmaId/'
     | '/arac-filo/$aracFiloId/alis-faturasi'
@@ -387,6 +397,7 @@ export interface FileRouteTypes {
     | '/_authenticated/arac-filo/$aracFiloId/_layout'
     | '/_authenticated/firma/$firmaId'
     | '/_authenticated/firma/$firmaId/_layout'
+    | '/_authenticated/arac-filo/$aracFiloId/_layout/'
     | '/_authenticated/arac-filo/_form_layout/olustur/'
     | '/_authenticated/firma/$firmaId/_layout/'
     | '/_authenticated/arac-filo/$aracFiloId/_layout/alis-faturasi/'
@@ -531,6 +542,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAracFiloForm_layoutOlusturIndexRouteImport
       parentRoute: typeof AuthenticatedAracFiloForm_layoutRoute
     }
+    '/_authenticated/arac-filo/$aracFiloId/_layout/': {
+      id: '/_authenticated/arac-filo/$aracFiloId/_layout/'
+      path: '/'
+      fullPath: '/arac-filo/$aracFiloId/'
+      preLoaderRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutIndexRouteImport
+      parentRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutRoute
+    }
     '/_authenticated/firma/$firmaId/_layout/iletisim/': {
       id: '/_authenticated/firma/$firmaId/_layout/iletisim/'
       path: '/iletisim'
@@ -651,6 +669,7 @@ const AuthenticatedAracFiloForm_layoutRouteWithChildren =
   )
 
 interface AuthenticatedAracFiloAracFiloIdLayoutRouteChildren {
+  AuthenticatedAracFiloAracFiloIdLayoutIndexRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutIndexRoute
   AuthenticatedAracFiloAracFiloIdLayoutAlisFaturasiIndexRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutAlisFaturasiIndexRoute
   AuthenticatedAracFiloAracFiloIdLayoutBakimIndexRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutBakimIndexRoute
   AuthenticatedAracFiloAracFiloIdLayoutDetayIndexRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutDetayIndexRoute
@@ -664,6 +683,8 @@ interface AuthenticatedAracFiloAracFiloIdLayoutRouteChildren {
 
 const AuthenticatedAracFiloAracFiloIdLayoutRouteChildren: AuthenticatedAracFiloAracFiloIdLayoutRouteChildren =
   {
+    AuthenticatedAracFiloAracFiloIdLayoutIndexRoute:
+      AuthenticatedAracFiloAracFiloIdLayoutIndexRoute,
     AuthenticatedAracFiloAracFiloIdLayoutAlisFaturasiIndexRoute:
       AuthenticatedAracFiloAracFiloIdLayoutAlisFaturasiIndexRoute,
     AuthenticatedAracFiloAracFiloIdLayoutBakimIndexRoute:
