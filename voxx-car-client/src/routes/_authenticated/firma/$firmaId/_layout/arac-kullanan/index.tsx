@@ -27,7 +27,6 @@ export const Route = createFileRoute(
 	"/_authenticated/firma/$firmaId/_layout/arac-kullanan/",
 )({
 	loader: async ({ context: { queryClient }, params: { firmaId } }) => {
-		console.log({ firmaId });
 		await queryClient.prefetchQuery(getFirmalarQueryOptions());
 		await queryClient.prefetchQuery(
 			getAracKullananlarByFirmaIdQueryOptions(firmaId),

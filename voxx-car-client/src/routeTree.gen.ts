@@ -20,16 +20,34 @@ import { Route as AuthenticatedModelIndexRouteImport } from './routes/_authentic
 import { Route as AuthenticatedMarkaIndexRouteImport } from './routes/_authenticated/marka/index'
 import { Route as AuthenticatedFirmaIndexRouteImport } from './routes/_authenticated/firma/index'
 import { Route as AuthenticatedAracFiloIndexRouteImport } from './routes/_authenticated/arac-filo/index'
+import { Route as AuthenticatedAracFiloForm_layoutRouteImport } from './routes/_authenticated/arac-filo/_form_layout'
 import { Route as AuthenticatedFirmaFirmaIdLayoutRouteImport } from './routes/_authenticated/firma/$firmaId/_layout'
+import { Route as AuthenticatedAracFiloAracFiloIdLayoutRouteImport } from './routes/_authenticated/arac-filo/$aracFiloId/_layout'
 import { Route as AuthenticatedFirmaFirmaIdLayoutIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/index'
 import { Route as AuthenticatedAracFiloForm_layoutOlusturIndexRouteImport } from './routes/_authenticated/arac-filo/_form_layout/olustur/index'
+import { Route as AuthenticatedFirmaFirmaIdLayoutIletisimIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/iletisim/index'
 import { Route as AuthenticatedFirmaFirmaIdLayoutDetayIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/detay/index'
 import { Route as AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/arac-kullanan/index'
 import { Route as AuthenticatedFirmaFirmaIdLayoutAdresIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/adres/index'
 import { Route as AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRouteImport } from './routes/_authenticated/arac-filo/_form_layout/$aracFiloId/guncelle/index'
+import { Route as AuthenticatedAracFiloAracFiloIdLayoutSigortaIndexRouteImport } from './routes/_authenticated/arac-filo/$aracFiloId/_layout/sigorta/index'
+import { Route as AuthenticatedAracFiloAracFiloIdLayoutMuayeneIndexRouteImport } from './routes/_authenticated/arac-filo/$aracFiloId/_layout/muayene/index'
+import { Route as AuthenticatedAracFiloAracFiloIdLayoutMtvIndexRouteImport } from './routes/_authenticated/arac-filo/$aracFiloId/_layout/mtv/index'
+import { Route as AuthenticatedAracFiloAracFiloIdLayoutKazaIndexRouteImport } from './routes/_authenticated/arac-filo/$aracFiloId/_layout/kaza/index'
+import { Route as AuthenticatedAracFiloAracFiloIdLayoutHasarIndexRouteImport } from './routes/_authenticated/arac-filo/$aracFiloId/_layout/hasar/index'
+import { Route as AuthenticatedAracFiloAracFiloIdLayoutFilodanCikisIndexRouteImport } from './routes/_authenticated/arac-filo/$aracFiloId/_layout/filodan-cikis/index'
+import { Route as AuthenticatedAracFiloAracFiloIdLayoutDetayIndexRouteImport } from './routes/_authenticated/arac-filo/$aracFiloId/_layout/detay/index'
+import { Route as AuthenticatedAracFiloAracFiloIdLayoutBakimIndexRouteImport } from './routes/_authenticated/arac-filo/$aracFiloId/_layout/bakim/index'
+import { Route as AuthenticatedAracFiloAracFiloIdLayoutAlisFaturasiIndexRouteImport } from './routes/_authenticated/arac-filo/$aracFiloId/_layout/alis-faturasi/index'
 
+const AuthenticatedAracFiloRouteImport = createFileRoute(
+  '/_authenticated/arac-filo',
+)()
 const AuthenticatedFirmaFirmaIdRouteImport = createFileRoute(
   '/_authenticated/firma/$firmaId',
+)()
+const AuthenticatedAracFiloAracFiloIdRouteImport = createFileRoute(
+  '/_authenticated/arac-filo/$aracFiloId',
 )()
 
 const AuthenticationRoute = AuthenticationRouteImport.update({
@@ -39,6 +57,11 @@ const AuthenticationRoute = AuthenticationRouteImport.update({
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAracFiloRoute = AuthenticatedAracFiloRouteImport.update({
+  id: '/arac-filo',
+  path: '/arac-filo',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   id: '/',
@@ -61,6 +84,12 @@ const AuthenticatedFirmaFirmaIdRoute =
     path: '/firma/$firmaId',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedAracFiloAracFiloIdRoute =
+  AuthenticatedAracFiloAracFiloIdRouteImport.update({
+    id: '/$aracFiloId',
+    path: '/$aracFiloId',
+    getParentRoute: () => AuthenticatedAracFiloRoute,
+  } as any)
 const AuthenticatedModelIndexRoute = AuthenticatedModelIndexRouteImport.update({
   id: '/model/',
   path: '/model/',
@@ -78,14 +107,24 @@ const AuthenticatedFirmaIndexRoute = AuthenticatedFirmaIndexRouteImport.update({
 } as any)
 const AuthenticatedAracFiloIndexRoute =
   AuthenticatedAracFiloIndexRouteImport.update({
-    id: '/arac-filo/',
-    path: '/arac-filo/',
-    getParentRoute: () => AuthenticatedRoute,
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedAracFiloRoute,
+  } as any)
+const AuthenticatedAracFiloForm_layoutRoute =
+  AuthenticatedAracFiloForm_layoutRouteImport.update({
+    id: '/_form_layout',
+    getParentRoute: () => AuthenticatedAracFiloRoute,
   } as any)
 const AuthenticatedFirmaFirmaIdLayoutRoute =
   AuthenticatedFirmaFirmaIdLayoutRouteImport.update({
     id: '/_layout',
     getParentRoute: () => AuthenticatedFirmaFirmaIdRoute,
+  } as any)
+const AuthenticatedAracFiloAracFiloIdLayoutRoute =
+  AuthenticatedAracFiloAracFiloIdLayoutRouteImport.update({
+    id: '/_layout',
+    getParentRoute: () => AuthenticatedAracFiloAracFiloIdRoute,
   } as any)
 const AuthenticatedFirmaFirmaIdLayoutIndexRoute =
   AuthenticatedFirmaFirmaIdLayoutIndexRouteImport.update({
@@ -95,9 +134,15 @@ const AuthenticatedFirmaFirmaIdLayoutIndexRoute =
   } as any)
 const AuthenticatedAracFiloForm_layoutOlusturIndexRoute =
   AuthenticatedAracFiloForm_layoutOlusturIndexRouteImport.update({
-    id: '/arac-filo/_form_layout/olustur/',
-    path: '/arac-filo/olustur/',
-    getParentRoute: () => AuthenticatedRoute,
+    id: '/olustur/',
+    path: '/olustur/',
+    getParentRoute: () => AuthenticatedAracFiloForm_layoutRoute,
+  } as any)
+const AuthenticatedFirmaFirmaIdLayoutIletisimIndexRoute =
+  AuthenticatedFirmaFirmaIdLayoutIletisimIndexRouteImport.update({
+    id: '/iletisim/',
+    path: '/iletisim/',
+    getParentRoute: () => AuthenticatedFirmaFirmaIdLayoutRoute,
   } as any)
 const AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute =
   AuthenticatedFirmaFirmaIdLayoutDetayIndexRouteImport.update({
@@ -119,9 +164,63 @@ const AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute =
   } as any)
 const AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRoute =
   AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRouteImport.update({
-    id: '/arac-filo/_form_layout/$aracFiloId/guncelle/',
-    path: '/arac-filo/$aracFiloId/guncelle/',
-    getParentRoute: () => AuthenticatedRoute,
+    id: '/$aracFiloId/guncelle/',
+    path: '/$aracFiloId/guncelle/',
+    getParentRoute: () => AuthenticatedAracFiloForm_layoutRoute,
+  } as any)
+const AuthenticatedAracFiloAracFiloIdLayoutSigortaIndexRoute =
+  AuthenticatedAracFiloAracFiloIdLayoutSigortaIndexRouteImport.update({
+    id: '/sigorta/',
+    path: '/sigorta/',
+    getParentRoute: () => AuthenticatedAracFiloAracFiloIdLayoutRoute,
+  } as any)
+const AuthenticatedAracFiloAracFiloIdLayoutMuayeneIndexRoute =
+  AuthenticatedAracFiloAracFiloIdLayoutMuayeneIndexRouteImport.update({
+    id: '/muayene/',
+    path: '/muayene/',
+    getParentRoute: () => AuthenticatedAracFiloAracFiloIdLayoutRoute,
+  } as any)
+const AuthenticatedAracFiloAracFiloIdLayoutMtvIndexRoute =
+  AuthenticatedAracFiloAracFiloIdLayoutMtvIndexRouteImport.update({
+    id: '/mtv/',
+    path: '/mtv/',
+    getParentRoute: () => AuthenticatedAracFiloAracFiloIdLayoutRoute,
+  } as any)
+const AuthenticatedAracFiloAracFiloIdLayoutKazaIndexRoute =
+  AuthenticatedAracFiloAracFiloIdLayoutKazaIndexRouteImport.update({
+    id: '/kaza/',
+    path: '/kaza/',
+    getParentRoute: () => AuthenticatedAracFiloAracFiloIdLayoutRoute,
+  } as any)
+const AuthenticatedAracFiloAracFiloIdLayoutHasarIndexRoute =
+  AuthenticatedAracFiloAracFiloIdLayoutHasarIndexRouteImport.update({
+    id: '/hasar/',
+    path: '/hasar/',
+    getParentRoute: () => AuthenticatedAracFiloAracFiloIdLayoutRoute,
+  } as any)
+const AuthenticatedAracFiloAracFiloIdLayoutFilodanCikisIndexRoute =
+  AuthenticatedAracFiloAracFiloIdLayoutFilodanCikisIndexRouteImport.update({
+    id: '/filodan-cikis/',
+    path: '/filodan-cikis/',
+    getParentRoute: () => AuthenticatedAracFiloAracFiloIdLayoutRoute,
+  } as any)
+const AuthenticatedAracFiloAracFiloIdLayoutDetayIndexRoute =
+  AuthenticatedAracFiloAracFiloIdLayoutDetayIndexRouteImport.update({
+    id: '/detay/',
+    path: '/detay/',
+    getParentRoute: () => AuthenticatedAracFiloAracFiloIdLayoutRoute,
+  } as any)
+const AuthenticatedAracFiloAracFiloIdLayoutBakimIndexRoute =
+  AuthenticatedAracFiloAracFiloIdLayoutBakimIndexRouteImport.update({
+    id: '/bakim/',
+    path: '/bakim/',
+    getParentRoute: () => AuthenticatedAracFiloAracFiloIdLayoutRoute,
+  } as any)
+const AuthenticatedAracFiloAracFiloIdLayoutAlisFaturasiIndexRoute =
+  AuthenticatedAracFiloAracFiloIdLayoutAlisFaturasiIndexRouteImport.update({
+    id: '/alis-faturasi/',
+    path: '/alis-faturasi/',
+    getParentRoute: () => AuthenticatedAracFiloAracFiloIdLayoutRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -129,17 +228,29 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/login': typeof AuthenticationLoginRoute
   '/': typeof AuthenticatedIndexRoute
-  '/arac-filo': typeof AuthenticatedAracFiloIndexRoute
+  '/arac-filo': typeof AuthenticatedAracFiloForm_layoutRouteWithChildren
+  '/arac-filo/': typeof AuthenticatedAracFiloIndexRoute
   '/firma': typeof AuthenticatedFirmaIndexRoute
   '/marka': typeof AuthenticatedMarkaIndexRoute
   '/model': typeof AuthenticatedModelIndexRoute
+  '/arac-filo/$aracFiloId': typeof AuthenticatedAracFiloAracFiloIdLayoutRouteWithChildren
   '/firma/$firmaId': typeof AuthenticatedFirmaFirmaIdLayoutRouteWithChildren
   '/arac-filo/olustur': typeof AuthenticatedAracFiloForm_layoutOlusturIndexRoute
   '/firma/$firmaId/': typeof AuthenticatedFirmaFirmaIdLayoutIndexRoute
+  '/arac-filo/$aracFiloId/alis-faturasi': typeof AuthenticatedAracFiloAracFiloIdLayoutAlisFaturasiIndexRoute
+  '/arac-filo/$aracFiloId/bakim': typeof AuthenticatedAracFiloAracFiloIdLayoutBakimIndexRoute
+  '/arac-filo/$aracFiloId/detay': typeof AuthenticatedAracFiloAracFiloIdLayoutDetayIndexRoute
+  '/arac-filo/$aracFiloId/filodan-cikis': typeof AuthenticatedAracFiloAracFiloIdLayoutFilodanCikisIndexRoute
+  '/arac-filo/$aracFiloId/hasar': typeof AuthenticatedAracFiloAracFiloIdLayoutHasarIndexRoute
+  '/arac-filo/$aracFiloId/kaza': typeof AuthenticatedAracFiloAracFiloIdLayoutKazaIndexRoute
+  '/arac-filo/$aracFiloId/mtv': typeof AuthenticatedAracFiloAracFiloIdLayoutMtvIndexRoute
+  '/arac-filo/$aracFiloId/muayene': typeof AuthenticatedAracFiloAracFiloIdLayoutMuayeneIndexRoute
+  '/arac-filo/$aracFiloId/sigorta': typeof AuthenticatedAracFiloAracFiloIdLayoutSigortaIndexRoute
   '/arac-filo/$aracFiloId/guncelle': typeof AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRoute
   '/firma/$firmaId/adres': typeof AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute
   '/firma/$firmaId/arac-kullanan': typeof AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute
   '/firma/$firmaId/detay': typeof AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute
+  '/firma/$firmaId/iletisim': typeof AuthenticatedFirmaFirmaIdLayoutIletisimIndexRoute
 }
 export interface FileRoutesByTo {
   '': typeof AuthenticationRouteWithChildren
@@ -150,12 +261,23 @@ export interface FileRoutesByTo {
   '/firma': typeof AuthenticatedFirmaIndexRoute
   '/marka': typeof AuthenticatedMarkaIndexRoute
   '/model': typeof AuthenticatedModelIndexRoute
+  '/arac-filo/$aracFiloId': typeof AuthenticatedAracFiloAracFiloIdLayoutRouteWithChildren
   '/firma/$firmaId': typeof AuthenticatedFirmaFirmaIdLayoutIndexRoute
   '/arac-filo/olustur': typeof AuthenticatedAracFiloForm_layoutOlusturIndexRoute
+  '/arac-filo/$aracFiloId/alis-faturasi': typeof AuthenticatedAracFiloAracFiloIdLayoutAlisFaturasiIndexRoute
+  '/arac-filo/$aracFiloId/bakim': typeof AuthenticatedAracFiloAracFiloIdLayoutBakimIndexRoute
+  '/arac-filo/$aracFiloId/detay': typeof AuthenticatedAracFiloAracFiloIdLayoutDetayIndexRoute
+  '/arac-filo/$aracFiloId/filodan-cikis': typeof AuthenticatedAracFiloAracFiloIdLayoutFilodanCikisIndexRoute
+  '/arac-filo/$aracFiloId/hasar': typeof AuthenticatedAracFiloAracFiloIdLayoutHasarIndexRoute
+  '/arac-filo/$aracFiloId/kaza': typeof AuthenticatedAracFiloAracFiloIdLayoutKazaIndexRoute
+  '/arac-filo/$aracFiloId/mtv': typeof AuthenticatedAracFiloAracFiloIdLayoutMtvIndexRoute
+  '/arac-filo/$aracFiloId/muayene': typeof AuthenticatedAracFiloAracFiloIdLayoutMuayeneIndexRoute
+  '/arac-filo/$aracFiloId/sigorta': typeof AuthenticatedAracFiloAracFiloIdLayoutSigortaIndexRoute
   '/arac-filo/$aracFiloId/guncelle': typeof AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRoute
   '/firma/$firmaId/adres': typeof AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute
   '/firma/$firmaId/arac-kullanan': typeof AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute
   '/firma/$firmaId/detay': typeof AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute
+  '/firma/$firmaId/iletisim': typeof AuthenticatedFirmaFirmaIdLayoutIletisimIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -164,18 +286,32 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authentication/login': typeof AuthenticationLoginRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/arac-filo': typeof AuthenticatedAracFiloRouteWithChildren
+  '/_authenticated/arac-filo/_form_layout': typeof AuthenticatedAracFiloForm_layoutRouteWithChildren
   '/_authenticated/arac-filo/': typeof AuthenticatedAracFiloIndexRoute
   '/_authenticated/firma/': typeof AuthenticatedFirmaIndexRoute
   '/_authenticated/marka/': typeof AuthenticatedMarkaIndexRoute
   '/_authenticated/model/': typeof AuthenticatedModelIndexRoute
+  '/_authenticated/arac-filo/$aracFiloId': typeof AuthenticatedAracFiloAracFiloIdRouteWithChildren
+  '/_authenticated/arac-filo/$aracFiloId/_layout': typeof AuthenticatedAracFiloAracFiloIdLayoutRouteWithChildren
   '/_authenticated/firma/$firmaId': typeof AuthenticatedFirmaFirmaIdRouteWithChildren
   '/_authenticated/firma/$firmaId/_layout': typeof AuthenticatedFirmaFirmaIdLayoutRouteWithChildren
   '/_authenticated/arac-filo/_form_layout/olustur/': typeof AuthenticatedAracFiloForm_layoutOlusturIndexRoute
   '/_authenticated/firma/$firmaId/_layout/': typeof AuthenticatedFirmaFirmaIdLayoutIndexRoute
+  '/_authenticated/arac-filo/$aracFiloId/_layout/alis-faturasi/': typeof AuthenticatedAracFiloAracFiloIdLayoutAlisFaturasiIndexRoute
+  '/_authenticated/arac-filo/$aracFiloId/_layout/bakim/': typeof AuthenticatedAracFiloAracFiloIdLayoutBakimIndexRoute
+  '/_authenticated/arac-filo/$aracFiloId/_layout/detay/': typeof AuthenticatedAracFiloAracFiloIdLayoutDetayIndexRoute
+  '/_authenticated/arac-filo/$aracFiloId/_layout/filodan-cikis/': typeof AuthenticatedAracFiloAracFiloIdLayoutFilodanCikisIndexRoute
+  '/_authenticated/arac-filo/$aracFiloId/_layout/hasar/': typeof AuthenticatedAracFiloAracFiloIdLayoutHasarIndexRoute
+  '/_authenticated/arac-filo/$aracFiloId/_layout/kaza/': typeof AuthenticatedAracFiloAracFiloIdLayoutKazaIndexRoute
+  '/_authenticated/arac-filo/$aracFiloId/_layout/mtv/': typeof AuthenticatedAracFiloAracFiloIdLayoutMtvIndexRoute
+  '/_authenticated/arac-filo/$aracFiloId/_layout/muayene/': typeof AuthenticatedAracFiloAracFiloIdLayoutMuayeneIndexRoute
+  '/_authenticated/arac-filo/$aracFiloId/_layout/sigorta/': typeof AuthenticatedAracFiloAracFiloIdLayoutSigortaIndexRoute
   '/_authenticated/arac-filo/_form_layout/$aracFiloId/guncelle/': typeof AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRoute
   '/_authenticated/firma/$firmaId/_layout/adres/': typeof AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute
   '/_authenticated/firma/$firmaId/_layout/arac-kullanan/': typeof AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute
   '/_authenticated/firma/$firmaId/_layout/detay/': typeof AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute
+  '/_authenticated/firma/$firmaId/_layout/iletisim/': typeof AuthenticatedFirmaFirmaIdLayoutIletisimIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -185,16 +321,28 @@ export interface FileRouteTypes {
     | '/login'
     | '/'
     | '/arac-filo'
+    | '/arac-filo/'
     | '/firma'
     | '/marka'
     | '/model'
+    | '/arac-filo/$aracFiloId'
     | '/firma/$firmaId'
     | '/arac-filo/olustur'
     | '/firma/$firmaId/'
+    | '/arac-filo/$aracFiloId/alis-faturasi'
+    | '/arac-filo/$aracFiloId/bakim'
+    | '/arac-filo/$aracFiloId/detay'
+    | '/arac-filo/$aracFiloId/filodan-cikis'
+    | '/arac-filo/$aracFiloId/hasar'
+    | '/arac-filo/$aracFiloId/kaza'
+    | '/arac-filo/$aracFiloId/mtv'
+    | '/arac-filo/$aracFiloId/muayene'
+    | '/arac-filo/$aracFiloId/sigorta'
     | '/arac-filo/$aracFiloId/guncelle'
     | '/firma/$firmaId/adres'
     | '/firma/$firmaId/arac-kullanan'
     | '/firma/$firmaId/detay'
+    | '/firma/$firmaId/iletisim'
   fileRoutesByTo: FileRoutesByTo
   to:
     | ''
@@ -205,12 +353,23 @@ export interface FileRouteTypes {
     | '/firma'
     | '/marka'
     | '/model'
+    | '/arac-filo/$aracFiloId'
     | '/firma/$firmaId'
     | '/arac-filo/olustur'
+    | '/arac-filo/$aracFiloId/alis-faturasi'
+    | '/arac-filo/$aracFiloId/bakim'
+    | '/arac-filo/$aracFiloId/detay'
+    | '/arac-filo/$aracFiloId/filodan-cikis'
+    | '/arac-filo/$aracFiloId/hasar'
+    | '/arac-filo/$aracFiloId/kaza'
+    | '/arac-filo/$aracFiloId/mtv'
+    | '/arac-filo/$aracFiloId/muayene'
+    | '/arac-filo/$aracFiloId/sigorta'
     | '/arac-filo/$aracFiloId/guncelle'
     | '/firma/$firmaId/adres'
     | '/firma/$firmaId/arac-kullanan'
     | '/firma/$firmaId/detay'
+    | '/firma/$firmaId/iletisim'
   id:
     | '__root__'
     | '/_authenticated'
@@ -218,18 +377,32 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authentication/login'
     | '/_authenticated/'
+    | '/_authenticated/arac-filo'
+    | '/_authenticated/arac-filo/_form_layout'
     | '/_authenticated/arac-filo/'
     | '/_authenticated/firma/'
     | '/_authenticated/marka/'
     | '/_authenticated/model/'
+    | '/_authenticated/arac-filo/$aracFiloId'
+    | '/_authenticated/arac-filo/$aracFiloId/_layout'
     | '/_authenticated/firma/$firmaId'
     | '/_authenticated/firma/$firmaId/_layout'
     | '/_authenticated/arac-filo/_form_layout/olustur/'
     | '/_authenticated/firma/$firmaId/_layout/'
+    | '/_authenticated/arac-filo/$aracFiloId/_layout/alis-faturasi/'
+    | '/_authenticated/arac-filo/$aracFiloId/_layout/bakim/'
+    | '/_authenticated/arac-filo/$aracFiloId/_layout/detay/'
+    | '/_authenticated/arac-filo/$aracFiloId/_layout/filodan-cikis/'
+    | '/_authenticated/arac-filo/$aracFiloId/_layout/hasar/'
+    | '/_authenticated/arac-filo/$aracFiloId/_layout/kaza/'
+    | '/_authenticated/arac-filo/$aracFiloId/_layout/mtv/'
+    | '/_authenticated/arac-filo/$aracFiloId/_layout/muayene/'
+    | '/_authenticated/arac-filo/$aracFiloId/_layout/sigorta/'
     | '/_authenticated/arac-filo/_form_layout/$aracFiloId/guncelle/'
     | '/_authenticated/firma/$firmaId/_layout/adres/'
     | '/_authenticated/firma/$firmaId/_layout/arac-kullanan/'
     | '/_authenticated/firma/$firmaId/_layout/detay/'
+    | '/_authenticated/firma/$firmaId/_layout/iletisim/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -252,6 +425,13 @@ declare module '@tanstack/react-router' {
       fullPath: ''
       preLoaderRoute: typeof AuthenticatedRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/arac-filo': {
+      id: '/_authenticated/arac-filo'
+      path: '/arac-filo'
+      fullPath: '/arac-filo'
+      preLoaderRoute: typeof AuthenticatedAracFiloRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/': {
       id: '/_authenticated/'
@@ -281,6 +461,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFirmaFirmaIdRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/arac-filo/$aracFiloId': {
+      id: '/_authenticated/arac-filo/$aracFiloId'
+      path: '/$aracFiloId'
+      fullPath: '/arac-filo/$aracFiloId'
+      preLoaderRoute: typeof AuthenticatedAracFiloAracFiloIdRouteImport
+      parentRoute: typeof AuthenticatedAracFiloRoute
+    }
     '/_authenticated/model/': {
       id: '/_authenticated/model/'
       path: '/model'
@@ -304,10 +491,17 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/arac-filo/': {
       id: '/_authenticated/arac-filo/'
+      path: '/'
+      fullPath: '/arac-filo/'
+      preLoaderRoute: typeof AuthenticatedAracFiloIndexRouteImport
+      parentRoute: typeof AuthenticatedAracFiloRoute
+    }
+    '/_authenticated/arac-filo/_form_layout': {
+      id: '/_authenticated/arac-filo/_form_layout'
       path: '/arac-filo'
       fullPath: '/arac-filo'
-      preLoaderRoute: typeof AuthenticatedAracFiloIndexRouteImport
-      parentRoute: typeof AuthenticatedRoute
+      preLoaderRoute: typeof AuthenticatedAracFiloForm_layoutRouteImport
+      parentRoute: typeof AuthenticatedAracFiloRoute
     }
     '/_authenticated/firma/$firmaId/_layout': {
       id: '/_authenticated/firma/$firmaId/_layout'
@@ -315,6 +509,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/firma/$firmaId'
       preLoaderRoute: typeof AuthenticatedFirmaFirmaIdLayoutRouteImport
       parentRoute: typeof AuthenticatedFirmaFirmaIdRoute
+    }
+    '/_authenticated/arac-filo/$aracFiloId/_layout': {
+      id: '/_authenticated/arac-filo/$aracFiloId/_layout'
+      path: '/$aracFiloId'
+      fullPath: '/arac-filo/$aracFiloId'
+      preLoaderRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutRouteImport
+      parentRoute: typeof AuthenticatedAracFiloAracFiloIdRoute
     }
     '/_authenticated/firma/$firmaId/_layout/': {
       id: '/_authenticated/firma/$firmaId/_layout/'
@@ -325,10 +526,17 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/arac-filo/_form_layout/olustur/': {
       id: '/_authenticated/arac-filo/_form_layout/olustur/'
-      path: '/arac-filo/olustur'
+      path: '/olustur'
       fullPath: '/arac-filo/olustur'
       preLoaderRoute: typeof AuthenticatedAracFiloForm_layoutOlusturIndexRouteImport
-      parentRoute: typeof AuthenticatedRoute
+      parentRoute: typeof AuthenticatedAracFiloForm_layoutRoute
+    }
+    '/_authenticated/firma/$firmaId/_layout/iletisim/': {
+      id: '/_authenticated/firma/$firmaId/_layout/iletisim/'
+      path: '/iletisim'
+      fullPath: '/firma/$firmaId/iletisim'
+      preLoaderRoute: typeof AuthenticatedFirmaFirmaIdLayoutIletisimIndexRouteImport
+      parentRoute: typeof AuthenticatedFirmaFirmaIdLayoutRoute
     }
     '/_authenticated/firma/$firmaId/_layout/detay/': {
       id: '/_authenticated/firma/$firmaId/_layout/detay/'
@@ -353,19 +561,174 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/arac-filo/_form_layout/$aracFiloId/guncelle/': {
       id: '/_authenticated/arac-filo/_form_layout/$aracFiloId/guncelle/'
-      path: '/arac-filo/$aracFiloId/guncelle'
+      path: '/$aracFiloId/guncelle'
       fullPath: '/arac-filo/$aracFiloId/guncelle'
       preLoaderRoute: typeof AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRouteImport
-      parentRoute: typeof AuthenticatedRoute
+      parentRoute: typeof AuthenticatedAracFiloForm_layoutRoute
+    }
+    '/_authenticated/arac-filo/$aracFiloId/_layout/sigorta/': {
+      id: '/_authenticated/arac-filo/$aracFiloId/_layout/sigorta/'
+      path: '/sigorta'
+      fullPath: '/arac-filo/$aracFiloId/sigorta'
+      preLoaderRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutSigortaIndexRouteImport
+      parentRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutRoute
+    }
+    '/_authenticated/arac-filo/$aracFiloId/_layout/muayene/': {
+      id: '/_authenticated/arac-filo/$aracFiloId/_layout/muayene/'
+      path: '/muayene'
+      fullPath: '/arac-filo/$aracFiloId/muayene'
+      preLoaderRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutMuayeneIndexRouteImport
+      parentRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutRoute
+    }
+    '/_authenticated/arac-filo/$aracFiloId/_layout/mtv/': {
+      id: '/_authenticated/arac-filo/$aracFiloId/_layout/mtv/'
+      path: '/mtv'
+      fullPath: '/arac-filo/$aracFiloId/mtv'
+      preLoaderRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutMtvIndexRouteImport
+      parentRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutRoute
+    }
+    '/_authenticated/arac-filo/$aracFiloId/_layout/kaza/': {
+      id: '/_authenticated/arac-filo/$aracFiloId/_layout/kaza/'
+      path: '/kaza'
+      fullPath: '/arac-filo/$aracFiloId/kaza'
+      preLoaderRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutKazaIndexRouteImport
+      parentRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutRoute
+    }
+    '/_authenticated/arac-filo/$aracFiloId/_layout/hasar/': {
+      id: '/_authenticated/arac-filo/$aracFiloId/_layout/hasar/'
+      path: '/hasar'
+      fullPath: '/arac-filo/$aracFiloId/hasar'
+      preLoaderRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutHasarIndexRouteImport
+      parentRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutRoute
+    }
+    '/_authenticated/arac-filo/$aracFiloId/_layout/filodan-cikis/': {
+      id: '/_authenticated/arac-filo/$aracFiloId/_layout/filodan-cikis/'
+      path: '/filodan-cikis'
+      fullPath: '/arac-filo/$aracFiloId/filodan-cikis'
+      preLoaderRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutFilodanCikisIndexRouteImport
+      parentRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutRoute
+    }
+    '/_authenticated/arac-filo/$aracFiloId/_layout/detay/': {
+      id: '/_authenticated/arac-filo/$aracFiloId/_layout/detay/'
+      path: '/detay'
+      fullPath: '/arac-filo/$aracFiloId/detay'
+      preLoaderRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutDetayIndexRouteImport
+      parentRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutRoute
+    }
+    '/_authenticated/arac-filo/$aracFiloId/_layout/bakim/': {
+      id: '/_authenticated/arac-filo/$aracFiloId/_layout/bakim/'
+      path: '/bakim'
+      fullPath: '/arac-filo/$aracFiloId/bakim'
+      preLoaderRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutBakimIndexRouteImport
+      parentRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutRoute
+    }
+    '/_authenticated/arac-filo/$aracFiloId/_layout/alis-faturasi/': {
+      id: '/_authenticated/arac-filo/$aracFiloId/_layout/alis-faturasi/'
+      path: '/alis-faturasi'
+      fullPath: '/arac-filo/$aracFiloId/alis-faturasi'
+      preLoaderRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutAlisFaturasiIndexRouteImport
+      parentRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutRoute
     }
   }
 }
+
+interface AuthenticatedAracFiloForm_layoutRouteChildren {
+  AuthenticatedAracFiloForm_layoutOlusturIndexRoute: typeof AuthenticatedAracFiloForm_layoutOlusturIndexRoute
+  AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRoute: typeof AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRoute
+}
+
+const AuthenticatedAracFiloForm_layoutRouteChildren: AuthenticatedAracFiloForm_layoutRouteChildren =
+  {
+    AuthenticatedAracFiloForm_layoutOlusturIndexRoute:
+      AuthenticatedAracFiloForm_layoutOlusturIndexRoute,
+    AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRoute:
+      AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRoute,
+  }
+
+const AuthenticatedAracFiloForm_layoutRouteWithChildren =
+  AuthenticatedAracFiloForm_layoutRoute._addFileChildren(
+    AuthenticatedAracFiloForm_layoutRouteChildren,
+  )
+
+interface AuthenticatedAracFiloAracFiloIdLayoutRouteChildren {
+  AuthenticatedAracFiloAracFiloIdLayoutAlisFaturasiIndexRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutAlisFaturasiIndexRoute
+  AuthenticatedAracFiloAracFiloIdLayoutBakimIndexRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutBakimIndexRoute
+  AuthenticatedAracFiloAracFiloIdLayoutDetayIndexRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutDetayIndexRoute
+  AuthenticatedAracFiloAracFiloIdLayoutFilodanCikisIndexRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutFilodanCikisIndexRoute
+  AuthenticatedAracFiloAracFiloIdLayoutHasarIndexRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutHasarIndexRoute
+  AuthenticatedAracFiloAracFiloIdLayoutKazaIndexRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutKazaIndexRoute
+  AuthenticatedAracFiloAracFiloIdLayoutMtvIndexRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutMtvIndexRoute
+  AuthenticatedAracFiloAracFiloIdLayoutMuayeneIndexRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutMuayeneIndexRoute
+  AuthenticatedAracFiloAracFiloIdLayoutSigortaIndexRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutSigortaIndexRoute
+}
+
+const AuthenticatedAracFiloAracFiloIdLayoutRouteChildren: AuthenticatedAracFiloAracFiloIdLayoutRouteChildren =
+  {
+    AuthenticatedAracFiloAracFiloIdLayoutAlisFaturasiIndexRoute:
+      AuthenticatedAracFiloAracFiloIdLayoutAlisFaturasiIndexRoute,
+    AuthenticatedAracFiloAracFiloIdLayoutBakimIndexRoute:
+      AuthenticatedAracFiloAracFiloIdLayoutBakimIndexRoute,
+    AuthenticatedAracFiloAracFiloIdLayoutDetayIndexRoute:
+      AuthenticatedAracFiloAracFiloIdLayoutDetayIndexRoute,
+    AuthenticatedAracFiloAracFiloIdLayoutFilodanCikisIndexRoute:
+      AuthenticatedAracFiloAracFiloIdLayoutFilodanCikisIndexRoute,
+    AuthenticatedAracFiloAracFiloIdLayoutHasarIndexRoute:
+      AuthenticatedAracFiloAracFiloIdLayoutHasarIndexRoute,
+    AuthenticatedAracFiloAracFiloIdLayoutKazaIndexRoute:
+      AuthenticatedAracFiloAracFiloIdLayoutKazaIndexRoute,
+    AuthenticatedAracFiloAracFiloIdLayoutMtvIndexRoute:
+      AuthenticatedAracFiloAracFiloIdLayoutMtvIndexRoute,
+    AuthenticatedAracFiloAracFiloIdLayoutMuayeneIndexRoute:
+      AuthenticatedAracFiloAracFiloIdLayoutMuayeneIndexRoute,
+    AuthenticatedAracFiloAracFiloIdLayoutSigortaIndexRoute:
+      AuthenticatedAracFiloAracFiloIdLayoutSigortaIndexRoute,
+  }
+
+const AuthenticatedAracFiloAracFiloIdLayoutRouteWithChildren =
+  AuthenticatedAracFiloAracFiloIdLayoutRoute._addFileChildren(
+    AuthenticatedAracFiloAracFiloIdLayoutRouteChildren,
+  )
+
+interface AuthenticatedAracFiloAracFiloIdRouteChildren {
+  AuthenticatedAracFiloAracFiloIdLayoutRoute: typeof AuthenticatedAracFiloAracFiloIdLayoutRouteWithChildren
+}
+
+const AuthenticatedAracFiloAracFiloIdRouteChildren: AuthenticatedAracFiloAracFiloIdRouteChildren =
+  {
+    AuthenticatedAracFiloAracFiloIdLayoutRoute:
+      AuthenticatedAracFiloAracFiloIdLayoutRouteWithChildren,
+  }
+
+const AuthenticatedAracFiloAracFiloIdRouteWithChildren =
+  AuthenticatedAracFiloAracFiloIdRoute._addFileChildren(
+    AuthenticatedAracFiloAracFiloIdRouteChildren,
+  )
+
+interface AuthenticatedAracFiloRouteChildren {
+  AuthenticatedAracFiloForm_layoutRoute: typeof AuthenticatedAracFiloForm_layoutRouteWithChildren
+  AuthenticatedAracFiloIndexRoute: typeof AuthenticatedAracFiloIndexRoute
+  AuthenticatedAracFiloAracFiloIdRoute: typeof AuthenticatedAracFiloAracFiloIdRouteWithChildren
+}
+
+const AuthenticatedAracFiloRouteChildren: AuthenticatedAracFiloRouteChildren = {
+  AuthenticatedAracFiloForm_layoutRoute:
+    AuthenticatedAracFiloForm_layoutRouteWithChildren,
+  AuthenticatedAracFiloIndexRoute: AuthenticatedAracFiloIndexRoute,
+  AuthenticatedAracFiloAracFiloIdRoute:
+    AuthenticatedAracFiloAracFiloIdRouteWithChildren,
+}
+
+const AuthenticatedAracFiloRouteWithChildren =
+  AuthenticatedAracFiloRoute._addFileChildren(
+    AuthenticatedAracFiloRouteChildren,
+  )
 
 interface AuthenticatedFirmaFirmaIdLayoutRouteChildren {
   AuthenticatedFirmaFirmaIdLayoutIndexRoute: typeof AuthenticatedFirmaFirmaIdLayoutIndexRoute
   AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute: typeof AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute
   AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute: typeof AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute
   AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute: typeof AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute
+  AuthenticatedFirmaFirmaIdLayoutIletisimIndexRoute: typeof AuthenticatedFirmaFirmaIdLayoutIletisimIndexRoute
 }
 
 const AuthenticatedFirmaFirmaIdLayoutRouteChildren: AuthenticatedFirmaFirmaIdLayoutRouteChildren =
@@ -378,6 +741,8 @@ const AuthenticatedFirmaFirmaIdLayoutRouteChildren: AuthenticatedFirmaFirmaIdLay
       AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute,
     AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute:
       AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute,
+    AuthenticatedFirmaFirmaIdLayoutIletisimIndexRoute:
+      AuthenticatedFirmaFirmaIdLayoutIletisimIndexRoute,
   }
 
 const AuthenticatedFirmaFirmaIdLayoutRouteWithChildren =
@@ -403,27 +768,21 @@ const AuthenticatedFirmaFirmaIdRouteWithChildren =
 interface AuthenticatedRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
-  AuthenticatedAracFiloIndexRoute: typeof AuthenticatedAracFiloIndexRoute
+  AuthenticatedAracFiloRoute: typeof AuthenticatedAracFiloRouteWithChildren
   AuthenticatedFirmaIndexRoute: typeof AuthenticatedFirmaIndexRoute
   AuthenticatedMarkaIndexRoute: typeof AuthenticatedMarkaIndexRoute
   AuthenticatedModelIndexRoute: typeof AuthenticatedModelIndexRoute
   AuthenticatedFirmaFirmaIdRoute: typeof AuthenticatedFirmaFirmaIdRouteWithChildren
-  AuthenticatedAracFiloForm_layoutOlusturIndexRoute: typeof AuthenticatedAracFiloForm_layoutOlusturIndexRoute
-  AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRoute: typeof AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
-  AuthenticatedAracFiloIndexRoute: AuthenticatedAracFiloIndexRoute,
+  AuthenticatedAracFiloRoute: AuthenticatedAracFiloRouteWithChildren,
   AuthenticatedFirmaIndexRoute: AuthenticatedFirmaIndexRoute,
   AuthenticatedMarkaIndexRoute: AuthenticatedMarkaIndexRoute,
   AuthenticatedModelIndexRoute: AuthenticatedModelIndexRoute,
   AuthenticatedFirmaFirmaIdRoute: AuthenticatedFirmaFirmaIdRouteWithChildren,
-  AuthenticatedAracFiloForm_layoutOlusturIndexRoute:
-    AuthenticatedAracFiloForm_layoutOlusturIndexRoute,
-  AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRoute:
-    AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
