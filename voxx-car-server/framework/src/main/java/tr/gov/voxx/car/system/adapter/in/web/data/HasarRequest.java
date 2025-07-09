@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import tr.gov.voxx.car.system.domain.entity.Hasar;
+import tr.gov.voxx.car.system.domain.enumeration.HasarTipi;
 import tr.gov.voxx.car.system.domain.enumeration.HasarliParca;
 
 @Data
@@ -14,5 +14,5 @@ import tr.gov.voxx.car.system.domain.enumeration.HasarliParca;
 public class HasarRequest {
     private String aracFiloId;
     private HasarliParca hasarliParca;
-    private Hasar hasar;
+    private HasarTipi hasarTipi;
 }
