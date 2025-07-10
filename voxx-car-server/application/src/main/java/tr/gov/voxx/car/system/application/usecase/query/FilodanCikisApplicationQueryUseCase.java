@@ -26,4 +26,9 @@ public class FilodanCikisApplicationQueryUseCase implements FilodanCikisApplicat
     public List<FilodanCikis> getAll() {
         return persistenceJpaPort.findAll();
     }
+
+    @Override
+    public List<FilodanCikis> findAracIdGetAll(String aracId) {
+        return persistenceJpaPort.findAracIdGetAll(aracId);
+    }
 }

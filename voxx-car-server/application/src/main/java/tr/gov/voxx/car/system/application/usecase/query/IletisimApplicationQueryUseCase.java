@@ -26,4 +26,9 @@ public class IletisimApplicationQueryUseCase implements IletisimApplicationQuery
     public List<Iletisim> getAll() {
         return iletisimPersistenceJpaPort.findAll();
     }
+
+    @Override
+    public List<Iletisim> findFirmaIdGetAll(String firmaId) {
+        return iletisimPersistenceJpaPort.findFirmaIdGetAll(firmaId);
+    }
 }

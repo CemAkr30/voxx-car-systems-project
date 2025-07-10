@@ -58,6 +58,13 @@ public class AlisFaturasiPersistenceJpaAdapter implements AlisFaturasiPersistenc
                 alisFaturasiJpaRepository.findAll()
         );
     }
+
+    @Override
+    public List<AlisFaturasi> findAracIdGetAll(String aracId) {
+        return AlisFaturasiJpaMapper.toAlisFaturasiList(
+                alisFaturasiJpaRepository.findByAracId(aracId)
+        );
+    }
 }
 
 

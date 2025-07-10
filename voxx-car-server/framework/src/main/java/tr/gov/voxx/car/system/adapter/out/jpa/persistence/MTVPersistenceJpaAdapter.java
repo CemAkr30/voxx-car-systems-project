@@ -58,5 +58,12 @@ public class MTVPersistenceJpaAdapter implements MTVPersistenceJpaPort {
                 mtvJpaRepository.findAll()
         );
     }
+
+    @Override
+    public List<Mtv> findAracIdGetAll(String aracId) {
+        return MTVJpaMapper.toMtvList(
+                mtvJpaRepository.findByAracId(aracId)
+        );
+    }
 }
 

@@ -56,4 +56,11 @@ public class BakimPersistenceJpaAdapter implements BakimPersistenceJpaPort {
                 bakimJpaRepository.findAll()
         );
     }
+
+    @Override
+    public List<Bakim> findAracIdGetAll(String aracId) {
+        return BakimJpaMapper.toBakimList(
+                bakimJpaRepository.findByAracId(aracId)
+        );
+    }
 }

@@ -26,4 +26,10 @@ public class MuayeneApplicationQueryUseCase implements MuayeneApplicationQueryPo
     public List<Muayene> getAll() {
         return persistenceJpaPort.findAll();
     }
+
+    @Override
+    public List<Muayene> findAracIdGetAll(String aracId) {
+        return persistenceJpaPort.findAracIdGetAll(aracId);
+    }
+
 }

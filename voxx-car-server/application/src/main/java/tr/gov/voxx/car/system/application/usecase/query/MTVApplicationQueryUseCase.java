@@ -26,4 +26,9 @@ public class MTVApplicationQueryUseCase implements MTVApplicationQueryPort {
     public List<Mtv> getAll() {
         return persistenceJpaPort.findAll();
     }
+
+    @Override
+    public List<Mtv> findAracIdGetAll(String aracId) {
+        return persistenceJpaPort.findAracIdGetAll(aracId);
+    }
 }

@@ -26,4 +26,9 @@ public class KazaApplicationQueryUseCase implements KazaApplicationQueryPort {
     public List<Kaza> getAll() {
         return persistencePort.findAll();
     }
+
+    @Override
+    public List<Kaza> findAracIdGetAll(String aracId) {
+        return persistencePort.findAracIdGetAll(aracId);
+    }
 }
