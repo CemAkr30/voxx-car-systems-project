@@ -7,6 +7,6 @@ import tr.gov.voxx.car.system.domain.valueobject.FilodanCikisId;
 import java.util.List;
 
 public interface FilodanCikisPersistenceJpaPort extends PersistenceJpaExecutor<FilodanCikis, FilodanCikisId> {
-    List<FilodanCikis> findAracIdGetAll(String aracId);
+    List<FilodanCikis> findAracFiloIdGetAll(String aracFiloId);
 
 }

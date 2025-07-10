@@ -7,6 +7,6 @@ import tr.gov.voxx.car.system.domain.valueobject.AlisFaturasiId;
 import java.util.List;
 
 public interface AlisFaturasiPersistenceJpaPort extends PersistenceJpaExecutor<AlisFaturasi, AlisFaturasiId> {
-    List<AlisFaturasi> findAracIdGetAll(String aracId);
+    List<AlisFaturasi> findAracFiloIdGetAll(String aracFiloId);
 
 }

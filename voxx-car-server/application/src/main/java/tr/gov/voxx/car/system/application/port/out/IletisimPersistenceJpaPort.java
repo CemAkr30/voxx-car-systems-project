@@ -7,6 +7,6 @@ import tr.gov.voxx.car.system.domain.valueobject.IletisimId;
 import java.util.List;
 
 public interface IletisimPersistenceJpaPort extends PersistenceJpaExecutor<Iletisim, IletisimId> {
-    List<Iletisim> findFirmaIdGetAll(String aracId);
+    List<Iletisim> findFirmaIdGetAll(String firmaId);
 
 }

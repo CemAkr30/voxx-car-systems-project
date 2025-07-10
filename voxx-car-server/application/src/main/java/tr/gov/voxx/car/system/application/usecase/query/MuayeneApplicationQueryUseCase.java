@@ -28,8 +28,8 @@ public class MuayeneApplicationQueryUseCase implements MuayeneApplicationQueryPo
     }
 
     @Override
-    public List<Muayene> findAracIdGetAll(String aracId) {
-        return persistenceJpaPort.findAracIdGetAll(aracId);
+    public List<Muayene> findAracFiloIdGetAll(String aracFiloId) {
+        return persistenceJpaPort.findAracFiloIdGetAll(aracFiloId);
     }
 
 }

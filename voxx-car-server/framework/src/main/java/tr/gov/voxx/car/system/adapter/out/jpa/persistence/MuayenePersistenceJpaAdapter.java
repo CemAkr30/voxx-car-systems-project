@@ -60,9 +60,9 @@ public class MuayenePersistenceJpaAdapter implements MuayenePersistenceJpaPort {
     }
 
     @Override
-    public List<Muayene> findAracIdGetAll(String aracId) {
+    public List<Muayene> findAracFiloIdGetAll(String aracFiloId) {
         return MuayeneJpaMapper.toMuayeneList(
-                muayeneJpaRepository.findByAracId(aracId)
+                muayeneJpaRepository.findByAracFiloId(aracFiloId)
         );
     }
 }

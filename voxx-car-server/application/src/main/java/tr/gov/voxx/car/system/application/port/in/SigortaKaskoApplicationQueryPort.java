@@ -7,6 +7,6 @@ import tr.gov.voxx.car.system.domain.valueobject.SigortaId;
 import java.util.List;
 
 public interface SigortaKaskoApplicationQueryPort extends QueryExecutor<SigortaKasko, SigortaId> {
-    List<SigortaKasko> findAracIdGetAll(String aracId);
+    List<SigortaKasko> findAracFiloIdGetAll(String aracFiloId);
 
 }

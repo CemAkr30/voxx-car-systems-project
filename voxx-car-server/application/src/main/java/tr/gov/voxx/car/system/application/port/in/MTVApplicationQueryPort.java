@@ -7,6 +7,6 @@ import tr.gov.voxx.car.system.domain.valueobject.MtvId;
 import java.util.List;
 
 public interface MTVApplicationQueryPort extends QueryExecutor<Mtv, MtvId> {
-    List<Mtv> findAracIdGetAll(String aracId);
+    List<Mtv> findAracFiloIdGetAll(String aracFiloId);
 
 }

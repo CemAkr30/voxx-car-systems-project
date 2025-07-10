@@ -28,7 +28,7 @@ public class SigortaKaskoApplicationQueryUseCase implements SigortaKaskoApplicat
     }
 
     @Override
-    public List<SigortaKasko> findAracIdGetAll(String aracId) {
-        return persistenceJpaPort.findAracIdGetAll(aracId);
+    public List<SigortaKasko> findAracFiloIdGetAll(String aracFiloId) {
+        return persistenceJpaPort.findAracFiloIdGetAll(aracFiloId);
     }
 }

@@ -60,9 +60,9 @@ public class FilodanCikisPersistenceJpaAdapter implements FilodanCikisPersistenc
     }
 
     @Override
-    public List<FilodanCikis> findAracIdGetAll(String aracId) {
+    public List<FilodanCikis> findAracFiloIdGetAll(String aracFiloId) {
         return FilodanCikisJpaMapper.toFilodanCikisList(
-                filodanCikisJpaRepository.findByAracId(aracId)
+                filodanCikisJpaRepository.findByAracFiloId(aracFiloId)
         );
     }
 }

@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface MuayeneJpaRepository extends JpaRepository<MuayeneEntity, String> {
-    List<MuayeneEntity> findByAracId(String aracId);
+    List<MuayeneEntity> findByAracFiloId(String aracFiloId);
 
 }

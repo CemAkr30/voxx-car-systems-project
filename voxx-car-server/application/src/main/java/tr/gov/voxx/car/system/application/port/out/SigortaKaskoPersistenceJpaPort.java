@@ -7,7 +7,7 @@ import tr.gov.voxx.car.system.domain.valueobject.SigortaId;
 import java.util.List;
 
 public interface SigortaKaskoPersistenceJpaPort extends PersistenceJpaExecutor<SigortaKasko, SigortaId> {
-    List<SigortaKasko> findAracIdGetAll(String aracId);
+    List<SigortaKasko> findAracFiloIdGetAll(String aracFiloId);
 
     //Optional<SigortaKasko> findByAdi(String adi);
 }

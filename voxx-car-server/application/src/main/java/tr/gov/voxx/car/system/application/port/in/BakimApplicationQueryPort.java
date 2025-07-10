@@ -7,6 +7,6 @@ import tr.gov.voxx.car.system.domain.valueobject.BakimId;
 import java.util.List;
 
 public interface BakimApplicationQueryPort extends QueryExecutor<Bakim, BakimId> {
-    List<Bakim> findAracIdGetAll(String aracId);
+    List<Bakim> findAracFiloIdGetAll(String aracFiloId);
 
 }

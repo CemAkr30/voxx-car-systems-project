@@ -7,5 +7,5 @@ import tr.gov.voxx.car.system.domain.valueobject.BakimId;
 import java.util.List;
 
 public interface BakimPersistenceJpaPort extends PersistenceJpaExecutor<Bakim, BakimId> {
-    List<Bakim> findAracIdGetAll(String aracId);
+    List<Bakim> findAracFiloIdGetAll(String aracFiloId);
 }

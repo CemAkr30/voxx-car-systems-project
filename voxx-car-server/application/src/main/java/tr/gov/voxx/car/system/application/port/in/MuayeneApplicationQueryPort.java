@@ -7,6 +7,6 @@ import tr.gov.voxx.car.system.domain.valueobject.MuayeneId;
 import java.util.List;
 
 public interface MuayeneApplicationQueryPort extends QueryExecutor<Muayene, MuayeneId> {
-    List<Muayene> findAracIdGetAll(String aracId);
+    List<Muayene> findAracFiloIdGetAll(String aracFiloId);
 
 }

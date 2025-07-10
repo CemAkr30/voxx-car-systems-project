@@ -7,6 +7,6 @@ import tr.gov.voxx.car.system.domain.valueobject.KazaId;
 import java.util.List;
 
 public interface KazaPersistenceJpaPort extends PersistenceJpaExecutor<Kaza, KazaId> {
-    List<Kaza> findAracIdGetAll(String aracId);
+    List<Kaza> findAracFiloIdGetAll(String aracFiloId);
 
 }

@@ -28,7 +28,7 @@ public class BakimApplicationQueryUseCase implements BakimApplicationQueryPort {
     }
 
     @Override
-    public List<Bakim> findAracIdGetAll(String aracId) {
-        return persistencePort.findAracIdGetAll(aracId);
+    public List<Bakim> findAracFiloIdGetAll(String aracFiloId) {
+        return persistencePort.findAracFiloIdGetAll(aracFiloId);
     }
 }

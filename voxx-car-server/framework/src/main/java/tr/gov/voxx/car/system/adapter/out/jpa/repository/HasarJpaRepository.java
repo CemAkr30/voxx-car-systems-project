@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface HasarJpaRepository extends JpaRepository<HasarEntity, String> {
-    List<HasarEntity> findByAracId(String aracId);
+    List<HasarEntity> findByAracFiloId(String aracFiloId);
 
 }

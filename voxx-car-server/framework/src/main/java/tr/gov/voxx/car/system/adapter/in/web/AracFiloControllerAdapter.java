@@ -72,57 +72,57 @@ public class AracFiloControllerAdapter {
 
     @GetMapping("/{id}/sigorta")
     @Operation(summary = "Araç ID ye Göre sigortaları getir", description = "Belirtilen Arac ID ile ilgili bütün sigortaları getirir")
-    public ResponseEntity<List<SigortaKaskoResponse>> findAracIdGetSigorta(@PathVariable("id") String aracId) {
-        List<SigortaKasko> sigortaKaskoList = sigortaKaskoApplicationQueryPort.findAracIdGetAll(aracId);
+    public ResponseEntity<List<SigortaKaskoResponse>> findAracFiloIdGetSigorta(@PathVariable("id") String aracFiloId) {
+        List<SigortaKasko> sigortaKaskoList = sigortaKaskoApplicationQueryPort.findAracFiloIdGetAll(aracFiloId);
         return ResponseEntity.ok(SigortaKaskoMapper.toResponseList(sigortaKaskoList));
     }
 
     @GetMapping("/{id}/mtv")
     @Operation(summary = "Araç ID ye Göre MTVleri getir", description = "Belirtilen Arac ID ile ilgili bütün MTVleri getirir")
-    public ResponseEntity<List<MTVResponse>> findAracIdGetMtv(@PathVariable("id") String aracId) {
-        List<Mtv> mtvList = mtvApplicationQueryPort.findAracIdGetAll(aracId);
+    public ResponseEntity<List<MTVResponse>> findAracFiloIdGetMtv(@PathVariable("id") String aracFiloId) {
+        List<Mtv> mtvList = mtvApplicationQueryPort.findAracFiloIdGetAll(aracFiloId);
         return ResponseEntity.ok(MTVMapper.toResponseList(mtvList));
     }
 
     @GetMapping("/{id}/bakim")
     @Operation(summary = "Araç ID ye Göre bakımları getir", description = "Belirtilen Arac ID ile ilgili bütün bakımları getirir")
-    public ResponseEntity<List<BakimResponse>> findAracIdGetBakim(@PathVariable("id") String aracId) {
-        List<Bakim> bakimList = bakimApplicationQueryPort.findAracIdGetAll(aracId);
+    public ResponseEntity<List<BakimResponse>> findAracFiloIdGetBakim(@PathVariable("id") String aracFiloId) {
+        List<Bakim> bakimList = bakimApplicationQueryPort.findAracFiloIdGetAll(aracFiloId);
         return ResponseEntity.ok(BakimMapper.toResponseList(bakimList));
     }
 
     @GetMapping("/{id}/muayene")
     @Operation(summary = "Araç ID ye Göre muayeneleri getir", description = "Belirtilen Arac ID ile ilgili bütün muayeneleri getirir")
-    public ResponseEntity<List<MuayeneResponse>> findAracIdGetMuayene(@PathVariable("id") String aracId) {
-        List<Muayene> muayeneList = muayeneApplicationQueryPort.findAracIdGetAll(aracId);
+    public ResponseEntity<List<MuayeneResponse>> findAracFiloIdGetMuayene(@PathVariable("id") String aracFiloId) {
+        List<Muayene> muayeneList = muayeneApplicationQueryPort.findAracFiloIdGetAll(aracFiloId);
         return ResponseEntity.ok(MuayeneMapper.toResponseList(muayeneList));
     }
 
     @GetMapping("/{id}/hasar")
     @Operation(summary = "Araç ID ye Göre hasarları getir", description = "Belirtilen Arac ID ile ilgili bütün hasarları getirir")
-    public ResponseEntity<List<HasarResponse>> findAracIdGetHasar(@PathVariable("id") String aracId) {
-        List<Hasar> hasarList = hasarApplicationQueryPort.findAracIdGetAll(aracId);
+    public ResponseEntity<List<HasarResponse>> findAracFiloIdGetHasar(@PathVariable("id") String aracFiloId) {
+        List<Hasar> hasarList = hasarApplicationQueryPort.findAracFiloIdGetAll(aracFiloId);
         return ResponseEntity.ok(HasarMapper.toResponseList(hasarList));
     }
 
     @GetMapping("/{id}/kaza")
     @Operation(summary = "Araç ID ye Göre kazaları getir", description = "Belirtilen Arac ID ile ilgili bütün kazaları getirir")
-    public ResponseEntity<List<KazaResponse>> findAracIdGetKaza(@PathVariable("id") String aracId) {
-        List<Kaza> kazaList = kazaApplicationQueryPort.findAracIdGetAll(aracId);
+    public ResponseEntity<List<KazaResponse>> findAracFiloIdGetKaza(@PathVariable("id") String aracFiloId) {
+        List<Kaza> kazaList = kazaApplicationQueryPort.findAracFiloIdGetAll(aracFiloId);
         return ResponseEntity.ok(KazaMapper.toResponseList(kazaList));
     }
 
     @GetMapping("/{id}/alisfaturasi")
     @Operation(summary = "Araç ID ye Göre alış faturalarını getir", description = "Belirtilen Arac ID ile ilgili bütün alış faturalarını getirir")
-    public ResponseEntity<List<AlisFaturasiResponse>> findAracIdGetAlisFaturasi(@PathVariable("id") String aracId) {
-        List<AlisFaturasi> alisFaturasiList = alisFaturasiApplicationQueryPort.findAracIdGetAll(aracId);
+    public ResponseEntity<List<AlisFaturasiResponse>> findAracFiloIdGetAlisFaturasi(@PathVariable("id") String aracFiloId) {
+        List<AlisFaturasi> alisFaturasiList = alisFaturasiApplicationQueryPort.findAracFiloIdGetAll(aracFiloId);
         return ResponseEntity.ok(AlisFaturasiMapper.toResponseList(alisFaturasiList));
     }
 
     @GetMapping("/{id}/filodancikis")
     @Operation(summary = "Araç ID ye Göre filodan çıkışları getir", description = "Belirtilen Arac ID ile ilgili bütün filodan çıkışları getirir")
-    public ResponseEntity<List<FilodanCikisResponse>> findAracIdGetFilodanCikis(@PathVariable("id") String aracId) {
-        List<FilodanCikis> filodanCikisList = filodanCikisApplicationQueryPort.findAracIdGetAll(aracId);
+    public ResponseEntity<List<FilodanCikisResponse>> findAracFiloIdGetFilodanCikis(@PathVariable("id") String aracFiloId) {
+        List<FilodanCikis> filodanCikisList = filodanCikisApplicationQueryPort.findAracFiloIdGetAll(aracFiloId);
         return ResponseEntity.ok(FilodanCikisMapper.toResponseList(filodanCikisList));
     }
 }

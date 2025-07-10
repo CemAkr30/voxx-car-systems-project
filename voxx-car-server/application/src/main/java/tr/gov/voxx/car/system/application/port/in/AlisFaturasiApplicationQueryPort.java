@@ -7,5 +7,5 @@ import tr.gov.voxx.car.system.domain.valueobject.AlisFaturasiId;
 import java.util.List;
 
 public interface AlisFaturasiApplicationQueryPort extends QueryExecutor<AlisFaturasi, AlisFaturasiId> {
-    List<AlisFaturasi> findAracIdGetAll(String aracId);
+    List<AlisFaturasi> findAracFiloIdGetAll(String aracFiloId);
 }

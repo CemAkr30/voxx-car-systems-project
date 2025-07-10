@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface MtvJpaRepository extends JpaRepository<MTVEntity, String> {
-    List<MTVEntity> findByAracId(String aracId);
+    List<MTVEntity> findByAracFiloId(String aracFiloId);
 
 }

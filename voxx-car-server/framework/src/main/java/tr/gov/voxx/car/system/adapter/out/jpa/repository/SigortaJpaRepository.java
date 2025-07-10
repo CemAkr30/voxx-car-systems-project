@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface SigortaJpaRepository extends JpaRepository<SigortaKaskoEntity, String> {
-    List<SigortaKaskoEntity> findByAracId(String aracId);
+    List<SigortaKaskoEntity> findByAracFiloId(String aracFiloId);
 
 }

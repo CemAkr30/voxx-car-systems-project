@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface FilodanCikisJpaRepository extends JpaRepository<FilodanCikisEntity, String> {
-    List<FilodanCikisEntity> findByAracId(String aracId);
+    List<FilodanCikisEntity> findByAracFiloId(String aracFiloId);
 
 }
