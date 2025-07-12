@@ -54,4 +54,11 @@ public class KazaPersistenceJpaAdapter implements KazaPersistenceJpaPort {
                 kazaJpaRepository.findAll()
         );
     }
+
+    @Override
+    public List<Kaza> findAracFiloIdGetAll(String aracFiloId) {
+        return KazaJpaMapper.toKazaList(
+                kazaJpaRepository.findByAracFiloId(aracFiloId)
+        );
+    }
 }

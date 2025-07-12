@@ -58,4 +58,11 @@ public class SigortaPersistenceJpaAdapter implements SigortaKaskoPersistenceJpaP
                 sigortaJpaRepository.findAll()
         );
     }
+
+    @Override
+    public List<SigortaKasko> findAracFiloIdGetAll(String aracFiloId) {
+        return SigortaKaskoJpaMapper.toSigortaList(
+                sigortaJpaRepository.findByAracFiloId(aracFiloId)
+        );
+    }
 }

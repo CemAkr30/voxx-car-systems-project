@@ -5,20 +5,16 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tr.gov.voxx.car.system.adapter.in.web.data.AdresResponse;
-import tr.gov.voxx.car.system.adapter.in.web.data.AracKullananResponse;
-import tr.gov.voxx.car.system.adapter.in.web.data.FirmaRequest;
-import tr.gov.voxx.car.system.adapter.in.web.data.FirmaResponse;
+import tr.gov.voxx.car.system.adapter.in.web.data.*;
 import tr.gov.voxx.car.system.adapter.in.web.mapper.AdresMapper;
 import tr.gov.voxx.car.system.adapter.in.web.mapper.AracKullananMapper;
 import tr.gov.voxx.car.system.adapter.in.web.mapper.FirmaMapper;
-import tr.gov.voxx.car.system.application.port.in.AdresApplicationQueryPort;
-import tr.gov.voxx.car.system.application.port.in.AracKullananApplicationQueryPort;
-import tr.gov.voxx.car.system.application.port.in.FirmaApplicationCommandPort;
-import tr.gov.voxx.car.system.application.port.in.FirmaApplicationQueryPort;
+import tr.gov.voxx.car.system.adapter.in.web.mapper.IletisimMapper;
+import tr.gov.voxx.car.system.application.port.in.*;
 import tr.gov.voxx.car.system.domain.entity.Adres;
 import tr.gov.voxx.car.system.domain.entity.AracKullanan;
 import tr.gov.voxx.car.system.domain.entity.Firma;
+import tr.gov.voxx.car.system.domain.entity.Iletisim;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
 import java.util.List;
@@ -36,6 +32,7 @@ public class FirmaControllerAdapter {
 
     private final AdresApplicationQueryPort adresApplicationQueryPort;
     private final AracKullananApplicationQueryPort aracKullananApplicationQueryPort;
+    private final IletisimApplicationQueryPort iletisimApplicationQueryPort;
 
     @GetMapping("/{id}")
     @Operation(summary = "Firma Getir", description = "ID’ye göre firma verisini döner")
@@ -88,5 +85,12 @@ public class FirmaControllerAdapter {
     public ResponseEntity<List<AracKullananResponse>> findFirmaIdGetAllAracKullanan(@PathVariable("id") String firmaId) {
         List<AracKullanan> aracKullananList = aracKullananApplicationQueryPort.findFirmaIdGetAll(firmaId);
         return ResponseEntity.ok(AracKullananMapper.toResponseList(aracKullananList));
+    }
+
+    @GetMapping("/{id}/iletisim")
+    @Operation(summary = "Firma Kaynağına Göre iletişimleri Getir", description = "Belirtilen Firma ID ile ilgili bütün iletişimleri getirir")
+    public ResponseEntity<List<IletisimResponse>> findFirmaIdGetAllIletisim(@PathVariable("id") String firmaId) {
+        List<Iletisim> iletisimList = iletisimApplicationQueryPort.findFirmaIdGetAll(firmaId);
+        return ResponseEntity.ok(IletisimMapper.toResponseList(iletisimList));
     }
 }
