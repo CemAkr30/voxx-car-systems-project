@@ -25,7 +25,7 @@ public class HasarMapper {
         return Hasar.builder()
                 .aracFiloId(new AracFiloId(request.getAracFiloId()))
                 .hasarliParca(request.getHasarliParca())
-                .hasarTipi(request.getHasar().getHasarTipi())
+                .hasarTipi(request.getHasarTipi())
                 .build();
     }
 

@@ -58,6 +58,13 @@ public class HasarPersistenceJpaAdapter implements HasarPersistenceJpaPort {
                 hasarJpaRepository.findAll()
         );
     }
+
+    @Override
+    public List<Hasar> findAracFiloIdGetAll(String aracFiloId) {
+        return HasarJpaMapper.toHasarList(
+                hasarJpaRepository.findByAracFiloId(aracFiloId)
+        );
+    }
 }
 
 

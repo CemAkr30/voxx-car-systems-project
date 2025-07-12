@@ -26,4 +26,9 @@ public class HasarApplicationQueryUseCase implements HasarApplicationQueryPort {
     public List<Hasar> getAll() {
         return hasarPersistenceJpaPort.findAll();
     }
+
+    @Override
+    public List<Hasar> findAracFiloIdGetAll(String aracFiloId) {
+        return hasarPersistenceJpaPort.findAracFiloIdGetAll(aracFiloId);
+    }
 }

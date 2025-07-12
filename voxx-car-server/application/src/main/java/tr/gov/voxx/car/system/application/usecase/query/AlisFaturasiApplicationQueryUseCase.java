@@ -26,4 +26,10 @@ public class AlisFaturasiApplicationQueryUseCase implements AlisFaturasiApplicat
     public List<AlisFaturasi> getAll() {
         return persistenceJpaPort.findAll();
     }
+
+    @Override
+    public List<AlisFaturasi> findAracFiloIdGetAll(String aracFiloId) {
+        return persistenceJpaPort.findAracFiloIdGetAll(aracFiloId);
+    }
+
 }

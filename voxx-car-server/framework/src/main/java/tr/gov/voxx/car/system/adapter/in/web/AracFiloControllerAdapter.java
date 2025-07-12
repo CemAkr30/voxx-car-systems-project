@@ -5,12 +5,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tr.gov.voxx.car.system.adapter.in.web.data.AracFiloRequest;
-import tr.gov.voxx.car.system.adapter.in.web.data.AracFiloResponse;
-import tr.gov.voxx.car.system.adapter.in.web.mapper.AracFiloMapper;
-import tr.gov.voxx.car.system.application.port.in.AracFiloApplicationCommandPort;
-import tr.gov.voxx.car.system.application.port.in.AracFiloApplicationQueryPort;
-import tr.gov.voxx.car.system.domain.entity.AracFilo;
+import tr.gov.voxx.car.system.adapter.in.web.data.*;
+import tr.gov.voxx.car.system.adapter.in.web.mapper.*;
+import tr.gov.voxx.car.system.application.port.in.*;
+import tr.gov.voxx.car.system.domain.entity.*;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 
 import java.util.List;
@@ -25,6 +23,16 @@ public class AracFiloControllerAdapter {
 
     private final AracFiloApplicationCommandPort commandPort;
     private final AracFiloApplicationQueryPort queryPort;
+
+    private final SigortaKaskoApplicationQueryPort sigortaKaskoApplicationQueryPort;
+    private final MTVApplicationQueryPort mtvApplicationQueryPort;
+    private final BakimApplicationQueryPort bakimApplicationQueryPort;
+    private final MuayeneApplicationQueryPort muayeneApplicationQueryPort;
+    private final HasarApplicationQueryPort hasarApplicationQueryPort;
+    private final KazaApplicationQueryPort kazaApplicationQueryPort;
+    private final AlisFaturasiApplicationQueryPort alisFaturasiApplicationQueryPort;
+    private final FilodanCikisApplicationQueryPort filodanCikisApplicationQueryPort;
+
 
     @GetMapping("/{id}")
     @Operation(summary = "Araç Getir", description = "ID’ye göre araç bilgisini getirir")
@@ -60,5 +68,61 @@ public class AracFiloControllerAdapter {
     public ResponseEntity<Void> delete(@PathVariable String id) {
         commandPort.deleteById(new AracFiloId(id));
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/sigorta")
+    @Operation(summary = "Araç ID ye Göre sigortaları getir", description = "Belirtilen Arac ID ile ilgili bütün sigortaları getirir")
+    public ResponseEntity<List<SigortaKaskoResponse>> findAracFiloIdGetSigorta(@PathVariable("id") String aracFiloId) {
+        List<SigortaKasko> sigortaKaskoList = sigortaKaskoApplicationQueryPort.findAracFiloIdGetAll(aracFiloId);
+        return ResponseEntity.ok(SigortaKaskoMapper.toResponseList(sigortaKaskoList));
+    }
+
+    @GetMapping("/{id}/mtv")
+    @Operation(summary = "Araç ID ye Göre MTVleri getir", description = "Belirtilen Arac ID ile ilgili bütün MTVleri getirir")
+    public ResponseEntity<List<MTVResponse>> findAracFiloIdGetMtv(@PathVariable("id") String aracFiloId) {
+        List<Mtv> mtvList = mtvApplicationQueryPort.findAracFiloIdGetAll(aracFiloId);
+        return ResponseEntity.ok(MTVMapper.toResponseList(mtvList));
+    }
+
+    @GetMapping("/{id}/bakim")
+    @Operation(summary = "Araç ID ye Göre bakımları getir", description = "Belirtilen Arac ID ile ilgili bütün bakımları getirir")
+    public ResponseEntity<List<BakimResponse>> findAracFiloIdGetBakim(@PathVariable("id") String aracFiloId) {
+        List<Bakim> bakimList = bakimApplicationQueryPort.findAracFiloIdGetAll(aracFiloId);
+        return ResponseEntity.ok(BakimMapper.toResponseList(bakimList));
+    }
+
+    @GetMapping("/{id}/muayene")
+    @Operation(summary = "Araç ID ye Göre muayeneleri getir", description = "Belirtilen Arac ID ile ilgili bütün muayeneleri getirir")
+    public ResponseEntity<List<MuayeneResponse>> findAracFiloIdGetMuayene(@PathVariable("id") String aracFiloId) {
+        List<Muayene> muayeneList = muayeneApplicationQueryPort.findAracFiloIdGetAll(aracFiloId);
+        return ResponseEntity.ok(MuayeneMapper.toResponseList(muayeneList));
+    }
+
+    @GetMapping("/{id}/hasar")
+    @Operation(summary = "Araç ID ye Göre hasarları getir", description = "Belirtilen Arac ID ile ilgili bütün hasarları getirir")
+    public ResponseEntity<List<HasarResponse>> findAracFiloIdGetHasar(@PathVariable("id") String aracFiloId) {
+        List<Hasar> hasarList = hasarApplicationQueryPort.findAracFiloIdGetAll(aracFiloId);
+        return ResponseEntity.ok(HasarMapper.toResponseList(hasarList));
+    }
+
+    @GetMapping("/{id}/kaza")
+    @Operation(summary = "Araç ID ye Göre kazaları getir", description = "Belirtilen Arac ID ile ilgili bütün kazaları getirir")
+    public ResponseEntity<List<KazaResponse>> findAracFiloIdGetKaza(@PathVariable("id") String aracFiloId) {
+        List<Kaza> kazaList = kazaApplicationQueryPort.findAracFiloIdGetAll(aracFiloId);
+        return ResponseEntity.ok(KazaMapper.toResponseList(kazaList));
+    }
+
+    @GetMapping("/{id}/alisfaturasi")
+    @Operation(summary = "Araç ID ye Göre alış faturalarını getir", description = "Belirtilen Arac ID ile ilgili bütün alış faturalarını getirir")
+    public ResponseEntity<List<AlisFaturasiResponse>> findAracFiloIdGetAlisFaturasi(@PathVariable("id") String aracFiloId) {
+        List<AlisFaturasi> alisFaturasiList = alisFaturasiApplicationQueryPort.findAracFiloIdGetAll(aracFiloId);
+        return ResponseEntity.ok(AlisFaturasiMapper.toResponseList(alisFaturasiList));
+    }
+
+    @GetMapping("/{id}/filodancikis")
+    @Operation(summary = "Araç ID ye Göre filodan çıkışları getir", description = "Belirtilen Arac ID ile ilgili bütün filodan çıkışları getirir")
+    public ResponseEntity<List<FilodanCikisResponse>> findAracFiloIdGetFilodanCikis(@PathVariable("id") String aracFiloId) {
+        List<FilodanCikis> filodanCikisList = filodanCikisApplicationQueryPort.findAracFiloIdGetAll(aracFiloId);
+        return ResponseEntity.ok(FilodanCikisMapper.toResponseList(filodanCikisList));
     }
 }
