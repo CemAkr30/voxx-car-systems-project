@@ -38,3 +38,55 @@ export type EhliyetTipi = (typeof EhliyetTipi)[number];
 export const CinsiyetTipi = ["ERKEK", "KADIN"] as const;
 
 export type CinsiyetTipi = (typeof CinsiyetTipi)[number];
+
+export const HasarliParcaListesi = [
+	"SAG_ON_CAMURLUK",
+	"SAG_ON_KAPI",
+	"SAG_ARKA_KAPI",
+	"SAG_ARKA_CAMURLUK",
+	"ARKA_TAMPON",
+	"BAGAJ_KAPAGI",
+	"TAVAN",
+	"KAPUT",
+	"ON_TAMPON",
+	"SOL_ON_CAMURLUK",
+	"SOL_ON_KAPI",
+	"SOL_ARKA_KAPI",
+	"SOL_ARKA_CAMURLUK",
+] as const;
+
+export const HasarliParcaListesiLabel = {
+	SAG_ON_CAMURLUK: "Sağ Ön Çamurluk",
+	SAG_ON_KAPI: "Sağ Ön Kapı",
+	SAG_ARKA_KAPI: "Sağ Arka Kapı",
+	SAG_ARKA_CAMURLUK: "Sağ Arka Çamurluk",
+	ARKA_TAMPON: "Arka Tampon",
+	BAGAJ_KAPAGI: "Bagaj Kapağı",
+	TAVAN: "Tavan",
+	KAPUT: "Kaput",
+	ON_TAMPON: "Ön Tampon",
+	SOL_ON_CAMURLUK: "Sol Ön Çamurluk",
+	SOL_ON_KAPI: "Sol Ön Kapı",
+	SOL_ARKA_KAPI: "Sol Arka Kapı",
+	SOL_ARKA_CAMURLUK: "Sol Arka Çamurluk",
+};
+
+export type HasarliParca = (typeof HasarliParcaListesi)[number];
+
+export const HasarTipiListesi = [
+	"ORIJINAL",
+	"LOKALBOYALI",
+	"BOYALI",
+	"DEGISEN",
+	"NotSet",
+] as const;
+
+export const HasarTipiListesiLabel = {
+	ORIJINAL: "Orijinal",
+	LOKALBOYALI: "Lokal Boyalı",
+	BOYALI: "Boyalı",
+	DEGISEN: "Değişen",
+	NotSet: "Henüz Seçilmedi",
+};
+
+export type HasarTipi = (typeof HasarTipiListesi)[number];

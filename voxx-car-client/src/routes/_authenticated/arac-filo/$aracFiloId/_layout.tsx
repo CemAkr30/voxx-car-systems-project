@@ -143,9 +143,6 @@ function RouteComponent() {
 					<h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
 						Araç Yönetim Modülleri
 					</h2>
-					<span className="text-sm text-slate-600 dark:text-slate-400">
-						9 Modül
-					</span>
 				</div>
 				<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-9 gap-3">
 					{actionButtons.map((button) => {
@@ -187,31 +184,10 @@ function RouteComponent() {
 						);
 					})}
 				</div>
-
-				{/* Quick Stats */}
-				<div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-700">
-					<div className="flex items-center justify-between text-sm">
-						<div className="flex items-center gap-4">
-							<div className="flex items-center gap-2">
-								<div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-								<span className="text-slate-600 dark:text-slate-400">
-									Aktif Modüller: 1
-								</span>
-							</div>
-							<div className="flex items-center gap-2">
-								<div className="w-2 h-2 bg-slate-400 rounded-full" />
-								<span className="text-slate-600 dark:text-slate-400">
-									Toplam: 9
-								</span>
-							</div>
-						</div>
-						<span className="text-slate-500 dark:text-slate-400">
-							Son güncelleme: 2 dakika önce
-						</span>
-					</div>
-				</div>
 			</div>
-			<Outlet />
+			<div className="bg-white dark:bg-slate-950 rounded-lg border p-6">
+				<Outlet />
+			</div>
 		</div>
 	);
 }
