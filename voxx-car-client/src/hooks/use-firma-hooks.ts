@@ -6,11 +6,7 @@ import {
 	updateFirma,
 } from "@/requests/firma";
 import type { CreateFirmaRequest, Firma } from "@/schemas/firma";
-import {
-	queryOptions,
-	useMutation,
-	useQueryClient,
-} from "@tanstack/react-query";
+import { queryOptions, useMutation } from "@tanstack/react-query";
 
 export function getFirmalarQueryOptions() {
 	return queryOptions({
@@ -27,39 +23,28 @@ export function getFirmaQueryOptions(firmaId: string) {
 }
 
 export const useCreateFirmaMutation = (onSuccess?: () => void) => {
-	const queryClient = useQueryClient();
-
 	return useMutation({
-		mutationFn: async (firma: CreateFirmaRequest): Promise<void> => {
-			await createFirma(firma);
-		},
+		mutationFn: async (firma: CreateFirmaRequest): Promise<void> =>
+			await createFirma(firma),
 		onSuccess() {
-			queryClient.invalidateQueries(getFirmalarQueryOptions());
 			onSuccess?.();
 		},
 	});
 };
 
 export const useUpdateFirmaMutation = (onSuccess?: () => void) => {
-	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: async (firma: Firma) => {
-			await updateFirma(firma);
-			await queryClient.invalidateQueries(getFirmaQueryOptions(firma.id));
-		},
+		mutationFn: async (firma: Firma) => await updateFirma(firma),
 		onSuccess() {
-			queryClient.invalidateQueries(getFirmalarQueryOptions());
 			onSuccess?.();
 		},
 	});
 };
 
 export const useDeleteFirmaMutation = (onSuccess?: () => void) => {
-	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: async (id: string) => await deleteFirma(id),
 		onSuccess() {
-			queryClient.invalidateQueries(getFirmalarQueryOptions());
 			onSuccess?.();
 		},
 	});

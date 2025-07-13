@@ -10,6 +10,7 @@ import {
 import { CinsiyetTipi, EhliyetTipi } from "@/enums";
 import { useAppForm } from "@/hooks/demo.form";
 import {
+	getAracKullananlarByFirmaIdQueryOptions,
 	useCreateAracKullananMutation,
 	useUpdateAracKullananMutation,
 } from "@/hooks/use-arac-kullanan-hooks";
@@ -20,6 +21,7 @@ import {
 	aracKullananUpdateSchema,
 } from "@/schemas/arac-kullanan";
 import type { Firma } from "@/schemas/firma";
+import { useQueryClient } from "@tanstack/react-query";
 import { RefreshCw } from "lucide-react";
 import { useMemo } from "react";
 
@@ -45,6 +47,7 @@ type AracKullananDialogProps =
 
 export default function AracKullananDialog(props: AracKullananDialogProps) {
 	const { mode, open, close, firmalar } = props;
+	const queryClient = useQueryClient();
 
 	const firmalarOptions = useMemo(
 		() => firmalar.map((firma) => ({ label: firma.unvan, value: firma.id })),
@@ -61,14 +64,9 @@ export default function AracKullananDialog(props: AracKullananDialogProps) {
 		value: ehliyet,
 	}));
 
-	const createAracKullananMutation = useCreateAracKullananMutation(
-		props.initialValues.firmaId,
-		close,
-	);
+	const createAracKullananMutation = useCreateAracKullananMutation(close);
 	const updateAracKullananMutation =
-		mode === "create"
-			? null
-			: useUpdateAracKullananMutation(props.initialValues.firmaId, close);
+		mode === "create" ? null : useUpdateAracKullananMutation(close);
 
 	const form = useAppForm({
 		defaultValues:
@@ -100,6 +98,9 @@ export default function AracKullananDialog(props: AracKullananDialogProps) {
 				} else if (mode === "update") {
 					await updateAracKullananMutation!.mutateAsync(value as AracKullanan);
 				}
+				queryClient.invalidateQueries(
+					getAracKullananlarByFirmaIdQueryOptions(props.initialValues.firmaId),
+				);
 				formApi.reset();
 			} catch (_error) {}
 		},

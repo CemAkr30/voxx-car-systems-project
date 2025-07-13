@@ -128,7 +128,6 @@ function RouteComponent() {
 		update: false,
 		delete: false,
 	});
-	const [_, setOpenDropdowns] = useState<Set<string>>(new Set());
 
 	const { data: firmalar = [] } = useSuspenseQuery(getFirmalarQueryOptions());
 	const { data: adresler = [] } = useSuspenseQuery(
@@ -150,7 +149,6 @@ function RouteComponent() {
 			update: false,
 			delete: false,
 		});
-		setOpenDropdowns(new Set());
 	};
 
 	return (
