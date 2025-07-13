@@ -27,7 +27,7 @@ import { cn, isUUID } from "@/lib/utils";
 import type { Hasar } from "@/schemas/hasar";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useBlocker } from "@tanstack/react-router";
-import { AlertTriangle, Car, Edit, X } from "lucide-react";
+import { AlertTriangle, Car, Edit, MapPin, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface DialogState {
@@ -165,7 +165,30 @@ function RouteComponent() {
 	};
 
 	return (
-		<div className="w-full">
+		<div className="w-full space-y-3">
+			<div className="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-2xl shadow-xl">
+				<div className="absolute inset-0 bg-black/10" />
+				<div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent" />
+				<div className="absolute top-4 right-4 w-24 h-24 bg-white/10 rounded-full blur-xl" />
+				<div className="absolute bottom-4 left-4 w-16 h-16 bg-white/5 rounded-full blur-lg" />
+				<div className="relative p-8">
+					<div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+						<div className="flex items-center gap-4">
+							<div className="relative">
+								<div className="absolute inset-0 bg-white/20 rounded-xl blur-sm" />
+								<div className="relative p-3 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
+									<MapPin className="h-7 w-7 text-white" />
+								</div>
+							</div>
+							<div>
+								<h1 className="text-3xl font-bold text-white mb-2">
+									Araç Hasarları
+								</h1>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div className="grid grid-cols-1 md:grid-cols-2 min-h-auto">
 				<svg
 					version="1.1"
