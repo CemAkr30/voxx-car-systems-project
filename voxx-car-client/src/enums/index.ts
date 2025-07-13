@@ -90,3 +90,12 @@ export const HasarTipiListesiLabel = {
 };
 
 export type HasarTipi = (typeof HasarTipiListesi)[number];
+
+export const SigortaTipiListesi = ["KASKO", "TRAFIK"] as const;
+
+export const SigortaTipiListesiLabel = {
+	KASKO: "Kasko",
+	TRAFIK: "Trafik",
+};
+
+export type SigortaTipi = (typeof SigortaTipiListesi)[number];
