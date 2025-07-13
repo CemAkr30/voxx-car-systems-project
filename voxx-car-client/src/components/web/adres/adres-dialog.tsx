@@ -10,6 +10,7 @@ import {
 import { AdresTipi } from "@/enums";
 import { useAppForm } from "@/hooks/demo.form";
 import {
+	getAdreslerByFirmaIdQueryOptions,
 	useCreateAdresMutation,
 	useUpdateAdresMutation,
 } from "@/hooks/use-adres-hooks";
@@ -20,6 +21,7 @@ import {
 	adresUpdateSchema,
 } from "@/schemas/adres";
 import type { Firma } from "@/schemas/firma";
+import { useQueryClient } from "@tanstack/react-query";
 import { RefreshCw } from "lucide-react";
 import { useMemo } from "react";
 
@@ -43,6 +45,7 @@ type AdresDialogProps = AdresDialogCreateProps | AdresDialogUpdateProps;
 
 export default function AdresDialog(props: AdresDialogProps) {
 	const { mode, open, close, firmalar } = props;
+	const queryClient = useQueryClient();
 
 	const firmalarOptions = useMemo(
 		() => firmalar.map((firma) => ({ label: firma.unvan, value: firma.id })),
@@ -74,6 +77,9 @@ export default function AdresDialog(props: AdresDialogProps) {
 				} else if (mode === "update") {
 					await updateAdresMutation!.mutateAsync(value as Adres);
 				}
+				queryClient.invalidateQueries(
+					getAdreslerByFirmaIdQueryOptions(props.initialValues.firmaId),
+				);
 				formApi.reset();
 			} catch (_error) {}
 		},

@@ -5,11 +5,7 @@ import {
 	updateAdres,
 } from "@/requests/adres";
 import type { CreateAdresRequest, Adres } from "@/schemas/adres";
-import {
-	queryOptions,
-	useMutation,
-	useQueryClient,
-} from "@tanstack/react-query";
+import { queryOptions, useMutation } from "@tanstack/react-query";
 
 export function getAdreslerByFirmaIdQueryOptions(firmaId: string) {
 	return queryOptions({
@@ -19,15 +15,9 @@ export function getAdreslerByFirmaIdQueryOptions(firmaId: string) {
 }
 
 export const useCreateAdresMutation = (onSuccess?: () => void) => {
-	const queryClient = useQueryClient();
-
 	return useMutation({
-		mutationFn: async (adres: CreateAdresRequest): Promise<void> => {
-			await createAdres(adres);
-			queryClient.invalidateQueries(
-				getAdreslerByFirmaIdQueryOptions(adres.firmaId),
-			);
-		},
+		mutationFn: async (adres: CreateAdresRequest): Promise<void> =>
+			await createAdres(adres),
 		onSuccess() {
 			onSuccess?.();
 		},
@@ -35,14 +25,8 @@ export const useCreateAdresMutation = (onSuccess?: () => void) => {
 };
 
 export const useUpdateAdresMutation = (onSuccess?: () => void) => {
-	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: async (adres: Adres) => {
-			await updateAdres(adres);
-			await queryClient.invalidateQueries(
-				getAdreslerByFirmaIdQueryOptions(adres.firmaId),
-			);
-		},
+		mutationFn: async (adres: Adres) => await updateAdres(adres),
 		onSuccess() {
 			onSuccess?.();
 		},
@@ -50,13 +34,9 @@ export const useUpdateAdresMutation = (onSuccess?: () => void) => {
 };
 
 export const useDeleteAdresMutation = (onSuccess?: () => void) => {
-	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: async (id: string) => await deleteAdres(id),
 		onSuccess() {
-			queryClient.invalidateQueries({
-				queryKey: ["firma"],
-			});
 			onSuccess?.();
 		},
 	});

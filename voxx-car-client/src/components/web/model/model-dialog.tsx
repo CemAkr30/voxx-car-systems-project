@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { useAppForm } from "@/hooks/demo.form";
 import {
+	getModellerQueryOptions,
 	useCreateModelMutation,
 	useUpdateModelMutation,
 } from "@/hooks/use-model-hooks";
@@ -19,6 +20,7 @@ import {
 	type CreateModelRequest,
 	type Model,
 } from "@/schemas/model";
+import { useQueryClient } from "@tanstack/react-query";
 import { RefreshCw } from "lucide-react";
 import { useMemo } from "react";
 
@@ -41,6 +43,7 @@ type ModelDialogProps = ModelDialogCreateProps | ModelDialogUpdateProps;
 
 export default function ModelDialog(props: ModelDialogProps) {
 	const { mode, open, close, markalar } = props;
+	const queryClient = useQueryClient();
 
 	const markalarOptions = useMemo(
 		() => markalar.map((marka) => ({ label: marka.adi, value: marka.id })),
@@ -69,6 +72,7 @@ export default function ModelDialog(props: ModelDialogProps) {
 				} else if (mode === "update") {
 					await updateModelMutation!.mutateAsync(value as Model);
 				}
+				queryClient.invalidateQueries(getModellerQueryOptions());
 				formApi.reset();
 			} catch (_error) {}
 		},

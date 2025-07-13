@@ -33,7 +33,7 @@ function RouteComponent() {
 		},
 		onSubmit: async ({ value }) => {
 			const { accessToken } = await loginMutation.mutateAsync(value);
-			await queryClient.invalidateQueries(authUserQueryOptions);
+			await queryClient.invalidateQueries(authUserQueryOptions());
 			localStorage.setItem("accessToken", accessToken);
 			router.navigate({ to: "/" });
 		},

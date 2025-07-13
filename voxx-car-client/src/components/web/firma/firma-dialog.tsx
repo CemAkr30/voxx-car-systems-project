@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { useAppForm } from "@/hooks/demo.form";
 import {
+	getFirmalarQueryOptions,
 	useCreateFirmaMutation,
 	useUpdateFirmaMutation,
 } from "@/hooks/use-firma-hooks";
@@ -18,6 +19,7 @@ import {
 	type CreateFirmaRequest,
 	type Firma,
 } from "@/schemas/firma";
+import { useQueryClient } from "@tanstack/react-query";
 import { RefreshCw } from "lucide-react";
 
 interface FirmaDialogCreateProps {
@@ -37,6 +39,7 @@ type FirmaDialogProps = FirmaDialogCreateProps | FirmaDialogUpdateProps;
 
 export default function FirmaDialog(props: FirmaDialogProps) {
 	const { mode, open, close } = props;
+	const queryClient = useQueryClient();
 
 	const createFirmaMutation = useCreateFirmaMutation(close);
 	const updateFirmaMutation =
@@ -61,6 +64,7 @@ export default function FirmaDialog(props: FirmaDialogProps) {
 				} else if (mode === "update") {
 					await updateFirmaMutation!.mutateAsync(value as Firma);
 				}
+				queryClient.invalidateQueries(getFirmalarQueryOptions());
 				formApi.reset();
 			} catch (_error) {}
 		},

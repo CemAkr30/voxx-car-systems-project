@@ -8,11 +8,7 @@ import type {
 	CreateAracKullananRequest,
 	AracKullanan,
 } from "@/schemas/arac-kullanan";
-import {
-	queryOptions,
-	useMutation,
-	useQueryClient,
-} from "@tanstack/react-query";
+import { queryOptions, useMutation } from "@tanstack/react-query";
 
 export function getAracKullananlarByFirmaIdQueryOptions(firmaId: string) {
 	return queryOptions({
@@ -20,55 +16,31 @@ export function getAracKullananlarByFirmaIdQueryOptions(firmaId: string) {
 		queryFn: () => getAllAracKullananlarByFirmaId(firmaId),
 	});
 }
-export const useCreateAracKullananMutation = (
-	firmaId: string,
-	onSuccess?: () => void,
-) => {
-	const queryClient = useQueryClient();
-
+export const useCreateAracKullananMutation = (onSuccess?: () => void) => {
 	return useMutation({
 		mutationFn: async (
 			aracKullanan: CreateAracKullananRequest,
-		): Promise<void> => {
-			await createAracKullanan(aracKullanan);
-		},
+		): Promise<void> => await createAracKullanan(aracKullanan),
 		onSuccess() {
-			queryClient.invalidateQueries(
-				getAracKullananlarByFirmaIdQueryOptions(firmaId),
-			);
 			onSuccess?.();
 		},
 	});
 };
 
-export const useUpdateAracKullananMutation = (
-	firmaId: string,
-	onSuccess?: () => void,
-) => {
-	const queryClient = useQueryClient();
+export const useUpdateAracKullananMutation = (onSuccess?: () => void) => {
 	return useMutation({
 		mutationFn: async (aracKullanan: AracKullanan) =>
 			await updateAracKullanan(aracKullanan),
 		onSuccess() {
-			queryClient.invalidateQueries(
-				getAracKullananlarByFirmaIdQueryOptions(firmaId),
-			);
 			onSuccess?.();
 		},
 	});
 };
 
-export const useDeleteAracKullananMutation = (
-	firmaId: string,
-	onSuccess?: () => void,
-) => {
-	const queryClient = useQueryClient();
+export const useDeleteAracKullananMutation = (onSuccess?: () => void) => {
 	return useMutation({
 		mutationFn: async (id: string) => await deleteAracKullanan(id),
 		onSuccess() {
-			queryClient.invalidateQueries(
-				getAracKullananlarByFirmaIdQueryOptions(firmaId),
-			);
 			onSuccess?.();
 		},
 	});
