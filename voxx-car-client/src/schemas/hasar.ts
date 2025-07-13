@@ -10,7 +10,5 @@ export type CreateHasarRequest = z.input<typeof hasarCreateSchema>;
 
 export const hasarUpdateSchema = hasarCreateSchema.extend({
 	id: z.string(),
-	createdAt: z.string(),
-	updatedAt: z.string(),
 });
 export type Hasar = z.input<typeof hasarUpdateSchema>;
