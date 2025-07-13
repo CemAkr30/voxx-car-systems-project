@@ -19,6 +19,11 @@ import { useState } from "react";
 export const Route = createFileRoute(
 	"/_authenticated/arac-filo/$aracFiloId/_layout/sigorta/",
 )({
+	loader: ({ context: { queryClient }, params: { aracFiloId } }) => {
+		queryClient.ensureQueryData(
+			getSigortalarByAracFiloIdQueryOptions(aracFiloId),
+		);
+	},
 	component: RouteComponent,
 });
 

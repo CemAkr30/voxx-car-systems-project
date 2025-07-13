@@ -9,7 +9,7 @@ import { queryOptions, useMutation } from "@tanstack/react-query";
 
 export function getHasarlarByAracFiloIdQueryOptions(aracFiloId: string) {
 	return queryOptions({
-		queryKey: ["firma", { aracFiloId }, "hasar"],
+		queryKey: ["aracFilo", { aracFiloId }, "hasar"],
 		queryFn: () => getHasarByAracFiloId(aracFiloId),
 	});
 }
