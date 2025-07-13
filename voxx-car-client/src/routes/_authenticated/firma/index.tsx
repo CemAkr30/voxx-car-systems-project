@@ -40,7 +40,7 @@ interface DialogState {
 
 export const Route = createFileRoute("/_authenticated/firma/")({
 	loader: ({ context: { queryClient } }) =>
-		queryClient.prefetchQuery(getFirmalarQueryOptions()),
+		queryClient.ensureQueryData(getFirmalarQueryOptions()),
 	component: RouteComponent,
 });
 

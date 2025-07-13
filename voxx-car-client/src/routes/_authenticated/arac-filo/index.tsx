@@ -37,7 +37,7 @@ interface DialogState {
 
 export const Route = createFileRoute("/_authenticated/arac-filo/")({
 	loader: ({ context: { queryClient } }) =>
-		queryClient.prefetchQuery(getAracFilolarQueryOptions()),
+		queryClient.ensureQueryData(getAracFilolarQueryOptions()),
 	component: RouteComponent,
 });
 

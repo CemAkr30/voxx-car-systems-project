@@ -7,9 +7,9 @@ import { createFileRoute } from "@tanstack/react-router";
 export const Route = createFileRoute(
 	"/_authenticated/arac-filo/_form_layout/olustur/",
 )({
-	beforeLoad: async ({ context: { queryClient } }) => {
-		await queryClient.prefetchQuery(getMarkalarQueryOptions());
-		await queryClient.prefetchQuery(getFirmalarQueryOptions());
+	loader: ({ context: { queryClient } }) => {
+		queryClient.ensureQueryData(getMarkalarQueryOptions());
+		queryClient.ensureQueryData(getFirmalarQueryOptions());
 	},
 	component: RouteComponent,
 });
