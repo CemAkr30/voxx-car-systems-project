@@ -15,7 +15,7 @@ import {
 export const Route = createFileRoute(
 	"/_authenticated/arac-filo/$aracFiloId/_layout",
 )({
-	beforeLoad: ({ context: { queryClient }, params: { aracFiloId } }) => {
+	loader: ({ context: { queryClient }, params: { aracFiloId } }) => {
 		queryClient.ensureQueryData(getAracFiloQueryOptions(aracFiloId));
 	},
 	component: RouteComponent,

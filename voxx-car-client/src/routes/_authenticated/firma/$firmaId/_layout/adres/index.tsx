@@ -43,9 +43,9 @@ interface DialogState {
 export const Route = createFileRoute(
 	"/_authenticated/firma/$firmaId/_layout/adres/",
 )({
-	loader: async ({ context: { queryClient }, params: { firmaId } }) => {
-		await queryClient.prefetchQuery(getFirmalarQueryOptions());
-		await queryClient.prefetchQuery(getAdreslerByFirmaIdQueryOptions(firmaId));
+	loader: ({ context: { queryClient }, params: { firmaId } }) => {
+		queryClient.ensureQueryData(getFirmalarQueryOptions());
+		queryClient.ensureQueryData(getAdreslerByFirmaIdQueryOptions(firmaId));
 	},
 	component: RouteComponent,
 });

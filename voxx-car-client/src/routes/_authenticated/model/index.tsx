@@ -40,9 +40,9 @@ interface DialogState {
 }
 
 export const Route = createFileRoute("/_authenticated/model/")({
-	loader: async ({ context: { queryClient } }) => {
-		await queryClient.prefetchQuery(getMarkalarQueryOptions());
-		await queryClient.prefetchQuery(getModellerQueryOptions());
+	loader: ({ context: { queryClient } }) => {
+		queryClient.ensureQueryData(getMarkalarQueryOptions());
+		queryClient.ensureQueryData(getModellerQueryOptions());
 	},
 	component: RouteComponent,
 });

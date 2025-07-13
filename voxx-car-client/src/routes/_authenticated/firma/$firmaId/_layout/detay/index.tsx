@@ -17,8 +17,8 @@ import {
 export const Route = createFileRoute(
 	"/_authenticated/firma/$firmaId/_layout/detay/",
 )({
-	loader: async ({ context: { queryClient }, params: { firmaId } }) => {
-		await queryClient.prefetchQuery(getFirmaQueryOptions(firmaId));
+	loader: ({ context: { queryClient }, params: { firmaId } }) => {
+		queryClient.ensureQueryData(getFirmaQueryOptions(firmaId));
 	},
 	component: RouteComponent,
 });
