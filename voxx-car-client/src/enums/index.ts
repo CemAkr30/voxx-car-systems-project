@@ -99,3 +99,31 @@ export const SigortaTipiListesiLabel = {
 };
 
 export type SigortaTipi = (typeof SigortaTipiListesi)[number];
+
+export const OdemeTipiListesi = [
+	"AMERICAN_EXPRESS",
+	"NAKIT",
+	"BANKA_EFT",
+	"CARI_HESAP",
+	"BANKA_HAVALE",
+	"IKRAM",
+	"MASTERCARD",
+	"VOUCHER",
+	"VISA",
+	"ODENMEDI",
+] as const;
+
+export const OdemeTipiListesiLabel = {
+	AMERICAN_EXPRESS: "American Express",
+	NAKIT: "Nakit",
+	BANKA_EFT: "Banka EFT",
+	CARI_HESAP: "Cari Hesap",
+	BANKA_HAVALE: "Banka Havale",
+	IKRAM: "İkram",
+	MASTERCARD: "Mastercard",
+	VOUCHER: "Voucher",
+	VISA: "Visa",
+	ODENMEDI: "Ödenmedi",
+};
+
+export type OdemeTipi = (typeof OdemeTipiListesi)[number];
