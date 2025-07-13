@@ -23,7 +23,6 @@ export default function AracKullananSilDialog({
 	selectedAracKullanan,
 }: AracKullananDialogDeleteProps) {
 	const deleteAracKullananMutation = useDeleteAracKullananMutation(
-		selectedAracKullanan.firmaId,
 		close,
 	);
 

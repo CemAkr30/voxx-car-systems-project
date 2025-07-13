@@ -9,7 +9,7 @@ import { queryOptions, useMutation } from "@tanstack/react-query";
 
 export function getSigortalarByAracFiloIdQueryOptions(aracFiloId: string) {
 	return queryOptions({
-		queryKey: ["firma", { aracFiloId }, "sigorta"],
+		queryKey: ["aracFilo", { aracFiloId }, "sigorta"],
 		queryFn: () => getSigortaByAracFiloId(aracFiloId),
 	});
 }

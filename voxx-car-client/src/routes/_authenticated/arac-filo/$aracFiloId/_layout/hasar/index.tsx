@@ -50,9 +50,9 @@ export const Route = createFileRoute(
 
 function RouteComponent() {
 	const { aracFiloId } = Route.useParams();
-	const createHasarMutation = useCreateHasarMutation(aracFiloId);
-	const updateHasarMutation = useUpdateHasarMutation(aracFiloId);
-	const deleteHasarMutation = useDeleteHasarMutation(aracFiloId);
+	const createHasarMutation = useCreateHasarMutation();
+	const updateHasarMutation = useUpdateHasarMutation();
+	const deleteHasarMutation = useDeleteHasarMutation();
 	const { data: hasarlar } = useSuspenseQuery(
 		getHasarlarByAracFiloIdQueryOptions(aracFiloId),
 	);
