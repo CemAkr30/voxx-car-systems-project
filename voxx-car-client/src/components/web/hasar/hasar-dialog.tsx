@@ -28,6 +28,7 @@ interface HasarDialogCreateProps {
 	hasarliParca: HasarliParca;
 	setSelectedPart: Dispatch<SetStateAction<HasarliParca | null>>;
 	setSelectedParts: Dispatch<SetStateAction<Hasar[]>>;
+	setUpdatedParts: Dispatch<SetStateAction<string[]>>;
 }
 
 interface HasarDialogUpdateProps {
@@ -39,6 +40,7 @@ interface HasarDialogUpdateProps {
 	initialValues: Hasar;
 	setSelectedPart: Dispatch<SetStateAction<HasarliParca | null>>;
 	setSelectedParts: Dispatch<SetStateAction<Hasar[]>>;
+	setUpdatedParts: Dispatch<SetStateAction<string[]>>;
 }
 
 type HasarDialogProps = HasarDialogCreateProps | HasarDialogUpdateProps;
@@ -52,6 +54,7 @@ export default function HasarDialog(props: HasarDialogProps) {
 		hasarliParca,
 		setSelectedPart,
 		setSelectedParts,
+		setUpdatedParts,
 	} = props;
 
 	const hasarTipiOptions = HasarTipiListesi.slice(
@@ -85,21 +88,31 @@ export default function HasarDialog(props: HasarDialogProps) {
 							aracFiloId,
 							hasarliParca: value.hasarliParca,
 							hasarTipi: value.hasarTipi,
-							createdAt: new Date().toDateString(),
-							updatedAt: new Date().toDateString(),
 						},
 					]);
 				} else if (mode === "update") {
 					setSelectedParts((prevState) =>
-						prevState.map((part) =>
-							part.hasarliParca === value.hasarliParca
-								? {
-										...part,
-										hasarTipi: value.hasarTipi,
-										updatedAt: new Date().toDateString(),
-									}
-								: part,
-						),
+						prevState.map((part) => {
+							if (part.hasarliParca === value.hasarliParca) {
+								if (
+									!(
+										JSON.stringify(props.initialValues) ===
+										JSON.stringify(value)
+									)
+								) {
+									setUpdatedParts((prev) =>
+										prev.includes(part.id) ? prev : [...prev, part.id],
+									);
+								}
+
+								return {
+									...part,
+									hasarTipi: value.hasarTipi,
+									updatedAt: new Date().toISOString(), // better format than toDateString
+								};
+							}
+							return part;
+						}),
 					);
 				}
 				setSelectedPart(null);

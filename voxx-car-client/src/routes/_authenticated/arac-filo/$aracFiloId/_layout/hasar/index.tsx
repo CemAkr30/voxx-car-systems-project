@@ -1,3 +1,13 @@
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import HasarDialog from "@/components/web/hasar/hasar-dialog";
 import {
@@ -7,9 +17,16 @@ import {
 	HasarTipiListesiLabel,
 	type HasarliParca,
 } from "@/enums";
-import { cn } from "@/lib/utils";
+import {
+	getHasarlarByAracFiloIdQueryOptions,
+	useCreateHasarMutation,
+	useDeleteHasarMutation,
+	useUpdateHasarMutation,
+} from "@/hooks/use-hasar-hooks";
+import { cn, isUUID } from "@/lib/utils";
 import type { Hasar } from "@/schemas/hasar";
-import { createFileRoute } from "@tanstack/react-router";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { createFileRoute, useBlocker } from "@tanstack/react-router";
 import { AlertTriangle, Car, Edit, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -23,13 +40,26 @@ interface DialogState {
 export const Route = createFileRoute(
 	"/_authenticated/arac-filo/$aracFiloId/_layout/hasar/",
 )({
+	loader: ({ context: { queryClient }, params: { aracFiloId } }) => {
+		queryClient.ensureQueryData(
+			getHasarlarByAracFiloIdQueryOptions(aracFiloId),
+		);
+	},
 	component: RouteComponent,
 });
 
 function RouteComponent() {
 	const { aracFiloId } = Route.useParams();
+	const createHasarMutation = useCreateHasarMutation(aracFiloId);
+	const updateHasarMutation = useUpdateHasarMutation(aracFiloId);
+	const deleteHasarMutation = useDeleteHasarMutation(aracFiloId);
+	const { data: hasarlar } = useSuspenseQuery(
+		getHasarlarByAracFiloIdQueryOptions(aracFiloId),
+	);
 	const [selectedPart, setSelectedPart] = useState<HasarliParca | null>(null);
-	const [selectedParts, setSelectedParts] = useState<Hasar[]>([]);
+	const [selectedParts, setSelectedParts] = useState<Hasar[]>(hasarlar);
+	const [updatedParts, setUpdatedParts] = useState<string[]>([]);
+	const [deletedParts, setDeletedParts] = useState<string[]>([]);
 	const [dialogState, setDialogState] = useState<DialogState>({
 		create: false,
 		update: false,
@@ -72,6 +102,38 @@ function RouteComponent() {
 			setDialogState((prevState) => ({ ...prevState, create: true }));
 		}
 	}, [selectedParts, selectedPart]);
+
+	const { proceed, reset, status } = useBlocker({
+		shouldBlockFn: () =>
+			selectedParts.some((part) => !isUUID(part.id)) ||
+			updatedParts.length > 0 ||
+			deletedParts.length > 0,
+		withResolver: true,
+		enableBeforeUnload:
+			selectedParts.some((part) => !isUUID(part.id)) ||
+			updatedParts.length > 0 ||
+			deletedParts.length > 0,
+	});
+
+	const handleHasarParcaSubmit = async () => {
+		try {
+			for (const part of selectedParts) {
+				if (part.id?.startsWith("new-id")) {
+					await createHasarMutation.mutate(part);
+				} else {
+					if (updatedParts.includes(part.id)) {
+						await updateHasarMutation.mutate(part);
+					}
+				}
+			}
+
+			for (const id of deletedParts) {
+				deleteHasarMutation.mutate(id);
+			}
+		} catch (error) {
+			console.error("An error occurred while saving parts", error);
+		}
+	};
 
 	const hasarliParcaPath = {
 		[HasarliParcaListesi[0]]:
@@ -244,10 +306,15 @@ function RouteComponent() {
 						className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/20 dark:to-purple-950/20 rounded-xl p-6 h-full
 					"
 					>
-						<h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2">
-							<AlertTriangle className="h-5 w-5 text-amber-500" />
-							Seçilen Hasarlı Parçalar ({selectedParts.length})
-						</h3>
+						<div className="flex flex-col md:flex-row justify-between items-center">
+							<div>
+								<h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2">
+									<AlertTriangle className="h-5 w-5 text-amber-500" />
+									Seçilen Hasarlı Parçalar ({selectedParts.length})
+								</h3>
+							</div>
+							<Button onClick={handleHasarParcaSubmit}>Kaydet</Button>
+						</div>
 						{selectedParts.length === 0 ? (
 							<div className="text-center py-8">
 								<div className="w-16 h-16 bg-slate-200 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -292,9 +359,20 @@ function RouteComponent() {
 													size="sm"
 													className="h-8 w-8 p-0 text-red-500 hover:text-red-700 hover:bg-red-50"
 													onClick={() =>
-														setSelectedParts((prevState) =>
-															prevState.filter((part) => part.id !== damage.id),
-														)
+														setSelectedParts((prevState) => {
+															if (isUUID(damage.id)) {
+																setDeletedParts((prevState) => [
+																	...prevState,
+																	damage.id,
+																]);
+																return prevState.filter(
+																	(part) => part.id !== damage.id,
+																);
+															}
+															return prevState.filter(
+																(part) => part.id !== damage.id,
+															);
+														})
 													}
 												>
 													<X className="h-3 w-3" />
@@ -309,6 +387,21 @@ function RouteComponent() {
 				</div>
 			</div>
 
+			<AlertDialog open={status === "blocked"}>
+				<AlertDialogContent>
+					<AlertDialogHeader>
+						<AlertDialogTitle>Emin misiniz?</AlertDialogTitle>
+						<AlertDialogDescription>
+							Değişiklikleri kaydetmediniz
+						</AlertDialogDescription>
+					</AlertDialogHeader>
+					<AlertDialogFooter>
+						<AlertDialogCancel onClick={reset}>İptal et</AlertDialogCancel>
+						<AlertDialogAction onClick={proceed}>Devam et</AlertDialogAction>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
+
 			{selectedPart &&
 				!selectedParts.find((part) => part.hasarliParca === selectedPart) && (
 					<HasarDialog
@@ -318,6 +411,7 @@ function RouteComponent() {
 						aracFiloId={aracFiloId}
 						hasarliParca={selectedPart}
 						setSelectedPart={setSelectedPart}
+						setUpdatedParts={setUpdatedParts}
 						setSelectedParts={setSelectedParts}
 					/>
 				)}
@@ -331,6 +425,7 @@ function RouteComponent() {
 						aracFiloId={aracFiloId}
 						hasarliParca={selectedPart}
 						setSelectedPart={setSelectedPart}
+						setUpdatedParts={setUpdatedParts}
 						setSelectedParts={setSelectedParts}
 						initialValues={
 							selectedParts.find((part) => part.hasarliParca === selectedPart)!
