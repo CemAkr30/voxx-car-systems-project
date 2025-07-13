@@ -83,9 +83,6 @@ function RouteComponent() {
 								<h1 className="text-3xl font-bold text-white mb-2">
 									Araç Sigortaları
 								</h1>
-								<p className="text-white/80 text-lg">
-									Arac Filo Id: #{aracFiloId}
-								</p>
 							</div>
 						</div>
 						<div className="flex items-center gap-3">
