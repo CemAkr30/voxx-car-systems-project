@@ -24,7 +24,7 @@ public class MTVJpaMapper {
                 .miktar(entity.getMiktar())
                 .odemeTipi(entity.getOdemeTipi())
                 .odeyenFirmaId(new FirmaId(entity.getOdeyenFirmaId()))
-                .not(entity.getNot())
+                .aciklama(entity.getAciklama())
                 .gecikmeCezasi(entity.getGecikmeCezasi())
                 .odendi(entity.getOdendi())
                 .createdAt(entity.getCreatedAt())
@@ -45,7 +45,7 @@ public class MTVJpaMapper {
         entity.setMiktar(mtv.getMiktar());
         entity.setOdemeTipi(mtv.getOdemeTipi());
         entity.setOdeyenFirmaId(mtv.getOdeyenFirmaId().getValue());
-        entity.setNot(mtv.getNot());
+        entity.setAciklama(mtv.getAciklama());
         entity.setGecikmeCezasi(mtv.getGecikmeCezasi());
         entity.setOdendi(mtv.getOdendi());
         return entity;
@@ -71,7 +71,7 @@ public class MTVJpaMapper {
                 .miktar(mtvCreatedEvent.miktar())
                 .odemeTipi(mtvCreatedEvent.odemeTipi())
                 .odeyenFirmaId(mtvCreatedEvent.odeyenFirmaId())
-                .not(mtvCreatedEvent.not())
+                .aciklama(mtvCreatedEvent.not())
                 .gecikmeCezasi(mtvCreatedEvent.gecikmeCezasi())
                 .odendi(mtvCreatedEvent.odendi())
                 .build();
@@ -87,7 +87,7 @@ public class MTVJpaMapper {
                 .miktar(mtvUpdatedEvent.miktar())
                 .odemeTipi(mtvUpdatedEvent.odemeTipi())
                 .odeyenFirmaId(mtvUpdatedEvent.odeyenFirmaId())
-                .not(mtvUpdatedEvent.not())
+                .aciklama(mtvUpdatedEvent.not())
                 .gecikmeCezasi(mtvUpdatedEvent.gecikmeCezasi())
                 .odendi(mtvUpdatedEvent.odendi())
                 .build();

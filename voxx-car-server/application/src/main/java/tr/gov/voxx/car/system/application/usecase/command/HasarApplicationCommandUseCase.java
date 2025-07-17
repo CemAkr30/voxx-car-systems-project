@@ -49,7 +49,7 @@ public class HasarApplicationCommandUseCase implements HasarApplicationCommandPo
 
     @Override
     public void deleteById(HasarId hasarId) {
-        domainEventPublisher.publish("Hasar-deleted-topic", HasarDeletedEvent.builder()
+        domainEventPublisher.publish("hasar-deleted-topic", HasarDeletedEvent.builder()
                 .id(hasarId)
                 .build());
     }
