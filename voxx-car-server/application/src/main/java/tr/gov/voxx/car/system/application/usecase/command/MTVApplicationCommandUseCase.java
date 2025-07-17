@@ -31,7 +31,7 @@ public class MTVApplicationCommandUseCase implements MTVApplicationCommandPort {
                 .makbuzNo(entity.getMakbuzNo())
                 .miktar(entity.getMiktar())
                 .odeyenFirmaId(entity.getOdeyenFirmaId())
-                .not(entity.getNot())
+                .not(entity.getAciklama())
                 .gecikmeCezasi(entity.getGecikmeCezasi())
                 .odendi(entity.getOdendi())
                 .build());
@@ -41,7 +41,7 @@ public class MTVApplicationCommandUseCase implements MTVApplicationCommandPort {
     public void put(Mtv entity) {
         Mtv existing = persistenceJpaPort.findById(entity.getId());
         if (existing == null) {
-            throw new NotFoundException("Mtv not found with id: " + entity.getId());
+            throw new NotFoundException("Mtv mtvnot found with id: " + entity.getId());
         }
         existing.updateFrom(entity);
 
@@ -53,7 +53,7 @@ public class MTVApplicationCommandUseCase implements MTVApplicationCommandPort {
                 .makbuzNo(entity.getMakbuzNo())
                 .miktar(entity.getMiktar())
                 .odeyenFirmaId(entity.getOdeyenFirmaId())
-                .not(entity.getNot())
+                .not(entity.getAciklama())
                 .gecikmeCezasi(entity.getGecikmeCezasi())
                 .odendi(entity.getOdendi())
                 .build());
