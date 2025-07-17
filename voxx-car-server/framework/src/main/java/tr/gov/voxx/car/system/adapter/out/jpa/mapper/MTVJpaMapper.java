@@ -71,7 +71,7 @@ public class MTVJpaMapper {
                 .miktar(mtvCreatedEvent.miktar())
                 .odemeTipi(mtvCreatedEvent.odemeTipi())
                 .odeyenFirmaId(mtvCreatedEvent.odeyenFirmaId())
-                .aciklama(mtvCreatedEvent.not())
+                .aciklama(mtvCreatedEvent.aciklama())
                 .gecikmeCezasi(mtvCreatedEvent.gecikmeCezasi())
                 .odendi(mtvCreatedEvent.odendi())
                 .build();
@@ -87,7 +87,7 @@ public class MTVJpaMapper {
                 .miktar(mtvUpdatedEvent.miktar())
                 .odemeTipi(mtvUpdatedEvent.odemeTipi())
                 .odeyenFirmaId(mtvUpdatedEvent.odeyenFirmaId())
-                .aciklama(mtvUpdatedEvent.not())
+                .aciklama(mtvUpdatedEvent.aciklama())
                 .gecikmeCezasi(mtvUpdatedEvent.gecikmeCezasi())
                 .odendi(mtvUpdatedEvent.odendi())
                 .build();

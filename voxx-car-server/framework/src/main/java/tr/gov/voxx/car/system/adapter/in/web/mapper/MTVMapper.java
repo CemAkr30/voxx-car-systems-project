@@ -22,7 +22,7 @@ public class MTVMapper {
                 .miktar(mtv.getMiktar())
                 .odemeTipi(mtv.getOdemeTipi())
                 .odeyenFirmaId(mtv.getOdeyenFirmaId().getValue())
-                .not(mtv.getAciklama())
+                .aciklama(mtv.getAciklama())
                 .gecikmeCezasi(mtv.getGecikmeCezasi())
                 .odendi(mtv.getOdendi())
                 .createdAt(mtv.getCreatedAt())
@@ -39,7 +39,7 @@ public class MTVMapper {
                 .miktar(request.getMiktar())
                 .odemeTipi(request.getOdemeTipi())
                 .odeyenFirmaId(new FirmaId(request.getOdeyenFirmaId()))
-                .aciklama(request.getNot())
+                .aciklama(request.getAciklama())
                 .gecikmeCezasi(request.getGecikmeCezasi())
                 .odendi(request.getOdendi())
                 .build();
