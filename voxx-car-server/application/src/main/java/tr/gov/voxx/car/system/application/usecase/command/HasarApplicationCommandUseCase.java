@@ -39,7 +39,7 @@ public class HasarApplicationCommandUseCase implements HasarApplicationCommandPo
         }
         existing.updateFrom(entity);
 
-        domainEventPublisher.publish("Hasar-updated-topic", HasarUpdatedEvent.builder()
+        domainEventPublisher.publish("hasar-updated-topic", HasarUpdatedEvent.builder()
                 .id(entity.getId())
                 .aracFiloId(entity.getAracFiloId())
                 .hasarliParca(entity.getHasarliParca())
