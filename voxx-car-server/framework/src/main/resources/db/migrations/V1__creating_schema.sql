@@ -225,6 +225,26 @@ CREATE TABLE "tb_model" (
                             "updated_at" TIMESTAMPTZ
 );
 
+CREATE TABLE "tb_muayene" (
+                            "id" character varying PRIMARY KEY,
+                            "arac_filo_id" character varying,
+                            "muayene_tipi" muayene_tipi,
+                            "makbuz_no" character varying,
+                            "odeyen_firma_id" character varying,
+                            "gecikme_cezasi" character varying,
+                            "not" TEXT,
+                            "yeri" character varying,
+                            "odeme_tipi" odeme_tipi,
+                            "miktar" DOUBLE PRECISION,
+                            "odendi" BOOLEAN,
+                            "baslangic_tarihi" TIMESTAMPTZ,
+                            "bitis_tarihi" TIMESTAMPTZ,
+                            "is_deleted" BOOLEAN DEFAULT FALSE,
+                            "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
+                            "updated_at" TIMESTAMPTZ
+);
+
+
 -- Foreign key constraints eklemeleri:
 
 ALTER TABLE "tb_adres"
@@ -278,3 +298,8 @@ ALTER TABLE "tb_kaza"
 ALTER TABLE "tb_model"
     ADD CONSTRAINT fk_model_marka FOREIGN KEY ("marka_id") REFERENCES "tb_marka" ("id");
 
+ALTER TABLE "tb_muayene"
+    ADD CONSTRAINT fk_muayene_firma FOREIGN KEY ("odeyen_firma_id") REFERENCES "tb_firma" ("id");
+
+ALTER TABLE "tb_muayene"
+    ADD CONSTRAINT fk_muayene_arac_filo FOREIGN KEY ("arac_filo_id") REFERENCES "tb_aracfilo" ("id");
