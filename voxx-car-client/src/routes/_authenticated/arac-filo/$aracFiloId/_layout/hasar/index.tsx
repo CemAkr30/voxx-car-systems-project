@@ -25,7 +25,7 @@ import {
 } from "@/hooks/use-hasar-hooks";
 import { cn, isUUID } from "@/lib/utils";
 import type { Hasar } from "@/schemas/hasar";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useBlocker } from "@tanstack/react-router";
 import { AlertTriangle, Car, Edit, MapPin, X } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -50,6 +50,7 @@ export const Route = createFileRoute(
 
 function RouteComponent() {
 	const { aracFiloId } = Route.useParams();
+	const queryClient = useQueryClient();
 	const createHasarMutation = useCreateHasarMutation();
 	const updateHasarMutation = useUpdateHasarMutation();
 	const deleteHasarMutation = useDeleteHasarMutation();
@@ -123,13 +124,23 @@ function RouteComponent() {
 				} else {
 					if (updatedParts.includes(part.id)) {
 						await updateHasarMutation.mutate(part);
+						setUpdatedParts((prevState) =>
+							prevState.filter((oldId) => oldId !== part.id),
+						);
 					}
 				}
 			}
 
 			for (const id of deletedParts) {
-				deleteHasarMutation.mutate(id);
+				await deleteHasarMutation.mutate(id);
+				setDeletedParts((prevState) =>
+					prevState.filter((oldId) => oldId !== id),
+				);
 			}
+
+			queryClient.invalidateQueries(
+				getHasarlarByAracFiloIdQueryOptions(aracFiloId),
+			);
 		} catch (error) {
 			console.error("An error occurred while saving parts", error);
 		}
@@ -325,10 +336,7 @@ function RouteComponent() {
 					</g>
 				</svg>
 				<div className="space-y-4">
-					<div
-						className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/20 dark:to-purple-950/20 rounded-xl p-6 h-full
-					"
-					>
+					<div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/20 dark:to-purple-950/20 rounded-xl p-6 h-full">
 						<div className="flex flex-col md:flex-row justify-between items-center">
 							<div>
 								<h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2">
