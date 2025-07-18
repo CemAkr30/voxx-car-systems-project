@@ -32,7 +32,7 @@ public class FilodanCikisApplicationCommandUseCase implements FilodanCikisApplic
                 .anahtarTeslimFiyati(entity.getAnahtarTeslimFiyati())
                 .aracDevirGiderleri(entity.getAracDevirGiderleri())
                 .faturaYukle(entity.getFaturaYukle())
-                .not(entity.getNot())
+                .aciklama(entity.getAciklama())
                 .build());
     }
 
@@ -54,7 +54,7 @@ public class FilodanCikisApplicationCommandUseCase implements FilodanCikisApplic
                 .anahtarTeslimFiyati(entity.getAnahtarTeslimFiyati())
                 .aracDevirGiderleri(entity.getAracDevirGiderleri())
                 .faturaYukle(entity.getFaturaYukle())
-                .not(entity.getNot())
+                .aciklama(entity.getAciklama())
                 .build());
     }
 

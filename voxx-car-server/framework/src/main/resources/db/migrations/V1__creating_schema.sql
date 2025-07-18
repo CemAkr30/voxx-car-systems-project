@@ -78,7 +78,7 @@ CREATE TABLE "tb_alisfaturasi" (
                                    "kur" DOUBLE PRECISION,
                                    "fatura_try" DOUBLE PRECISION,
                                    "fatura_yukle" TEXT,
-                                   "not" TEXT,
+                                   "aciklama" TEXT,
                                    "is_deleted" BOOLEAN DEFAULT FALSE,
                                    "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
                                    "updated_at" TIMESTAMPTZ
@@ -150,7 +150,7 @@ CREATE TABLE "tb_bakim" (
                             "toplam_tutar" DOUBLE PRECISION,
                             "fatura_no" VARCHAR(255),
                             "fatura" TEXT,
-                            "notlar" TEXT,
+                            "aciklama" TEXT,
                             "odeyen_firma_id" character varying,
                             "is_deleted" BOOLEAN DEFAULT FALSE,
                             "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -166,7 +166,7 @@ CREATE TABLE "tb_filodancikis" (
                                    "anahtar_teslim_fiyati" DOUBLE PRECISION,
                                    "arac_devir_giderleri" DOUBLE PRECISION,
                                    "fatura_yukle" TEXT,
-                                   "not" TEXT,
+                                   "aciklama" TEXT,
                                    "is_deleted" BOOLEAN DEFAULT FALSE,
                                    "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
                                    "updated_at" TIMESTAMPTZ

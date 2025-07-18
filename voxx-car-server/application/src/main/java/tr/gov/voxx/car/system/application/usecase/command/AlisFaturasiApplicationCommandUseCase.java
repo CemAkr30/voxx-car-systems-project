@@ -44,7 +44,7 @@ public class AlisFaturasiApplicationCommandUseCase implements AlisFaturasiApplic
                 .kur(entity.getKur())
                 .faturaTry(entity.getFaturaTry())
                 .faturaYukle(entity.getFaturaYukle())
-                .not(entity.getNot())
+                .aciklama(entity.getAciklama())
                 .build());
     }
 
@@ -77,7 +77,7 @@ public class AlisFaturasiApplicationCommandUseCase implements AlisFaturasiApplic
                 .kur(entity.getKur())
                 .faturaTry(entity.getFaturaTry())
                 .faturaYukle(entity.getFaturaYukle())
-                .not(entity.getNot())
+                .aciklama(entity.getAciklama())
                 .build());
     }
 

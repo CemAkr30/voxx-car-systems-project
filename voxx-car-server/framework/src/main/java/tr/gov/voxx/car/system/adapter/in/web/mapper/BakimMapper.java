@@ -24,7 +24,7 @@ public class BakimMapper {
                 .toplamTutar(entity.getToplamTutar())
                 .faturaNo(entity.getFaturaNo())
                 .fatura(entity.getFatura())
-                .notlar(entity.getNotlar())
+                .aciklama(entity.getAciklama())
                 .odeyenFirmaId(entity.getOdeyenFirmaId().getValue())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
@@ -45,7 +45,7 @@ public class BakimMapper {
                 .toplamTutar(request.getToplamTutar())
                 .faturaNo(request.getFaturaNo())
                 .fatura(request.getFatura())
-                .notlar(request.getNotlar())
+                .aciklama(request.getAciklama())
                 .odeyenFirmaId(new FirmaId(request.getOdeyenFirmaId()))
                 .build();
     }

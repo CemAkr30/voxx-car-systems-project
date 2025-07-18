@@ -20,7 +20,7 @@ public class FilodanCikisMapper {
                 .anahtarTeslimFiyati(filodanCikis.getAnahtarTeslimFiyati())
                 .aracDevirGiderleri(filodanCikis.getAracDevirGiderleri())
                 .faturaYukle(filodanCikis.getFaturaYukle())
-                .not(filodanCikis.getNot())
+                .aciklama(filodanCikis.getAciklama())
                 .createdAt(filodanCikis.getCreatedAt())
                 .updatedAt(filodanCikis.getUpdatedAt())
                 .build();
@@ -35,7 +35,7 @@ public class FilodanCikisMapper {
                 .anahtarTeslimFiyati(request.getAnahtarTeslimFiyati())
                 .aracDevirGiderleri(request.getAracDevirGiderleri())
                 .faturaYukle(request.getFaturaYukle())
-                .not(request.getNot())
+                .aciklama(request.getAciklama())
                 .build();
     }
 

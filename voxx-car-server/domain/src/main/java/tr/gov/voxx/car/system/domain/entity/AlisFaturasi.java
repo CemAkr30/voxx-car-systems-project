@@ -34,7 +34,7 @@ public class AlisFaturasi extends AbstractAggregateModel<AlisFaturasiId> {
     private Double kur;
     private Double faturaTry;
     private String faturaYukle;//dosya yolu mu verilecek
-    private String not;
+    private String aciklama;
 
     public void initIdGenerator() {
         super.setId(new AlisFaturasiId(IdFactory.create()));
@@ -60,6 +60,6 @@ public class AlisFaturasi extends AbstractAggregateModel<AlisFaturasiId> {
         this.kur = other.kur;
         this.faturaTry = other.faturaTry;
         this.faturaYukle = other.faturaYukle;
-        this.not = other.not;
+        this.aciklama = other.aciklama;
     }
 }

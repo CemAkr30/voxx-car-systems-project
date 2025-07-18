@@ -21,7 +21,7 @@ public class FilodanCikisResponse {
     private Double anahtarTeslimFiyati;
     private Double aracDevirGiderleri;
     private String faturaYukle;
-    private String not;
+    private String aciklama;
     private Instant createdAt;
     private Instant updatedAt;
 }

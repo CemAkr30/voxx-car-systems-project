@@ -21,7 +21,7 @@ public record FilodanCikisUpdatedEvent(
         Double anahtarTeslimFiyati,
         Double aracDevirGiderleri,
         String faturaYukle,
-        String not
+        String aciklama
 ) implements Serializable {
 
     @Serial
@@ -37,7 +37,7 @@ public record FilodanCikisUpdatedEvent(
             @JsonProperty("anahtarTeslimFiyati") Double anahtarTeslimFiyati,
             @JsonProperty("aracDevirGiderleri") Double aracDevirGiderleri,
             @JsonProperty("faturaYukle") String faturaYukle,
-            @JsonProperty("not") String not
+            @JsonProperty("aciklama") String aciklama
     ) {
         this.id = id;
         this.aracFiloId = aracFiloId;
@@ -47,6 +47,6 @@ public record FilodanCikisUpdatedEvent(
         this.anahtarTeslimFiyati = anahtarTeslimFiyati;
         this.aracDevirGiderleri = aracDevirGiderleri;
         this.faturaYukle = faturaYukle;
-        this.not = not;
+        this.aciklama = aciklama;
     }
 }

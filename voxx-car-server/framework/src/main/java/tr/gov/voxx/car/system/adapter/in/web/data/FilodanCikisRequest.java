@@ -20,5 +20,5 @@ public class FilodanCikisRequest {
     private Double anahtarTeslimFiyati;
     private Double aracDevirGiderleri;
     private String faturaYukle;
-    private String not;
+    private String aciklama;
 }

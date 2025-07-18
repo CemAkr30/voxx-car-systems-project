@@ -21,7 +21,7 @@ public class BakimResponse {
     private Double toplamTutar;
     private String faturaNo;
     private String fatura;
-    private String notlar;
+    private String aciklama;
     private String odeyenFirmaId;
     private Instant createdAt;
     private Instant updatedAt;

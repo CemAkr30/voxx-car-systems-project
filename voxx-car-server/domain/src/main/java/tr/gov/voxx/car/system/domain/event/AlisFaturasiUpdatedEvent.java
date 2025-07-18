@@ -34,7 +34,7 @@ public record AlisFaturasiUpdatedEvent(
         Double kur,
         Double faturaTry,
         String faturaYukle,
-        String not
+        String aciklama
 ) implements Serializable {
 
     @Serial
@@ -62,7 +62,7 @@ public record AlisFaturasiUpdatedEvent(
             @JsonProperty("kur") Double kur,
             @JsonProperty("faturaTry") Double faturaTry,
             @JsonProperty("faturaYukle") String faturaYukle,
-            @JsonProperty("not") String not
+            @JsonProperty("aciklama") String aciklama
     ) {
         this.id = id;
         this.aracFiloId = aracFiloId;
@@ -84,6 +84,6 @@ public record AlisFaturasiUpdatedEvent(
         this.kur = kur;
         this.faturaTry = faturaTry;
         this.faturaYukle = faturaYukle;
-        this.not = not;
+        this.aciklama = aciklama;
     }
 }
