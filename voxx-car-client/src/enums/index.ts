@@ -127,3 +127,12 @@ export const OdemeTipiListesiLabel = {
 };
 
 export type OdemeTipi = (typeof OdemeTipiListesi)[number];
+
+export const MuayeneTipiListesi = ["EGZOS", "FENNI"] as const;
+
+export const MuayeneTipiListesiLabel = {
+	EGZOS: "Egzos",
+	FENNI: "Fenni",
+};
+
+export type MuayeneTipi = (typeof MuayeneTipiListesi)[number];
