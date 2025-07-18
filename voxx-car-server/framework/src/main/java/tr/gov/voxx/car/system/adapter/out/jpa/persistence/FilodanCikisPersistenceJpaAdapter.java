@@ -48,7 +48,11 @@ public class FilodanCikisPersistenceJpaAdapter implements FilodanCikisPersistenc
     @Transactional
     public void deleteById(FilodanCikisId filodanCikisId) {
         Optional<FilodanCikisEntity> entity = filodanCikisJpaRepository.findById(filodanCikisId.getValue());
-        entity.ifPresent(filodanCikisJpaRepository::delete);
+        entity.ifPresent(e -> {
+                    e.setDeleted(true);
+                    filodanCikisJpaRepository.save(e);
+                }
+        );
     }
 
     @Override

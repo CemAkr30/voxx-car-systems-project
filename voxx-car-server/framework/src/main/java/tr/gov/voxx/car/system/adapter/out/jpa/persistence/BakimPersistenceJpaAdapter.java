@@ -46,7 +46,11 @@ public class BakimPersistenceJpaAdapter implements BakimPersistenceJpaPort {
     @Transactional
     public void deleteById(BakimId bakimId) {
         Optional<BakimEntity> entity = bakimJpaRepository.findById(bakimId.getValue());
-        entity.ifPresent(bakimJpaRepository::delete);
+        entity.ifPresent(e -> {
+                    e.setDeleted(true);
+                    bakimJpaRepository.save(e);
+                }
+        );
     }
 
     @Override

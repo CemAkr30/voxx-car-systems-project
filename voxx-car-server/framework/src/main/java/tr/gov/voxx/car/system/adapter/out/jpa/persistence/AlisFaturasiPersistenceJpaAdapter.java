@@ -48,7 +48,11 @@ public class AlisFaturasiPersistenceJpaAdapter implements AlisFaturasiPersistenc
     @Transactional
     public void deleteById(AlisFaturasiId alisFaturasiId) {
         Optional<AlisFaturasiEntity> entity = alisFaturasiJpaRepository.findById(alisFaturasiId.getValue());
-        entity.ifPresent(alisFaturasiJpaRepository::delete);
+        entity.ifPresent(e -> {
+                    e.setDeleted(true);
+                    alisFaturasiJpaRepository.save(e);
+                }
+        );
     }
 
     @Override

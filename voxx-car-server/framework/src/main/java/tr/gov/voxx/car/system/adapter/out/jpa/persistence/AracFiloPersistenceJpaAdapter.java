@@ -47,7 +47,11 @@ public class AracFiloPersistenceJpaAdapter implements AracFiloPersistenceJpaPort
     @Transactional
     public void deleteById(AracFiloId aracFiloId) {
         Optional<AracFiloEntity> entity = aracFiloJpaRepository.findById(aracFiloId.getValue());
-        entity.ifPresent(aracFiloJpaRepository::delete);
+        entity.ifPresent(e -> {
+                    e.setDeleted(true);
+                    aracFiloJpaRepository.save(e);
+                }
+        );
     }
 
     @Override
