@@ -245,6 +245,24 @@ CREATE TABLE "tb_muayene" (
 );
 
 
+CREATE TABLE "tb_mtv" (
+                          "id" character varying PRIMARY KEY,
+                          "arac_filo_id" character varying,
+                          "yil" CHAR(4),
+                          "taksit" CHAR(2),
+                          "makbuz_no" VARCHAR(255),
+                          "miktar" DOUBLE PRECISION,
+                          "odeme_tipi" odeme_tipi,
+                          "odeyen_firma_id" character varying,
+                          "aciklama" TEXT,
+                          "gecikme_cezasi" VARCHAR(255),
+                          "odendi" BOOLEAN DEFAULT FALSE,
+                          "is_deleted" BOOLEAN DEFAULT FALSE,
+                          "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
+                          "updated_at" TIMESTAMPTZ
+);
+
+
 -- Foreign key constraints eklemeleri:
 
 ALTER TABLE "tb_adres"
@@ -303,3 +321,10 @@ ALTER TABLE "tb_muayene"
 
 ALTER TABLE "tb_muayene"
     ADD CONSTRAINT fk_muayene_arac_filo FOREIGN KEY ("arac_filo_id") REFERENCES "tb_aracfilo" ("id");
+
+
+ALTER TABLE "tb_mtv"
+    ADD CONSTRAINT fk_mtv_firma FOREIGN KEY ("odeyen_firma_id") REFERENCES "tb_firma" ("id");
+
+ALTER TABLE "tb_mtv"
+    ADD CONSTRAINT fk_mtv_arac_filo FOREIGN KEY ("arac_filo_id") REFERENCES "tb_aracfilo" ("id");
