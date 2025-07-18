@@ -19,7 +19,7 @@ public class MuayeneRequest {
     private String makbuzNo;
     private String odeyenFirmaId;
     private String gecikmeCezasi;
-    private String not;
+    private String aciklama;
     private String yeri;
     private OdemeTipi odemeTipi;
     private Double miktar;
