@@ -47,7 +47,11 @@ public class AracKullananPersistenceJpaAdapter implements AracKullananPersistenc
     @Transactional
     public void deleteById(AracKullananId aracKullananId) {
         Optional<AracKullananEntity> entity = aracKullananJpaRepository.findById(aracKullananId.getValue());
-        entity.ifPresent(aracKullananJpaRepository::delete);
+        entity.ifPresent(e -> {
+                    e.setDeleted(true);
+                    aracKullananJpaRepository.save(e);
+                }
+        );
     }
 
     @Override

@@ -47,7 +47,11 @@ public class IletisimPersistenceJpaAdapter implements IletisimPersistenceJpaPort
     @Transactional
     public void deleteById(IletisimId iletisimId) {
         Optional<IletisimEntity> entity = iletisimJpaRepository.findById(iletisimId.getValue());
-        entity.ifPresent(iletisimJpaRepository::delete);
+        entity.ifPresent(e -> {
+                    e.setDeleted(true);
+                    iletisimJpaRepository.save(e);
+                }
+        );
     }
 
     @Override

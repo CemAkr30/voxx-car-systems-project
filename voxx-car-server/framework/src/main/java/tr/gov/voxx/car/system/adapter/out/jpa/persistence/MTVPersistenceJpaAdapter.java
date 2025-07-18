@@ -48,7 +48,11 @@ public class MTVPersistenceJpaAdapter implements MTVPersistenceJpaPort {
     @Transactional
     public void deleteById(MtvId mtvId) {
         Optional<MTVEntity> entity = mtvJpaRepository.findById(mtvId.getValue());
-        entity.ifPresent(mtvJpaRepository::delete);
+        entity.ifPresent(e -> {
+                    e.setDeleted(true);
+                    mtvJpaRepository.save(e);
+                }
+        );
     }
 
     @Override
