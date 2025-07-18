@@ -107,7 +107,6 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 					},
 		validators: {
 			onChange: mode === "create" ? aracFiloCreateSchema : aracFiloUpdateSchema,
-			onChangeAsyncDebounceMs: 500, // Debounce async validation to prevent rapid revalidation
 		},
 		onSubmit: async ({ formApi, value }) => {
 			try {
