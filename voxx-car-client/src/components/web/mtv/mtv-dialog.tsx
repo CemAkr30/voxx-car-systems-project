@@ -82,7 +82,7 @@ export default function MtvDialog(props: MtvDialogProps) {
 						odeyenFirmaId: "",
 						odendi: false,
 						gecikmeCezasi: "",
-						not: "",
+						aciklama: "",
 					}
 				: {
 						...props.initialValues,
@@ -203,8 +203,8 @@ export default function MtvDialog(props: MtvDialogProps) {
 						)}
 					</form.Subscribe>
 
-					<form.AppField name="not">
-						{(field) => <field.TextArea label="Not" />}
+					<form.AppField name="aciklama">
+						{(field) => <field.TextArea label="Açıklama" />}
 					</form.AppField>
 
 					<DialogFooter>

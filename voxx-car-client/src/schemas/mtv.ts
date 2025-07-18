@@ -9,7 +9,7 @@ export const mtvCreateSchema = z.object({
 	miktar: z.coerce.number(),
 	odemeTipi: z.enum(OdemeTipiListesi),
 	odeyenFirmaId: z.string(),
-	not: z.string(),
+	aciklama: z.string(),
 	gecikmeCezasi: z.string(),
 	odendi: z.boolean().default(false),
 });
