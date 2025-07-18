@@ -48,7 +48,11 @@ public class ModelPersistenceJpaAdapter implements ModelPersistenceJpaPort {
     @Transactional
     public void deleteById(ModelId modelId) {
         Optional<ModelEntity> entity = modelJpaRepository.findById(modelId.getValue());
-        entity.ifPresent(modelJpaRepository::delete);
+        entity.ifPresent(e -> {
+                    e.setDeleted(true);
+                    modelJpaRepository.save(e);
+                }
+        );
     }
 
 

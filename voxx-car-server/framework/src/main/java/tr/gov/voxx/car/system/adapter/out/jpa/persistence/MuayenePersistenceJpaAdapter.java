@@ -48,7 +48,11 @@ public class MuayenePersistenceJpaAdapter implements MuayenePersistenceJpaPort {
     @Transactional
     public void deleteById(MuayeneId muayeneId) {
         Optional<MuayeneEntity> entity = muayeneJpaRepository.findById(muayeneId.getValue());
-        entity.ifPresent(muayeneJpaRepository::delete);
+        entity.ifPresent(e -> {
+                    e.setDeleted(true);
+                    muayeneJpaRepository.save(e);
+                }
+        );
     }
 
     @Override

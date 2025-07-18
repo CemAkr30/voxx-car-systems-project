@@ -48,7 +48,11 @@ public class SigortaPersistenceJpaAdapter implements SigortaKaskoPersistenceJpaP
     @Transactional
     public void deleteById(SigortaId sigortaId) {
         Optional<SigortaKaskoEntity> entity = sigortaJpaRepository.findById(sigortaId.getValue());
-        entity.ifPresent(sigortaJpaRepository::delete);
+        entity.ifPresent(e -> {
+                    e.setDeleted(true);
+                    sigortaJpaRepository.save(e);
+                }
+        );
     }
 
     @Override
