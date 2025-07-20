@@ -2,10 +2,10 @@ import { z } from "zod";
 import { ParaBirimiTipiListesi } from "@/enums";
 
 export const alisFaturasiCreateSchema = z.object({
-	aracFiloId: z.string().min(1, "Firma gereklidir"),
+	aracFiloId: z.string(),
 	alisFaturasiTarihi: z.date(),
 	alisFaturaNo: z.string().min(1, "Fatura no gereklidir"),
-	saticiFirmaId: z.string(),
+	saticiFirmaId: z.string().min(1, "Firma gereklidir"),
 	listeFiyati: z.coerce.number(),
 	ekGaranti: z.coerce.number(),
 	malDegeri: z.coerce.number(),
