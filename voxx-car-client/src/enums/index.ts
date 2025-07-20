@@ -145,3 +145,21 @@ export const BakimNedeniTipiListesiLabel = {
 };
 
 export type BakimNedeniTipi = (typeof BakimNedeniTipiListesi)[number];
+
+
+export const ParaBirimiTipiListesi = ["USD", "EUR", "GBP", "JPY", "TRY", "AUD", "CAD", "CHF", "CNY", "INR"] as const;
+
+export const ParaBirimiTipiListesiLabel = {
+    USD: "USD",
+    EUR: "EUR",
+    GBP: "GBP",
+    JPY: "JPY",
+    TRY: "TRY",
+    AUD: "AUD",
+    CAD: "CAD",
+    CHF: "CHF",
+    CNY: "CNY",
+    INR: "INR",
+};
+
+export type ParaBirimiTipi = (typeof ParaBirimiTipiListesi)[number];
