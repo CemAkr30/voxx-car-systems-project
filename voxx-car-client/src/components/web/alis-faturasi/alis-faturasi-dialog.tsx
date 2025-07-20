@@ -17,6 +17,7 @@ import {
 import {
 	type AlisFaturasi,
 	alisFaturasiCreateSchema,
+	alisFaturasiUpdateSchema,
 	type CreateAlisFaturasiRequest,
 } from "@/schemas/alis-faturasi";
 import { useQueryClient } from "@tanstack/react-query";
@@ -99,7 +100,7 @@ export default function AlisFaturasiDialog(props: AlisFaturasiDialogProps) {
 		validators: {
 			// @ts-expect-error
 			onChange:
-				mode === "create" ? alisFaturasiCreateSchema : bakimUpdateSchema,
+				mode === "create" ? alisFaturasiCreateSchema : alisFaturasiUpdateSchema,
 		},
 		onSubmit: async ({ formApi, value }) => {
 			try {
