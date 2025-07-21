@@ -27,7 +27,7 @@ import { cn, isUUID } from "@/lib/utils";
 import type { Hasar } from "@/schemas/hasar";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useBlocker } from "@tanstack/react-router";
-import { AlertTriangle, Car, Edit, X } from "lucide-react";
+import { AlertTriangle, Car, Edit, Save, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface DialogState {
@@ -104,16 +104,15 @@ function RouteComponent() {
 		}
 	}, [selectedParts, selectedPart]);
 
+	const canSave = () =>
+		selectedParts.some((part) => !isUUID(part.id)) ||
+		updatedParts.length > 0 ||
+		deletedParts.length > 0;
+
 	const { proceed, reset, status } = useBlocker({
-		shouldBlockFn: () =>
-			selectedParts.some((part) => !isUUID(part.id)) ||
-			updatedParts.length > 0 ||
-			deletedParts.length > 0,
+		shouldBlockFn: () => canSave(),
 		withResolver: true,
-		enableBeforeUnload:
-			selectedParts.some((part) => !isUUID(part.id)) ||
-			updatedParts.length > 0 ||
-			deletedParts.length > 0,
+		enableBeforeUnload: canSave,
 	});
 
 	const handleHasarParcaSubmit = async () => {
@@ -211,20 +210,9 @@ function RouteComponent() {
 								<Button
 									className="bg-white/20 hover:bg-white/30 text-white border-white/30 backdrop-blur-sm transition-all duration-200 hover:scale-105"
 									onClick={handleHasarParcaSubmit}
+									disabled={!canSave()}
 								>
-									<svg
-										className="w-4 h-4 mr-2"
-										fill="none"
-										stroke="currentColor"
-										viewBox="0 0 24 24"
-									>
-										<path
-											strokeLinecap="round"
-											strokeLinejoin="round"
-											strokeWidth={2}
-											d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-										/>
-									</svg>
+									<Save className="w-4 h-4 mr-2" />
 									Kaydet
 								</Button>
 							</div>
