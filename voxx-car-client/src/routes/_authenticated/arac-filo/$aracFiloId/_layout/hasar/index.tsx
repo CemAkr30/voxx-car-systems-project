@@ -27,7 +27,7 @@ import { cn, isUUID } from "@/lib/utils";
 import type { Hasar } from "@/schemas/hasar";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useBlocker } from "@tanstack/react-router";
-import { AlertTriangle, Car, Edit, MapPin, X } from "lucide-react";
+import { AlertTriangle, Car, Edit, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface DialogState {
@@ -176,25 +176,57 @@ function RouteComponent() {
 	};
 
 	return (
-		<div className="w-full space-y-3">
-			<div className="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-2xl shadow-xl">
-				<div className="absolute inset-0 bg-black/10" />
-				<div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent" />
-				<div className="absolute top-4 right-4 w-24 h-24 bg-white/10 rounded-full blur-xl" />
-				<div className="absolute bottom-4 left-4 w-16 h-16 bg-white/5 rounded-full blur-lg" />
-				<div className="relative p-8">
-					<div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-						<div className="flex items-center gap-4">
-							<div className="relative">
-								<div className="absolute inset-0 bg-white/20 rounded-xl blur-sm" />
-								<div className="relative p-3 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
-									<MapPin className="h-7 w-7 text-white" />
+		<div className="w-full space-y-4">
+			<div className="space-y-6">
+				<div className="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-2xl p-8 text-white">
+					<div className="absolute inset-0 bg-black/10" />
+					<div className="absolute -top-4 -right-4 w-32 h-32 bg-white/10 rounded-full blur-xl" />
+					<div className="absolute -bottom-8 -left-8 w-40 h-40 bg-white/5 rounded-full blur-2xl" />
+
+					<div className="relative z-10">
+						<div className="flex items-center justify-between">
+							<div className="space-y-2">
+								<div className="flex items-center gap-3">
+									<div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
+										<svg
+											className="w-8 h-8"
+											fill="currentColor"
+											viewBox="0 0 24 24"
+										>
+											<path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
+										</svg>
+									</div>
+									<div>
+										<h1 className="text-3xl font-bold">
+											Hasar Yönetim Sistemi
+										</h1>
+										<p className="text-white/80 text-lg">
+											Hasar Yönetim Paneli
+										</p>
+									</div>
 								</div>
 							</div>
-							<div>
-								<h1 className="text-3xl font-bold text-white mb-2">
-									Araç Hasarları
-								</h1>
+
+							<div className="flex items-center gap-4">
+								<Button
+									className="bg-white/20 hover:bg-white/30 text-white border-white/30 backdrop-blur-sm transition-all duration-200 hover:scale-105"
+									onClick={handleHasarParcaSubmit}
+								>
+									<svg
+										className="w-4 h-4 mr-2"
+										fill="none"
+										stroke="currentColor"
+										viewBox="0 0 24 24"
+									>
+										<path
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											strokeWidth={2}
+											d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+										/>
+									</svg>
+									Kaydet
+								</Button>
 							</div>
 						</div>
 					</div>
@@ -344,7 +376,6 @@ function RouteComponent() {
 									Seçilen Hasarlı Parçalar ({selectedParts.length})
 								</h3>
 							</div>
-							<Button onClick={handleHasarParcaSubmit}>Kaydet</Button>
 						</div>
 						{selectedParts.length === 0 ? (
 							<div className="text-center py-8">
