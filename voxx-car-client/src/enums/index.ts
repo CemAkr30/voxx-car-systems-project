@@ -199,3 +199,25 @@ export const OnarimDurumuTipiListesiLabel = {
 };
 
 export type OnarimDurumuTipi = (typeof OnarimDurumuTipiListesi)[number];
+
+export const FilodanCikisNedeniListesi = [
+	"SATIS",
+	"PERT",
+	"CALINTI",
+	"GALERI",
+	"GECICI",
+	"PLAKADEGISIKLIK",
+	"DIGER",
+] as const;
+
+export const FilodanCikisNedeniListesiLabel = {
+	SATIS: "Satış",
+	PERT: "Pert",
+	CALINTI: "Çalıntı",
+	GALERI: "Galeri",
+	GECICI: "Geçici",
+	PLAKADEGISIKLIK: "Plaka Değişiklik",
+	DIGER: "Diğer",
+};
+
+export type FilodanCikisNedeni = (typeof FilodanCikisNedeniListesi)[number];
