@@ -173,3 +173,29 @@ export const ParaBirimiTipiListesiLabel = {
 };
 
 export type ParaBirimiTipi = (typeof ParaBirimiTipiListesi)[number];
+
+export const OnarimDurumuTipiListesi = [
+	"SERVISE_BEKLENIYOR",
+	"EKSPER_BEKLENIYOR",
+	"ONARIM_BEKLENIYOR",
+	"PARCA_BEKLENIYOR",
+	"KAPORTADA",
+	"BOYADA",
+	"MEKANIKTE",
+	"TESLIME_HAZIR",
+	"TESLIM_EDILDI",
+] as const;
+
+export const OnarimDurumuTipiListesiLabel = {
+	SERVISE_BEKLENIYOR: "SERVISE BEKLENIYOR",
+	EKSPER_BEKLENIYOR: "EKSPER BEKLENIYOR",
+	ONARIM_BEKLENIYOR: "ONARIM BEKLENIYOR",
+	PARCA_BEKLENIYOR: "PARCA BEKLENIYOR",
+	KAPORTADA: "KAPORTADA",
+	BOYADA: "BOYADA",
+	MEKANIKTE: "MEKANIKTE",
+	TESLIME_HAZIR: "TESLIME HAZIR",
+	TESLIM_EDILDI: "TESLIM EDILDI",
+};
+
+export type OnarimDurumuTipi = (typeof OnarimDurumuTipiListesi)[number];
