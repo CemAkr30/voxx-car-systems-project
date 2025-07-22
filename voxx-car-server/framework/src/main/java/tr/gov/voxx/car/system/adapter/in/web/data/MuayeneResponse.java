@@ -21,7 +21,7 @@ public class MuayeneResponse {
     private Double miktar;
     private OdemeTipi odemeTipi;
     private String odeyenFirmaId;
-    private String not;
+    private String aciklama;
     private String yeri;
     private String gecikmeCezasi;
     private Boolean odendi;

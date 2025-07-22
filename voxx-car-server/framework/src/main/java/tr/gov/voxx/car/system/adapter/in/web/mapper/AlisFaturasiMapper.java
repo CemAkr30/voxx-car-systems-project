@@ -33,7 +33,7 @@ public class AlisFaturasiMapper {
                 .kur(alisFaturasi.getKur())
                 .faturaTry(alisFaturasi.getFaturaTry())
                 .faturaYukle(alisFaturasi.getFaturaYukle())
-                .not(alisFaturasi.getNot())
+                .aciklama(alisFaturasi.getAciklama())
                 .createdAt(alisFaturasi.getCreatedAt())
                 .updatedAt(alisFaturasi.getUpdatedAt())
                 .build();
@@ -60,7 +60,7 @@ public class AlisFaturasiMapper {
                 .kur(request.getKur())
                 .faturaTry(request.getFaturaTry())
                 .faturaYukle(request.getFaturaYukle())
-                .not(request.getNot())
+                .aciklama(request.getAciklama())
                 .build();
     }
 

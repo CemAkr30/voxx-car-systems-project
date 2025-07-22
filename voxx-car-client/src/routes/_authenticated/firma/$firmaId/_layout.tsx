@@ -10,10 +10,10 @@ import { ArrowUpRight, Building2, Car, MapPin } from "lucide-react";
 import { useState } from "react";
 
 export const Route = createFileRoute("/_authenticated/firma/$firmaId/_layout")({
-	loader: async ({ context: { queryClient }, params: { firmaId } }) => {
-		await queryClient.prefetchQuery(getFirmaQueryOptions(firmaId));
-		await queryClient.prefetchQuery(getAdreslerByFirmaIdQueryOptions(firmaId));
-		await queryClient.prefetchQuery(
+	loader: ({ context: { queryClient }, params: { firmaId } }) => {
+		queryClient.ensureQueryData(getFirmaQueryOptions(firmaId));
+		queryClient.ensureQueryData(getAdreslerByFirmaIdQueryOptions(firmaId));
+		queryClient.ensureQueryData(
 			getAracKullananlarByFirmaIdQueryOptions(firmaId),
 		);
 	},

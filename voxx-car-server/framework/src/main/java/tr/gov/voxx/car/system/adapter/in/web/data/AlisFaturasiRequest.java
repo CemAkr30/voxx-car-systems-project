@@ -32,6 +32,6 @@ public class AlisFaturasiRequest {
     private Double kur;
     private Double faturaTry;
     private String faturaYukle;//dosya yolu mu verilecek
-    private String not;
+    private String aciklama;
 }
 

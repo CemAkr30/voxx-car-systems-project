@@ -28,7 +28,7 @@ public class BakimJpaMapper {
                 .toplamTutar(entity.getToplamTutar())
                 .faturaNo(entity.getFaturaNo())
                 .fatura(entity.getFatura())
-                .notlar(entity.getNotlar())
+                .aciklama(entity.getAciklama())
                 .odeyenFirmaId(new FirmaId(entity.getOdeyenFirmaId()))
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
@@ -48,7 +48,7 @@ public class BakimJpaMapper {
         entity.setToplamTutar(bakim.getToplamTutar());
         entity.setFaturaNo(bakim.getFaturaNo());
         entity.setFatura(bakim.getFatura());
-        entity.setNotlar(bakim.getNotlar());
+        entity.setAciklama(bakim.getAciklama());
         entity.setOdeyenFirmaId(bakim.getOdeyenFirmaId().getValue());
         return entity;
     }
@@ -69,7 +69,7 @@ public class BakimJpaMapper {
                 .toplamTutar(event.toplamTutar())
                 .faturaNo(event.faturaNo())
                 .fatura(event.fatura())
-                .notlar(event.notlar())
+                .aciklama(event.aciklama())
                 .odeyenFirmaId(event.odeyenFirmaId())
                 .build();
     }
@@ -85,7 +85,7 @@ public class BakimJpaMapper {
                 .toplamTutar(event.toplamTutar())
                 .faturaNo(event.faturaNo())
                 .fatura(event.fatura())
-                .notlar(event.notlar())
+                .aciklama(event.aciklama())
                 .odeyenFirmaId(event.odeyenFirmaId())
                 .build();
     }

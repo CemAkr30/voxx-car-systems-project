@@ -33,7 +33,7 @@ public class AlisFaturasiResponse {
     private Double kur;
     private Double faturaTry;
     private String faturaYukle;//dosya yolu mu verilecek
-    private String not;
+    private String aciklama;
     private Instant createdAt;
     private Instant updatedAt;
 }

@@ -24,7 +24,7 @@ public class MTVEntity extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private OdemeTipi odemeTipi;
     private String odeyenFirmaId;
-    private String not;
+    private String aciklama;
     private String gecikmeCezasi;
     private Boolean odendi;
 }

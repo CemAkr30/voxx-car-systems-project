@@ -23,7 +23,7 @@ public record MuayeneUpdatedEvent(
         Instant baslangicTarihi,
         Instant bitisTarihi,
         String gecikmeCezasi,
-        String not,
+        String aciklama,
         String yeri,
         Double miktar,
         OdemeTipi odemeTipi,
@@ -43,7 +43,7 @@ public record MuayeneUpdatedEvent(
             @JsonProperty("baslangicTarihi") Instant baslangicTarihi,
             @JsonProperty("bitisTarihi") Instant bitisTarihi,
             @JsonProperty("gecikmeCezasi") String gecikmeCezasi,
-            @JsonProperty("not") String not,
+            @JsonProperty("aciklama") String aciklama,
             @JsonProperty("yeri") String yeri,
             @JsonProperty("miktar") Double miktar,
             @JsonProperty("odemeTipi") OdemeTipi odemeTipi,
@@ -57,7 +57,7 @@ public record MuayeneUpdatedEvent(
         this.baslangicTarihi = baslangicTarihi;
         this.bitisTarihi = bitisTarihi;
         this.gecikmeCezasi = gecikmeCezasi;
-        this.not = not;
+        this.aciklama = aciklama;
         this.yeri = yeri;
         this.miktar = miktar;
         this.odemeTipi = odemeTipi;

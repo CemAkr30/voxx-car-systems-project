@@ -37,7 +37,7 @@ interface DialogState {
 
 export const Route = createFileRoute("/_authenticated/arac-filo/")({
 	loader: ({ context: { queryClient } }) =>
-		queryClient.prefetchQuery(getAracFilolarQueryOptions()),
+		queryClient.ensureQueryData(getAracFilolarQueryOptions()),
 	component: RouteComponent,
 });
 
@@ -183,13 +183,12 @@ function RouteComponent() {
 									<TableRow key={aracFilo.id}>
 										<TableCell>{aracFilo.id}</TableCell>
 										<TableCell className="font-medium">
-											{/* <Link
-												to="/aracFilo/$aracFiloId/detay"
+											<Link
+												to="/arac-filo/$aracFiloId/detay"
 												params={{ aracFiloId: aracFilo.id }}
 											>
-												{aracFilo.unvan}
-											</Link> */}
-											{aracFilo.plaka}
+												{aracFilo.plaka}
+											</Link>
 										</TableCell>
 										<TableCell>{formatDate(aracFilo.createdAt)}</TableCell>
 										<TableCell>{formatDate(aracFilo.updatedAt)}</TableCell>

@@ -23,7 +23,7 @@ public class FilodanCikisJpaMapper {
                 .anahtarTeslimFiyati(entity.getAnahtarTeslimFiyati())
                 .aracDevirGiderleri(entity.getAracDevirGiderleri())
                 .faturaYukle(entity.getFaturaYukle())
-                .not(entity.getNot())
+                .aciklama(entity.getAciklama())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .build();
@@ -42,7 +42,7 @@ public class FilodanCikisJpaMapper {
         entity.setAnahtarTeslimFiyati(filodanCikis.getAnahtarTeslimFiyati());
         entity.setAracDevirGiderleri(filodanCikis.getAracDevirGiderleri());
         entity.setFaturaYukle(filodanCikis.getFaturaYukle());
-        entity.setNot(filodanCikis.getNot());
+        entity.setAciklama(filodanCikis.getAciklama());
         return entity;
     }
 
@@ -66,7 +66,7 @@ public class FilodanCikisJpaMapper {
                 .anahtarTeslimFiyati(filodanCikisCreatedEvent.anahtarTeslimFiyati())
                 .aracDevirGiderleri(filodanCikisCreatedEvent.aracDevirGiderleri())
                 .faturaYukle(filodanCikisCreatedEvent.faturaYukle())
-                .not(filodanCikisCreatedEvent.not())
+                .aciklama(filodanCikisCreatedEvent.aciklama())
                 .build();
     }
 
@@ -80,7 +80,7 @@ public class FilodanCikisJpaMapper {
                 .anahtarTeslimFiyati(filodanCikisUpdatedEvent.anahtarTeslimFiyati())
                 .aracDevirGiderleri(filodanCikisUpdatedEvent.aracDevirGiderleri())
                 .faturaYukle(filodanCikisUpdatedEvent.faturaYukle())
-                .not(filodanCikisUpdatedEvent.not())
+                .aciklama(filodanCikisUpdatedEvent.aciklama())
                 .build();
     }
 }

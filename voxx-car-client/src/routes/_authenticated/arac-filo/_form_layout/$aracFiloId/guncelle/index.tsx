@@ -8,10 +8,10 @@ import { createFileRoute } from "@tanstack/react-router";
 export const Route = createFileRoute(
 	"/_authenticated/arac-filo/_form_layout/$aracFiloId/guncelle/",
 )({
-	beforeLoad: async ({ context: { queryClient }, params: { aracFiloId } }) => {
-		await queryClient.prefetchQuery(getAracFiloQueryOptions(aracFiloId));
-		await queryClient.prefetchQuery(getMarkalarQueryOptions());
-		await queryClient.prefetchQuery(getFirmalarQueryOptions());
+	loader: ({ context: { queryClient }, params: { aracFiloId } }) => {
+		queryClient.ensureQueryData(getAracFiloQueryOptions(aracFiloId));
+		queryClient.ensureQueryData(getMarkalarQueryOptions());
+		queryClient.ensureQueryData(getFirmalarQueryOptions());
 	},
 	component: RouteComponent,
 });

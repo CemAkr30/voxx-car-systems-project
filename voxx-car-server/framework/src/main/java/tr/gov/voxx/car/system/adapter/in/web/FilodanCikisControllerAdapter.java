@@ -27,7 +27,7 @@ public class FilodanCikisControllerAdapter {
     private final FilodanCikisApplicationQueryPort applicationQueryPort;
 
     @GetMapping("/{id}")
-    @Operation(summary = "MTV Getir", description = "ID’ye göre MTV verisini döner")
+    @Operation(summary = "Filodan çıkış verisi Getir", description = "ID’ye göre filodan çıkış verisini döner")
     public ResponseEntity<FilodanCikisResponse> get(@PathVariable String id) {
         FilodanCikis filodanCikis = applicationQueryPort.get(new FilodanCikisId(id));
         return ResponseEntity.ok(FilodanCikisMapper.toResponse(filodanCikis));

@@ -43,9 +43,9 @@ interface DialogState {
 export const Route = createFileRoute(
 	"/_authenticated/firma/$firmaId/_layout/adres/",
 )({
-	loader: async ({ context: { queryClient }, params: { firmaId } }) => {
-		await queryClient.prefetchQuery(getFirmalarQueryOptions());
-		await queryClient.prefetchQuery(getAdreslerByFirmaIdQueryOptions(firmaId));
+	loader: ({ context: { queryClient }, params: { firmaId } }) => {
+		queryClient.ensureQueryData(getFirmalarQueryOptions());
+		queryClient.ensureQueryData(getAdreslerByFirmaIdQueryOptions(firmaId));
 	},
 	component: RouteComponent,
 });
@@ -128,7 +128,6 @@ function RouteComponent() {
 		update: false,
 		delete: false,
 	});
-	const [_, setOpenDropdowns] = useState<Set<string>>(new Set());
 
 	const { data: firmalar = [] } = useSuspenseQuery(getFirmalarQueryOptions());
 	const { data: adresler = [] } = useSuspenseQuery(
@@ -150,7 +149,6 @@ function RouteComponent() {
 			update: false,
 			delete: false,
 		});
-		setOpenDropdowns(new Set());
 	};
 
 	return (

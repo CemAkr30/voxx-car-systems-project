@@ -31,7 +31,7 @@ public class MTVApplicationCommandUseCase implements MTVApplicationCommandPort {
                 .makbuzNo(entity.getMakbuzNo())
                 .miktar(entity.getMiktar())
                 .odeyenFirmaId(entity.getOdeyenFirmaId())
-                .not(entity.getNot())
+                .aciklama(entity.getAciklama())
                 .gecikmeCezasi(entity.getGecikmeCezasi())
                 .odendi(entity.getOdendi())
                 .build());
@@ -53,7 +53,7 @@ public class MTVApplicationCommandUseCase implements MTVApplicationCommandPort {
                 .makbuzNo(entity.getMakbuzNo())
                 .miktar(entity.getMiktar())
                 .odeyenFirmaId(entity.getOdeyenFirmaId())
-                .not(entity.getNot())
+                .aciklama(entity.getAciklama())
                 .gecikmeCezasi(entity.getGecikmeCezasi())
                 .odendi(entity.getOdendi())
                 .build());

@@ -21,7 +21,7 @@ public class MTVResponse {
     private Double miktar;
     private OdemeTipi odemeTipi;
     private String odeyenFirmaId;
-    private String not;
+    private String aciklama;
     private String gecikmeCezasi;
     private Boolean odendi;
     private Instant createdAt;

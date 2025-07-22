@@ -32,7 +32,7 @@ public class BakimApplicationCommandUseCase implements BakimApplicationCommandPo
                 .toplamTutar(entity.getToplamTutar())
                 .faturaNo(entity.getFaturaNo())
                 .fatura(entity.getFatura())
-                .notlar(entity.getNotlar())
+                .aciklama(entity.getAciklama())
                 .odeyenFirmaId(entity.getOdeyenFirmaId())
                 .build());
     }
@@ -55,7 +55,7 @@ public class BakimApplicationCommandUseCase implements BakimApplicationCommandPo
                 .toplamTutar(entity.getToplamTutar())
                 .faturaNo(entity.getFaturaNo())
                 .fatura(entity.getFatura())
-                .notlar(entity.getNotlar())
+                .aciklama(entity.getAciklama())
                 .odeyenFirmaId(entity.getOdeyenFirmaId())
                 .build());
     }

@@ -59,12 +59,10 @@ export default function MarkaDialog(props: MarkaDialogProps) {
 			try {
 				if (mode === "create") {
 					await createMarkaMutation.mutateAsync(value as CreateMarkaRequest);
-					queryClient.invalidateQueries({
-						queryKey: getMarkalarQueryOptions().queryKey,
-					});
 				} else if (mode === "update") {
 					await updateMarkaMutation!.mutateAsync(value as Marka);
 				}
+				queryClient.invalidateQueries(getMarkalarQueryOptions());
 				formApi.reset();
 			} catch (_error) {}
 		},
