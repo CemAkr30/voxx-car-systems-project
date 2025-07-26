@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface SigortaKaskoApplicationQueryPort extends QueryExecutor<SigortaKasko, SigortaId> {
     List<SigortaKasko> findAracFiloIdGetAll(String aracFiloId);
+    List<SigortaKasko> findByBitisTarihiBefore(java.time.Instant bitis);
 
 }

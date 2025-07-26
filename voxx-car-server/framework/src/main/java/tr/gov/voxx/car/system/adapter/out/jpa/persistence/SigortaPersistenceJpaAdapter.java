@@ -69,4 +69,11 @@ public class SigortaPersistenceJpaAdapter implements SigortaKaskoPersistenceJpaP
                 sigortaJpaRepository.findByAracFiloId(aracFiloId)
         );
     }
+
+    @Override
+    public List<SigortaKasko> findByBitisTarihiBefore(java.time.Instant bitis) {
+        return SigortaKaskoJpaMapper.toSigortaList(
+                sigortaJpaRepository.findByBitisTarihiBefore(bitis)
+        );
+    }
 }

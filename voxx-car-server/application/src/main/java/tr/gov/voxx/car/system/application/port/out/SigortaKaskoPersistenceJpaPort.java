@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface SigortaKaskoPersistenceJpaPort extends PersistenceJpaExecutor<SigortaKasko, SigortaId> {
     List<SigortaKasko> findAracFiloIdGetAll(String aracFiloId);
+    List<SigortaKasko> findByBitisTarihiBefore(java.time.Instant bitis);
 
     //Optional<SigortaKasko> findByAdi(String adi);
 }
