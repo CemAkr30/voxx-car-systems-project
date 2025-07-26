@@ -69,5 +69,12 @@ public class MTVPersistenceJpaAdapter implements MTVPersistenceJpaPort {
                 mtvJpaRepository.findByAracFiloId(aracFiloId)
         );
     }
+
+    @Override
+    public List<Mtv> findByYilAndTaksitAndOdendi(String yil, String taksit, Boolean odendi) {
+        return MTVJpaMapper.toMtvList(
+                mtvJpaRepository.findByYilAndTaksitAndOdendi(yil, taksit, odendi)
+        );
+    }
 }
 

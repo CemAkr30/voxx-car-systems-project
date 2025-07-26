@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface MTVPersistenceJpaPort extends PersistenceJpaExecutor<Mtv, MtvId> {
     List<Mtv> findAracFiloIdGetAll(String aracFiloId);
+    List<Mtv> findByYilAndTaksitAndOdendi(String yil, String taksit, Boolean odendi);
 
 }
