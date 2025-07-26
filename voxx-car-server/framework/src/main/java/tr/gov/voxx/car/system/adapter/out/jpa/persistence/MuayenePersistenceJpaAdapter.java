@@ -69,5 +69,12 @@ public class MuayenePersistenceJpaAdapter implements MuayenePersistenceJpaPort {
                 muayeneJpaRepository.findByAracFiloId(aracFiloId)
         );
     }
+
+    @Override
+    public List<Muayene> findByBitisTarihiBefore(java.time.Instant bitis) {
+        return MuayeneJpaMapper.toMuayeneList(
+                muayeneJpaRepository.findByBitisTarihiBefore(bitis)
+        );
+    }
 }
 
