@@ -1,6 +1,7 @@
 package tr.gov.voxx.car.system.adapter.in.web.mapper;
 
 import tr.gov.voxx.car.system.adapter.in.web.data.MTVDurumResponse;
+import tr.gov.voxx.car.system.adapter.in.web.data.MTVDurumDetayResponse;
 import tr.gov.voxx.car.system.domain.entity.AracFilo;
 import tr.gov.voxx.car.system.domain.entity.Mtv;
 
@@ -15,10 +16,15 @@ public class MTVDurumMapper {
                 .mapToDouble(mtv -> mtv.getMiktar() != null ? mtv.getMiktar() : 0.0)
                 .sum();
 
+        MTVDurumDetayResponse detay = null;
+        if (!mtvList.isEmpty()) {
+            detay = MTVDurumDetayMapper.toResponse(mtvList.get(0), aracFiloMap);
+        }
+
         return new MTVDurumResponse(
                 toplamKayit,
                 toplamTutar,
-                MTVDurumDetayMapper.toResponseList(mtvList, aracFiloMap)
+                detay
         );
     }
 } 
