@@ -4,6 +4,11 @@ import type { CreateMtvRequest, Mtv } from "@/schemas/mtv";
 import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
+export const getAllMtv = async (): Promise<Mtv[]> => {
+	const { data } = await axiosClient.get(`${urls.mtv}`);
+	return data;
+};
+
 export const getMtvByAracFiloId = async (
 	aracFiloId: string,
 ): Promise<Mtv[]> => {

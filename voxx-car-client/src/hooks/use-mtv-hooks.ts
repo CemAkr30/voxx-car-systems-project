@@ -1,11 +1,19 @@
 import {
 	createMtv,
 	deleteMtv,
+	getAllMtv,
 	getMtvByAracFiloId,
 	updateMtv,
 } from "@/requests/mtv";
 import type { CreateMtvRequest, Mtv } from "@/schemas/mtv";
 import { queryOptions, useMutation } from "@tanstack/react-query";
+
+export function getMtvlerQueryOptions() {
+	return queryOptions({
+		queryKey: ["dashboard", "mtv"],
+		queryFn: () => getAllMtv(),
+	});
+}
 
 export function getMtvlerByAracFiloIdQueryOptions(aracFiloId: string) {
 	return queryOptions({
