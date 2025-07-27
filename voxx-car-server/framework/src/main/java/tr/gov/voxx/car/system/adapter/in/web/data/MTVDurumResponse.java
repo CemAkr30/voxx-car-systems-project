@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,6 +17,6 @@ public class MTVDurumResponse {
     @Schema(description = "Toplam tutar")
     private Double toplamTutar;
 
-    @Schema(description = "MTV listesi")
-    private List<MTVDurumDetayResponse> mtvListesi;
+    @Schema(description = "MTV")
+    private MTVDurumDetayResponse mtv;
 } 

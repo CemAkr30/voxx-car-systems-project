@@ -1,6 +1,7 @@
 package tr.gov.voxx.car.system.adapter.in.web.mapper;
 
 import tr.gov.voxx.car.system.adapter.in.web.data.MuayeneDurumResponse;
+import tr.gov.voxx.car.system.adapter.in.web.data.MuayeneDurumDetayResponse;
 import tr.gov.voxx.car.system.domain.entity.AracFilo;
 import tr.gov.voxx.car.system.domain.entity.Muayene;
 
@@ -16,10 +17,15 @@ public class MuayeneDurumMapper {
                 .mapToDouble(muayene -> muayene.getMiktar() != null ? muayene.getMiktar() : 0.0)
                 .sum();
 
+        MuayeneDurumDetayResponse detay = null;
+        if (!muayeneList.isEmpty()) {
+            detay = MuayeneDurumDetayMapper.toResponse(muayeneList.get(0), aracFiloMap, kontrolTarihi);
+        }
+
         return new MuayeneDurumResponse(
                 toplamKayit,
                 toplamTutar,
-                MuayeneDurumDetayMapper.toResponseList(muayeneList, aracFiloMap, kontrolTarihi)
+                detay
         );
     }
 } 
