@@ -30,7 +30,6 @@ import {
 	Eye,
 	Search,
 	Filter,
-	Download,
 	RefreshCw,
 	TrendingUp,
 	AlertCircle,
@@ -40,6 +39,7 @@ import { formatCurrency, getPaymentTypeColor } from "@/lib/utils";
 import { OdemeTipiListesiLabel } from "@/enums";
 import MtvDialog from "../mtv/mtv-dialog";
 import MtvSilDialog from "../mtv/mtv-sil-dialog";
+import { ExportToExcel } from "@/components/export-to-excel";
 
 interface DashboardMTVProps {
 	mtvler: Mtv[];
@@ -135,13 +135,7 @@ export default function MtvDashboard({ mtvler }: DashboardMTVProps) {
 							</div>
 
 							<div className="flex items-center gap-4">
-								<Button
-									variant="ghost"
-									className="text-white hover:bg-white/20 backdrop-blur-sm"
-								>
-									<Download className="w-4 h-4 mr-2" />
-									Rapor Al
-								</Button>
+								<ExportToExcel apiData={mtvler} fileName={"fileName"} />
 							</div>
 						</div>
 					</div>
