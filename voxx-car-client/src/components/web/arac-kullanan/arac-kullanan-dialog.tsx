@@ -20,17 +20,14 @@ import {
 	aracKullananCreateSchema,
 	aracKullananUpdateSchema,
 } from "@/schemas/arac-kullanan";
-import type { Firma } from "@/schemas/firma";
 import { useQueryClient } from "@tanstack/react-query";
 import { RefreshCw } from "lucide-react";
-import { useMemo } from "react";
 
 interface AracKullananDialogCreateProps {
 	mode: "create";
 	open: boolean;
 	close: () => void;
 	initialValues: { firmaId: string };
-	firmalar: Firma[];
 }
 
 interface AracKullananDialogUpdateProps {
@@ -38,7 +35,6 @@ interface AracKullananDialogUpdateProps {
 	open: boolean;
 	close: () => void;
 	initialValues: AracKullanan;
-	firmalar: Firma[];
 }
 
 type AracKullananDialogProps =
@@ -46,13 +42,8 @@ type AracKullananDialogProps =
 	| AracKullananDialogUpdateProps;
 
 export default function AracKullananDialog(props: AracKullananDialogProps) {
-	const { mode, open, close, firmalar } = props;
+	const { mode, open, close } = props;
 	const queryClient = useQueryClient();
-
-	const firmalarOptions = useMemo(
-		() => firmalar.map((firma) => ({ label: firma.unvan, value: firma.id })),
-		[firmalar],
-	);
 
 	const cinsiyetTipiOptions = CinsiyetTipi.map((cinsiyet) => ({
 		label: cinsiyet,
@@ -135,10 +126,6 @@ export default function AracKullananDialog(props: AracKullananDialogProps) {
 					}}
 					className="space-y-6"
 				>
-					<form.AppField name="firmaId">
-						{(field) => <field.Select label="Firma" values={firmalarOptions} />}
-					</form.AppField>
-
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
 						<form.AppField name="ad">
 							{(field) => <field.TextField label="İsim" />}

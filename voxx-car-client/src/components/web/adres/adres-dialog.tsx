@@ -10,7 +10,6 @@ import {
 import { AdresTipi } from "@/enums";
 import { useAppForm } from "@/hooks/demo.form";
 import {
-	getAdreslerByFirmaIdQueryOptions,
 	useCreateAdresMutation,
 	useUpdateAdresMutation,
 } from "@/hooks/use-adres-hooks";
@@ -20,17 +19,13 @@ import {
 	adresCreateSchema,
 	adresUpdateSchema,
 } from "@/schemas/adres";
-import type { Firma } from "@/schemas/firma";
-import { useQueryClient } from "@tanstack/react-query";
 import { RefreshCw } from "lucide-react";
-import { useMemo } from "react";
 
 interface AdresDialogCreateProps {
 	mode: "create";
 	open: boolean;
 	close: () => void;
 	initialValues: { firmaId: string };
-	firmalar: Firma[];
 }
 
 interface AdresDialogUpdateProps {
@@ -38,19 +33,12 @@ interface AdresDialogUpdateProps {
 	open: boolean;
 	close: () => void;
 	initialValues: Adres;
-	firmalar: Firma[];
 }
 
 type AdresDialogProps = AdresDialogCreateProps | AdresDialogUpdateProps;
 
 export default function AdresDialog(props: AdresDialogProps) {
-	const { mode, open, close, firmalar } = props;
-	const queryClient = useQueryClient();
-
-	const firmalarOptions = useMemo(
-		() => firmalar.map((firma) => ({ label: firma.unvan, value: firma.id })),
-		[firmalar],
-	);
+	const { mode, open, close } = props;
 
 	const adresTipiOptions = AdresTipi.map((tip) => ({ label: tip, value: tip }));
 
@@ -77,9 +65,6 @@ export default function AdresDialog(props: AdresDialogProps) {
 				} else if (mode === "update") {
 					await updateAdresMutation!.mutateAsync(value as Adres);
 				}
-				queryClient.invalidateQueries(
-					getAdreslerByFirmaIdQueryOptions(props.initialValues.firmaId),
-				);
 				formApi.reset();
 			} catch (_error) {}
 		},
@@ -112,9 +97,6 @@ export default function AdresDialog(props: AdresDialogProps) {
 					}}
 					className="space-y-6"
 				>
-					<form.AppField name="firmaId">
-						{(field) => <field.Select label="Firma" values={firmalarOptions} />}
-					</form.AppField>
 					<form.AppField name="aciklama">
 						{(field) => <field.TextArea label="Açıklama" />}
 					</form.AppField>

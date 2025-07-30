@@ -134,7 +134,11 @@ function RouteComponent() {
 						/>
 					</div>
 				</Link>
-				<Link to="/firma/$firmaId/iletisim" params={{ firmaId }} className="group">
+				<Link
+					to="/firma/$firmaId/iletisim"
+					params={{ firmaId }}
+					className="group"
+				>
 					<div className="relative overflow-hidden rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300 hover:shadow-xl hover:shadow-slate-200/50 dark:hover:shadow-slate-900/50 transform hover:scale-[1.02]">
 						<div
 							className={cn(
