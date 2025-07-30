@@ -1,19 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import {
 	DropdownMenu,
 	DropdownMenuTrigger,
 	DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-	Download,
-	Search,
-	Filter,
-	RefreshCw,
-	MoreHorizontal,
-} from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -67,7 +60,6 @@ function RouteComponent() {
 	});
 
 	const [selectedItems, setSelectedItems] = useState<string[]>([]);
-	const [searchTerm, setSearchTerm] = useState<string>("");
 	const [dialogState, setDialogState] = useState<DialogState>({
 		create: false,
 		update: false,
@@ -136,7 +128,7 @@ function RouteComponent() {
 							<Button onClick={() => openDialog("create")}>
 								Yeni Firma Ekle
 							</Button>
-							<DropdownMenu>
+							{/* <DropdownMenu>
 								<DropdownMenuTrigger asChild>
 									<Button variant="outline">
 										<Download className="h-4 w-4 mr-2" />
@@ -144,16 +136,14 @@ function RouteComponent() {
 									</Button>
 								</DropdownMenuTrigger>
 								<DropdownMenuContent>
-									{/* Export options can be added here */}
 								</DropdownMenuContent>
-							</DropdownMenu>
+							</DropdownMenu> */}
 						</div>
 					</div>
 				</CardHeader>
 				<CardContent>
-					{/* Filters and Search */}
 					<div className="flex items-center justify-between mb-6">
-						<div className="flex items-center space-x-4">
+						{/* <div className="flex items-center space-x-4">
 							<div className="relative">
 								<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
 								<Input
@@ -171,7 +161,7 @@ function RouteComponent() {
 								<RefreshCw className="h-4 w-4 mr-2" />
 								Yenile
 							</Button>
-						</div>
+						</div> */}
 
 						{selectedItems.length > 0 && (
 							<div className="flex items-center space-x-2">
@@ -194,13 +184,6 @@ function RouteComponent() {
 						<Table>
 							<TableHeader>
 								<TableRow>
-									{/* <TableHead className="w-12">
-                    <Checkbox
-                      checked={false}
-                      onCheckedChange={handleSelectAll}
-                    />
-                  </TableHead> */}
-									<TableHead>Firma Id</TableHead>
 									<TableHead>Firma Adı</TableHead>
 									<TableHead>Oluşturulma Tarihi</TableHead>
 									<TableHead>Güncellenme Tarihi</TableHead>
@@ -210,7 +193,6 @@ function RouteComponent() {
 							<TableBody>
 								{firmalar.map((firma: Firma) => (
 									<TableRow key={firma.id}>
-										<TableCell>{firma.id}</TableCell>
 										<TableCell className="font-medium">
 											<Link
 												to="/firma/$firmaId/detay"

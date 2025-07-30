@@ -22,6 +22,7 @@ import { OnarimDurumuTipiListesiLabel } from "@/enums";
 import { useWebSocketTopic } from "@/hooks/use-webhook";
 import type { WebSocketMessage } from "@/types";
 import { toast } from "sonner";
+import { getAracKullananlarQueryOptions } from "@/hooks/use-arac-kullanan-hooks";
 
 export const Route = createFileRoute(
 	"/_authenticated/arac-filo/$aracFiloId/_layout/kaza/",
@@ -29,6 +30,7 @@ export const Route = createFileRoute(
 	loader: ({ context: { queryClient }, params: { aracFiloId } }) => {
 		queryClient.ensureQueryData(getKazaByAracFiloIdQueryOptions(aracFiloId));
 		queryClient.ensureQueryData(getFirmalarQueryOptions());
+		queryClient.ensureQueryData(getAracKullananlarQueryOptions());
 	},
 	component: RouteComponent,
 });
@@ -68,12 +70,14 @@ function RouteComponent() {
 		delete: false,
 	});
 
-	const [{ data: kaza = [] }, { data: firmalar }] = useSuspenseQueries({
-		queries: [
-			getKazaByAracFiloIdQueryOptions(aracFiloId),
-			getFirmalarQueryOptions(),
-		],
-	});
+	const [{ data: kaza = [] }, { data: firmalar }, { data: musteriler }] =
+		useSuspenseQueries({
+			queries: [
+				getKazaByAracFiloIdQueryOptions(aracFiloId),
+				getFirmalarQueryOptions(),
+				getAracKullananlarQueryOptions(),
+			],
+		});
 
 	const openDialog = (type: keyof DialogState, kaza?: Kaza) => {
 		setDialogState({
@@ -185,17 +189,24 @@ function RouteComponent() {
 								>
 									<TableCell>
 										<span className="font-medium text-slate-900 dark:text-slate-100">
-											{kaza.firmaId}
+											{
+												firmalar.find((firma) => kaza.firmaId === firma.id)
+													?.unvan
+											}
 										</span>
 									</TableCell>
 									<TableCell>
 										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{kaza.odeyenFirmaId}
+											{
+												firmalar.find(
+													(firma) => kaza.odeyenFirmaId === firma.id,
+												)?.unvan
+											}
 										</span>
 									</TableCell>
 									<TableCell>
 										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{kaza.musteriId}
+											{`${musteriler.find((musteri) => kaza.musteriId === musteri.id)?.ad} ${musteriler.find((musteri) => kaza.musteriId === musteri.id)?.soyad}`}
 										</span>
 									</TableCell>
 									<TableCell>

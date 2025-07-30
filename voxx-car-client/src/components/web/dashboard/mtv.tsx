@@ -355,9 +355,6 @@ export default function MtvDashboard({ mtvler }: DashboardMTVProps) {
 											Makbuz No
 										</TableHead>
 										<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-											Araç Filo ID
-										</TableHead>
-										<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 											Yıl/Taksit
 										</TableHead>
 										<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
@@ -392,11 +389,6 @@ export default function MtvDashboard({ mtvler }: DashboardMTVProps) {
 														{mtv.aciklama}
 													</p>
 												</div>
-											</TableCell>
-											<TableCell>
-												<span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded-md text-sm font-mono text-slate-700 dark:text-slate-300">
-													{mtv.aracFiloId}
-												</span>
 											</TableCell>
 											<TableCell>
 												<div>

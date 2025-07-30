@@ -198,13 +198,7 @@ function RouteComponent() {
 						<Table>
 							<TableHeader>
 								<TableRow>
-									{/* <TableHead className="w-12">
-                    <Checkbox
-                      checked={false}
-                      onCheckedChange={handleSelectAll}
-                    />
-                  </TableHead> */}
-									<TableHead>Marka Id</TableHead>
+									<TableHead>Marka</TableHead>
 									<TableHead>Model Adı</TableHead>
 									<TableHead>Oluşturulma Tarihi</TableHead>
 									<TableHead>Güncellenme Tarihi</TableHead>
@@ -214,15 +208,12 @@ function RouteComponent() {
 							<TableBody>
 								{modeller.map((model: Model) => (
 									<TableRow key={model.id}>
-										{/* <TableCell>
-                      <Checkbox
-                        checked={selectedItems.includes(marka.id)}
-                        onCheckedChange={(checked) =>
-                          handleSelectItem(marka.id, checked as boolean)
-                        }
-                      />
-                    </TableCell> */}
-										<TableCell>{model.markaId}</TableCell>
+										<TableCell>
+											{
+												markalar.find((marka) => model.markaId === marka.id)
+													?.adi
+											}
+										</TableCell>
 										<TableCell className="font-medium">{model.adi}</TableCell>
 										<TableCell>{formatDate(model.createdAt)}</TableCell>
 										<TableCell>{formatDate(model.updatedAt)}</TableCell>

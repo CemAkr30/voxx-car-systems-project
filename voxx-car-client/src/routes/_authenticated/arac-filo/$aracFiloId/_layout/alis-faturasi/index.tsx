@@ -241,7 +241,11 @@ function RouteComponent() {
 
 									<TableCell>
 										<span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded-md text-sm font-mono text-slate-700 dark:text-slate-300">
-											{alisFaturasi.saticiFirmaId}
+											{
+												firmalar.find(
+													(firma) => alisFaturasi.saticiFirmaId === firma.id,
+												)?.unvan
+											}
 										</span>
 									</TableCell>
 									<TableCell>
