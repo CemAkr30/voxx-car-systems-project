@@ -234,7 +234,7 @@ function RouteComponent() {
 								<Button
 									className="bg-white/20 hover:bg-white/30 text-white border-white/30 backdrop-blur-sm transition-all duration-200 hover:scale-105"
 									onClick={handleHasarParcaSubmit}
-									disabled={!canSave()}
+									disabled={!canSave() || createHasarMutation.isPending|| updateHasarMutation.isPending|| deleteHasarMutation.isPending}
 								>
 									<Save className="w-4 h-4 mr-2" />
 									Kaydet
