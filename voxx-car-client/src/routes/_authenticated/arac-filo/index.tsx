@@ -26,9 +26,11 @@ import {
 } from "@/components/ui/table";
 import type { AracFilo } from "@/schemas/arac-filo";
 import { formatDate } from "@/lib/utils";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { getAracFilolarQueryOptions } from "@/hooks/use-arac-filo-hooks";
 import AracFiloSilDialog from "@/components/web/arac-filo/arac-filo-sil-dialog";
+import type { WebSocketMessage } from "@/types";
+import { useWebSocketTopic } from "@/hooks/use-webhook";
 
 interface DialogState {
 	delete: boolean;
@@ -42,6 +44,14 @@ export const Route = createFileRoute("/_authenticated/arac-filo/")({
 });
 
 function RouteComponent() {
+	const queryClient = useQueryClient();
+
+	useWebSocketTopic<WebSocketMessage>({
+		topic: "/topic/aracFilo",
+		onMessage: async () =>
+			await queryClient.invalidateQueries({ queryKey: ["aracFilolar"] }),
+	});
+
 	const router = useRouter();
 	const [selectedItems, setSelectedItems] = useState<string[]>([]);
 	const [searchTerm, setSearchTerm] = useState<string>("");

@@ -9,13 +9,16 @@ import {
 } from "@/components/ui/table";
 import { getAlisFaturasiByAracFiloIdQueryOptions } from "@/hooks/use-alis-faturasi-hooks";
 import type { AlisFaturasi } from "@/schemas/alis-faturasi";
-import { useSuspenseQueries } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQueries } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
 import AlisFaturasiDialog from "@/components/web/alis-faturasi/alis-faturasi-dialog.tsx";
 import AlisFaturasiSilDialog from "@/components/web/alis-faturasi/alis-faturasi-sil-dialog.tsx";
 import { getFirmalarQueryOptions } from "@/hooks/use-firma-hooks.ts";
+import { useWebSocketTopic } from "@/hooks/use-webhook";
+import type { WebSocketMessage } from "@/types";
+import { toast } from "sonner";
 
 export const Route = createFileRoute(
 	"/_authenticated/arac-filo/$aracFiloId/_layout/alis-faturasi/",
@@ -37,6 +40,26 @@ interface DialogState {
 
 function RouteComponent() {
 	const { aracFiloId } = Route.useParams();
+	const queryClient = useQueryClient();
+
+	useWebSocketTopic<WebSocketMessage>({
+		topic: "/topic/alisFaturasi",
+		onMessage: async ({ type }) => {
+			if (type === "CREATED") {
+				toast.success("Alış Faturası başarılı bir şekilde kayıt edildi");
+			}
+			if (type === "UPDATED") {
+				toast.success("Alış Faturası başarılı bir şekilde güncellendi");
+			}
+			if (type === "DELETED") {
+				toast.success("Alış Faturası başarılı bir şekilde silindi");
+			}
+			await queryClient.invalidateQueries(
+				getAlisFaturasiByAracFiloIdQueryOptions(aracFiloId),
+			);
+		},
+	});
+
 	const [dialogState, setDialogState] = useState<DialogState>({
 		create: false,
 		update: false,

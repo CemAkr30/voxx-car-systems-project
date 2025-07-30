@@ -10,7 +10,7 @@ import {
 
 import { getKazaByAracFiloIdQueryOptions } from "@/hooks/use-kaza-hooks";
 import type { Kaza } from "@/schemas/kaza";
-import { useSuspenseQueries } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQueries } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
@@ -19,6 +19,9 @@ import KazaDialog from "@/components/web/kaza/kaza-dialog";
 import KazaSilDialog from "@/components/web/kaza/kaza-sil-dialog";
 import { formatDate } from "@/lib/utils";
 import { OnarimDurumuTipiListesiLabel } from "@/enums";
+import { useWebSocketTopic } from "@/hooks/use-webhook";
+import type { WebSocketMessage } from "@/types";
+import { toast } from "sonner";
 
 export const Route = createFileRoute(
 	"/_authenticated/arac-filo/$aracFiloId/_layout/kaza/",
@@ -39,6 +42,26 @@ interface DialogState {
 
 function RouteComponent() {
 	const { aracFiloId } = Route.useParams();
+	const queryClient = useQueryClient();
+
+	useWebSocketTopic<WebSocketMessage>({
+		topic: "/topic/kaza",
+		onMessage: async ({ type }) => {
+			if (type === "CREATED") {
+				toast.success("Kaza başarılı bir şekilde kayıt edildi");
+			}
+			if (type === "UPDATED") {
+				toast.success("Kaza başarılı bir şekilde güncellendi");
+			}
+			if (type === "DELETED") {
+				toast.success("Kaza başarılı bir şekilde silindi");
+			}
+			await queryClient.invalidateQueries(
+				getKazaByAracFiloIdQueryOptions(aracFiloId),
+			);
+		},
+	});
+
 	const [dialogState, setDialogState] = useState<DialogState>({
 		create: false,
 		update: false,

@@ -6,7 +6,7 @@ import { getFirmaQueryOptions } from "@/hooks/use-firma-hooks";
 import { cn, relativeDate } from "@/lib/utils";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
-import { ArrowUpRight, Building2, Car, MapPin } from "lucide-react";
+import { ArrowUpRight, Building2, Car, MapPin, Phone } from "lucide-react";
 import { useState } from "react";
 
 export const Route = createFileRoute("/_authenticated/firma/$firmaId/_layout")({
@@ -91,7 +91,7 @@ function RouteComponent() {
 				</div>
 			</div>
 
-			<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+			<div className="grid grid-cols-1 md:grid-cols-4 gap-4">
 				<Link to="/firma/$firmaId/detay" params={{ firmaId }} className="group">
 					<div className="relative overflow-hidden rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300 hover:shadow-xl hover:shadow-slate-200/50 dark:hover:shadow-slate-900/50 transform hover:scale-[1.02]">
 						<div
@@ -134,6 +134,48 @@ function RouteComponent() {
 						/>
 					</div>
 				</Link>
+				<Link to="/firma/$firmaId/iletisim" params={{ firmaId }} className="group">
+					<div className="relative overflow-hidden rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300 hover:shadow-xl hover:shadow-slate-200/50 dark:hover:shadow-slate-900/50 transform hover:scale-[1.02]">
+						<div
+							className={cn(
+								"absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-5 transition-opacity duration-300",
+								"from-orange-500 to-red-500",
+							)}
+						/>
+						<div className="relative p-6">
+							<div className="flex items-start justify-between mb-4">
+								<div
+									className={cn(
+										"p-3 rounded-xl group-hover:scale-110 transition-transform duration-300",
+										"bg-orange-50 dark:bg-orange-950/20",
+									)}
+								>
+									<Phone
+										className={cn(
+											"h-7 w-7",
+											"text-orange-600 dark:text-orange-400",
+										)}
+									/>
+								</div>
+								<ArrowUpRight className="h-5 w-5 text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-300 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
+							</div>
+							<div className="space-y-2">
+								<h3 className="font-bold text-lg text-slate-900 dark:text-slate-100 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors">
+									Firma İletişim
+								</h3>
+								<p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+									Adres bilgileri ve lokasyonlar
+								</p>
+							</div>
+						</div>
+						<div
+							className={cn(
+								"absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left",
+								"from-orange-500 to-red-500",
+							)}
+						/>
+					</div>
+				</Link>
 				<Link to="/firma/$firmaId/adres" params={{ firmaId }} className="group">
 					<div className="relative overflow-hidden rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300 hover:shadow-xl hover:shadow-slate-200/50 dark:hover:shadow-slate-900/50 transform hover:scale-[1.02]">
 						<div
@@ -164,7 +206,7 @@ function RouteComponent() {
 									Firma Adresleri
 								</h3>
 								<p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-									Adres bilgileri ve lokasyonlar
+									İletişim Bilgileri
 								</p>
 							</div>
 						</div>

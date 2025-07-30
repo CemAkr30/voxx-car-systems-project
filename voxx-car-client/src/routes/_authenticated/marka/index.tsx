@@ -29,7 +29,9 @@ import { getMarkalarQueryOptions } from "@/hooks/use-marka-hooks";
 import MarkaSilDialog from "@/components/web/marka/marka-sil-dialog";
 import type { Marka } from "@/schemas/marka";
 import { formatDate } from "@/lib/utils";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useWebSocketTopic } from "@/hooks/use-webhook";
+import type { WebSocketMessage } from "@/types";
 
 interface DialogState {
 	create: boolean;
@@ -45,6 +47,14 @@ export const Route = createFileRoute("/_authenticated/marka/")({
 });
 
 function RouteComponent() {
+	const queryClient = useQueryClient();
+
+	useWebSocketTopic<WebSocketMessage>({
+		topic: "/topic/marka",
+		onMessage: async () =>
+			await queryClient.invalidateQueries({ queryKey: ["markalar"] }),
+	});
+
 	const [selectedItems, setSelectedItems] = useState<string[]>([]);
 	const [searchTerm, setSearchTerm] = useState<string>("");
 	const [dialogState, setDialogState] = useState<DialogState>({

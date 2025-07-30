@@ -18,7 +18,6 @@ export const createSigorta = async (
 ): Promise<void> => {
 	try {
 		await axiosClient.post<Sigorta>(`${urls.sigorta}`, sigorta);
-		toast.success("Sigorta başarılı bir şekilde kayıt edildi");
 	} catch (error: unknown) {
 		if (isAxiosError(error)) {
 			toast.error("Sigortayı kayıt ederken sorun oluştu");
@@ -31,7 +30,6 @@ export const createSigorta = async (
 export const updateSigorta = async (sigorta: Sigorta): Promise<void> => {
 	try {
 		await axiosClient.put<Sigorta>(`${urls.sigorta}/${sigorta.id}`, sigorta);
-		toast.success("Sigorta başarılı bir şekilde güncellendi");
 	} catch (error) {
 		if (isAxiosError(error)) {
 			toast.error("Sigortayı güncellerken sorun oluştu");
@@ -44,7 +42,6 @@ export const updateSigorta = async (sigorta: Sigorta): Promise<void> => {
 export const deleteSigorta = async (id: string): Promise<void> => {
 	try {
 		await axiosClient.delete(`${urls.sigorta}/${id}`);
-		toast.success("Sigorta başarılı bir şekilde silindi");
 	} catch (error) {
 		if (isAxiosError(error)) {
 			toast.error("Sigortayı silerken sorun oluştu");

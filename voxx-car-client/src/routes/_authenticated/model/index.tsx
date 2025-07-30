@@ -30,7 +30,9 @@ import type { Model } from "@/schemas/model";
 import ModelDialog from "@/components/web/model/model-dialog";
 import ModelSilDialog from "@/components/web/model/model-sil-dialog";
 import { getMarkalarQueryOptions } from "@/hooks/use-marka-hooks";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useWebSocketTopic } from "@/hooks/use-webhook";
+import type { WebSocketMessage } from "@/types";
 
 interface DialogState {
 	create: boolean;
@@ -48,6 +50,14 @@ export const Route = createFileRoute("/_authenticated/model/")({
 });
 
 function RouteComponent() {
+	const queryClient = useQueryClient();
+
+	useWebSocketTopic<WebSocketMessage>({
+		topic: "/topic/model",
+		onMessage: async () =>
+			await queryClient.invalidateQueries({ queryKey: ["modeller"] }),
+	});
+
 	const [selectedItems, setSelectedItems] = useState<string[]>([]);
 	const [searchTerm, setSearchTerm] = useState<string>("");
 	const [dialogState, setDialogState] = useState<DialogState>({

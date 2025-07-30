@@ -10,7 +10,6 @@ import {
 import { OdemeTipiListesi, OdemeTipiListesiLabel } from "@/enums";
 import { useAppForm } from "@/hooks/demo.form";
 import {
-	getMtvlerByAracFiloIdQueryOptions,
 	useCreateMtvMutation,
 	useUpdateMtvMutation,
 } from "@/hooks/use-mtv-hooks";
@@ -21,11 +20,9 @@ import {
 	type CreateMtvRequest,
 	type Mtv,
 } from "@/schemas/mtv";
-import { useStore } from "@tanstack/react-form";
 
-import { useQueryClient } from "@tanstack/react-query";
 import { RefreshCw } from "lucide-react";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 
 interface MtvDialogCreateProps {
 	mode: "create";
@@ -48,8 +45,7 @@ interface MtvDialogUpdateProps {
 type MtvDialogProps = MtvDialogCreateProps | MtvDialogUpdateProps;
 
 export default function MtvDialog(props: MtvDialogProps) {
-	const { mode, open, close, initialValues, firmalar, aracFiloId } = props;
-	const queryClient = useQueryClient();
+	const { mode, open, close, firmalar, aracFiloId } = props;
 
 	const odemeTipiOptions = OdemeTipiListesi.map((tip) => ({
 		label: OdemeTipiListesiLabel[tip],
@@ -99,14 +95,9 @@ export default function MtvDialog(props: MtvDialogProps) {
 					await updateMtvMutation!.mutateAsync(value as Mtv);
 				}
 				formApi.reset();
-				queryClient.invalidateQueries(
-					getMtvlerByAracFiloIdQueryOptions(initialValues.aracFiloId),
-				);
 			} catch (_error) {}
 		},
 	});
-
-	const values = useStore(form.store, (selector) => selector.values);
 
 	return (
 		<Dialog
@@ -131,27 +122,27 @@ export default function MtvDialog(props: MtvDialogProps) {
 					onSubmit={(e) => {
 						e.preventDefault();
 						e.stopPropagation();
-						console.log(values);
-						mtvCreateSchema.parse(values);
 						form.handleSubmit();
 					}}
 					className="space-y-6"
 				>
-					<form.AppField name="yil">
-						{(field) => <field.TextField label="Yıl" />}
-					</form.AppField>
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+						<form.AppField name="yil">
+							{(field) => <field.TextField label="Yıl" />}
+						</form.AppField>
 
-					<form.AppField name="taksit">
-						{(field) => <field.TextField label="Taksit" />}
-					</form.AppField>
+						<form.AppField name="taksit">
+							{(field) => <field.TextField label="Taksit" />}
+						</form.AppField>
 
-					<form.AppField name="makbuzNo">
-						{(field) => <field.TextField label="Makbuz no" />}
-					</form.AppField>
+						<form.AppField name="makbuzNo">
+							{(field) => <field.TextField label="Makbuz no" />}
+						</form.AppField>
 
-					<form.AppField name="miktar">
-						{(field) => <field.TextField label="Miktar" />}
-					</form.AppField>
+						<form.AppField name="miktar">
+							{(field) => <field.TextField label="Miktar" />}
+						</form.AppField>
+					</div>
 
 					<form.AppField
 						name="odendi"
@@ -170,36 +161,38 @@ export default function MtvDialog(props: MtvDialogProps) {
 
 					<form.Subscribe selector={(state) => state.values.odendi}>
 						{(odendi) => (
-							<React.Fragment>
-								<form.AppField name="odemeTipi">
-									{(field) => (
-										<field.Select
-											label="Ödeme Tipi"
-											values={odemeTipiOptions}
-											disabled={!odendi}
-										/>
-									)}
-								</form.AppField>
+							<>
+								<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+									<form.AppField name="odemeTipi">
+										{(field) => (
+											<field.Select
+												label="Ödeme Tipi"
+												values={odemeTipiOptions}
+												disabled={!odendi}
+											/>
+										)}
+									</form.AppField>
 
-								<form.AppField name="odeyenFirmaId">
-									{(field) => (
-										<field.Select
-											label="Ödeyen Firma"
-											values={firmalarOptions}
-											disabled={!odendi}
-										/>
-									)}
-								</form.AppField>
-
+									<form.AppField name="odeyenFirmaId">
+										{(field) => (
+											<field.Select
+												label="Ödeyen Firma"
+												values={firmalarOptions}
+												disabled={!odendi}
+											/>
+										)}
+									</form.AppField>
+								</div>
 								<form.AppField name="gecikmeCezasi">
 									{(field) => (
 										<field.TextField
+											className="col-span-full"
 											label="Gecikme Cezası"
 											disabled={!odendi}
 										/>
 									)}
 								</form.AppField>
-							</React.Fragment>
+							</>
 						)}
 					</form.Subscribe>
 

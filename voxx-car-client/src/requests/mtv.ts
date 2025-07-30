@@ -19,7 +19,6 @@ export const getMtvByAracFiloId = async (
 export const createMtv = async (mtv: CreateMtvRequest): Promise<void> => {
 	try {
 		await axiosClient.post<Mtv>(`${urls.mtv}`, mtv);
-		toast.success("Mtv başarılı bir şekilde kayıt edildi");
 	} catch (error: unknown) {
 		if (isAxiosError(error)) {
 			toast.error("Mtvyı kayıt ederken sorun oluştu");
@@ -32,7 +31,6 @@ export const createMtv = async (mtv: CreateMtvRequest): Promise<void> => {
 export const updateMtv = async (mtv: Mtv): Promise<void> => {
 	try {
 		await axiosClient.put<Mtv>(`${urls.mtv}/${mtv.id}`, mtv);
-		toast.success("Mtv başarılı bir şekilde güncellendi");
 	} catch (error) {
 		if (isAxiosError(error)) {
 			toast.error("Mtvyı güncellerken sorun oluştu");
@@ -45,7 +43,6 @@ export const updateMtv = async (mtv: Mtv): Promise<void> => {
 export const deleteMtv = async (id: string): Promise<void> => {
 	try {
 		await axiosClient.delete(`${urls.mtv}/${id}`);
-		toast.success("Mtv başarılı bir şekilde silindi");
 	} catch (error) {
 		if (isAxiosError(error)) {
 			toast.error("Mtvyı silerken sorun oluştu");

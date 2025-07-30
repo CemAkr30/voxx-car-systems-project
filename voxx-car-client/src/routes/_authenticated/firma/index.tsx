@@ -29,7 +29,9 @@ import { formatDate } from "@/lib/utils";
 import FirmaDialog from "@/components/web/firma/firma-dialog";
 import FirmaSilDialog from "@/components/web/firma/firma-sil-dialog";
 import { getFirmalarQueryOptions } from "@/hooks/use-firma-hooks";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import type { WebSocketMessage } from "@/types";
+import { useWebSocketTopic } from "@/hooks/use-webhook";
 
 interface DialogState {
 	create: boolean;
@@ -45,6 +47,14 @@ export const Route = createFileRoute("/_authenticated/firma/")({
 });
 
 function RouteComponent() {
+	const queryClient = useQueryClient();
+
+	useWebSocketTopic<WebSocketMessage>({
+		topic: "/topic/firma",
+		onMessage: async () =>
+			await queryClient.invalidateQueries({ queryKey: ["firmalar"] }),
+	});
+
 	const [selectedItems, setSelectedItems] = useState<string[]>([]);
 	const [searchTerm, setSearchTerm] = useState<string>("");
 	const [dialogState, setDialogState] = useState<DialogState>({

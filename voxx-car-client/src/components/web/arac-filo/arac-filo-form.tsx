@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useAppForm } from "@/hooks/demo.form";
 import {
-	getAracFilolarQueryOptions,
 	useCreateAracFiloMutation,
 	useUpdateAracFiloMutation,
 } from "@/hooks/use-arac-filo-hooks";
@@ -17,7 +16,7 @@ import type { Firma } from "@/schemas/firma";
 import { type Marka } from "@/schemas/marka";
 import type { Model } from "@/schemas/model";
 import { useStore } from "@tanstack/react-form";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import {
 	Building,
@@ -47,7 +46,6 @@ type AracFiloFormProps = AracFiloFormCreateProps | AracFiloFormUpdateProps;
 
 export default function AracFiloForm(props: AracFiloFormProps) {
 	const { mode, markalar, firmalar } = props;
-	const queryClient = useQueryClient();
 
 	const createAracFiloMutation = useCreateAracFiloMutation();
 	const updateAracFiloMutation =
@@ -117,7 +115,6 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 				} else if (mode === "update") {
 					await updateAracFiloMutation!.mutateAsync(value as AracFilo);
 				}
-				queryClient.invalidateQueries(getAracFilolarQueryOptions());
 				navigate({ to: "/arac-filo" });
 				formApi.reset();
 			} catch (error) {

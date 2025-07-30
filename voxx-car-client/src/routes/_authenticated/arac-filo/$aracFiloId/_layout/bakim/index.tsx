@@ -10,13 +10,16 @@ import {
 
 import { getBakimByAracFiloIdQueryOptions } from "@/hooks/use-bakim-hooks";
 import type { Bakim } from "@/schemas/bakim";
-import { useSuspenseQueries } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQueries } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
 import BakimDialog from "@/components/web/bakim/bakim-dialog.tsx";
 import BakimSilDialog from "@/components/web/bakim/bakim-sil-dialog.tsx";
 import { getFirmalarQueryOptions } from "@/hooks/use-firma-hooks.ts";
+import type { WebSocketMessage } from "@/types";
+import { useWebSocketTopic } from "@/hooks/use-webhook";
+import { toast } from "sonner";
 
 export const Route = createFileRoute(
 	"/_authenticated/arac-filo/$aracFiloId/_layout/bakim/",
@@ -36,6 +39,26 @@ interface DialogState {
 
 function RouteComponent() {
 	const { aracFiloId } = Route.useParams();
+	const queryClient = useQueryClient();
+
+	useWebSocketTopic<WebSocketMessage>({
+		topic: "/topic/bakim",
+		onMessage: async ({ type }) => {
+			if (type === "CREATED") {
+				toast.success("Bakım başarılı bir şekilde kayıt edildi");
+			}
+			if (type === "UPDATED") {
+				toast.success("Bakım başarılı bir şekilde güncellendi");
+			}
+			if (type === "DELETED") {
+				toast.success("Bakım başarılı bir şekilde silindi");
+			}
+			await queryClient.invalidateQueries(
+				getBakimByAracFiloIdQueryOptions(aracFiloId),
+			);
+		},
+	});
+
 	const [dialogState, setDialogState] = useState<DialogState>({
 		create: false,
 		update: false,

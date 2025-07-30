@@ -23,12 +23,15 @@ import {
 	useDeleteHasarMutation,
 	useUpdateHasarMutation,
 } from "@/hooks/use-hasar-hooks";
+import { useWebSocketTopic } from "@/hooks/use-webhook";
 import { cn, isUUID } from "@/lib/utils";
 import type { Hasar } from "@/schemas/hasar";
+import type { WebSocketMessage } from "@/types";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useBlocker } from "@tanstack/react-router";
 import { AlertTriangle, Car, Edit, Save, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 interface DialogState {
 	create: boolean;
@@ -50,7 +53,6 @@ export const Route = createFileRoute(
 
 function RouteComponent() {
 	const { aracFiloId } = Route.useParams();
-	const queryClient = useQueryClient();
 	const createHasarMutation = useCreateHasarMutation();
 	const updateHasarMutation = useUpdateHasarMutation();
 	const deleteHasarMutation = useDeleteHasarMutation();
@@ -65,6 +67,32 @@ function RouteComponent() {
 		create: false,
 		update: false,
 		delete: false,
+	});
+	const queryClient = useQueryClient();
+
+	useWebSocketTopic<WebSocketMessage>({
+		topic: "/topic/hasar",
+		onMessage: async ({ type }) => {
+			if (type === "CREATED") {
+				toast.success("Hasar başarılı bir şekilde kayıt edildi");
+			}
+			if (type === "UPDATED") {
+				toast.success("Hasar başarılı bir şekilde güncellendi");
+			}
+			if (type === "DELETED") {
+				toast.success("Hasar başarılı bir şekilde silindi");
+			}
+
+			await queryClient.invalidateQueries(
+				getHasarlarByAracFiloIdQueryOptions(aracFiloId),
+			);
+
+			const hasarlar = await queryClient.fetchQuery(
+				getHasarlarByAracFiloIdQueryOptions(aracFiloId),
+			);
+
+			setSelectedParts(hasarlar);
+		},
 	});
 
 	const selectedPartTip = (parca: HasarliParca) => {
@@ -136,10 +164,6 @@ function RouteComponent() {
 					prevState.filter((oldId) => oldId !== id),
 				);
 			}
-
-			queryClient.invalidateQueries(
-				getHasarlarByAracFiloIdQueryOptions(aracFiloId),
-			);
 		} catch (error) {
 			console.error("An error occurred while saving parts", error);
 		}
