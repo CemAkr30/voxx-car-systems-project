@@ -14,7 +14,6 @@ export const getKazaByAracFiloId = async (
 export const createKaza = async (kaza: CreateKazaRequest): Promise<void> => {
 	try {
 		await axiosClient.post<Kaza>(`${urls.kaza}`, kaza);
-		toast.success("Kaza başarılı bir şekilde kayıt edildi");
 	} catch (error: unknown) {
 		if (isAxiosError(error)) {
 			toast.error("Kazai kayıt ederken sorun oluştu");
@@ -27,7 +26,6 @@ export const createKaza = async (kaza: CreateKazaRequest): Promise<void> => {
 export const updateKaza = async (kaza: Kaza): Promise<void> => {
 	try {
 		await axiosClient.put<Kaza>(`${urls.kaza}/${kaza.id}`, kaza);
-		toast.success("Kaza başarılı bir şekilde güncellendi");
 	} catch (error) {
 		if (isAxiosError(error)) {
 			toast.error("Kazai güncellerken sorun oluştu");
@@ -40,7 +38,6 @@ export const updateKaza = async (kaza: Kaza): Promise<void> => {
 export const deleteKaza = async (id: string): Promise<void> => {
 	try {
 		await axiosClient.delete(`${urls.kaza}/${id}`);
-		toast.success("Kaza başarılı bir şekilde silindi");
 	} catch (error) {
 		if (isAxiosError(error)) {
 			toast.error("Kazai silerken sorun oluştu");

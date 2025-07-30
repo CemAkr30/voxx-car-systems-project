@@ -3,11 +3,14 @@ import FirmaDialog from "@/components/web/firma/firma-dialog";
 import { getAdreslerByFirmaIdQueryOptions } from "@/hooks/use-adres-hooks";
 import { getAracKullananlarByFirmaIdQueryOptions } from "@/hooks/use-arac-kullanan-hooks";
 import { getFirmaQueryOptions } from "@/hooks/use-firma-hooks";
+import { useWebSocketTopic } from "@/hooks/use-webhook";
 import { cn, relativeDate } from "@/lib/utils";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import type { WebSocketMessage } from "@/types";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { ArrowUpRight, Building2, Car, MapPin, Phone } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/firma/$firmaId/_layout")({
 	loader: ({ context: { queryClient }, params: { firmaId } }) => {
@@ -22,6 +25,22 @@ export const Route = createFileRoute("/_authenticated/firma/$firmaId/_layout")({
 
 function RouteComponent() {
 	const { firmaId } = Route.useParams();
+	const queryClient = useQueryClient();
+	useWebSocketTopic<WebSocketMessage>({
+		topic: "/topic/firma",
+		onMessage: async ({ type }) => {
+			if (type === "CREATED") {
+				toast.success("Firma başarılı bir şekilde kayıt edildi");
+			}
+			if (type === "UPDATED") {
+				toast.success("Firma başarılı bir şekilde güncellendi");
+			}
+			if (type === "DELETED") {
+				toast.success("Firma başarılı bir şekilde silindi");
+			}
+			await queryClient.invalidateQueries(getFirmaQueryOptions(firmaId));
+		},
+	});
 	const { data: firma } = useSuspenseQuery(getFirmaQueryOptions(firmaId));
 	const [updateModal, setUpdateModal] = useState(false);
 	return (

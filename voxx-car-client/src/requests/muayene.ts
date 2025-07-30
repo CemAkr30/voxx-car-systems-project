@@ -18,7 +18,6 @@ export const createMuayene = async (
 ): Promise<void> => {
 	try {
 		await axiosClient.post<Muayene>(`${urls.muayene}`, muayene);
-		toast.success("Muayene başarılı bir şekilde kayıt edildi");
 	} catch (error: unknown) {
 		if (isAxiosError(error)) {
 			toast.error("Muayeneyı kayıt ederken sorun oluştu");
@@ -31,7 +30,6 @@ export const createMuayene = async (
 export const updateMuayene = async (muayene: Muayene): Promise<void> => {
 	try {
 		await axiosClient.put<Muayene>(`${urls.muayene}/${muayene.id}`, muayene);
-		toast.success("Muayene başarılı bir şekilde güncellendi");
 	} catch (error) {
 		if (isAxiosError(error)) {
 			toast.error("Muayeneyı güncellerken sorun oluştu");
@@ -44,7 +42,6 @@ export const updateMuayene = async (muayene: Muayene): Promise<void> => {
 export const deleteMuayene = async (id: string): Promise<void> => {
 	try {
 		await axiosClient.delete(`${urls.muayene}/${id}`);
-		toast.success("Muayene başarılı bir şekilde silindi");
 	} catch (error) {
 		if (isAxiosError(error)) {
 			toast.error("Muayeneyı silerken sorun oluştu");

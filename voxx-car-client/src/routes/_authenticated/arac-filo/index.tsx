@@ -31,6 +31,7 @@ import { getAracFilolarQueryOptions } from "@/hooks/use-arac-filo-hooks";
 import AracFiloSilDialog from "@/components/web/arac-filo/arac-filo-sil-dialog";
 import type { WebSocketMessage } from "@/types";
 import { useWebSocketTopic } from "@/hooks/use-webhook";
+import { toast } from "sonner";
 
 interface DialogState {
 	delete: boolean;
@@ -48,8 +49,18 @@ function RouteComponent() {
 
 	useWebSocketTopic<WebSocketMessage>({
 		topic: "/topic/aracFilo",
-		onMessage: async () =>
-			await queryClient.invalidateQueries({ queryKey: ["aracFilolar"] }),
+		onMessage: async ({ type }) => {
+			if (type === "CREATED") {
+				toast.success("Araç filoya başarılı bir şekilde kayıt edildi");
+			}
+			if (type === "UPDATED") {
+				toast.success("Araç filoya başarılı bir şekilde güncellendi");
+			}
+			if (type === "DELETED") {
+				toast.success("Araç filoya başarılı bir şekilde silindi");
+			}
+			await queryClient.invalidateQueries({ queryKey: ["aracFilolar"] });
+		},
 	});
 
 	const router = useRouter();

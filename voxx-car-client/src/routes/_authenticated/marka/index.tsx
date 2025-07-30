@@ -32,6 +32,7 @@ import { formatDate } from "@/lib/utils";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useWebSocketTopic } from "@/hooks/use-webhook";
 import type { WebSocketMessage } from "@/types";
+import { toast } from "sonner";
 
 interface DialogState {
 	create: boolean;
@@ -51,8 +52,18 @@ function RouteComponent() {
 
 	useWebSocketTopic<WebSocketMessage>({
 		topic: "/topic/marka",
-		onMessage: async () =>
-			await queryClient.invalidateQueries({ queryKey: ["markalar"] }),
+		onMessage: async ({ type }) => {
+			if (type === "CREATED") {
+				toast.success("Marka başarılı bir şekilde kayıt edildi");
+			}
+			if (type === "UPDATED") {
+				toast.success("Marka başarılı bir şekilde güncellendi");
+			}
+			if (type === "DELETED") {
+				toast.success("Marka başarılı bir şekilde silindi");
+			}
+			await queryClient.invalidateQueries({ queryKey: ["markalar"] });
+		},
 	});
 
 	const [selectedItems, setSelectedItems] = useState<string[]>([]);

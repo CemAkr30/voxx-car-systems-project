@@ -19,7 +19,6 @@ export const createAracFilo = async (
 ): Promise<void> => {
 	try {
 		await axiosClient.post<AracFilo>(`${urls.aracfilo}`, aracFilo);
-		toast.success("AracFilo başarılı bir şekilde kayıt edildi");
 	} catch (error: unknown) {
 		if (isAxiosError(error)) {
 			toast.error("AracFiloyı kayıt ederken sorun oluştu");
@@ -35,7 +34,6 @@ export const updateAracFilo = async (aracFilo: AracFilo): Promise<void> => {
 			`${urls.aracfilo}/${aracFilo.id}`,
 			aracFilo,
 		);
-		toast.success("AracFilo başarılı bir şekilde güncellendi");
 	} catch (error) {
 		if (isAxiosError(error)) {
 			toast.error("AracFiloyı güncellerken sorun oluştu");
@@ -48,7 +46,6 @@ export const updateAracFilo = async (aracFilo: AracFilo): Promise<void> => {
 export const deleteAracFilo = async (id: string): Promise<void> => {
 	try {
 		await axiosClient.delete(`${urls.aracfilo}/${id}`);
-		toast.success("AracFilo başarılı bir şekilde silindi");
 	} catch (error) {
 		if (isAxiosError(error)) {
 			toast.error("AracFiloyı silerken sorun oluştu");

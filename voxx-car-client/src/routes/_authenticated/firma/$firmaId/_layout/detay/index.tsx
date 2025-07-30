@@ -26,7 +26,7 @@ export const Route = createFileRoute(
 function RouteComponent() {
 	const { firmaId } = Route.useParams();
 	const { data: firma } = useSuspenseQuery(getFirmaQueryOptions(firmaId));
-	return 
+	return;
 	return (
 		<div className="space-y-8">
 			<div className="grid grid-cols-1 md:grid-cols-4 gap-6">

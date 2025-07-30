@@ -32,6 +32,7 @@ import { getFirmalarQueryOptions } from "@/hooks/use-firma-hooks";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import type { WebSocketMessage } from "@/types";
 import { useWebSocketTopic } from "@/hooks/use-webhook";
+import { toast } from "sonner";
 
 interface DialogState {
 	create: boolean;
@@ -51,8 +52,18 @@ function RouteComponent() {
 
 	useWebSocketTopic<WebSocketMessage>({
 		topic: "/topic/firma",
-		onMessage: async () =>
-			await queryClient.invalidateQueries({ queryKey: ["firmalar"] }),
+		onMessage: async ({ type }) => {
+			if (type === "CREATED") {
+				toast.success("Firma başarılı bir şekilde kayıt edildi");
+			}
+			if (type === "UPDATED") {
+				toast.success("Firma başarılı bir şekilde güncellendi");
+			}
+			if (type === "DELETED") {
+				toast.success("Firma başarılı bir şekilde silindi");
+			}
+			await queryClient.invalidateQueries({ queryKey: ["firmalar"] });
+		},
 	});
 
 	const [selectedItems, setSelectedItems] = useState<string[]>([]);

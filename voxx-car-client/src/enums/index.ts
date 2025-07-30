@@ -221,3 +221,33 @@ export const FilodanCikisNedeniListesiLabel = {
 };
 
 export type FilodanCikisNedeni = (typeof FilodanCikisNedeniListesi)[number];
+
+export const IletisimTipiListesi = [
+	"TELEFON",
+	"CEP_TELEFONU",
+	"FAKS",
+	"E_POSTA",
+	"WEB_SITESI",
+	"WHATSAPP",
+	"LINKEDIN",
+	"INSTAGRAM",
+	"FACEBOOK",
+	"TWITTER",
+	"DIGER",
+] as const;
+
+export const IletisimTipiListesiLabel = {
+	TELEFON: "TELEFON",
+	CEP_TELEFONU: "CEP TELEFONU",
+	FAKS: "FAKS",
+	E_POSTA: "E POSTA",
+	WEB_SITESI: "WEB SITESI",
+	WHATSAPP: "WHATSAPP",
+	LINKEDIN: "LINKEDIN",
+	INSTAGRAM: "INSTAGRAM",
+	FACEBOOK: "FACEBOOK",
+	TWITTER: "TWITTER",
+	DIGER: "DIGER",
+};
+
+export type IletisimTipi = (typeof IletisimTipiListesi)[number];

@@ -92,7 +92,7 @@ function RouteComponent() {
 		}
 	};
 
-	return
+	return;
 
 	return (
 		<React.Fragment>

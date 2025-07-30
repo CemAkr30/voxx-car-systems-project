@@ -21,7 +21,6 @@ export const createFilodanCikis = async (
 ): Promise<void> => {
 	try {
 		await axiosClient.post<FilodanCikis>(`${urls.filodancikis}`, filodanCikis);
-		toast.success("FilodanCikis başarılı bir şekilde kayıt edildi");
 	} catch (error: unknown) {
 		if (isAxiosError(error)) {
 			toast.error("FilodanCikisi kayıt ederken sorun oluştu");
@@ -39,7 +38,6 @@ export const updateFilodanCikis = async (
 			`${urls.filodancikis}/${filodanCikis.id}`,
 			filodanCikis,
 		);
-		toast.success("FilodanCikis başarılı bir şekilde güncellendi");
 	} catch (error) {
 		if (isAxiosError(error)) {
 			toast.error("FilodanCikisi güncellerken sorun oluştu");
@@ -52,7 +50,6 @@ export const updateFilodanCikis = async (
 export const deleteFilodanCikis = async (id: string): Promise<void> => {
 	try {
 		await axiosClient.delete(`${urls.filodancikis}/${id}`);
-		toast.success("FilodanCikis başarılı bir şekilde silindi");
 	} catch (error) {
 		if (isAxiosError(error)) {
 			toast.error("FilodanCikisi silerken sorun oluştu");

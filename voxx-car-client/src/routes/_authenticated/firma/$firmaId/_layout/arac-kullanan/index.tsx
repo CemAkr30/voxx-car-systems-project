@@ -140,19 +140,13 @@ function RouteComponent() {
 					<TableHeader>
 						<TableRow className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/10 dark:to-purple-950/10 hover:from-indigo-100 hover:to-purple-100 dark:hover:from-indigo-950/20 dark:hover:to-purple-950/20">
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								AracKullanan
+								Arac Kullanan
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								İlçe/Şehir
+								İletişim
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Posta Kodu
-							</TableHead>
-							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Telefon
-							</TableHead>
-							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Durum
+								Ehliyet Tipi
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300 text-right">
 								İşlemler
@@ -185,17 +179,7 @@ function RouteComponent() {
 									</TableCell>
 									<TableCell>
 										<span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded-md text-sm font-mono text-slate-700 dark:text-slate-300">
-											{"aracKullanan.postalCode"}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{"aracKullanan.phone"}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span className="inline-flex items-center px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-medium rounded-full">
-											Aktif
+											{aracKullanan.ehliyetTipi}
 										</span>
 									</TableCell>
 									<TableCell className="text-right">

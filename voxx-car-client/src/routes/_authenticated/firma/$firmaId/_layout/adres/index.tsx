@@ -225,18 +225,6 @@ function RouteComponent() {
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 								Adres
 							</TableHead>
-							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								İlçe/Şehir
-							</TableHead>
-							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Posta Kodu
-							</TableHead>
-							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Telefon
-							</TableHead>
-							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Durum
-							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300 text-right">
 								İşlemler
 							</TableHead>
@@ -270,31 +258,6 @@ function RouteComponent() {
 												{adres.aciklama}
 											</p>
 										</div>
-									</TableCell>
-									<TableCell>
-										<div>
-											<p className="font-medium text-slate-900 dark:text-slate-100">
-												{"adres.city"}
-											</p>
-											<p className="text-sm text-slate-500 dark:text-slate-400">
-												{"adres.district"}
-											</p>
-										</div>
-									</TableCell>
-									<TableCell>
-										<span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded-md text-sm font-mono text-slate-700 dark:text-slate-300">
-											{"adres.postalCode"}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{"adres.phone"}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span className="inline-flex items-center px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-medium rounded-full">
-											Aktif
-										</span>
 									</TableCell>
 									<TableCell className="text-right">
 										<div className="flex items-center justify-end gap-2">

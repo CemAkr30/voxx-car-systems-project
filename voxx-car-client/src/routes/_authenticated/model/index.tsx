@@ -33,6 +33,7 @@ import { getMarkalarQueryOptions } from "@/hooks/use-marka-hooks";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useWebSocketTopic } from "@/hooks/use-webhook";
 import type { WebSocketMessage } from "@/types";
+import { toast } from "sonner";
 
 interface DialogState {
 	create: boolean;
@@ -54,8 +55,18 @@ function RouteComponent() {
 
 	useWebSocketTopic<WebSocketMessage>({
 		topic: "/topic/model",
-		onMessage: async () =>
-			await queryClient.invalidateQueries({ queryKey: ["modeller"] }),
+		onMessage: async ({ type }) => {
+			if (type === "CREATED") {
+				toast.success("Model başarılı bir şekilde kayıt edildi");
+			}
+			if (type === "UPDATED") {
+				toast.success("Model başarılı bir şekilde güncellendi");
+			}
+			if (type === "DELETED") {
+				toast.success("Model başarılı bir şekilde silindi");
+			}
+			await queryClient.invalidateQueries({ queryKey: ["modeller"] });
+		},
 	});
 
 	const [selectedItems, setSelectedItems] = useState<string[]>([]);
