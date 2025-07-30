@@ -10,7 +10,6 @@ import type { Iletisim } from "@/schemas/iletisim";
 import { createFileRoute } from "@tanstack/react-router";
 import {
 	MoreHorizontal,
-	MapPin,
 	Edit,
 	Trash2,
 	Facebook,
@@ -190,12 +189,12 @@ function RouteComponent() {
 							<div className="relative">
 								<div className="absolute inset-0 bg-white/20 rounded-xl blur-sm" />
 								<div className="relative p-3 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
-									<MapPin className="h-7 w-7 text-white" />
+									<Phone className="h-7 w-7 text-white" />
 								</div>
 							</div>
 							<div>
 								<h1 className="text-3xl font-bold text-white mb-2">
-									Iletisimler
+									İletisimler
 								</h1>
 							</div>
 						</div>

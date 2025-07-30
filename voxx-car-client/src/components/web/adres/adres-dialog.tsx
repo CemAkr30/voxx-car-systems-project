@@ -7,7 +7,7 @@ import {
 	DialogDescription,
 	DialogFooter,
 } from "@/components/ui/dialog";
-import { AdresTipi } from "@/enums";
+import { AdresTipiListesi } from "@/enums";
 import { useAppForm } from "@/hooks/demo.form";
 import {
 	useCreateAdresMutation,
@@ -40,7 +40,10 @@ type AdresDialogProps = AdresDialogCreateProps | AdresDialogUpdateProps;
 export default function AdresDialog(props: AdresDialogProps) {
 	const { mode, open, close } = props;
 
-	const adresTipiOptions = AdresTipi.map((tip) => ({ label: tip, value: tip }));
+	const adresTipiOptions = AdresTipiListesi.map((tip) => ({
+		label: tip,
+		value: tip,
+	}));
 
 	const createAdresMutation = useCreateAdresMutation(close);
 	const updateAdresMutation =

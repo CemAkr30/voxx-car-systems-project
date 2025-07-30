@@ -26,7 +26,7 @@ import {
 import { useState } from "react";
 import { getAdreslerByFirmaIdQueryOptions } from "@/hooks/use-adres-hooks";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
-import type { AdresTipi } from "@/enums";
+import { AdresTipiListesiLabel, type AdresTipi } from "@/enums";
 import { Button } from "@/components/ui/button";
 import AdresDialog from "@/components/web/adres/adres-dialog";
 import AdresSilDialog from "@/components/web/adres/adres-sil-dialog";
@@ -247,7 +247,7 @@ function RouteComponent() {
 											</div>
 											<div>
 												<span className="font-medium text-slate-900 dark:text-slate-100">
-													{adres.tip}
+													{AdresTipiListesiLabel[adres.tip]}
 												</span>
 											</div>
 										</div>

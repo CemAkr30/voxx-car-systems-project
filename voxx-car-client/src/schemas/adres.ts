@@ -1,10 +1,10 @@
-import { AdresTipi } from "@/enums";
+import { AdresTipiListesi } from "@/enums";
 import { z } from "zod";
 
 export const adresCreateSchema = z.object({
 	aciklama: z.string().min(1, "Adres adı gereklidir"),
 	firmaId: z.string().min(1, "Firma gereklidir"),
-	tip: z.enum(AdresTipi),
+	tip: z.enum(AdresTipiListesi),
 });
 export type CreateAdresRequest = z.infer<typeof adresCreateSchema>;
 
