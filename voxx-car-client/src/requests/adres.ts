@@ -8,7 +8,7 @@ export const getAdresByFirmaId = async (firmaId: string): Promise<Adres[]> => {
 	const { data } = await axiosClient.get<Adres[]>(
 		`${urls.firma}/${firmaId}/adres`,
 	);
-	return data.filter((d) => !d.isDeleted);
+	return data.filter((d) => !d.deleted);
 };
 
 export const createAdres = async (adres: CreateAdresRequest): Promise<void> => {

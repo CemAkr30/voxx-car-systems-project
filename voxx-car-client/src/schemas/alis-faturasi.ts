@@ -31,6 +31,6 @@ export const alisFaturasiUpdateSchema = alisFaturasiCreateSchema.extend({
 	id: z.string(),
 	createdAt: z.string(),
 	updatedAt: z.string(),
-	isDeleted: z.boolean(),
+	deleted: z.boolean(),
 });
 export type AlisFaturasi = z.infer<typeof alisFaturasiUpdateSchema>;

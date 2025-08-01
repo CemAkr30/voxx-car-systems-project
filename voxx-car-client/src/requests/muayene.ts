@@ -10,7 +10,7 @@ export const getMuayeneByAracFiloId = async (
 	const { data } = await axiosClient.get<Muayene[]>(
 		`${urls.aracfilo}/${aracFiloId}/muayene`,
 	);
-	return data.filter((d) => !d.isDeleted);
+	return data.filter((d) => !d.deleted);
 };
 
 export const createMuayene = async (

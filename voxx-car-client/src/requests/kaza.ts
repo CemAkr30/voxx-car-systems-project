@@ -10,7 +10,7 @@ export const getKazaByAracFiloId = async (
 	const { data } = await axiosClient.get<Kaza[]>(
 		`${urls.aracfilo}/${aracFiloId}/kaza`,
 	);
-	return data.filter((d) => !d.isDeleted);
+	return data.filter((d) => !d.deleted);
 };
 
 export const createKaza = async (kaza: CreateKazaRequest): Promise<void> => {

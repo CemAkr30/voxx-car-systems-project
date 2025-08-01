@@ -9,6 +9,6 @@ export const markaUpdateSchema = markaCreateSchema.extend({
 	id: z.string(),
 	createdAt: z.string(),
 	updatedAt: z.string(),
-	isDeleted: z.boolean(),
+	deleted: z.boolean(),
 });
 export type Marka = z.input<typeof markaUpdateSchema>;

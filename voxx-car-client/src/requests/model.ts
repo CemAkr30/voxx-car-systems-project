@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 export const getAllModel = async (): Promise<Model[]> => {
 	const { data } = await axiosClient.get<Model[]>(`${urls.model}`);
-	return data.filter((d) => !d.isDeleted);
+	return data.filter((d) => !d.deleted);
 };
 
 export const getModelByMarkaId = async (markaId: string): Promise<Model[]> => {
@@ -14,7 +14,7 @@ export const getModelByMarkaId = async (markaId: string): Promise<Model[]> => {
 		const { data } = await axiosClient.get<Model[]>(
 			`${urls.marka}/${markaId}/model`,
 		);
-		return data.filter((d) => !d.isDeleted);
+		return data.filter((d) => !d.deleted);
 	} catch (_error) {
 		return [];
 	}

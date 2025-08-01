@@ -13,7 +13,7 @@ export const getFilodanCikisByAracFiloId = async (
 	const { data } = await axiosClient.get<FilodanCikis[]>(
 		`${urls.aracfilo}/${aracFiloId}/filodancikis`,
 	);
-	return data.filter((d) => !d.isDeleted);
+	return data.filter((d) => !d.deleted);
 };
 
 export const createFilodanCikis = async (

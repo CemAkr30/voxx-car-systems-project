@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 export const getAllMarka = async (): Promise<Marka[]> => {
 	const { data } = await axiosClient.get<Marka[]>(`${urls.marka}`);
-	return data.filter((d) => !d.isDeleted);
+	return data.filter((d) => !d.deleted);
 };
 
 export const createMarka = async (marka: CreateMarkaRequest): Promise<void> => {
