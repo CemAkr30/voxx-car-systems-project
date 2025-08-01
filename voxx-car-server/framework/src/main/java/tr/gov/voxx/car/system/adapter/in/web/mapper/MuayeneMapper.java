@@ -24,6 +24,8 @@ public class MuayeneMapper {
                 .yeri(muayene.getYeri())
                 .gecikmeCezasi(muayene.getGecikmeCezasi())
                 .odendi(muayene.getOdendi())
+                .baslangicTarihi(muayene.getBaslangicTarihi())
+                .bitisTarihi(muayene.getBitisTarihi())
                 .createdAt(muayene.getCreatedAt())
                 .updatedAt(muayene.getUpdatedAt())
                 .build();
@@ -41,6 +43,8 @@ public class MuayeneMapper {
                 .yeri(request.getYeri())
                 .gecikmeCezasi(request.getGecikmeCezasi())
                 .odendi(request.getOdendi())
+                .baslangicTarihi(request.getBaslangicTarihi())
+                .bitisTarihi(request.getBitisTarihi())
                 .build();
     }
 
