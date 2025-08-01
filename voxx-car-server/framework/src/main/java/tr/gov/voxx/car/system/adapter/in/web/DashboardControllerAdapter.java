@@ -15,10 +15,12 @@ import tr.gov.voxx.car.system.adapter.in.web.mapper.MTVDurumMapper;
 import tr.gov.voxx.car.system.adapter.in.web.mapper.MuayeneDurumMapper;
 import tr.gov.voxx.car.system.adapter.in.web.mapper.SigortaDurumMapper;
 import tr.gov.voxx.car.system.application.port.in.AracFiloApplicationQueryPort;
+import tr.gov.voxx.car.system.application.port.in.FirmaApplicationQueryPort;
 import tr.gov.voxx.car.system.application.port.in.MTVApplicationQueryPort;
 import tr.gov.voxx.car.system.application.port.in.MuayeneApplicationQueryPort;
 import tr.gov.voxx.car.system.application.port.in.SigortaKaskoApplicationQueryPort;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
+import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
 import static tr.gov.voxx.car.system.constants.EndpointPath.DASHBOARD_ENDPOINT_V1;
 
@@ -32,6 +34,7 @@ public class DashboardControllerAdapter {
     private final AracFiloApplicationQueryPort aracFiloApplicationQueryPort;
     private final MuayeneApplicationQueryPort muayeneApplicationQueryPort;
     private final SigortaKaskoApplicationQueryPort sigortaKaskoApplicationQueryPort;
+    private final FirmaApplicationQueryPort firmaApplicationQueryPort;
 
     @GetMapping("/mtvdurum")
     @Operation(summary = "MTV Durumu", description = "Belirtilen kriterlere göre MTV durumunu getirir")
@@ -54,14 +57,28 @@ public class DashboardControllerAdapter {
                         id -> aracFiloApplicationQueryPort.get(new AracFiloId(id))
                 ));
 
-        return ResponseEntity.ok(MTVDurumMapper.toResponse(mtvList, aracFiloMap));
+        // Firma bilgilerini almak için odeyenFirmaId'leri topla
+        var firmaIds = mtvList.stream()
+                .filter(mtv -> mtv.getOdeyenFirmaId() != null)
+                .map(mtv -> mtv.getOdeyenFirmaId().getValue())
+                .distinct()
+                .toList();
+
+        // Firma bilgilerini al ve Map'e çevir
+        var firmaMap = firmaIds.stream()
+                .collect(java.util.stream.Collectors.toMap(
+                        id -> id,
+                        id -> firmaApplicationQueryPort.get(new FirmaId(id))
+                ));
+
+        return ResponseEntity.ok(MTVDurumMapper.toResponse(mtvList, aracFiloMap, firmaMap));
     }
 
     @GetMapping("/muayenedurum")
     @Operation(summary = "Muayene Durumu", description = "Belirtilen tarihe göre muayene bitişine 15 günden az kalan muayeneleri getirir")
-    public ResponseEntity<MuayeneDurumResponse> getMuayeneDurum(@RequestParam String tarih) {
-        // String tarihi LocalDate'e çevir
-        java.time.LocalDate kontrolTarihi = java.time.LocalDate.parse(tarih);
+    public ResponseEntity<MuayeneDurumResponse> getMuayeneDurum() {
+        // Şu anki tarihi kullan
+        java.time.LocalDate kontrolTarihi = java.time.LocalDate.now();
 
         // 15 gün sonrasına kadar olan muayeneleri al
         java.time.Instant bitisTarihi = kontrolTarihi.plusDays(15).atStartOfDay(java.time.ZoneId.systemDefault()).toInstant();
@@ -91,14 +108,28 @@ public class DashboardControllerAdapter {
                         id -> aracFiloApplicationQueryPort.get(new AracFiloId(id))
                 ));
 
-        return ResponseEntity.ok(MuayeneDurumMapper.toResponse(muayeneList, aracFiloMap, kontrolTarihi));
+        // Firma bilgilerini almak için odeyenFirmaId'leri topla
+        var firmaIds = muayeneList.stream()
+                .filter(muayene -> muayene.getOdeyenFirmaId() != null)
+                .map(muayene -> muayene.getOdeyenFirmaId().getValue())
+                .distinct()
+                .toList();
+
+        // Firma bilgilerini al ve Map'e çevir
+        var firmaMap = firmaIds.stream()
+                .collect(java.util.stream.Collectors.toMap(
+                        id -> id,
+                        id -> firmaApplicationQueryPort.get(new FirmaId(id))
+                ));
+
+        return ResponseEntity.ok(MuayeneDurumMapper.toResponse(muayeneList, aracFiloMap, firmaMap, kontrolTarihi));
     }
 
     @GetMapping("/sigortadurum")
     @Operation(summary = "Sigorta Durumu", description = "Belirtilen tarihe göre sigorta bitişine 30 günden az kalan sigortaları getirir")
-    public ResponseEntity<SigortaDurumResponse> getSigortaDurum(@RequestParam String tarih) {
-        // String tarihi LocalDate'e çevir
-        java.time.LocalDate kontrolTarihi = java.time.LocalDate.parse(tarih);
+    public ResponseEntity<SigortaDurumResponse> getSigortaDurum() {
+        // Şu anki tarihi kullan
+        java.time.LocalDate kontrolTarihi = java.time.LocalDate.now();
 
         // 30 gün sonrasına kadar olan sigortaları al
         java.time.Instant bitisTarihi = kontrolTarihi.plusDays(30).atStartOfDay(java.time.ZoneId.systemDefault()).toInstant();

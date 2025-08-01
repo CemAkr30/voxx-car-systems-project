@@ -11,12 +11,7 @@ import lombok.NoArgsConstructor;
 @Schema(description = "MTV Durumu Detay Response")
 public class MTVDurumDetayResponse {
 
-    @Schema(description = "MTV ID")
-    private String id;
-
-    @Schema(description = "Araç Filo ID")
-    private String aracFiloId;
-
+    // id, aracFiloId ve odeyenFirmaId kaldırıldı
     @Schema(description = "Araç Plakası")
     private String plaka;
 
@@ -35,8 +30,8 @@ public class MTVDurumDetayResponse {
     @Schema(description = "Ödeme Tipi")
     private String odemeTipi;
 
-    @Schema(description = "Ödeyen Firma ID")
-    private String odeyenFirmaId;
+    @Schema(description = "Ödeyen Firma Unvanı")
+    private String odeyenFirmaUnvani;
 
     @Schema(description = "Açıklama")
     private String aciklama;

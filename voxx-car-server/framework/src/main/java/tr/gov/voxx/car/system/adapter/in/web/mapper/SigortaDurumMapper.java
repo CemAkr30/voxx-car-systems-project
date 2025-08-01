@@ -14,14 +14,11 @@ public class SigortaDurumMapper {
     public static SigortaDurumResponse toResponse(List<SigortaKasko> sigortaList, Map<String, AracFilo> aracFiloMap, LocalDate kontrolTarihi) {
         Long toplamKayit = (long) sigortaList.size();
 
-        SigortaDurumDetayResponse detay = null;
-        if (!sigortaList.isEmpty()) {
-            detay = SigortaDurumDetayMapper.toResponse(sigortaList.get(0), aracFiloMap, kontrolTarihi);
-        }
+        List<SigortaDurumDetayResponse> detaylar = SigortaDurumDetayMapper.toResponseList(sigortaList, aracFiloMap, kontrolTarihi);
 
         return new SigortaDurumResponse(
                 toplamKayit,
-                detay
+                detaylar
         );
     }
 } 
