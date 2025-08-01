@@ -22,7 +22,6 @@ public class MuayeneApplicationCommandUseCase implements MuayeneApplicationComma
     @Override
     public void post(Muayene entity) {
         entity.initIdGenerator();
-
         domainEventPublisher.publish("muayene-created-topic", MuayeneCreatedEvent.builder()
                 .id(entity.getId())
                 .aracFiloId(entity.getAracFiloId())
@@ -48,7 +47,6 @@ public class MuayeneApplicationCommandUseCase implements MuayeneApplicationComma
             throw new NotFoundException("Muayene not found with id: " + entity.getId());
         }
         existing.updateFrom(entity);
-
         domainEventPublisher.publish("muayene-updated-topic", MuayeneUpdatedEvent.builder()
                 .id(entity.getId())
                 .aracFiloId(entity.getAracFiloId())

@@ -13,12 +13,7 @@ import java.time.Instant;
 @Schema(description = "Muayene Durumu Detay Response")
 public class MuayeneDurumDetayResponse {
 
-    @Schema(description = "Muayene ID")
-    private String id;
-
-    @Schema(description = "Araç Filo ID")
-    private String aracFiloId;
-
+    // id, aracFiloId ve odeyenFirmaId kaldırıldı
     @Schema(description = "Araç Plakası")
     private String plaka;
 
@@ -28,8 +23,8 @@ public class MuayeneDurumDetayResponse {
     @Schema(description = "Makbuz Numarası")
     private String makbuzNo;
 
-    @Schema(description = "Ödeyen Firma ID")
-    private String odeyenFirmaId;
+    @Schema(description = "Ödeyen Firma Unvanı")
+    private String odeyenFirmaUnvani;
 
     @Schema(description = "Başlangıç Tarihi")
     private Instant baslangicTarihi;

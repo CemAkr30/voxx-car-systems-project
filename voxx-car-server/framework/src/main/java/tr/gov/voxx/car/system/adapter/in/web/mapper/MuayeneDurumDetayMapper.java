@@ -2,6 +2,7 @@ package tr.gov.voxx.car.system.adapter.in.web.mapper;
 
 import tr.gov.voxx.car.system.adapter.in.web.data.MuayeneDurumDetayResponse;
 import tr.gov.voxx.car.system.domain.entity.AracFilo;
+import tr.gov.voxx.car.system.domain.entity.Firma;
 import tr.gov.voxx.car.system.domain.entity.Muayene;
 
 import java.time.LocalDate;
@@ -12,9 +13,16 @@ import java.util.stream.Collectors;
 
 public class MuayeneDurumDetayMapper {
 
-    public static MuayeneDurumDetayResponse toResponse(Muayene muayene, Map<String, AracFilo> aracFiloMap, LocalDate kontrolTarihi) {
+    public static MuayeneDurumDetayResponse toResponse(Muayene muayene, Map<String, AracFilo> aracFiloMap, Map<String, Firma> firmaMap, LocalDate kontrolTarihi) {
         AracFilo aracFilo = aracFiloMap.get(muayene.getAracFiloId().getValue());
         String plaka = aracFilo != null ? aracFilo.getPlaka() : "Bilinmiyor";
+
+        // Firma bilgilerini al
+        String odeyenFirmaUnvani = null;
+        if (muayene.getOdeyenFirmaId() != null) {
+            Firma firma = firmaMap.get(muayene.getOdeyenFirmaId().getValue());
+            odeyenFirmaUnvani = firma != null ? firma.getUnvan() : null;
+        }
 
         // Kalan gün hesaplaması
         Long kalanGun = null;
@@ -24,12 +32,10 @@ public class MuayeneDurumDetayMapper {
         }
 
         return new MuayeneDurumDetayResponse(
-                muayene.getId().getValue(),
-                muayene.getAracFiloId().getValue(),
                 plaka,
                 muayene.getMuayeneTipi() != null ? muayene.getMuayeneTipi().name() : null,
                 muayene.getMakbuzNo(),
-                muayene.getOdeyenFirmaId() != null ? muayene.getOdeyenFirmaId().getValue() : null,
+                odeyenFirmaUnvani,
                 muayene.getBaslangicTarihi(),
                 muayene.getBitisTarihi(),
                 muayene.getGecikmeCezasi(),
@@ -42,9 +48,9 @@ public class MuayeneDurumDetayMapper {
         );
     }
 
-    public static List<MuayeneDurumDetayResponse> toResponseList(List<Muayene> muayeneList, Map<String, AracFilo> aracFiloMap, LocalDate kontrolTarihi) {
+    public static List<MuayeneDurumDetayResponse> toResponseList(List<Muayene> muayeneList, Map<String, AracFilo> aracFiloMap, Map<String, Firma> firmaMap, LocalDate kontrolTarihi) {
         return muayeneList.stream()
-                .map(muayene -> toResponse(muayene, aracFiloMap, kontrolTarihi))
+                .map(muayene -> toResponse(muayene, aracFiloMap, firmaMap, kontrolTarihi))
                 .collect(Collectors.toList());
     }
 } 

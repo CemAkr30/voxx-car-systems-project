@@ -13,12 +13,7 @@ import java.time.Instant;
 @Schema(description = "Sigorta Durumu Detay Response")
 public class SigortaDurumDetayResponse {
 
-    @Schema(description = "Sigorta ID")
-    private String id;
-
-    @Schema(description = "Araç Filo ID")
-    private String aracFiloId;
-
+    // id ve aracFiloId kaldırıldı
     @Schema(description = "Araç Plakası")
     private String plaka;
 

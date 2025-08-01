@@ -25,6 +25,8 @@ public class MuayeneResponse {
     private String yeri;
     private String gecikmeCezasi;
     private Boolean odendi;
+    private Instant baslangicTarihi;
+    private Instant bitisTarihi;
     private Instant createdAt;
     private Instant updatedAt;
     private boolean isDeleted;

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,6 +19,6 @@ public class MuayeneDurumResponse {
     @Schema(description = "Toplam tutar")
     private Double toplamTutar;
 
-    @Schema(description = "Muayene")
-    private MuayeneDurumDetayResponse muayene;
+    @Schema(description = "Muayene listesi")
+    private List<MuayeneDurumDetayResponse> muayeneler;
 } 

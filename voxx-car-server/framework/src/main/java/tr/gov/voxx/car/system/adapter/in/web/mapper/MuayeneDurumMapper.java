@@ -3,6 +3,7 @@ package tr.gov.voxx.car.system.adapter.in.web.mapper;
 import tr.gov.voxx.car.system.adapter.in.web.data.MuayeneDurumResponse;
 import tr.gov.voxx.car.system.adapter.in.web.data.MuayeneDurumDetayResponse;
 import tr.gov.voxx.car.system.domain.entity.AracFilo;
+import tr.gov.voxx.car.system.domain.entity.Firma;
 import tr.gov.voxx.car.system.domain.entity.Muayene;
 
 import java.time.LocalDate;
@@ -11,21 +12,18 @@ import java.util.Map;
 
 public class MuayeneDurumMapper {
 
-    public static MuayeneDurumResponse toResponse(List<Muayene> muayeneList, Map<String, AracFilo> aracFiloMap, LocalDate kontrolTarihi) {
+    public static MuayeneDurumResponse toResponse(List<Muayene> muayeneList, Map<String, AracFilo> aracFiloMap, Map<String, Firma> firmaMap, LocalDate kontrolTarihi) {
         Long toplamKayit = (long) muayeneList.size();
         Double toplamTutar = muayeneList.stream()
                 .mapToDouble(muayene -> muayene.getMiktar() != null ? muayene.getMiktar() : 0.0)
                 .sum();
 
-        MuayeneDurumDetayResponse detay = null;
-        if (!muayeneList.isEmpty()) {
-            detay = MuayeneDurumDetayMapper.toResponse(muayeneList.get(0), aracFiloMap, kontrolTarihi);
-        }
+        List<MuayeneDurumDetayResponse> detaylar = MuayeneDurumDetayMapper.toResponseList(muayeneList, aracFiloMap, firmaMap, kontrolTarihi);
 
         return new MuayeneDurumResponse(
                 toplamKayit,
                 toplamTutar,
-                detay
+                detaylar
         );
     }
 } 

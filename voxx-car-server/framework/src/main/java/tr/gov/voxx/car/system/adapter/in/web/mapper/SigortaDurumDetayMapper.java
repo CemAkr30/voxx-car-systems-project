@@ -24,8 +24,6 @@ public class SigortaDurumDetayMapper {
         }
 
         return new SigortaDurumDetayResponse(
-                sigorta.getId().getValue(),
-                sigorta.getAracFiloId().getValue(),
                 plaka,
                 sigorta.getTip() != null ? sigorta.getTip().name() : null,
                 sigorta.getSigortaSirketi(),
