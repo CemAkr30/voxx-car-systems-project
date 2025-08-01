@@ -10,5 +10,6 @@ export type CreateHasarRequest = z.input<typeof hasarCreateSchema>;
 
 export const hasarUpdateSchema = hasarCreateSchema.extend({
 	id: z.string(),
+	isDeleted: z.boolean(),
 });
 export type Hasar = z.input<typeof hasarUpdateSchema>;

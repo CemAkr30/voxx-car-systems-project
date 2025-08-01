@@ -88,6 +88,7 @@ export default function HasarDialog(props: HasarDialogProps) {
 							aracFiloId,
 							hasarliParca: value.hasarliParca,
 							hasarTipi: value.hasarTipi,
+							isDeleted: false,
 						},
 					]);
 				} else if (mode === "update") {

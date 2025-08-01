@@ -7,13 +7,7 @@ import {
 	DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
 import { createFileRoute } from "@tanstack/react-router";
-import {
-	Download,
-	Search,
-	Filter,
-	RefreshCw,
-	MoreHorizontal,
-} from "lucide-react";
+import { Search, Filter, RefreshCw, MoreHorizontal } from "lucide-react";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -140,7 +134,7 @@ function RouteComponent() {
 							<Button onClick={() => openDialog("create")}>
 								Yeni Model Ekle
 							</Button>
-							<DropdownMenu>
+							{/* <DropdownMenu>
 								<DropdownMenuTrigger asChild>
 									<Button variant="outline">
 										<Download className="h-4 w-4 mr-2" />
@@ -148,9 +142,8 @@ function RouteComponent() {
 									</Button>
 								</DropdownMenuTrigger>
 								<DropdownMenuContent>
-									{/* Export options can be added here */}
 								</DropdownMenuContent>
-							</DropdownMenu>
+							</DropdownMenu> */}
 						</div>
 					</div>
 				</CardHeader>

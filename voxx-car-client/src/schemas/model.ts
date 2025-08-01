@@ -10,5 +10,6 @@ export const modelUpdateSchema = modelCreateSchema.extend({
 	id: z.string(),
 	createdAt: z.string(),
 	updatedAt: z.string(),
+	isDeleted: z.boolean(),
 });
 export type Model = z.infer<typeof modelUpdateSchema>;

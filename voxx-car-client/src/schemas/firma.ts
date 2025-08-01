@@ -11,5 +11,6 @@ export const firmaUpdateSchema = firmaCreateSchema.extend({
 	id: z.string(),
 	createdAt: z.string(),
 	updatedAt: z.string(),
+	isDeleted: z.boolean(),
 });
 export type Firma = z.infer<typeof firmaUpdateSchema>;

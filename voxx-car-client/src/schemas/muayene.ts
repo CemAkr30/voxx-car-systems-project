@@ -19,5 +19,8 @@ export type CreateMuayeneRequest = z.infer<typeof muayeneCreateSchema>;
 
 export const muayeneUpdateSchema = muayeneCreateSchema.extend({
 	id: z.string(),
+	createdAt: z.string(),
+	updatedAt: z.string(),
+	isDeleted: z.boolean(),
 });
 export type Muayene = z.infer<typeof muayeneUpdateSchema>;

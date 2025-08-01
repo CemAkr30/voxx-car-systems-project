@@ -12,5 +12,6 @@ export const iletisimUpdateSchema = iletisimCreateSchema.extend({
 	id: z.string(),
 	createdAt: z.string(),
 	updatedAt: z.string(),
+	isDeleted: z.boolean(),
 });
 export type Iletisim = z.infer<typeof iletisimUpdateSchema>;

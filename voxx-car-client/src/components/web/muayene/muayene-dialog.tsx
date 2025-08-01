@@ -79,8 +79,6 @@ export default function MuayeneDialog(props: MuayeneDialogProps) {
 			mode === "create"
 				? {
 						aracFiloId,
-						yil: "",
-						taksit: "",
 						makbuzNo: "",
 						miktar: 0,
 						odemeTipi: OdemeTipiListesi[9],
@@ -146,14 +144,6 @@ export default function MuayeneDialog(props: MuayeneDialogProps) {
 					className="space-y-6"
 				>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-						<form.AppField name="yil">
-							{(field) => <field.TextField label="Yıl" />}
-						</form.AppField>
-
-						<form.AppField name="taksit">
-							{(field) => <field.TextField label="Taksit" />}
-						</form.AppField>
-
 						<form.AppField name="makbuzNo">
 							{(field) => <field.TextField label="Makbuz no" />}
 						</form.AppField>

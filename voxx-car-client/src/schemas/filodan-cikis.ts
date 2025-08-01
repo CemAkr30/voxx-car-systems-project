@@ -17,5 +17,8 @@ export type CreateFilodanCikisRequest = z.infer<
 
 export const filodanCikisUpdateSchema = filodanCikisCreateSchema.extend({
 	id: z.string(),
+	createdAt: z.string(),
+	updatedAt: z.string(),
+	isDeleted: z.boolean(),
 });
 export type FilodanCikis = z.infer<typeof filodanCikisUpdateSchema>;
