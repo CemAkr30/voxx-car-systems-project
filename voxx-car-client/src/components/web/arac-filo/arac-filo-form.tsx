@@ -154,8 +154,6 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 	} = useQuery({
 		...getModellerByMarkaIdQueryOptions(markaId),
 		enabled: !!markaId && markaId.trim() !== "",
-		refetchOnMount: true,
-		retry: (failureCount) => failureCount < 3,
 	});
 
 	const modellerOptions = useMemo(() => {
@@ -216,7 +214,7 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 									onChange: ({ value }) => {
 										form.setFieldValue("markaId", value);
 										form.setFieldValue("modelId", "");
-										if (value) refetchModeller();
+										if (!!value || value.trim() !== "") refetchModeller();
 									},
 								}}
 							>

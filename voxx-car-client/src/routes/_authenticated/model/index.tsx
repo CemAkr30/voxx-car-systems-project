@@ -59,7 +59,7 @@ function RouteComponent() {
 			if (type === "DELETED") {
 				toast.success("Model başarılı bir şekilde silindi");
 			}
-			await queryClient.invalidateQueries({ queryKey: ["modeller"] });
+			await queryClient.invalidateQueries(getModellerQueryOptions());
 		},
 	});
 

@@ -55,7 +55,7 @@ function RouteComponent() {
 			if (type === "DELETED") {
 				toast.success("Firma başarılı bir şekilde silindi");
 			}
-			await queryClient.invalidateQueries({ queryKey: ["firmalar"] });
+			await queryClient.invalidateQueries(getFirmalarQueryOptions());
 		},
 	});
 

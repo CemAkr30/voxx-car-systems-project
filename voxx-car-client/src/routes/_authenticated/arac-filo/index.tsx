@@ -52,7 +52,7 @@ function RouteComponent() {
 			if (type === "DELETED") {
 				toast.success("Araç filoya başarılı bir şekilde silindi");
 			}
-			await queryClient.invalidateQueries({ queryKey: ["aracFilolar"] });
+			await queryClient.invalidateQueries(getAracFilolarQueryOptions());
 		},
 	});
 
