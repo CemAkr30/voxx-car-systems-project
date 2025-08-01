@@ -25,4 +25,5 @@ public class BakimResponse {
     private String odeyenFirmaId;
     private Instant createdAt;
     private Instant updatedAt;
+    private boolean isDeleted;
 }

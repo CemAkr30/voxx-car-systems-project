@@ -27,6 +27,7 @@ public class MuayeneResponse {
     private Boolean odendi;
     private Instant createdAt;
     private Instant updatedAt;
+    private boolean isDeleted;
 }
 
 

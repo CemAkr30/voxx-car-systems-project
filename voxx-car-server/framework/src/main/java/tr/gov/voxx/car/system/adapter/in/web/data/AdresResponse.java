@@ -19,4 +19,5 @@ public class AdresResponse {
     private String firmaId;
     private Instant createdAt;
     private Instant updatedAt;
+    private boolean isDeleted;
 }

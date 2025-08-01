@@ -26,4 +26,5 @@ public class MTVResponse {
     private Boolean odendi;
     private Instant createdAt;
     private Instant updatedAt;
+    private boolean isDeleted;
 }

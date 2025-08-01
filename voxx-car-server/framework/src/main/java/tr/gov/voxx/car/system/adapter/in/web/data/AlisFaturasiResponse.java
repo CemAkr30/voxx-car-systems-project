@@ -36,4 +36,5 @@ public class AlisFaturasiResponse {
     private String aciklama;
     private Instant createdAt;
     private Instant updatedAt;
+    private boolean isDeleted;
 }
