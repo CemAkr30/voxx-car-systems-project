@@ -19,6 +19,6 @@ export const mtvUpdateSchema = mtvCreateSchema.extend({
 	id: z.string(),
 	createdAt: z.string(),
 	updatedAt: z.string(),
-	deleted: z.boolean(),
+	isDeleted: z.boolean(),
 });
 export type Mtv = z.infer<typeof mtvUpdateSchema>;

@@ -16,16 +16,16 @@ public class HasarWebSocketNotifier {
 
     public void notifyHasarCreated(HasarCreatedEvent event) {
         messagingTemplate.convertAndSend("/topic/hasar",
-                Map.of("type", "CREATED", "id", event.id()));
+                Map.of("type", "CREATED", "id", event.aracFiloId()));
     }
 
     public void notifyHasarUpdated(HasarUpdatedEvent event) {
         messagingTemplate.convertAndSend("/topic/hasar",
-                Map.of("type", "UPDATED", "id", event.id()));
+                Map.of("type", "UPDATED", "id", event.aracFiloId()));
     }
 
     public void notifyHasarDeleted(HasarDeletedEvent event) {
         messagingTemplate.convertAndSend("/topic/hasar",
-                Map.of("type", "DELETED", "id", event.id()));
+                Map.of("type", "DELETED", "id", event.aracFiloId()));
     }
 }

@@ -10,4 +10,6 @@ import java.util.List;
 public interface AdresJpaRepository extends JpaRepository<AdresEntity, String> {
     
     List<AdresEntity> findByFirmaId(String firmaId);
+    
+    List<AdresEntity> findByIsDeletedFalse();
 }

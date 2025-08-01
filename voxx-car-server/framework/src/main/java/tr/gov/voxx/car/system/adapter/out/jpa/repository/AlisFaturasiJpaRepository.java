@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface AlisFaturasiJpaRepository extends JpaRepository<AlisFaturasiEntity, String> {
     List<AlisFaturasiEntity> findByAracFiloId(String aracFiloId);
-
+    List<AlisFaturasiEntity> findByIsDeletedFalse();
 }

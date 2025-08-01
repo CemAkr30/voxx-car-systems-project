@@ -16,16 +16,16 @@ public class SigortaWebSocketNotifier {
 
     public void notifySigortaCreated(SigortaCreatedEvent event) {
         messagingTemplate.convertAndSend("/topic/sigorta",
-                Map.of("type", "CREATED", "id", event.id()));
+                Map.of("type", "CREATED", "id", event.aracFiloId()));
     }
 
     public void notifySigortaUpdated(SigortaUpdatedEvent event) {
         messagingTemplate.convertAndSend("/topic/sigorta",
-                Map.of("type", "UPDATED", "id", event.id()));
+                Map.of("type", "UPDATED", "id", event.aracFiloId()));
     }
 
     public void notifySigortaDeleted(SigortaDeletedEvent event) {
         messagingTemplate.convertAndSend("/topic/sigorta",
-                Map.of("type", "DELETED", "id", event.id()));
+                Map.of("type", "DELETED", "id", event.aracFiloId()));
     }
 }

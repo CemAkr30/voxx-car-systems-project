@@ -59,7 +59,7 @@ public class MuayenePersistenceJpaAdapter implements MuayenePersistenceJpaPort {
     @Transactional(readOnly = true)
     public List<Muayene> findAll() {
         return MuayeneJpaMapper.toMuayeneList(
-                muayeneJpaRepository.findAll()
+                muayeneJpaRepository.findByIsDeletedFalse()
         );
     }
 

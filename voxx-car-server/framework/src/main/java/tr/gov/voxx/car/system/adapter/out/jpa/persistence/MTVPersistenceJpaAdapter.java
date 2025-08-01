@@ -59,7 +59,7 @@ public class MTVPersistenceJpaAdapter implements MTVPersistenceJpaPort {
     @Transactional(readOnly = true)
     public List<Mtv> findAll() {
         return MTVJpaMapper.toMtvList(
-                mtvJpaRepository.findAll()
+                mtvJpaRepository.findByIsDeletedFalse()
         );
     }
 

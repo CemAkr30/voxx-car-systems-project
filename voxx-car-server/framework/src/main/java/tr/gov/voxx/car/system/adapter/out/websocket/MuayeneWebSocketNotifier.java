@@ -16,16 +16,16 @@ public class MuayeneWebSocketNotifier {
 
     public void notifyMuayeneCreated(MuayeneCreatedEvent event) {
         messagingTemplate.convertAndSend("/topic/muayene",
-                Map.of("type", "CREATED", "id", event.id()));
+                Map.of("type", "CREATED", "id", event.aracFiloId()));
     }
 
     public void notifyMuayeneUpdated(MuayeneUpdatedEvent event) {
         messagingTemplate.convertAndSend("/topic/muayene",
-                Map.of("type", "UPDATED", "id", event.id()));
+                Map.of("type", "UPDATED", "id", event.aracFiloId()));
     }
 
     public void notifyMuayeneDeleted(MuayeneDeletedEvent event) {
         messagingTemplate.convertAndSend("/topic/muayene",
-                Map.of("type", "DELETED", "id", event.id()));
+                Map.of("type", "DELETED", "id", event.aracFiloId()));
     }
 }

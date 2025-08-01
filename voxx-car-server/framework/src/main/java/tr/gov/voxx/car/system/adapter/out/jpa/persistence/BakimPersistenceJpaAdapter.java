@@ -57,7 +57,7 @@ public class BakimPersistenceJpaAdapter implements BakimPersistenceJpaPort {
     @Transactional(readOnly = true)
     public List<Bakim> findAll() {
         return BakimJpaMapper.toBakimList(
-                bakimJpaRepository.findAll()
+                bakimJpaRepository.findByIsDeletedFalse()
         );
     }
 

@@ -60,7 +60,7 @@ public class ModelPersistenceJpaAdapter implements ModelPersistenceJpaPort {
     @Transactional(readOnly = true)
     public List<Model> findAll() {
         return ModelJpaMapper.toModelList(
-                modelJpaRepository.findAll()
+                modelJpaRepository.findByIsDeletedFalse()
         );
     }
 

@@ -11,4 +11,6 @@ public interface SigortaJpaRepository extends JpaRepository<SigortaKaskoEntity, 
     List<SigortaKaskoEntity> findByAracFiloId(String aracFiloId);
     
     List<SigortaKaskoEntity> findByBitisTarihiBefore(java.time.Instant bitis);
+    
+    List<SigortaKaskoEntity> findByIsDeletedFalse();
 }

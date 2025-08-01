@@ -70,8 +70,14 @@ public class AracKullananApplicationCommandUseCase implements AracKullananApplic
 
     @Override
     public void deleteById(AracKullananId aracKullananId) {
+        AracKullanan existing = persistenceJpaPort.findById(aracKullananId);
+        if (existing == null) {
+            throw new NotFoundException("AracKullanan not found with id: " + aracKullananId);
+        }
+        
         domainEventPublisher.publish("arackullanan-deleted-topic", AracKullananDeletedEvent.builder()
                 .id(aracKullananId)
+                .firmaId(existing.getFirmaId())
                 .build());
     }
 }

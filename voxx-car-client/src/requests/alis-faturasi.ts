@@ -13,7 +13,7 @@ export const getAlisFaturasiByAracFiloId = async (
 	const { data } = await axiosClient.get<AlisFaturasi[]>(
 		`${urls.aracfilo}/${aracFiloId}/alisfaturasi`,
 	);
-	return data.filter((d) => !d.deleted);
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const createAlisFaturasi = async (

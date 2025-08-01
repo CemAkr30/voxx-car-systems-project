@@ -11,4 +11,6 @@ public interface MuayeneJpaRepository extends JpaRepository<MuayeneEntity, Strin
     List<MuayeneEntity> findByAracFiloId(String aracFiloId);
     
     List<MuayeneEntity> findByBitisTarihiBefore(java.time.Instant bitis);
+    
+    List<MuayeneEntity> findByIsDeletedFalse();
 }

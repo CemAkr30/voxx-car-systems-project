@@ -55,7 +55,7 @@ public class KazaPersistenceJpaAdapter implements KazaPersistenceJpaPort {
     @Transactional(readOnly = true)
     public List<Kaza> findAll() {
         return KazaJpaMapper.toKazaList(
-                kazaJpaRepository.findAll()
+                kazaJpaRepository.findByIsDeletedFalse()
         );
     }
 

@@ -25,6 +25,7 @@ public class SigortaKaskoJpaMapper {
                 .bitisTarihi(entity.getBitisTarihi())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
+                .isDeleted(entity.isDeleted())
                 .build();
     }
 

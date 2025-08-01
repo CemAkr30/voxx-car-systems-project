@@ -10,7 +10,7 @@ export const getBakimByAracFiloId = async (
 	const { data } = await axiosClient.get<Bakim[]>(
 		`${urls.aracfilo}/${aracFiloId}/bakim`,
 	);
-	return data.filter((d) => !d.deleted);
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const createBakim = async (bakim: CreateBakimRequest): Promise<void> => {

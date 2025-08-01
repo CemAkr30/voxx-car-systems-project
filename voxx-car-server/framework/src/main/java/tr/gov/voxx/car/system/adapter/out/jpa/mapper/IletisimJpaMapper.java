@@ -23,6 +23,7 @@ public class IletisimJpaMapper {
                 .tip(entity.getTip())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
+                .isDeleted(entity.isDeleted())
                 .build();
     }
 

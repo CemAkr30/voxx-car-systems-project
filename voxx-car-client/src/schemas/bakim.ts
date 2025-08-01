@@ -19,6 +19,6 @@ export const bakimUpdateSchema = bakimCreateSchema.extend({
 	id: z.string(),
 	createdAt: z.string(),
 	updatedAt: z.string(),
-	deleted: z.boolean(),
+	isDeleted: z.boolean(),
 });
 export type Bakim = z.infer<typeof bakimUpdateSchema>;

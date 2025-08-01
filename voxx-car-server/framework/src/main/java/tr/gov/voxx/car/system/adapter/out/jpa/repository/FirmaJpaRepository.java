@@ -4,6 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import tr.gov.voxx.car.system.adapter.out.jpa.entity.FirmaEntity;
 
+import java.util.List;
+
 @Repository
 public interface FirmaJpaRepository extends JpaRepository<FirmaEntity, String> {
+    List<FirmaEntity> findByIsDeletedFalse();
 }

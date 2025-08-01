@@ -12,4 +12,6 @@ public interface ModelJpaRepository extends JpaRepository<ModelEntity, String> {
     List<ModelEntity> findByAdi(String adi);
 
     List<ModelEntity> findByMarkaId(String markaId);
+    
+    List<ModelEntity> findByIsDeletedFalse();
 }

@@ -11,7 +11,7 @@ export const getAracKullananlar = async (): Promise<AracKullanan[]> => {
 	const { data } = await axiosClient.get<AracKullanan[]>(
 		`${urls.arackullanan}`,
 	);
-	return data;
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const getAllAracKullananlarByFirmaId = async (
@@ -20,7 +20,7 @@ export const getAllAracKullananlarByFirmaId = async (
 	const { data } = await axiosClient.get<AracKullanan[]>(
 		`${urls.firma}/${firmaId}/arackullanan`,
 	);
-	return data;
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const createAracKullanan = async (

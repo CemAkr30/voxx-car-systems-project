@@ -10,7 +10,7 @@ export const getIletisimByFirmaId = async (
 	const { data } = await axiosClient.get<Iletisim[]>(
 		`${urls.firma}/${firmaId}/iletisim`,
 	);
-	return data.filter((d) => !d.deleted);
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const createIletisim = async (

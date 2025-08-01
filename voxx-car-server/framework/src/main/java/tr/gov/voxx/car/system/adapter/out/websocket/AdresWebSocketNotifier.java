@@ -16,16 +16,16 @@ public class AdresWebSocketNotifier {
 
     public void notifyAdresCreated(AdresCreatedEvent event) {
         messagingTemplate.convertAndSend("/topic/adres",
-                Map.of("type", "CREATED", "id", event.id()));
+                Map.of("type", "CREATED", "id", event.firmaId()));
     }
 
     public void notifyAdresUpdated(AdresUpdatedEvent event) {
         messagingTemplate.convertAndSend("/topic/adres",
-                Map.of("type", "UPDATED", "id", event.id()));
+                Map.of("type", "UPDATED", "id", event.firmaId()));
     }
 
     public void notifyAdresDeleted(AdresDeletedEvent event) {
         messagingTemplate.convertAndSend("/topic/adres",
-                Map.of("type", "DELETED", "id", event.id()));
+                Map.of("type", "DELETED", "id", event.firmaId()));
     }
 }

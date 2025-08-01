@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 export const getAllFirma = async (): Promise<Firma[]> => {
 	const { data } = await axiosClient.get<Firma[]>(`${urls.firma}`);
-	return data.filter((d) => !d.deleted);
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const getFirma = async (id: string): Promise<Firma> => {

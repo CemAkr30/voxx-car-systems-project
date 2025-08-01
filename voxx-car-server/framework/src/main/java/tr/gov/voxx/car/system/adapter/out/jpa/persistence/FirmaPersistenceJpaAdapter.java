@@ -59,7 +59,7 @@ public class FirmaPersistenceJpaAdapter implements FirmaPersistenceJpaPort {
     @Transactional(readOnly = true)
     public List<Firma> findAll() {
         return FirmaJpaMapper.toFirmaList(
-                firmaJpaRepository.findAll()
+                firmaJpaRepository.findByIsDeletedFalse()
         );
     }
 }

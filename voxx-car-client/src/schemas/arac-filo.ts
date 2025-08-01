@@ -41,7 +41,7 @@ export const aracFiloUpdateSchema = aracFiloCreateSchema.extend({
 	id: z.string(),
 	createdAt: z.string(),
 	updatedAt: z.string(),
-	deleted: z.boolean(),
+	isDeleted: z.boolean(),
 });
 
 export type AracFilo = z.input<typeof aracFiloUpdateSchema>;

@@ -45,7 +45,6 @@ public class KazaMapper {
                 .kazaTutanagi(request.getKazaTutanagi())
                 .onarimDurumu(request.getOnarimDurumu())
                 .odeyenFirmaId(new FirmaId(request.getOdeyenFirmaId()))
-                .isDeleted(false)
                 .build();
     }
 }

@@ -16,16 +16,16 @@ public class FilodanCikisWebSocketNotifier {
 
     public void notifyFilodanCikisCreated(FilodanCikisCreatedEvent event) {
         messagingTemplate.convertAndSend("/topic/filodanCikis",
-                Map.of("type", "CREATED", "id", event.id()));
+                Map.of("type", "CREATED", "id", event.aracFiloId()));
     }
 
     public void notifyFilodanCikisUpdated(FilodanCikisUpdatedEvent event) {
         messagingTemplate.convertAndSend("/topic/filodanCikis",
-                Map.of("type", "UPDATED", "id", event.id()));
+                Map.of("type", "UPDATED", "id", event.aracFiloId()));
     }
 
     public void notifyFilodanCikisDeleted(FilodanCikisDeletedEvent event) {
         messagingTemplate.convertAndSend("/topic/filodanCikis",
-                Map.of("type", "DELETED", "id", event.id()));
+                Map.of("type", "DELETED", "id", event.aracFiloId()));
     }
 }

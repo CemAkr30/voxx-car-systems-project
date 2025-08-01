@@ -11,4 +11,6 @@ public interface MtvJpaRepository extends JpaRepository<MTVEntity, String> {
     List<MTVEntity> findByAracFiloId(String aracFiloId);
     
     List<MTVEntity> findByYilAndTaksitAndOdendi(String yil, String taksit, Boolean odendi);
+    
+    List<MTVEntity> findByIsDeletedFalse();
 }

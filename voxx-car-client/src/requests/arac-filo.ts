@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 export const getAllAracFilo = async (): Promise<AracFilo[]> => {
 	const { data } = await axiosClient.get<AracFilo[]>(`${urls.aracfilo}`);
-	return data.filter((d) => !d.deleted);
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const getAracFilo = async (id: string): Promise<AracFilo> => {

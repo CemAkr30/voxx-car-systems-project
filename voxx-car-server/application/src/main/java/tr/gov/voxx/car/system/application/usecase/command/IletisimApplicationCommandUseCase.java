@@ -48,8 +48,14 @@ public class IletisimApplicationCommandUseCase implements IletisimApplicationCom
 
     @Override
     public void deleteById(IletisimId iletisimId) {
+        Iletisim existing = iletisimPersistenceJpaPort.findById(iletisimId);
+        if (existing == null) {
+            throw new NotFoundException("Iletisim not found with id: " + iletisimId);
+        }
+        
         domainEventPublisher.publish("iletisim-deleted-topic", IletisimDeletedEvent.builder()
                 .id(iletisimId)
+                .firmaId(existing.getFirmaId())
                 .build());
     }
 }

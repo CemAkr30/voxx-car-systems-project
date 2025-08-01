@@ -59,7 +59,7 @@ public class SigortaPersistenceJpaAdapter implements SigortaKaskoPersistenceJpaP
     @Transactional(readOnly = true)
     public List<SigortaKasko> findAll() {
         return SigortaKaskoJpaMapper.toSigortaList(
-                sigortaJpaRepository.findAll()
+                sigortaJpaRepository.findByIsDeletedFalse()
         );
     }
 

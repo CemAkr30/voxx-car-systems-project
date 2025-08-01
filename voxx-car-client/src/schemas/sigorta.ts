@@ -16,6 +16,6 @@ export const sigortaUpdateSchema = sigortaCreateSchema.extend({
 	id: z.string(),
 	createdAt: z.string(),
 	updatedAt: z.string(),
-	deleted: z.boolean(),
+	isDeleted: z.boolean(),
 });
 export type Sigorta = z.infer<typeof sigortaUpdateSchema>;

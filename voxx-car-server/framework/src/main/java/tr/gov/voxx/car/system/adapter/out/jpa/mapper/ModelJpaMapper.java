@@ -22,6 +22,7 @@ public class ModelJpaMapper {
                 .markaId(new MarkaId(entity.getMarkaId()))
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
+                .isDeleted(entity.isDeleted())
                 .build();
     }
 

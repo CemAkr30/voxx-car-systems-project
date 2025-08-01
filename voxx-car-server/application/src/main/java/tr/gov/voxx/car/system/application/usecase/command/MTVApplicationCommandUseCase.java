@@ -61,8 +61,14 @@ public class MTVApplicationCommandUseCase implements MTVApplicationCommandPort {
 
     @Override
     public void deleteById(MtvId mtvId) {
+        Mtv existing = persistenceJpaPort.findById(mtvId);
+        if (existing == null) {
+            throw new NotFoundException("Mtv not found with id: " + mtvId);
+        }
+        
         domainEventPublisher.publish("mtv-deleted-topic", MTVDeletedEvent.builder()
                 .id(mtvId)
+                .aracFiloId(existing.getAracFiloId())
                 .build());
     }
 }

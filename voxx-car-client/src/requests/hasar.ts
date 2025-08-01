@@ -10,7 +10,7 @@ export const getHasarByAracFiloId = async (
 	const { data } = await axiosClient.get<Hasar[]>(
 		`${urls.aracfilo}/${aracFiloId}/hasar`,
 	);
-	return data.filter((d) => !d.deleted);
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const createHasar = async (hasar: CreateHasarRequest): Promise<void> => {
