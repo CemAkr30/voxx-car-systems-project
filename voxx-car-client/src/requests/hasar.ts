@@ -7,10 +7,10 @@ import { toast } from "sonner";
 export const getHasarByAracFiloId = async (
 	aracFiloId: string,
 ): Promise<Hasar[]> => {
-	const { data } = await axiosClient.get(
+	const { data } = await axiosClient.get<Hasar[]>(
 		`${urls.aracfilo}/${aracFiloId}/hasar`,
 	);
-	return data;
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const createHasar = async (hasar: CreateHasarRequest): Promise<void> => {

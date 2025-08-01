@@ -7,8 +7,10 @@ import { toast } from "sonner";
 export const getKazaByAracFiloId = async (
 	aracFiloId: string,
 ): Promise<Kaza[]> => {
-	const { data } = await axiosClient.get(`${urls.aracfilo}/${aracFiloId}/kaza`);
-	return data;
+	const { data } = await axiosClient.get<Kaza[]>(
+		`${urls.aracfilo}/${aracFiloId}/kaza`,
+	);
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const createKaza = async (kaza: CreateKazaRequest): Promise<void> => {

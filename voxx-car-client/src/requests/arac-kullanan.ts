@@ -8,14 +8,16 @@ import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
 export const getAracKullananlar = async (): Promise<AracKullanan[]> => {
-	const { data } = await axiosClient.get(`${urls.arackullanan}`);
+	const { data } = await axiosClient.get<AracKullanan[]>(
+		`${urls.arackullanan}`,
+	);
 	return data;
 };
 
 export const getAllAracKullananlarByFirmaId = async (
 	firmaId: string,
 ): Promise<AracKullanan[]> => {
-	const { data } = await axiosClient.get(
+	const { data } = await axiosClient.get<AracKullanan[]>(
 		`${urls.firma}/${firmaId}/arackullanan`,
 	);
 	return data;

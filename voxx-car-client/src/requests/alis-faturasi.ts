@@ -10,10 +10,10 @@ import { toast } from "sonner";
 export const getAlisFaturasiByAracFiloId = async (
 	aracFiloId: string,
 ): Promise<AlisFaturasi[]> => {
-	const { data } = await axiosClient.get(
+	const { data } = await axiosClient.get<AlisFaturasi[]>(
 		`${urls.aracfilo}/${aracFiloId}/alisfaturasi`,
 	);
-	return data;
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const createAlisFaturasi = async (

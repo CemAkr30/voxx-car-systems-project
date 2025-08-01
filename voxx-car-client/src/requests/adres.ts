@@ -5,8 +5,10 @@ import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
 export const getAdresByFirmaId = async (firmaId: string): Promise<Adres[]> => {
-	const { data } = await axiosClient.get(`${urls.firma}/${firmaId}/adres`);
-	return data;
+	const { data } = await axiosClient.get<Adres[]>(
+		`${urls.firma}/${firmaId}/adres`,
+	);
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const createAdres = async (adres: CreateAdresRequest): Promise<void> => {

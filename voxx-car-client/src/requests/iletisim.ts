@@ -7,8 +7,10 @@ import { toast } from "sonner";
 export const getIletisimByFirmaId = async (
 	firmaId: string,
 ): Promise<Iletisim[]> => {
-	const { data } = await axiosClient.get(`${urls.firma}/${firmaId}/iletisim`);
-	return data;
+	const { data } = await axiosClient.get<Iletisim[]>(
+		`${urls.firma}/${firmaId}/iletisim`,
+	);
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const createIletisim = async (

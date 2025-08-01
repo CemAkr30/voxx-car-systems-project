@@ -5,8 +5,8 @@ import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
 export const getAllMarka = async (): Promise<Marka[]> => {
-	const { data } = await axiosClient.get(`${urls.marka}`);
-	return data;
+	const { data } = await axiosClient.get<Marka[]>(`${urls.marka}`);
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const createMarka = async (marka: CreateMarkaRequest): Promise<void> => {

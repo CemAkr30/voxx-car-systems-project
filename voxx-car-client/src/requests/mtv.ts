@@ -5,15 +5,17 @@ import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
 export const getAllMtv = async (): Promise<Mtv[]> => {
-	const { data } = await axiosClient.get(`${urls.mtv}`);
-	return data;
+	const { data } = await axiosClient.get<Mtv[]>(`${urls.mtv}`);
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const getMtvByAracFiloId = async (
 	aracFiloId: string,
 ): Promise<Mtv[]> => {
-	const { data } = await axiosClient.get(`${urls.aracfilo}/${aracFiloId}/mtv`);
-	return data;
+	const { data } = await axiosClient.get<Mtv[]>(
+		`${urls.aracfilo}/${aracFiloId}/mtv`,
+	);
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const createMtv = async (mtv: CreateMtvRequest): Promise<void> => {

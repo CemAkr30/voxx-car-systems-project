@@ -5,8 +5,8 @@ import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
 export const getAllFirma = async (): Promise<Firma[]> => {
-	const { data } = await axiosClient.get(`${urls.firma}`);
-	return data;
+	const { data } = await axiosClient.get<Firma[]>(`${urls.firma}`);
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const getFirma = async (id: string): Promise<Firma> => {

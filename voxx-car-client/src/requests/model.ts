@@ -5,14 +5,16 @@ import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
 export const getAllModel = async (): Promise<Model[]> => {
-	const { data } = await axiosClient.get(`${urls.model}`);
-	return data;
+	const { data } = await axiosClient.get<Model[]>(`${urls.model}`);
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const getModelByMarkaId = async (markaId: string): Promise<Model[]> => {
 	try {
-		const { data } = await axiosClient.get(`${urls.marka}/${markaId}/model`);
-		return data;
+		const { data } = await axiosClient.get<Model[]>(
+			`${urls.marka}/${markaId}/model`,
+		);
+		return data.filter((d) => !d.isDeleted);
 	} catch (_error) {
 		return [];
 	}

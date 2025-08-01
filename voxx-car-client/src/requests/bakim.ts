@@ -7,10 +7,10 @@ import { toast } from "sonner";
 export const getBakimByAracFiloId = async (
 	aracFiloId: string,
 ): Promise<Bakim[]> => {
-	const { data } = await axiosClient.get(
+	const { data } = await axiosClient.get<Bakim[]>(
 		`${urls.aracfilo}/${aracFiloId}/bakim`,
 	);
-	return data;
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const createBakim = async (bakim: CreateBakimRequest): Promise<void> => {

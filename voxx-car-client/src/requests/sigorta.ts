@@ -7,10 +7,10 @@ import { toast } from "sonner";
 export const getSigortaByAracFiloId = async (
 	aracFiloId: string,
 ): Promise<Sigorta[]> => {
-	const { data } = await axiosClient.get(
+	const { data } = await axiosClient.get<Sigorta[]>(
 		`${urls.aracfilo}/${aracFiloId}/sigorta`,
 	);
-	return data;
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const createSigorta = async (

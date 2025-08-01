@@ -7,10 +7,10 @@ import { toast } from "sonner";
 export const getMuayeneByAracFiloId = async (
 	aracFiloId: string,
 ): Promise<Muayene[]> => {
-	const { data } = await axiosClient.get(
+	const { data } = await axiosClient.get<Muayene[]>(
 		`${urls.aracfilo}/${aracFiloId}/muayene`,
 	);
-	return data;
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const createMuayene = async (
