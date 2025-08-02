@@ -3,30 +3,30 @@ FROM node:18-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
-COPY biome.json ./
+# pnpm yükle
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
-# Install dependencies
-RUN npm ci --only=production
+# package.json ve lock dosyasını kopyala
+COPY package.json pnpm-lock.yaml ./
 
-# Copy source code
+# Sadece production bağımlılıkları yükle
+RUN pnpm install --prod
+
+# Kaynak kodu kopyala
 COPY . .
 
-# Build the application
-RUN npm run build
+# Uygulamayı derle
+RUN pnpm run build
 
 # Production stage
 FROM nginx:alpine
 
-# Copy built files to nginx
+# Derlenmiş dosyaları nginx'e kopyala
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copy nginx configuration
+# nginx konfigürasyonu
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Expose port 80
 EXPOSE 80
 
-# Start nginx
 CMD ["nginx", "-g", "daemon off;"]
