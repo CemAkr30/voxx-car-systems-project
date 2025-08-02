@@ -218,14 +218,14 @@ function RouteComponent() {
 													>
 														Düzenle
 													</Button>
-													<Button
+													{/* <Button
 														variant="ghost"
 														size="sm"
 														className="justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
 														onClick={() => openDialog("delete", marka)}
 													>
 														Sil
-													</Button>
+													</Button> */}
 												</DropdownMenuContent>
 											</DropdownMenu>
 										</TableCell>
