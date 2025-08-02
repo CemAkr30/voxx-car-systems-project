@@ -1,19 +1,12 @@
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import {
 	DropdownMenu,
 	DropdownMenuTrigger,
 	DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
 import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
-import {
-	Download,
-	Search,
-	Filter,
-	RefreshCw,
-	MoreHorizontal,
-} from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -26,9 +19,12 @@ import {
 } from "@/components/ui/table";
 import type { AracFilo } from "@/schemas/arac-filo";
 import { formatDate } from "@/lib/utils";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { getAracFilolarQueryOptions } from "@/hooks/use-arac-filo-hooks";
 import AracFiloSilDialog from "@/components/web/arac-filo/arac-filo-sil-dialog";
+import type { WebSocketMessage } from "@/types";
+import { useWebSocketTopic } from "@/hooks/use-webhook";
+import { toast } from "sonner";
 
 interface DialogState {
 	delete: boolean;
@@ -42,9 +38,26 @@ export const Route = createFileRoute("/_authenticated/arac-filo/")({
 });
 
 function RouteComponent() {
+	const queryClient = useQueryClient();
+
+	useWebSocketTopic<WebSocketMessage>({
+		topic: "/topic/aracFilo",
+		onMessage: async ({ type }) => {
+			if (type === "CREATED") {
+				toast.success("Araç filoya başarılı bir şekilde kayıt edildi");
+			}
+			if (type === "UPDATED") {
+				toast.success("Araç filoya başarılı bir şekilde güncellendi");
+			}
+			if (type === "DELETED") {
+				toast.success("Araç filoya başarılı bir şekilde silindi");
+			}
+			await queryClient.invalidateQueries(getAracFilolarQueryOptions());
+		},
+	});
+
 	const router = useRouter();
 	const [selectedItems, setSelectedItems] = useState<string[]>([]);
-	const [searchTerm, setSearchTerm] = useState<string>("");
 	const [dialogState, setDialogState] = useState<DialogState>({
 		delete: false,
 	});
@@ -107,7 +120,7 @@ function RouteComponent() {
 							<Link to="/arac-filo/olustur" className={buttonVariants()}>
 								Yeni Arac Filo Ekle
 							</Link>
-							<DropdownMenu>
+							{/* <DropdownMenu>
 								<DropdownMenuTrigger asChild>
 									<Button variant="outline">
 										<Download className="h-4 w-4 mr-2" />
@@ -115,16 +128,15 @@ function RouteComponent() {
 									</Button>
 								</DropdownMenuTrigger>
 								<DropdownMenuContent>
-									{/* Export options can be added here */}
 								</DropdownMenuContent>
-							</DropdownMenu>
+							</DropdownMenu> */}
 						</div>
 					</div>
 				</CardHeader>
 				<CardContent>
 					{/* Filters and Search */}
 					<div className="flex items-center justify-between mb-6">
-						<div className="flex items-center space-x-4">
+						{/* <div className="flex items-center space-x-4">
 							<div className="relative">
 								<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
 								<Input
@@ -142,7 +154,7 @@ function RouteComponent() {
 								<RefreshCw className="h-4 w-4 mr-2" />
 								Yenile
 							</Button>
-						</div>
+						</div> */}
 
 						{selectedItems.length > 0 && (
 							<div className="flex items-center space-x-2">
@@ -165,13 +177,6 @@ function RouteComponent() {
 						<Table>
 							<TableHeader>
 								<TableRow>
-									{/* <TableHead className="w-12">
-                    <Checkbox
-                      checked={false}
-                      onCheckedChange={handleSelectAll}
-                    />
-                  </TableHead> */}
-									<TableHead>AracFilo Id</TableHead>
 									<TableHead>AracFilo Adı</TableHead>
 									<TableHead>Oluşturulma Tarihi</TableHead>
 									<TableHead>Güncellenme Tarihi</TableHead>
@@ -181,7 +186,6 @@ function RouteComponent() {
 							<TableBody>
 								{aracFilolar.map((aracFilo: AracFilo) => (
 									<TableRow key={aracFilo.id}>
-										<TableCell>{aracFilo.id}</TableCell>
 										<TableCell className="font-medium">
 											<Link
 												to="/arac-filo/$aracFiloId/detay"

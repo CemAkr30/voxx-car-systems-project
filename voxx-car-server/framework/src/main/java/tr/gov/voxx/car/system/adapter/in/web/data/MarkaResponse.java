@@ -16,4 +16,5 @@ public class MarkaResponse {
     private String adi;
     private Instant createdAt;
     private Instant updatedAt;
+    private boolean isDeleted;
 }

@@ -59,7 +59,7 @@ public class HasarPersistenceJpaAdapter implements HasarPersistenceJpaPort {
     @Transactional(readOnly = true)
     public List<Hasar> findAll() {
         return HasarJpaMapper.toHasarList(
-                hasarJpaRepository.findAll()
+                hasarJpaRepository.findByIsDeletedFalse()
         );
     }
 

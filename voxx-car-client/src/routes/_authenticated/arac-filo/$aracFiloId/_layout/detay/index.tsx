@@ -91,6 +91,9 @@ function RouteComponent() {
 				return "bg-gray-100 text-gray-800 border-gray-200";
 		}
 	};
+
+	return;
+
 	return (
 		<React.Fragment>
 			<div className="space-y-6">

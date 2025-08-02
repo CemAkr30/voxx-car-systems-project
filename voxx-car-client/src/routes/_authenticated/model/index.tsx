@@ -7,13 +7,7 @@ import {
 	DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
 import { createFileRoute } from "@tanstack/react-router";
-import {
-	Download,
-	Search,
-	Filter,
-	RefreshCw,
-	MoreHorizontal,
-} from "lucide-react";
+import { Search, Filter, RefreshCw, MoreHorizontal } from "lucide-react";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -30,7 +24,10 @@ import type { Model } from "@/schemas/model";
 import ModelDialog from "@/components/web/model/model-dialog";
 import ModelSilDialog from "@/components/web/model/model-sil-dialog";
 import { getMarkalarQueryOptions } from "@/hooks/use-marka-hooks";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useWebSocketTopic } from "@/hooks/use-webhook";
+import type { WebSocketMessage } from "@/types";
+import { toast } from "sonner";
 
 interface DialogState {
 	create: boolean;
@@ -48,6 +45,24 @@ export const Route = createFileRoute("/_authenticated/model/")({
 });
 
 function RouteComponent() {
+	const queryClient = useQueryClient();
+
+	useWebSocketTopic<WebSocketMessage>({
+		topic: "/topic/model",
+		onMessage: async ({ type }) => {
+			if (type === "CREATED") {
+				toast.success("Model başarılı bir şekilde kayıt edildi");
+			}
+			if (type === "UPDATED") {
+				toast.success("Model başarılı bir şekilde güncellendi");
+			}
+			if (type === "DELETED") {
+				toast.success("Model başarılı bir şekilde silindi");
+			}
+			await queryClient.invalidateQueries(getModellerQueryOptions());
+		},
+	});
+
 	const [selectedItems, setSelectedItems] = useState<string[]>([]);
 	const [searchTerm, setSearchTerm] = useState<string>("");
 	const [dialogState, setDialogState] = useState<DialogState>({
@@ -119,7 +134,7 @@ function RouteComponent() {
 							<Button onClick={() => openDialog("create")}>
 								Yeni Model Ekle
 							</Button>
-							<DropdownMenu>
+							{/* <DropdownMenu>
 								<DropdownMenuTrigger asChild>
 									<Button variant="outline">
 										<Download className="h-4 w-4 mr-2" />
@@ -127,9 +142,8 @@ function RouteComponent() {
 									</Button>
 								</DropdownMenuTrigger>
 								<DropdownMenuContent>
-									{/* Export options can be added here */}
 								</DropdownMenuContent>
-							</DropdownMenu>
+							</DropdownMenu> */}
 						</div>
 					</div>
 				</CardHeader>
@@ -177,13 +191,7 @@ function RouteComponent() {
 						<Table>
 							<TableHeader>
 								<TableRow>
-									{/* <TableHead className="w-12">
-                    <Checkbox
-                      checked={false}
-                      onCheckedChange={handleSelectAll}
-                    />
-                  </TableHead> */}
-									<TableHead>Marka Id</TableHead>
+									<TableHead>Marka</TableHead>
 									<TableHead>Model Adı</TableHead>
 									<TableHead>Oluşturulma Tarihi</TableHead>
 									<TableHead>Güncellenme Tarihi</TableHead>
@@ -193,15 +201,12 @@ function RouteComponent() {
 							<TableBody>
 								{modeller.map((model: Model) => (
 									<TableRow key={model.id}>
-										{/* <TableCell>
-                      <Checkbox
-                        checked={selectedItems.includes(marka.id)}
-                        onCheckedChange={(checked) =>
-                          handleSelectItem(marka.id, checked as boolean)
-                        }
-                      />
-                    </TableCell> */}
-										<TableCell>{model.markaId}</TableCell>
+										<TableCell>
+											{
+												markalar.find((marka) => model.markaId === marka.id)
+													?.adi
+											}
+										</TableCell>
 										<TableCell className="font-medium">{model.adi}</TableCell>
 										<TableCell>{formatDate(model.createdAt)}</TableCell>
 										<TableCell>{formatDate(model.updatedAt)}</TableCell>

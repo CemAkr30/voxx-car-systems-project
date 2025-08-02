@@ -60,8 +60,14 @@ public class FilodanCikisApplicationCommandUseCase implements FilodanCikisApplic
 
     @Override
     public void deleteById(FilodanCikisId filodanCikisId) {
+        FilodanCikis existing = persistenceJpaPort.findById(filodanCikisId);
+        if (existing == null) {
+            throw new NotFoundException("FilodanCikis not found with id: " + filodanCikisId);
+        }
+        
         domainEventPublisher.publish("filodancikis-deleted-topic", FilodanCikisDeletedEvent.builder()
                 .id(filodanCikisId)
+                .aracFiloId(existing.getAracFiloId())
                 .build());
     }
 }

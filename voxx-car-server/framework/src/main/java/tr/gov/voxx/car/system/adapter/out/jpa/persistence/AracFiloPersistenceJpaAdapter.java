@@ -58,7 +58,7 @@ public class AracFiloPersistenceJpaAdapter implements AracFiloPersistenceJpaPort
     @Transactional(readOnly = true)
     public List<AracFilo> findAll() {
         return AracFiloJpaMapper.toAracFiloList(
-                aracFiloJpaRepository.findAll()
+                aracFiloJpaRepository.findByIsDeletedFalse()
         );
     }
 }

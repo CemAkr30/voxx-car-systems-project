@@ -58,7 +58,7 @@ public class AracKullananPersistenceJpaAdapter implements AracKullananPersistenc
     @Transactional(readOnly = true)
     public List<AracKullanan> findAll() {
         return AracKullananJpaMapper.toAracKullananList(
-                aracKullananJpaRepository.findAll()
+                aracKullananJpaRepository.findByIsDeletedFalse()
         );
     }
 

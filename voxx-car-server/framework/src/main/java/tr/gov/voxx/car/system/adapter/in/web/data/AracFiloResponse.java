@@ -45,5 +45,6 @@ public class AracFiloResponse {
     private Integer filoDurum;
     private Instant createdAt;
     private Instant updatedAt;
+    private boolean isDeleted;
 }
 

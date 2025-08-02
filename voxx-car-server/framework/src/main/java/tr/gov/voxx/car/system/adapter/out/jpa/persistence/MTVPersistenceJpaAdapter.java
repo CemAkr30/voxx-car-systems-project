@@ -59,7 +59,7 @@ public class MTVPersistenceJpaAdapter implements MTVPersistenceJpaPort {
     @Transactional(readOnly = true)
     public List<Mtv> findAll() {
         return MTVJpaMapper.toMtvList(
-                mtvJpaRepository.findAll()
+                mtvJpaRepository.findByIsDeletedFalse()
         );
     }
 
@@ -67,6 +67,13 @@ public class MTVPersistenceJpaAdapter implements MTVPersistenceJpaPort {
     public List<Mtv> findAracFiloIdGetAll(String aracFiloId) {
         return MTVJpaMapper.toMtvList(
                 mtvJpaRepository.findByAracFiloId(aracFiloId)
+        );
+    }
+
+    @Override
+    public List<Mtv> findByYilAndTaksitAndOdendi(String yil, String taksit, Boolean odendi) {
+        return MTVJpaMapper.toMtvList(
+                mtvJpaRepository.findByYilAndTaksitAndOdendi(yil, taksit, odendi)
         );
     }
 }

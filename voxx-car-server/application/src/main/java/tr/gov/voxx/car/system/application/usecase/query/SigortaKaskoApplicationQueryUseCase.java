@@ -31,4 +31,9 @@ public class SigortaKaskoApplicationQueryUseCase implements SigortaKaskoApplicat
     public List<SigortaKasko> findAracFiloIdGetAll(String aracFiloId) {
         return persistenceJpaPort.findAracFiloIdGetAll(aracFiloId);
     }
+
+    @Override
+    public List<SigortaKasko> findByBitisTarihiBefore(java.time.Instant bitis) {
+        return persistenceJpaPort.findByBitisTarihiBefore(bitis);
+    }
 }

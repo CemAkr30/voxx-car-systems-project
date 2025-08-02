@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface IletisimJpaRepository extends JpaRepository<IletisimEntity, String> {
     List<IletisimEntity> findByFirmaId(String firmaId);
-
+    List<IletisimEntity> findByIsDeletedFalse();
 }

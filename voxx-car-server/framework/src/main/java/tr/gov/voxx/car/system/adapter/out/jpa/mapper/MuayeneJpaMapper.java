@@ -31,6 +31,7 @@ public class MuayeneJpaMapper {
                 .bitisTarihi(entity.getBitisTarihi())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
+                .isDeleted(entity.isDeleted())
                 .build();
     }
 

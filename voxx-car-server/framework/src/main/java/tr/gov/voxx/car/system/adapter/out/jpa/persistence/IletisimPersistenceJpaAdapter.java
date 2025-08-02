@@ -58,7 +58,7 @@ public class IletisimPersistenceJpaAdapter implements IletisimPersistenceJpaPort
     @Transactional(readOnly = true)
     public List<Iletisim> findAll() {
         return IletisimJpaMapper.toIletisimList(
-                iletisimJpaRepository.findAll()
+                iletisimJpaRepository.findByIsDeletedFalse()
         );
     }
 

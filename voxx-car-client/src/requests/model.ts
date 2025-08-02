@@ -5,14 +5,16 @@ import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
 export const getAllModel = async (): Promise<Model[]> => {
-	const { data } = await axiosClient.get(`${urls.model}`);
-	return data;
+	const { data } = await axiosClient.get<Model[]>(`${urls.model}`);
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const getModelByMarkaId = async (markaId: string): Promise<Model[]> => {
 	try {
-		const { data } = await axiosClient.get(`${urls.marka}/${markaId}/model`);
-		return data;
+		const { data } = await axiosClient.get<Model[]>(
+			`${urls.marka}/${markaId}/model`,
+		);
+		return data.filter((d) => !d.isDeleted);
 	} catch (_error) {
 		return [];
 	}
@@ -21,7 +23,6 @@ export const getModelByMarkaId = async (markaId: string): Promise<Model[]> => {
 export const createModel = async (model: CreateModelRequest): Promise<void> => {
 	try {
 		await axiosClient.post<Model>(`${urls.model}`, model);
-		toast.success("Model başarılı bir şekilde kayıt edildi");
 	} catch (error: unknown) {
 		if (isAxiosError(error)) {
 			toast.error("Modeli kayıt ederken sorun oluştu");
@@ -34,7 +35,6 @@ export const createModel = async (model: CreateModelRequest): Promise<void> => {
 export const updateModel = async (model: Model): Promise<void> => {
 	try {
 		await axiosClient.put<Model>(`${urls.model}/${model.id}`, model);
-		toast.success("Model başarılı bir şekilde güncellendi");
 	} catch (error) {
 		if (isAxiosError(error)) {
 			toast.error("Modelyı güncellerken sorun oluştu");
@@ -47,7 +47,6 @@ export const updateModel = async (model: Model): Promise<void> => {
 export const deleteModel = async (id: string): Promise<void> => {
 	try {
 		await axiosClient.delete(`${urls.model}/${id}`);
-		toast.success("Model başarılı bir şekilde silindi");
 	} catch (error) {
 		if (isAxiosError(error)) {
 			toast.error("Modeli silerken sorun oluştu");

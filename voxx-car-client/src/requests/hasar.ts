@@ -7,16 +7,15 @@ import { toast } from "sonner";
 export const getHasarByAracFiloId = async (
 	aracFiloId: string,
 ): Promise<Hasar[]> => {
-	const { data } = await axiosClient.get(
+	const { data } = await axiosClient.get<Hasar[]>(
 		`${urls.aracfilo}/${aracFiloId}/hasar`,
 	);
-	return data;
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const createHasar = async (hasar: CreateHasarRequest): Promise<void> => {
 	try {
 		await axiosClient.post<Hasar>(`${urls.hasar}`, hasar);
-		toast.success("Hasar başarılı bir şekilde kayıt edildi");
 	} catch (error: unknown) {
 		if (isAxiosError(error)) {
 			toast.error("Hasaryı kayıt ederken sorun oluştu");
@@ -29,7 +28,6 @@ export const createHasar = async (hasar: CreateHasarRequest): Promise<void> => {
 export const updateHasar = async (hasar: Hasar): Promise<void> => {
 	try {
 		await axiosClient.put<Hasar>(`${urls.hasar}/${hasar.id}`, hasar);
-		toast.success("Hasar başarılı bir şekilde güncellendi");
 	} catch (error) {
 		if (isAxiosError(error)) {
 			toast.error("Hasaryı güncellerken sorun oluştu");
@@ -42,7 +40,6 @@ export const updateHasar = async (hasar: Hasar): Promise<void> => {
 export const deleteHasar = async (id: string): Promise<void> => {
 	try {
 		await axiosClient.delete(`${urls.hasar}/${id}`);
-		toast.success("Hasar başarılı bir şekilde silindi");
 	} catch (error) {
 		if (isAxiosError(error)) {
 			toast.error("Hasaryı silerken sorun oluştu");

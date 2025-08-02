@@ -59,7 +59,7 @@ public class AlisFaturasiPersistenceJpaAdapter implements AlisFaturasiPersistenc
     @Transactional(readOnly = true)
     public List<AlisFaturasi> findAll() {
         return AlisFaturasiJpaMapper.toAlisFaturasiList(
-                alisFaturasiJpaRepository.findAll()
+                alisFaturasiJpaRepository.findByIsDeletedFalse()
         );
     }
 

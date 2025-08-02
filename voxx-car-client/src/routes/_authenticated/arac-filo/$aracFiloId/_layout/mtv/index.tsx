@@ -13,12 +13,15 @@ import MtvSilDialog from "@/components/web/mtv/mtv-sil-dialog";
 import { OdemeTipiListesiLabel } from "@/enums";
 import { getFirmalarQueryOptions } from "@/hooks/use-firma-hooks";
 import { getMtvlerByAracFiloIdQueryOptions } from "@/hooks/use-mtv-hooks";
+import { useWebSocketTopic } from "@/hooks/use-webhook";
 import { formatCurrency, getPaymentTypeColor } from "@/lib/utils";
 import type { Mtv } from "@/schemas/mtv";
-import { useSuspenseQueries } from "@tanstack/react-query";
+import type { WebSocketMessage } from "@/types";
+import { useQueryClient, useSuspenseQueries } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export const Route = createFileRoute(
 	"/_authenticated/arac-filo/$aracFiloId/_layout/mtv/",
@@ -39,6 +42,26 @@ interface DialogState {
 
 function RouteComponent() {
 	const { aracFiloId } = Route.useParams();
+	const queryClient = useQueryClient();
+
+	useWebSocketTopic<WebSocketMessage>({
+		topic: "/topic/mtv",
+		onMessage: async ({ type }) => {
+			if (type === "CREATED") {
+				toast.success("MTV başarılı bir şekilde kayıt edildi");
+			}
+			if (type === "UPDATED") {
+				toast.success("MTV başarılı bir şekilde güncellendi");
+			}
+			if (type === "DELETED") {
+				toast.success("MTV başarılı bir şekilde silindi");
+			}
+			await queryClient.invalidateQueries(
+				getMtvlerByAracFiloIdQueryOptions(aracFiloId),
+			);
+		},
+	});
+
 	const [dialogState, setDialogState] = useState<DialogState>({
 		create: false,
 		update: false,

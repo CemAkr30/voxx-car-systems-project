@@ -2,6 +2,7 @@ import {
 	createAracKullanan,
 	deleteAracKullanan,
 	getAllAracKullananlarByFirmaId,
+	getAracKullananlar,
 	updateAracKullanan,
 } from "@/requests/arac-kullanan";
 import type {
@@ -10,12 +11,20 @@ import type {
 } from "@/schemas/arac-kullanan";
 import { queryOptions, useMutation } from "@tanstack/react-query";
 
+export function getAracKullananlarQueryOptions() {
+	return queryOptions({
+		queryKey: ["arac-kullananlar"],
+		queryFn: () => getAracKullananlar(),
+	});
+}
+
 export function getAracKullananlarByFirmaIdQueryOptions(firmaId: string) {
 	return queryOptions({
 		queryKey: ["firma", { firmaId }, "arac-kullananlar"],
 		queryFn: () => getAllAracKullananlarByFirmaId(firmaId),
 	});
 }
+
 export const useCreateAracKullananMutation = (onSuccess?: () => void) => {
 	return useMutation({
 		mutationFn: async (

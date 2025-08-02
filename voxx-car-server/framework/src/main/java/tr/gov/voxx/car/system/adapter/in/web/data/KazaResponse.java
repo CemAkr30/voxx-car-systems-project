@@ -22,7 +22,7 @@ public class KazaResponse {
     private String kazaTutanagi;
     private String onarimDurumu;
     private String odeyenFirmaId;
-    private Boolean isDeleted;
+    private boolean isDeleted;
     private Instant createdAt;
     private Instant updatedAt;
 }

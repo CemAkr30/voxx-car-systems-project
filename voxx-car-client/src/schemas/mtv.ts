@@ -17,5 +17,8 @@ export type CreateMtvRequest = z.infer<typeof mtvCreateSchema>;
 
 export const mtvUpdateSchema = mtvCreateSchema.extend({
 	id: z.string(),
+	createdAt: z.string(),
+	updatedAt: z.string(),
+	isDeleted: z.boolean(),
 });
 export type Mtv = z.infer<typeof mtvUpdateSchema>;

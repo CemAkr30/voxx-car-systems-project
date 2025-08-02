@@ -231,7 +231,6 @@ const AuthenticatedAracFiloAracFiloIdLayoutAlisFaturasiIndexRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
-  '': typeof AuthenticationRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/login': typeof AuthenticationLoginRoute
   '/': typeof AuthenticatedIndexRoute
@@ -261,7 +260,6 @@ export interface FileRoutesByFullPath {
   '/firma/$firmaId/iletisim': typeof AuthenticatedFirmaFirmaIdLayoutIletisimIndexRoute
 }
 export interface FileRoutesByTo {
-  '': typeof AuthenticationRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/login': typeof AuthenticationLoginRoute
   '/': typeof AuthenticatedIndexRoute
@@ -325,7 +323,6 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | ''
     | '/dashboard'
     | '/login'
     | '/'
@@ -355,7 +352,6 @@ export interface FileRouteTypes {
     | '/firma/$firmaId/iletisim'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | ''
     | '/dashboard'
     | '/login'
     | '/'

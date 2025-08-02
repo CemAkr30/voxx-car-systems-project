@@ -30,6 +30,7 @@ public class AracKullananJpaMapper {
                 .firmaId(new FirmaId(entity.getFirmaId()))
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
+                .isDeleted(entity.isDeleted())
                 .build();
     }
 

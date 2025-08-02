@@ -29,6 +29,7 @@ public class MTVJpaMapper {
                 .odendi(entity.getOdendi())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
+                .isDeleted(entity.isDeleted())
                 .build();
     }
 

@@ -15,7 +15,6 @@ import {
 } from "@/enums";
 import { useAppForm } from "@/hooks/demo.form";
 import {
-	getMuayenelerByAracFiloIdQueryOptions,
 	useCreateMuayeneMutation,
 	useUpdateMuayeneMutation,
 } from "@/hooks/use-muayene-hooks";
@@ -26,9 +25,6 @@ import {
 	type CreateMuayeneRequest,
 	type Muayene,
 } from "@/schemas/muayene";
-import { useStore } from "@tanstack/react-form";
-
-import { useQueryClient } from "@tanstack/react-query";
 import { RefreshCw } from "lucide-react";
 import React, { useMemo } from "react";
 
@@ -53,8 +49,7 @@ interface MuayeneDialogUpdateProps {
 type MuayeneDialogProps = MuayeneDialogCreateProps | MuayeneDialogUpdateProps;
 
 export default function MuayeneDialog(props: MuayeneDialogProps) {
-	const { mode, open, close, initialValues, firmalar, aracFiloId } = props;
-	const queryClient = useQueryClient();
+	const { mode, open, close, firmalar, aracFiloId } = props;
 
 	const odemeTipiOptions = OdemeTipiListesi.map((tip) => ({
 		label: OdemeTipiListesiLabel[tip],
@@ -84,8 +79,6 @@ export default function MuayeneDialog(props: MuayeneDialogProps) {
 			mode === "create"
 				? {
 						aracFiloId,
-						yil: "",
-						taksit: "",
 						makbuzNo: "",
 						miktar: 0,
 						odemeTipi: OdemeTipiListesi[9],
@@ -117,14 +110,9 @@ export default function MuayeneDialog(props: MuayeneDialogProps) {
 					await updateMuayeneMutation!.mutateAsync(value as Muayene);
 				}
 				formApi.reset();
-				queryClient.invalidateQueries(
-					getMuayenelerByAracFiloIdQueryOptions(initialValues.aracFiloId),
-				);
 			} catch (_error) {}
 		},
 	});
-
-	const values = useStore(form.store, (selector) => selector.values);
 
 	return (
 		<Dialog
@@ -151,27 +139,19 @@ export default function MuayeneDialog(props: MuayeneDialogProps) {
 					onSubmit={(e) => {
 						e.preventDefault();
 						e.stopPropagation();
-						console.log(values);
-						muayeneCreateSchema.parse(values);
 						form.handleSubmit();
 					}}
 					className="space-y-6"
 				>
-					<form.AppField name="yil">
-						{(field) => <field.TextField label="Yıl" />}
-					</form.AppField>
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+						<form.AppField name="makbuzNo">
+							{(field) => <field.TextField label="Makbuz no" />}
+						</form.AppField>
 
-					<form.AppField name="taksit">
-						{(field) => <field.TextField label="Taksit" />}
-					</form.AppField>
-
-					<form.AppField name="makbuzNo">
-						{(field) => <field.TextField label="Makbuz no" />}
-					</form.AppField>
-
-					<form.AppField name="miktar">
-						{(field) => <field.TextField label="Miktar" />}
-					</form.AppField>
+						<form.AppField name="miktar">
+							{(field) => <field.TextField label="Miktar" />}
+						</form.AppField>
+					</div>
 
 					<form.AppField name="muayeneTipi">
 						{(field) => (
@@ -187,7 +167,6 @@ export default function MuayeneDialog(props: MuayeneDialogProps) {
 									form.setFieldValue("odemeTipi", "ODENMEDI");
 									form.setFieldValue("odeyenFirmaId", "");
 									form.setFieldValue("gecikmeCezasi", "");
-									muayeneCreateSchema.parse(value);
 								}
 							},
 						}}
@@ -198,25 +177,27 @@ export default function MuayeneDialog(props: MuayeneDialogProps) {
 					<form.Subscribe selector={(state) => state.values.odendi}>
 						{(odendi) => (
 							<React.Fragment>
-								<form.AppField name="odemeTipi">
-									{(field) => (
-										<field.Select
-											label="Ödeme Tipi"
-											values={odemeTipiOptions}
-											disabled={!odendi}
-										/>
-									)}
-								</form.AppField>
+								<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+									<form.AppField name="odemeTipi">
+										{(field) => (
+											<field.Select
+												label="Ödeme Tipi"
+												values={odemeTipiOptions}
+												disabled={!odendi}
+											/>
+										)}
+									</form.AppField>
 
-								<form.AppField name="odeyenFirmaId">
-									{(field) => (
-										<field.Select
-											label="Ödeyen Firma"
-											values={firmalarOptions}
-											disabled={!odendi}
-										/>
-									)}
-								</form.AppField>
+									<form.AppField name="odeyenFirmaId">
+										{(field) => (
+											<field.Select
+												label="Ödeyen Firma"
+												values={firmalarOptions}
+												disabled={!odendi}
+											/>
+										)}
+									</form.AppField>
+								</div>
 
 								<form.AppField name="gecikmeCezasi">
 									{(field) => (

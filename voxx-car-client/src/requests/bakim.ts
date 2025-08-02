@@ -7,16 +7,15 @@ import { toast } from "sonner";
 export const getBakimByAracFiloId = async (
 	aracFiloId: string,
 ): Promise<Bakim[]> => {
-	const { data } = await axiosClient.get(
+	const { data } = await axiosClient.get<Bakim[]>(
 		`${urls.aracfilo}/${aracFiloId}/bakim`,
 	);
-	return data;
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const createBakim = async (bakim: CreateBakimRequest): Promise<void> => {
 	try {
 		await axiosClient.post<Bakim>(`${urls.bakim}`, bakim);
-		toast.success("Bakim başarılı bir şekilde kayıt edildi");
 	} catch (error: unknown) {
 		if (isAxiosError(error)) {
 			toast.error("Bakimi kayıt ederken sorun oluştu");
@@ -29,7 +28,6 @@ export const createBakim = async (bakim: CreateBakimRequest): Promise<void> => {
 export const updateBakim = async (bakim: Bakim): Promise<void> => {
 	try {
 		await axiosClient.put<Bakim>(`${urls.bakim}/${bakim.id}`, bakim);
-		toast.success("Bakim başarılı bir şekilde güncellendi");
 	} catch (error) {
 		if (isAxiosError(error)) {
 			toast.error("Bakimi güncellerken sorun oluştu");
@@ -42,7 +40,6 @@ export const updateBakim = async (bakim: Bakim): Promise<void> => {
 export const deleteBakim = async (id: string): Promise<void> => {
 	try {
 		await axiosClient.delete(`${urls.bakim}/${id}`);
-		toast.success("Bakim başarılı bir şekilde silindi");
 	} catch (error) {
 		if (isAxiosError(error)) {
 			toast.error("Bakimi silerken sorun oluştu");

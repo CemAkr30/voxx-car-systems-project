@@ -1,4 +1,4 @@
-export const AdresTipi = [
+export const AdresTipiListesi = [
 	"MERKEZ",
 	"SUBE",
 	"SHOWROOM",
@@ -11,7 +11,20 @@ export const AdresTipi = [
 	"DIGER",
 ] as const;
 
-export type AdresTipi = (typeof AdresTipi)[number];
+export const AdresTipiListesiLabel = {
+	MERKEZ: "Merkez",
+	SUBE: "Şube",
+	SHOWROOM: "Showroom",
+	SERVIS: "Servis",
+	DEPO: "Depo",
+	FATURA: "Fatura",
+	MUHASEBE: "Muhasebe",
+	TESLIMAT: "Teslimat",
+	YETKILI_BAYI: "Yetkili Bayii",
+	DIGER: "Diğer",
+};
+
+export type AdresTipi = (typeof AdresTipiListesi)[number];
 
 export const EhliyetTipi = [
 	"A1",
@@ -221,3 +234,33 @@ export const FilodanCikisNedeniListesiLabel = {
 };
 
 export type FilodanCikisNedeni = (typeof FilodanCikisNedeniListesi)[number];
+
+export const IletisimTipiListesi = [
+	"TELEFON",
+	"CEP_TELEFONU",
+	"FAKS",
+	"E_POSTA",
+	"WEB_SITESI",
+	"WHATSAPP",
+	"LINKEDIN",
+	"INSTAGRAM",
+	"FACEBOOK",
+	"TWITTER",
+	"DIGER",
+] as const;
+
+export const IletisimTipiListesiLabel = {
+	TELEFON: "Telefon",
+	CEP_TELEFONU: "Cep Telefonu",
+	FAKS: "Faks",
+	E_POSTA: "E posta",
+	WEB_SITESI: "Web Sitesi",
+	WHATSAPP: "Whatsapp",
+	LINKEDIN: "LinkedIn",
+	INSTAGRAM: "İnstagram",
+	FACEBOOK: "Facebook",
+	TWITTER: "X",
+	DIGER: "Diğer",
+};
+
+export type IletisimTipi = (typeof IletisimTipiListesi)[number];

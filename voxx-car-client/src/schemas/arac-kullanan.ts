@@ -23,5 +23,6 @@ export const aracKullananUpdateSchema = aracKullananCreateSchema.extend({
 	id: z.string(),
 	createdAt: z.string(),
 	updatedAt: z.string(),
+	isDeleted: z.boolean(),
 });
 export type AracKullanan = z.infer<typeof aracKullananUpdateSchema>;

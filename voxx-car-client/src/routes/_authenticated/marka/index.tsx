@@ -1,19 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import {
 	DropdownMenu,
 	DropdownMenuTrigger,
 	DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
 import { createFileRoute } from "@tanstack/react-router";
-import {
-	Download,
-	Search,
-	Filter,
-	RefreshCw,
-	MoreHorizontal,
-} from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -29,7 +22,10 @@ import { getMarkalarQueryOptions } from "@/hooks/use-marka-hooks";
 import MarkaSilDialog from "@/components/web/marka/marka-sil-dialog";
 import type { Marka } from "@/schemas/marka";
 import { formatDate } from "@/lib/utils";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useWebSocketTopic } from "@/hooks/use-webhook";
+import type { WebSocketMessage } from "@/types";
+import { toast } from "sonner";
 
 interface DialogState {
 	create: boolean;
@@ -45,8 +41,25 @@ export const Route = createFileRoute("/_authenticated/marka/")({
 });
 
 function RouteComponent() {
+	const queryClient = useQueryClient();
+
+	useWebSocketTopic<WebSocketMessage>({
+		topic: "/topic/marka",
+		onMessage: async ({ type }) => {
+			if (type === "CREATED") {
+				toast.success("Marka başarılı bir şekilde kayıt edildi");
+			}
+			if (type === "UPDATED") {
+				toast.success("Marka başarılı bir şekilde güncellendi");
+			}
+			if (type === "DELETED") {
+				toast.success("Marka başarılı bir şekilde silindi");
+			}
+			await queryClient.invalidateQueries(getMarkalarQueryOptions());
+		},
+	});
+
 	const [selectedItems, setSelectedItems] = useState<string[]>([]);
-	const [searchTerm, setSearchTerm] = useState<string>("");
 	const [dialogState, setDialogState] = useState<DialogState>({
 		create: false,
 		update: false,
@@ -115,7 +128,7 @@ function RouteComponent() {
 							<Button onClick={() => openDialog("create")}>
 								Yeni Marka Ekle
 							</Button>
-							<DropdownMenu>
+							{/* <DropdownMenu>
 								<DropdownMenuTrigger asChild>
 									<Button variant="outline">
 										<Download className="h-4 w-4 mr-2" />
@@ -123,16 +136,15 @@ function RouteComponent() {
 									</Button>
 								</DropdownMenuTrigger>
 								<DropdownMenuContent>
-									{/* Export options can be added here */}
 								</DropdownMenuContent>
-							</DropdownMenu>
+							</DropdownMenu> */}
 						</div>
 					</div>
 				</CardHeader>
 				<CardContent>
 					{/* Filters and Search */}
 					<div className="flex items-center justify-between mb-6">
-						<div className="flex items-center space-x-4">
+						{/* <div className="flex items-center space-x-4">
 							<div className="relative">
 								<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
 								<Input
@@ -150,7 +162,7 @@ function RouteComponent() {
 								<RefreshCw className="h-4 w-4 mr-2" />
 								Yenile
 							</Button>
-						</div>
+						</div> */}
 
 						{selectedItems.length > 0 && (
 							<div className="flex items-center space-x-2">
@@ -173,13 +185,6 @@ function RouteComponent() {
 						<Table>
 							<TableHeader>
 								<TableRow>
-									{/* <TableHead className="w-12">
-                    <Checkbox
-                      checked={false}
-                      onCheckedChange={handleSelectAll}
-                    />
-                  </TableHead> */}
-									<TableHead>Marka Id</TableHead>
 									<TableHead>Marka Adı</TableHead>
 									<TableHead>Oluşturulma Tarihi</TableHead>
 									<TableHead>Güncellenme Tarihi</TableHead>
@@ -189,7 +194,6 @@ function RouteComponent() {
 							<TableBody>
 								{markalar.map((marka: Marka) => (
 									<TableRow key={marka.id}>
-										<TableCell>{marka.id}</TableCell>
 										<TableCell className="font-medium">{marka.adi}</TableCell>
 										<TableCell>{formatDate(marka.createdAt)}</TableCell>
 										<TableCell>{formatDate(marka.updatedAt)}</TableCell>
@@ -214,14 +218,14 @@ function RouteComponent() {
 													>
 														Düzenle
 													</Button>
-													<Button
+													{/* <Button
 														variant="ghost"
 														size="sm"
 														className="justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
 														onClick={() => openDialog("delete", marka)}
 													>
 														Sil
-													</Button>
+													</Button> */}
 												</DropdownMenuContent>
 											</DropdownMenu>
 										</TableCell>

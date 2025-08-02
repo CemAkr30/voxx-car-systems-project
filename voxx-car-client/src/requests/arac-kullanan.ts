@@ -7,13 +7,20 @@ import type {
 import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
+export const getAracKullananlar = async (): Promise<AracKullanan[]> => {
+	const { data } = await axiosClient.get<AracKullanan[]>(
+		`${urls.arackullanan}`,
+	);
+	return data.filter((d) => !d.isDeleted);
+};
+
 export const getAllAracKullananlarByFirmaId = async (
 	firmaId: string,
 ): Promise<AracKullanan[]> => {
-	const { data } = await axiosClient.get(
+	const { data } = await axiosClient.get<AracKullanan[]>(
 		`${urls.firma}/${firmaId}/arackullanan`,
 	);
-	return data;
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const createAracKullanan = async (
@@ -21,7 +28,6 @@ export const createAracKullanan = async (
 ): Promise<void> => {
 	try {
 		await axiosClient.post<AracKullanan>(`${urls.arackullanan}`, aracKullanan);
-		toast.success("AracKullanan başarılı bir şekilde kayıt edildi");
 	} catch (error: unknown) {
 		if (isAxiosError(error)) {
 			toast.error("AracKullananyı kayıt ederken sorun oluştu");
@@ -39,7 +45,6 @@ export const updateAracKullanan = async (
 			`${urls.arackullanan}/${aracKullanan.id}`,
 			aracKullanan,
 		);
-		toast.success("AracKullanan başarılı bir şekilde güncellendi");
 	} catch (error) {
 		if (isAxiosError(error)) {
 			toast.error("AracKullananyı güncellerken sorun oluştu");
@@ -52,7 +57,6 @@ export const updateAracKullanan = async (
 export const deleteAracKullanan = async (id: string): Promise<void> => {
 	try {
 		await axiosClient.delete(`${urls.arackullanan}/${id}`);
-		toast.success("AracKullanan başarılı bir şekilde silindi");
 	} catch (error) {
 		if (isAxiosError(error)) {
 			toast.error("AracKullananyı silerken sorun oluştu");

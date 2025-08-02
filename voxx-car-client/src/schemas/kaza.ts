@@ -17,5 +17,8 @@ export type CreateKazaRequest = z.infer<typeof kazaCreateSchema>;
 
 export const kazaUpdateSchema = kazaCreateSchema.extend({
 	id: z.string(),
+	createdAt: z.string(),
+	updatedAt: z.string(),
+	isDeleted: z.boolean(),
 });
 export type Kaza = z.infer<typeof kazaUpdateSchema>;

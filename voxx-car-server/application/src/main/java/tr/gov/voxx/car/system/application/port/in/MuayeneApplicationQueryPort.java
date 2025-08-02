@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface MuayeneApplicationQueryPort extends QueryExecutor<Muayene, MuayeneId> {
     List<Muayene> findAracFiloIdGetAll(String aracFiloId);
+    List<Muayene> findByBitisTarihiBefore(java.time.Instant bitis);
 
 }

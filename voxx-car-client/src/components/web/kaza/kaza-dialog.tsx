@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/dialog";
 import { useAppForm } from "@/hooks/demo.form";
 import {
-	getKazaByAracFiloIdQueryOptions,
 	useCreateKazaMutation,
 	useUpdateKazaMutation,
 } from "@/hooks/use-kaza-hooks";
@@ -19,7 +18,7 @@ import {
 	kazaUpdateSchema,
 	type CreateKazaRequest,
 } from "@/schemas/kaza";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { RefreshCw } from "lucide-react";
 import type { Firma } from "@/schemas/firma.ts";
 import { useMemo } from "react";
@@ -49,8 +48,7 @@ interface KazaDialogUpdateProps {
 type KazaDialogProps = KazaDialogCreateProps | KazaDialogUpdateProps;
 
 export default function KazaDialog(props: KazaDialogProps) {
-	const { mode, open, close, initialValues, firmalar, aracFiloId } = props;
-	const queryClient = useQueryClient();
+	const { mode, open, close, firmalar, aracFiloId } = props;
 
 	const onarimDurumuOptions = OnarimDurumuTipiListesi.map((onarimDurumu) => ({
 		label: OnarimDurumuTipiListesiLabel[onarimDurumu],
@@ -100,9 +98,6 @@ export default function KazaDialog(props: KazaDialogProps) {
 					await updateKazaMutation!.mutateAsync(value as Kaza);
 				}
 				formApi.reset();
-				queryClient.invalidateQueries(
-					getKazaByAracFiloIdQueryOptions(initialValues.aracFiloId),
-				);
 			} catch (_error) {}
 		},
 	});

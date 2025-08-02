@@ -10,7 +10,6 @@ import {
 import { ParaBirimiTipiListesi, ParaBirimiTipiListesiLabel } from "@/enums";
 import { useAppForm } from "@/hooks/demo.form";
 import {
-	getAlisFaturasiByAracFiloIdQueryOptions,
 	useCreateAlisFaturasiMutation,
 	useUpdateAlisFaturasiMutation,
 } from "@/hooks/use-alis-faturasi-hooks";
@@ -20,7 +19,6 @@ import {
 	alisFaturasiUpdateSchema,
 	type CreateAlisFaturasiRequest,
 } from "@/schemas/alis-faturasi";
-import { useQueryClient } from "@tanstack/react-query";
 import { RefreshCw } from "lucide-react";
 import type { Firma } from "@/schemas/firma.ts";
 import { useMemo } from "react";
@@ -48,8 +46,7 @@ type AlisFaturasiDialogProps =
 	| AlisFaturasiDialogUpdateProps;
 
 export default function AlisFaturasiDialog(props: AlisFaturasiDialogProps) {
-	const { mode, open, close, initialValues, firmalar, aracFiloId } = props;
-	const queryClient = useQueryClient();
+	const { mode, open, close, firmalar, aracFiloId } = props;
 
 	const paraBirimiTipiOptions = ParaBirimiTipiListesi.map((paraBirimi) => ({
 		label: ParaBirimiTipiListesiLabel[paraBirimi],
@@ -96,6 +93,9 @@ export default function AlisFaturasiDialog(props: AlisFaturasiDialogProps) {
 					}
 				: {
 						...props.initialValues,
+						alisFaturasiTarihi: new Date(
+							props.initialValues.alisFaturasiTarihi,
+						),
 					},
 		validators: {
 			// @ts-expect-error
@@ -112,9 +112,6 @@ export default function AlisFaturasiDialog(props: AlisFaturasiDialogProps) {
 					await updateAlisFaturasiMutation!.mutateAsync(value as AlisFaturasi);
 				}
 				formApi.reset();
-				queryClient.invalidateQueries(
-					getAlisFaturasiByAracFiloIdQueryOptions(initialValues.aracFiloId),
-				);
 			} catch (_error) {}
 		},
 	});

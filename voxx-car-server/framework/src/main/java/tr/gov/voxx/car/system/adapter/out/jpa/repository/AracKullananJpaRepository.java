@@ -10,4 +10,6 @@ import java.util.List;
 public interface AracKullananJpaRepository extends JpaRepository<AracKullananEntity, String> {
 
     List<AracKullananEntity> findByFirmaId(String firmaId);
+    
+    List<AracKullananEntity> findByIsDeletedFalse();
 }

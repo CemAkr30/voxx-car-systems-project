@@ -59,7 +59,7 @@ public class MarkaPersistenceJpaAdapter implements MarkaPersistenceJpaPort {
     @Transactional(readOnly = true)
     public List<Marka> findAll() {
         return MarkaJpaMapper.toMarkaList(
-                markaJpaRepository.findAll()
+                markaJpaRepository.findByIsDeletedFalse()
         );
     }
 

@@ -13,7 +13,6 @@ import {
 } from "@/enums";
 import { useAppForm } from "@/hooks/demo.form";
 import {
-	getFilodanCikisByAracFiloIdQueryOptions,
 	useCreateFilodanCikisMutation,
 	useUpdateFilodanCikisMutation,
 } from "@/hooks/use-filodan-cikis-hooks";
@@ -23,7 +22,6 @@ import {
 	filodanCikisUpdateSchema,
 	type CreateFilodanCikisRequest,
 } from "@/schemas/filodan-cikis";
-import { useQueryClient } from "@tanstack/react-query";
 import { RefreshCw } from "lucide-react";
 
 interface FilodanCikisDialogCreateProps {
@@ -47,8 +45,7 @@ type FilodanCikisDialogProps =
 	| FilodanCikisDialogUpdateProps;
 
 export default function FilodanCikisDialog(props: FilodanCikisDialogProps) {
-	const { mode, open, close, initialValues, aracFiloId } = props;
-	const queryClient = useQueryClient();
+	const { mode, open, close, aracFiloId } = props;
 
 	const filodanCikisNedeniOptions = FilodanCikisNedeniListesi.map(
 		(filodanCikisNedeni) => ({
@@ -68,6 +65,11 @@ export default function FilodanCikisDialog(props: FilodanCikisDialogProps) {
 						aracFiloId,
 						filodanCikisNedeni: FilodanCikisNedeniListesi[0],
 						filodanCikisTarihi: new Date(),
+						alici: "",
+						aciklama: "",
+						faturaYukle: "",
+						anahtarTeslimFiyati: 0,
+						aracDevirGiderleri: 0,
 					}
 				: {
 						...props.initialValues,
@@ -90,9 +92,6 @@ export default function FilodanCikisDialog(props: FilodanCikisDialogProps) {
 					await updateFilodanCikisMutation!.mutateAsync(value as FilodanCikis);
 				}
 				formApi.reset();
-				queryClient.invalidateQueries(
-					getFilodanCikisByAracFiloIdQueryOptions(initialValues.aracFiloId),
-				);
 			} catch (_error) {}
 		},
 	});

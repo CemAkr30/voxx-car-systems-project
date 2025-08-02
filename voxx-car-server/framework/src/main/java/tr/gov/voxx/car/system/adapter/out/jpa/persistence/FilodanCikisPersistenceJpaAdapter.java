@@ -59,7 +59,7 @@ public class FilodanCikisPersistenceJpaAdapter implements FilodanCikisPersistenc
     @Transactional(readOnly = true)
     public List<FilodanCikis> findAll() {
         return FilodanCikisJpaMapper.toFilodanCikisList(
-                filodanCikisJpaRepository.findAll()
+                filodanCikisJpaRepository.findByIsDeletedFalse()
         );
     }
 

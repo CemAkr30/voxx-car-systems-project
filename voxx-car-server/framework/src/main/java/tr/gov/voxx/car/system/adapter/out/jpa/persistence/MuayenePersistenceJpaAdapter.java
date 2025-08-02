@@ -59,7 +59,7 @@ public class MuayenePersistenceJpaAdapter implements MuayenePersistenceJpaPort {
     @Transactional(readOnly = true)
     public List<Muayene> findAll() {
         return MuayeneJpaMapper.toMuayeneList(
-                muayeneJpaRepository.findAll()
+                muayeneJpaRepository.findByIsDeletedFalse()
         );
     }
 
@@ -67,6 +67,13 @@ public class MuayenePersistenceJpaAdapter implements MuayenePersistenceJpaPort {
     public List<Muayene> findAracFiloIdGetAll(String aracFiloId) {
         return MuayeneJpaMapper.toMuayeneList(
                 muayeneJpaRepository.findByAracFiloId(aracFiloId)
+        );
+    }
+
+    @Override
+    public List<Muayene> findByBitisTarihiBefore(java.time.Instant bitis) {
+        return MuayeneJpaMapper.toMuayeneList(
+                muayeneJpaRepository.findByBitisTarihiBefore(bitis)
         );
     }
 }

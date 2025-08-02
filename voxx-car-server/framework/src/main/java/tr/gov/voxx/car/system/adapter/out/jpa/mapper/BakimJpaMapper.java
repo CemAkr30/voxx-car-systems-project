@@ -32,6 +32,7 @@ public class BakimJpaMapper {
                 .odeyenFirmaId(new FirmaId(entity.getOdeyenFirmaId()))
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
+                .isDeleted(entity.isDeleted())
                 .build();
     }
 

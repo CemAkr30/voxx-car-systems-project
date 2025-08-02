@@ -16,16 +16,16 @@ public class AracKullananWebSocketNotifier {
 
     public void notifyAracKullananCreated(AracKullananCreatedEvent event) {
         messagingTemplate.convertAndSend("/topic/aracKullanan",
-                Map.of("type", "CREATED", "id", event.id()));
+                Map.of("type", "CREATED", "id", event.firmaId()));
     }
 
     public void notifyAracKullananUpdated(AracKullananUpdatedEvent event) {
         messagingTemplate.convertAndSend("/topic/aracKullanan",
-                Map.of("type", "UPDATED", "id", event.id()));
+                Map.of("type", "UPDATED", "id", event.firmaId()));
     }
 
     public void notifyAracKullananDeleted(AracKullananDeletedEvent event) {
         messagingTemplate.convertAndSend("/topic/aracKullanan",
-                Map.of("type", "DELETED", "id", event.id()));
+                Map.of("type", "DELETED", "id", event.firmaId()));
     }
 }

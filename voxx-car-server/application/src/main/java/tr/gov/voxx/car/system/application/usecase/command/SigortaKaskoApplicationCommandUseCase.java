@@ -57,8 +57,14 @@ public class SigortaKaskoApplicationCommandUseCase implements SigortaKaskoApplic
 
     @Override
     public void deleteById(SigortaId sigortaId) {
+        SigortaKasko existing = persistenceJpaPort.findById(sigortaId);
+        if (existing == null) {
+            throw new NotFoundException("Sigorta not found with id: " + sigortaId);
+        }
+        
         domainEventPublisher.publish("sigorta-deleted-topic", SigortaDeletedEvent.builder()
                 .id(sigortaId)
+                .aracFiloId(existing.getAracFiloId())
                 .build());
     }
 }

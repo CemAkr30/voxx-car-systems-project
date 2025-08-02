@@ -48,8 +48,14 @@ public class AdresApplicationCommandUseCase implements AdresApplicationCommandPo
 
     @Override
     public void deleteById(AdresId adresId) {
+        Adres existing = adresPersistenceJpaPort.findById(adresId);
+        if (existing == null) {
+            throw new NotFoundException("Adres not found with id: " + adresId);
+        }
+        
         domainEventPublisher.publish("adres-deleted-topic", AdresDeletedEvent.builder()
                 .id(adresId)
+                .firmaId(existing.getFirmaId())
                 .build());
     }
 }

@@ -22,7 +22,6 @@ public class MTVApplicationCommandUseCase implements MTVApplicationCommandPort {
     @Override
     public void post(Mtv entity) {
         entity.initIdGenerator();
-
         domainEventPublisher.publish("mtv-created-topic", MTVCreatedEvent.builder()
                 .id(entity.getId())
                 .aracFiloId(entity.getAracFiloId())
@@ -30,6 +29,7 @@ public class MTVApplicationCommandUseCase implements MTVApplicationCommandPort {
                 .taksit(entity.getTaksit())
                 .makbuzNo(entity.getMakbuzNo())
                 .miktar(entity.getMiktar())
+                .odemeTipi(entity.getOdemeTipi())
                 .odeyenFirmaId(entity.getOdeyenFirmaId())
                 .aciklama(entity.getAciklama())
                 .gecikmeCezasi(entity.getGecikmeCezasi())
@@ -44,7 +44,6 @@ public class MTVApplicationCommandUseCase implements MTVApplicationCommandPort {
             throw new NotFoundException("Mtv not found with id: " + entity.getId());
         }
         existing.updateFrom(entity);
-
         domainEventPublisher.publish("mtv-updated-topic", MTVUpdatedEvent.builder()
                 .id(entity.getId())
                 .aracFiloId(entity.getAracFiloId())
@@ -52,6 +51,7 @@ public class MTVApplicationCommandUseCase implements MTVApplicationCommandPort {
                 .taksit(entity.getTaksit())
                 .makbuzNo(entity.getMakbuzNo())
                 .miktar(entity.getMiktar())
+                .odemeTipi(entity.getOdemeTipi())
                 .odeyenFirmaId(entity.getOdeyenFirmaId())
                 .aciklama(entity.getAciklama())
                 .gecikmeCezasi(entity.getGecikmeCezasi())
@@ -61,8 +61,14 @@ public class MTVApplicationCommandUseCase implements MTVApplicationCommandPort {
 
     @Override
     public void deleteById(MtvId mtvId) {
+        Mtv existing = persistenceJpaPort.findById(mtvId);
+        if (existing == null) {
+            throw new NotFoundException("Mtv not found with id: " + mtvId);
+        }
+        
         domainEventPublisher.publish("mtv-deleted-topic", MTVDeletedEvent.builder()
                 .id(mtvId)
+                .aracFiloId(existing.getAracFiloId())
                 .build());
     }
 }

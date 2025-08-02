@@ -58,7 +58,7 @@ public class AdresPersistenceJpaAdapter implements AdresPersistenceJpaPort {
     @Transactional(readOnly = true)
     public List<Adres> findAll() {
         return AdresJpaMapper.toAdresList(
-                adresJpaRepository.findAll()
+                adresJpaRepository.findByIsDeletedFalse()
         );
     }
 

@@ -18,5 +18,6 @@ public class EndpointPath {
     public static final String ALISFATURASI_ENDPOINT_V1 = "/v1/alisfaturasi";
     public static final String ARACKULLANAN_ENDPOINT_V1 = "/v1/arackullanan";
     public static final String FILODANCIKIS_ENDPOINT_V1 = "/v1/filodancikis";
+    public static final String DASHBOARD_ENDPOINT_V1 = "/v1/dashboard";
 
 }

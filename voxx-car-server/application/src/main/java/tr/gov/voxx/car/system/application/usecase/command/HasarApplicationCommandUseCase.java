@@ -49,8 +49,14 @@ public class HasarApplicationCommandUseCase implements HasarApplicationCommandPo
 
     @Override
     public void deleteById(HasarId hasarId) {
+        Hasar existing = persistenceJpaPort.findById(hasarId);
+        if (existing == null) {
+            throw new NotFoundException("Hasar not found with id: " + hasarId);
+        }
+        
         domainEventPublisher.publish("hasar-deleted-topic", HasarDeletedEvent.builder()
                 .id(hasarId)
+                .aracFiloId(existing.getAracFiloId())
                 .build());
     }
 }

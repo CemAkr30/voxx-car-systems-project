@@ -21,6 +21,7 @@ public class HasarJpaMapper {
                 .hasarTipi(entity.getHasarTipi())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
+                .isDeleted(entity.isDeleted())
                 .build();
     }
 

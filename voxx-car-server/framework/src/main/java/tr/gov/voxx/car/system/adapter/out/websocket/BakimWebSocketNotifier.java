@@ -16,16 +16,16 @@ public class BakimWebSocketNotifier {
 
     public void notifyBakimCreated(BakimCreatedEvent event) {
         messagingTemplate.convertAndSend("/topic/bakim",
-                Map.of("type", "CREATED", "id", event.id()));
+                Map.of("type", "CREATED", "id", event.aracFiloId()));
     }
 
     public void notifyBakimUpdated(BakimUpdatedEvent event) {
         messagingTemplate.convertAndSend("/topic/bakim",
-                Map.of("type", "UPDATED", "id", event.id()));
+                Map.of("type", "UPDATED", "id", event.aracFiloId()));
     }
 
     public void notifyBakimDeleted(BakimDeletedEvent event) {
         messagingTemplate.convertAndSend("/topic/bakim",
-                Map.of("type", "DELETED", "id", event.id()));
+                Map.of("type", "DELETED", "id", event.aracFiloId()));
     }
 }

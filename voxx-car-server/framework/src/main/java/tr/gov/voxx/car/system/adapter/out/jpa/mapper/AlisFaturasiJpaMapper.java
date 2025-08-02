@@ -39,6 +39,7 @@ public class AlisFaturasiJpaMapper {
                 .aciklama(entity.getAciklama())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
+                .isDeleted(entity.isDeleted())
                 .build();
     }
 

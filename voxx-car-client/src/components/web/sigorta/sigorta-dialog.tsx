@@ -10,7 +10,6 @@ import {
 import { SigortaTipiListesi, SigortaTipiListesiLabel } from "@/enums";
 import { useAppForm } from "@/hooks/demo.form";
 import {
-	getSigortalarByAracFiloIdQueryOptions,
 	useCreateSigortaMutation,
 	useUpdateSigortaMutation,
 } from "@/hooks/use-sigorta-hooks";
@@ -20,7 +19,6 @@ import {
 	type CreateSigortaRequest,
 	type Sigorta,
 } from "@/schemas/sigorta";
-import { useQueryClient } from "@tanstack/react-query";
 import { RefreshCw } from "lucide-react";
 
 interface SigortaDialogCreateProps {
@@ -41,7 +39,6 @@ type SigortaDialogProps = SigortaDialogCreateProps | SigortaDialogUpdateProps;
 
 export default function SigortaDialog(props: SigortaDialogProps) {
 	const { mode, open, close, initialValues } = props;
-	const queryClient = useQueryClient();
 
 	const sigortaTipiOptions = SigortaTipiListesi.map((tip) => ({
 		label: SigortaTipiListesiLabel[tip],
@@ -83,9 +80,6 @@ export default function SigortaDialog(props: SigortaDialogProps) {
 					await updateSigortaMutation!.mutateAsync(value as Sigorta);
 				}
 				formApi.reset();
-				queryClient.invalidateQueries(
-					getSigortalarByAracFiloIdQueryOptions(initialValues.aracFiloId),
-				);
 			} catch (_error) {}
 		},
 	});

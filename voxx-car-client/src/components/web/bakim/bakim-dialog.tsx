@@ -10,7 +10,6 @@ import {
 import { BakimNedeniTipiListesi, BakimNedeniTipiListesiLabel } from "@/enums";
 import { useAppForm } from "@/hooks/demo.form";
 import {
-	getBakimByAracFiloIdQueryOptions,
 	useCreateBakimMutation,
 	useUpdateBakimMutation,
 } from "@/hooks/use-bakim-hooks";
@@ -20,7 +19,6 @@ import {
 	bakimUpdateSchema,
 	type CreateBakimRequest,
 } from "@/schemas/bakim";
-import { useQueryClient } from "@tanstack/react-query";
 import { RefreshCw } from "lucide-react";
 import type { Firma } from "@/schemas/firma.ts";
 import { useMemo } from "react";
@@ -46,8 +44,7 @@ interface BakimDialogUpdateProps {
 type BakimDialogProps = BakimDialogCreateProps | BakimDialogUpdateProps;
 
 export default function BakimDialog(props: BakimDialogProps) {
-	const { mode, open, close, initialValues, firmalar, aracFiloId } = props;
-	const queryClient = useQueryClient();
+	const { mode, open, close, firmalar, aracFiloId } = props;
 
 	const bakimNedeniTipiOptions = BakimNedeniTipiListesi.map((bakimNedeni) => ({
 		label: BakimNedeniTipiListesiLabel[bakimNedeni],
@@ -97,9 +94,6 @@ export default function BakimDialog(props: BakimDialogProps) {
 					await updateBakimMutation!.mutateAsync(value as Bakim);
 				}
 				formApi.reset();
-				queryClient.invalidateQueries(
-					getBakimByAracFiloIdQueryOptions(initialValues.aracFiloId),
-				);
 			} catch (_error) {}
 		},
 	});
@@ -131,41 +125,43 @@ export default function BakimDialog(props: BakimDialogProps) {
 					}}
 					className="space-y-6"
 				>
-					<form.AppField name="bakimNedeni">
-						{(field) => (
-							<field.Select
-								label="Bakim nedeni Tipi"
-								values={bakimNedeniTipiOptions}
-							/>
-						)}
-					</form.AppField>
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+						<form.AppField name="bakimNedeni">
+							{(field) => (
+								<field.Select
+									label="Bakim nedeni Tipi"
+									values={bakimNedeniTipiOptions}
+								/>
+							)}
+						</form.AppField>
 
-					<form.AppField name="parca">
-						{(field) => <field.TextField label="Parça" />}
-					</form.AppField>
+						<form.AppField name="parca">
+							{(field) => <field.TextField label="Parça" />}
+						</form.AppField>
 
-					<form.AppField name="parcaTutari">
-						{(field) => <field.TextField label="Parça tutarı" />}
-					</form.AppField>
+						<form.AppField name="parcaTutari">
+							{(field) => <field.TextField label="Parça tutarı" />}
+						</form.AppField>
 
-					<form.AppField name="iscilikTutari">
-						{(field) => <field.TextField label="İşçilik tutarı" />}
-					</form.AppField>
+						<form.AppField name="iscilikTutari">
+							{(field) => <field.TextField label="İşçilik tutarı" />}
+						</form.AppField>
 
-					<form.AppField name="toplamTutar">
-						{(field) => <field.TextField label="Parça tutarı" />}
-					</form.AppField>
+						<form.AppField name="toplamTutar">
+							{(field) => <field.TextField label="Parça tutarı" />}
+						</form.AppField>
 
-					<form.AppField name="faturaNo">
-						{(field) => <field.TextField label="Fatura numarası" />}
-					</form.AppField>
+						<form.AppField name="faturaNo">
+							{(field) => <field.TextField label="Fatura numarası" />}
+						</form.AppField>
+					</div>
 
 					<form.AppField name="fatura">
 						{(field) => <field.TextField label="Fatura" />}
 					</form.AppField>
 
 					<form.AppField name="aciklama">
-						{(field) => <field.TextField label="Açıklama" />}
+						{(field) => <field.TextArea label="Açıklama" />}
 					</form.AppField>
 
 					<form.AppField name="odeyenFirmaId">

@@ -5,8 +5,8 @@ import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
 export const getAllFirma = async (): Promise<Firma[]> => {
-	const { data } = await axiosClient.get(`${urls.firma}`);
-	return data;
+	const { data } = await axiosClient.get<Firma[]>(`${urls.firma}`);
+	return data.filter((d) => !d.isDeleted);
 };
 
 export const getFirma = async (id: string): Promise<Firma> => {
@@ -17,7 +17,6 @@ export const getFirma = async (id: string): Promise<Firma> => {
 export const createFirma = async (firma: CreateFirmaRequest): Promise<void> => {
 	try {
 		await axiosClient.post<Firma>(`${urls.firma}`, firma);
-		toast.success("Firma başarılı bir şekilde kayıt edildi");
 	} catch (error: unknown) {
 		if (isAxiosError(error)) {
 			toast.error("Firmayı kayıt ederken sorun oluştu");
@@ -30,7 +29,6 @@ export const createFirma = async (firma: CreateFirmaRequest): Promise<void> => {
 export const updateFirma = async (firma: Firma): Promise<void> => {
 	try {
 		await axiosClient.put<Firma>(`${urls.firma}/${firma.id}`, firma);
-		toast.success("Firma başarılı bir şekilde güncellendi");
 	} catch (error) {
 		if (isAxiosError(error)) {
 			toast.error("Firmayı güncellerken sorun oluştu");
@@ -43,7 +41,6 @@ export const updateFirma = async (firma: Firma): Promise<void> => {
 export const deleteFirma = async (id: string): Promise<void> => {
 	try {
 		await axiosClient.delete(`${urls.firma}/${id}`);
-		toast.success("Firma başarılı bir şekilde silindi");
 	} catch (error) {
 		if (isAxiosError(error)) {
 			toast.error("Firmayı silerken sorun oluştu");

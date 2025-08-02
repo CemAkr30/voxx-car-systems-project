@@ -9,5 +9,8 @@ import java.util.List;
 @Repository
 public interface SigortaJpaRepository extends JpaRepository<SigortaKaskoEntity, String> {
     List<SigortaKaskoEntity> findByAracFiloId(String aracFiloId);
-
+    
+    List<SigortaKaskoEntity> findByBitisTarihiBefore(java.time.Instant bitis);
+    
+    List<SigortaKaskoEntity> findByIsDeletedFalse();
 }

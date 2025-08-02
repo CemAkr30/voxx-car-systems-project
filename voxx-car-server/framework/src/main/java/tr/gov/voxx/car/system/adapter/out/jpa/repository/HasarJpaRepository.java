@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface HasarJpaRepository extends JpaRepository<HasarEntity, String> {
     List<HasarEntity> findByAracFiloId(String aracFiloId);
-
+    List<HasarEntity> findByIsDeletedFalse();
 }

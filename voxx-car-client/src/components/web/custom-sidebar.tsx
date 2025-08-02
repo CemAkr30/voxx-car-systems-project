@@ -140,7 +140,7 @@ export default function CustomSidebar({ user }: { user: TUser }) {
 													asChild
 													isActive={pathname === child.href}
 												>
-													<Link to={child.href}>
+													<Link to={child.href} viewTransition>
 														<child.icon className="size-4" />
 														<span>{child.title}</span>
 													</Link>

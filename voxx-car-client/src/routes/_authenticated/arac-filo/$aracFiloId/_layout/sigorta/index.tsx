@@ -10,12 +10,15 @@ import {
 import SigortaDialog from "@/components/web/sigorta/sigorta-dialog";
 import SigortaSilDialog from "@/components/web/sigorta/sigorta-sil-dialog";
 import { getSigortalarByAracFiloIdQueryOptions } from "@/hooks/use-sigorta-hooks";
+import { useWebSocketTopic } from "@/hooks/use-webhook";
 import { formatDate } from "@/lib/utils";
 import type { Sigorta } from "@/schemas/sigorta";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import type { WebSocketMessage } from "@/types";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export const Route = createFileRoute(
 	"/_authenticated/arac-filo/$aracFiloId/_layout/sigorta/",
@@ -37,6 +40,26 @@ interface DialogState {
 
 function RouteComponent() {
 	const { aracFiloId } = Route.useParams();
+	const queryClient = useQueryClient();
+
+	useWebSocketTopic<WebSocketMessage>({
+		topic: "/topic/sigorta",
+		onMessage: async ({ type }) => {
+			if (type === "CREATED") {
+				toast.success("Sigorta başarılı bir şekilde kayıt edildi");
+			}
+			if (type === "UPDATED") {
+				toast.success("Sigorta başarılı bir şekilde güncellendi");
+			}
+			if (type === "DELETED") {
+				toast.success("Sigorta başarılı bir şekilde silindi");
+			}
+			await queryClient.invalidateQueries(
+				getSigortalarByAracFiloIdQueryOptions(aracFiloId),
+			);
+		},
+	});
+
 	const [dialogState, setDialogState] = useState<DialogState>({
 		create: false,
 		update: false,

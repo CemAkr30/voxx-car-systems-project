@@ -24,4 +24,5 @@ public class FilodanCikisResponse {
     private String aciklama;
     private Instant createdAt;
     private Instant updatedAt;
+    private boolean isDeleted;
 }

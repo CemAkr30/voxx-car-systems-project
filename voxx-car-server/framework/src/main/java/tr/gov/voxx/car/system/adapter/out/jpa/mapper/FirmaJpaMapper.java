@@ -20,6 +20,7 @@ public class FirmaJpaMapper {
                 .unvan(entity.getUnvan())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
+                .isDeleted(entity.isDeleted())
                 .build();
     }
 

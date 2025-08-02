@@ -19,7 +19,7 @@ export function getModellerByMarkaIdQueryOptions(markaId: string) {
 	return queryOptions({
 		queryKey: ["modeller", { markaId }],
 		queryFn: () => getModelByMarkaId(markaId),
-		enabled: markaId !== null || markaId !== "",
+		enabled: !!markaId && markaId.trim() !== "",
 	});
 }
 

@@ -13,12 +13,15 @@ import MuayeneSilDialog from "@/components/web/muayene/muayene-sil-dialog";
 import { MuayeneTipiListesiLabel, OdemeTipiListesiLabel } from "@/enums";
 import { getFirmalarQueryOptions } from "@/hooks/use-firma-hooks";
 import { getMuayenelerByAracFiloIdQueryOptions } from "@/hooks/use-muayene-hooks";
+import { useWebSocketTopic } from "@/hooks/use-webhook";
 import { formatCurrency, formatDate, getPaymentTypeColor } from "@/lib/utils";
 import type { Muayene } from "@/schemas/muayene";
-import { useSuspenseQueries } from "@tanstack/react-query";
+import type { WebSocketMessage } from "@/types";
+import { useQueryClient, useSuspenseQueries } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Calendar, Edit, MapPin, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export const Route = createFileRoute(
 	"/_authenticated/arac-filo/$aracFiloId/_layout/muayene/",
@@ -41,6 +44,26 @@ interface DialogState {
 
 function RouteComponent() {
 	const { aracFiloId } = Route.useParams();
+	const queryClient = useQueryClient();
+
+	useWebSocketTopic<WebSocketMessage>({
+		topic: "/topic/muayene",
+		onMessage: async ({ type }) => {
+			if (type === "CREATED") {
+				toast.success("Muayene başarılı bir şekilde kayıt edildi");
+			}
+			if (type === "UPDATED") {
+				toast.success("Muayene başarılı bir şekilde güncellendi");
+			}
+			if (type === "DELETED") {
+				toast.success("Muayene başarılı bir şekilde silindi");
+			}
+			await queryClient.invalidateQueries(
+				getMuayenelerByAracFiloIdQueryOptions(aracFiloId),
+			);
+		},
+	});
+
 	const [dialogState, setDialogState] = useState<DialogState>({
 		create: false,
 		update: false,
@@ -161,9 +184,6 @@ function RouteComponent() {
 								Makbuz No
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Araç Filo ID
-							</TableHead>
-							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 								Muayene Tipi
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
@@ -201,11 +221,6 @@ function RouteComponent() {
 											{muayene.aciklama}
 										</p>
 									</div>
-								</TableCell>
-								<TableCell>
-									<span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded-md text-sm font-mono text-slate-700 dark:text-slate-300">
-										{muayene.aracFiloId}
-									</span>
 								</TableCell>
 								<TableCell>
 									<Badge className={getMuayeneTypeColor(muayene.muayeneTipi)}>
