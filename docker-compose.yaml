@@ -18,16 +18,16 @@ services:
       app_postgres:
         condition: service_healthy
 
-  #  client:
-  #    build:
-  #      context: ./voxx-car-client
-  #      dockerfile: Dockerfile
-  #    container_name: voxx-car-ui
-  #    ports:
-  #      - "3000:80"
-  #    restart: unless-stopped
-  #    networks:
-  #      - voxx-car-network
+  client:
+    build:
+      context: ./voxx-car-client
+      dockerfile: Dockerfile
+    container_name: voxx-car-ui
+    ports:
+      - "3000:80"
+    restart: unless-stopped
+    networks:
+      - voxx-car-network
 
   app_postgres:
     container_name: postgres-service
