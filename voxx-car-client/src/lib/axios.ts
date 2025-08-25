@@ -7,7 +7,7 @@ interface ApiError {
 }
 
 export const axiosClient = axios.create({
-    baseURL: "http://http://voxxcarsystems.online",
+    baseURL: "http://voxxcarsystems.online",
     timeout: 10000, // Add timeout for better UX
 });
 
