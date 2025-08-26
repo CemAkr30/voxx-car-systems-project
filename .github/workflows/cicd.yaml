@@ -48,12 +48,20 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Write SSH key to file
+        run: |
+          echo "${{ secrets.HOSTINGER_SSH_KEY }}" > ~/hostinger_key
+          chmod 600 ~/hostinger_key
+
       - name: SSH to Hostinger and deploy via Skaffold
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.HOSTINGER_HOST }}
           username: ${{ secrets.HOSTINGER_USER }}
-          key: ${{ secrets.HOSTINGER_SSH_KEY }}
+          key_path: ~/hostinger_key
           port: ${{ secrets.HOSTINGER_SSH_PORT }}
           script: |
             cd ${{ secrets.HOSTINGER_PROJECT_DIR }}
