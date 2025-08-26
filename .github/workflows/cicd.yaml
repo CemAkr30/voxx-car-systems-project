@@ -53,15 +53,15 @@ jobs:
 
       - name: Write SSH key to file
         run: |
-          echo "${{ secrets.HOSTINGER_SSH_KEY }}" > ~/hostinger_key
-          chmod 600 ~/hostinger_key
+          echo "${{ secrets.HOSTINGER_SSH_KEY }}" > $GITHUB_WORKSPACE/hostinger_key
+          chmod 600 $GITHUB_WORKSPACE/hostinger_key
 
       - name: SSH to Hostinger and deploy via Skaffold
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.HOSTINGER_HOST }}
           username: ${{ secrets.HOSTINGER_USER }}
-          key_path: ~/hostinger_key
+          key_path: ${{ github.workspace }}/hostinger_key
           port: ${{ secrets.HOSTINGER_SSH_PORT }}
           script: |
             cd ${{ secrets.HOSTINGER_PROJECT_DIR }}
