@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: voxx-backend
+  namespace: voxx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: voxx-backend
+  template:
+    metadata:
+      labels:
+        app: voxx-backend
+    spec:
+      containers:
+        - name: voxx-backend
+          image: docker.io/USERNAME/voxx-car-server:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9090
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: voxx-backend
+  namespace: voxx
+spec:
+  selector:
+    app: voxx-backend
+  ports:
+    - name: http
+      port: 80
+      targetPort: 9090
+
