@@ -63,7 +63,6 @@ jobs:
             echo "Pulling latest code..."
             git pull --rebase
 
-            # git pull sonrası skaffold.yaml var mı kontrol et
             if [ -f skaffold.yaml ]; then
               echo "skaffold.yaml bulundu, deploy başlatılıyor..."
               if ! command -v skaffold >/dev/null 2>&1; then
@@ -77,6 +76,3 @@ jobs:
               echo "Hata: skaffold.yaml bulunamadı. Deploy atlandı."
               exit 1
             fi
-
-
-
