@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: voxx-client
-          image: docker.io/USERNAME/voxx-car-client:latest
+          image: docker.io/voxxcar/voxx-car-client:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80

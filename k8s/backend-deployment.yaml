@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: voxx-backend
-          image: docker.io/USERNAME/voxx-car-server:latest
+          image: docker.io/voxxcar/voxx-car-server:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 9090
