@@ -5,43 +5,13 @@ metadata:
 build:
   platforms: ["linux/amd64"]
   artifacts:
-    - image: docker.io/USERNAME/voxx-car-server
+    - image: voxx-car-server
       context: voxx-car-server
       docker:
         dockerfile: Dockerfile
-    - image: docker.io/USERNAME/voxx-car-client
+    - image: voxx-car-client
       context: voxx-car-client
       docker:
         dockerfile: Dockerfile
-  tagPolicy:
-    gitCommit: {}
   local:
     push: false
-manifests:
-  rawYaml:
-    - k8s/namespace.yaml
-    - k8s/backend-deployment.yaml
-    - k8s/client-deployment.yaml
-    - k8s/ingress.yaml
-deploy:
-  kubectl: {}
-portForward:
-  - resourceType: service
-    resourceName: voxx-backend
-    namespace: voxx
-    port: 80
-    localPort: 9090
-  - resourceType: service
-    resourceName: voxx-client
-    namespace: voxx
-    port: 80
-    localPort: 8081
-profiles:
-  - name: prod
-    activation:
-      - kubeContext: "*"
-    patches:
-      - op: replace
-        path: /build/local/push
-        value: true
-
