@@ -1,0 +1,42 @@
+name: Deploy on PR Merge
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+      - release/**
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: SSH to Hostinger and deploy via Skaffold
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.HOSTINGER_HOST }}
+          username: ${{ secrets.HOSTINGER_USER }}
+          key: ${{ secrets.HOSTINGER_SSH_KEY }}
+          port: ${{ secrets.HOSTINGER_SSH_PORT }}
+          script: |
+            cd ${{ secrets.HOSTINGER_PROJECT_DIR }}
+            echo "Pulling latest code..."
+            git pull --rebase
+
+            if [ -f skaffold.yaml ]; then
+              echo "skaffold.yaml bulundu, deploy başlatılıyor..."
+              if ! command -v skaffold >/dev/null 2>&1; then
+                echo "Skaffold yüklü değil, yükleniyor..."
+                curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
+                chmod +x skaffold
+                sudo mv skaffold /usr/local/bin/
+              fi
+              skaffold deploy --profile prod
+            else
+              echo "Hata: skaffold.yaml bulunamadı. Deploy atlandı."
+              exit 1
