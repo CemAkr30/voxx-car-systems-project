@@ -51,17 +51,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Write SSH key to file
-        run: |
-          echo "${{ secrets.HOSTINGER_SSH_KEY_BASE64 }}" | base64 --decode > $GITHUB_WORKSPACE/hostinger_key
-          chmod 600 $GITHUB_WORKSPACE/hostinger_key
-
       - name: SSH to Hostinger and deploy via Skaffold
-        uses: appleboy/ssh-action@v1.0.3
+        uses: appleboy/ssh-action@v1.1.0
         with:
           host: ${{ secrets.HOSTINGER_HOST }}
           username: ${{ secrets.HOSTINGER_USER }}
-          key_path: ${{ github.workspace }}/hostinger_key
+          key: ${{ secrets.HOSTINGER_SSH_KEY }}
           port: ${{ secrets.HOSTINGER_SSH_PORT }}
           script: |
             cd ${{ secrets.HOSTINGER_PROJECT_DIR }}
