@@ -48,7 +48,7 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
-      - name: SSH to Hostinger and run skaffold
+      - name: SSH to Hostinger and deploy via Skaffold
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.HOSTINGER_HOST }}
@@ -56,7 +56,6 @@ jobs:
           key: ${{ secrets.HOSTINGER_SSH_KEY }}
           port: ${{ secrets.HOSTINGER_SSH_PORT }}
           script: |
-            set -e
             cd ${{ secrets.HOSTINGER_PROJECT_DIR }}
             git pull --rebase
             # ensure skaffold installed
@@ -64,7 +63,4 @@ jobs:
               curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
               chmod +x skaffold && sudo mv skaffold /usr/local/bin/
             fi
-            # ensure kubectl context set
-            kubectl version --client
-            # deploy only
             skaffold deploy --profile prod
