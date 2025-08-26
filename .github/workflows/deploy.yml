@@ -1,16 +1,13 @@
-name: Deploy on PR Merge
+name: Deploy on Merge
 
 on:
-  pull_request:
-    types:
-      - closed
+  push:
     branches:
       - main
       - release/**
 
 jobs:
   deploy:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
