@@ -60,6 +60,7 @@ jobs:
           port: ${{ secrets.HOSTINGER_SSH_PORT }}
           script: |
             cd ${{ secrets.HOSTINGER_PROJECT_DIR }}
+            echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
             echo "Pulling latest code..."
             git pull --rebase
             echo "skaffold.yaml bulundu, deploy başlatılıyor..."
