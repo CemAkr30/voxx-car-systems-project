@@ -16,7 +16,7 @@ build:
   tagPolicy:
     gitCommit: {}
   local:
-    push: true
+    push: false
 manifests:
   rawYaml:
     - k8s/namespace.yaml

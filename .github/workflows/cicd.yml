@@ -64,4 +64,4 @@ jobs:
             echo "Pulling latest code..."
             git pull --rebase
             echo "skaffold.yaml bulundu, deploy başlatılıyor..."
-            skaffold run --profile prod
+            skaffold run --platform=linux/amd64 --profile prod
