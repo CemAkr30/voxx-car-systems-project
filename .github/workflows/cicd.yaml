@@ -60,10 +60,23 @@ jobs:
           port: ${{ secrets.HOSTINGER_SSH_PORT }}
           script: |
             cd ${{ secrets.HOSTINGER_PROJECT_DIR }}
+            echo "Pulling latest code..."
             git pull --rebase
-            # ensure skaffold installed
-            if ! command -v skaffold >/dev/null 2>&1; then
-              curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
-              chmod +x skaffold && sudo mv skaffold /usr/local/bin/
+
+            # git pull sonrası skaffold.yaml var mı kontrol et
+            if [ -f skaffold.yaml ]; then
+              echo "skaffold.yaml bulundu, deploy başlatılıyor..."
+              if ! command -v skaffold >/dev/null 2>&1; then
+                echo "Skaffold yüklü değil, yükleniyor..."
+                curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
+                chmod +x skaffold
+                sudo mv skaffold /usr/local/bin/
+              fi
+              skaffold deploy --profile prod
+            else
+              echo "Hata: skaffold.yaml bulunamadı. Deploy atlandı."
+              exit 1
             fi
-            skaffold deploy --profile prod
+
+
+
