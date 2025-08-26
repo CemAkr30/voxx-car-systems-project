@@ -53,7 +53,7 @@ jobs:
 
       - name: Write SSH key to file
         run: |
-          echo "${{ secrets.HOSTINGER_SSH_KEY }}" > $GITHUB_WORKSPACE/hostinger_key
+          echo "${{ secrets.HOSTINGER_SSH_KEY_BASE64 }}" | base64 --decode > $GITHUB_WORKSPACE/hostinger_key
           chmod 600 $GITHUB_WORKSPACE/hostinger_key
 
       - name: SSH to Hostinger and deploy via Skaffold
