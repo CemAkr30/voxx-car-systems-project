@@ -1,4 +1,4 @@
-name: CI - Build & Push
+name: CI/CD
 
 on:
   push:
@@ -43,3 +43,25 @@ jobs:
           file: ./voxx-car-client/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/voxx-car-client:latest
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: SSH to Hostinger and deploy via Skaffold
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.HOSTINGER_HOST }}
+          username: ${{ secrets.HOSTINGER_USER }}
+          key: ${{ secrets.HOSTINGER_SSH_KEY }}
+          port: ${{ secrets.HOSTINGER_SSH_PORT }}
+          script: |
+            cd ${{ secrets.HOSTINGER_PROJECT_DIR }}
+            echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+            echo "Pulling latest code..."
+            git pull --rebase
+            echo "skaffold.yaml bulundu, deploy başlatılıyor..."
+            skaffold run --platform=linux/amd64 --profile prod
