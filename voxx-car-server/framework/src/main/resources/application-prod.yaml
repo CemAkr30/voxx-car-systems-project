@@ -1,8 +1,6 @@
 server:
   shutdown: graceful
   port: 9090
-  servlet:
-    context-path: /api
 
 spring:
   application:
