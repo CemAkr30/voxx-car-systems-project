@@ -64,8 +64,7 @@ jobs:
               curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
               chmod +x skaffold && sudo mv skaffold /usr/local/bin/
             fi
-            # ensure kubectl context set (adjust if you use k3s/microk8s)
+            # ensure kubectl context set
             kubectl version --client
-            # deploy only (images are already pushed by CI)
+            # deploy only
             skaffold deploy --profile prod
-
