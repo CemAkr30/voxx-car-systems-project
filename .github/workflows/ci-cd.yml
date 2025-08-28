@@ -62,7 +62,7 @@ jobs:
             cd ${{ secrets.HOSTINGER_PROJECT_DIR }}
             echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
             echo "Pulling latest code..."
-            git checkout dev
+            git checkout main
             git pull
             echo "docker-compose.yaml bulundu, uygulamalar kapatılıyor..."
             docker-compose --env-file .env.prod down
