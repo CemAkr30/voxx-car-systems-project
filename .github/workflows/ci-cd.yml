@@ -70,4 +70,4 @@ jobs:
             docker image prune -f
             docker system prune -f
             echo "docker-compose.yaml bulundu, başlatıldı ediliyor..."
-            docker-compose --env-file .env.prod up -d client app
+            docker-compose --env-file .env.prod up -d
