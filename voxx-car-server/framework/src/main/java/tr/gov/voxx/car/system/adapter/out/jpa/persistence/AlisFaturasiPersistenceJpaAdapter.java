@@ -48,14 +48,25 @@ public class AlisFaturasiPersistenceJpaAdapter implements AlisFaturasiPersistenc
     @Transactional
     public void deleteById(AlisFaturasiId alisFaturasiId) {
         Optional<AlisFaturasiEntity> entity = alisFaturasiJpaRepository.findById(alisFaturasiId.getValue());
-        entity.ifPresent(alisFaturasiJpaRepository::delete);
+        entity.ifPresent(e -> {
+                    e.setDeleted(true);
+                    alisFaturasiJpaRepository.save(e);
+                }
+        );
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<AlisFaturasi> findAll() {
         return AlisFaturasiJpaMapper.toAlisFaturasiList(
-                alisFaturasiJpaRepository.findAll()
+                alisFaturasiJpaRepository.findByIsDeletedFalse()
+        );
+    }
+
+    @Override
+    public List<AlisFaturasi> findAracFiloIdGetAll(String aracFiloId) {
+        return AlisFaturasiJpaMapper.toAlisFaturasiList(
+                alisFaturasiJpaRepository.findByAracFiloId(aracFiloId)
         );
     }
 }

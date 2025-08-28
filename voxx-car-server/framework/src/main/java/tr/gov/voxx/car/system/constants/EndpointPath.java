@@ -1,6 +1,8 @@
 package tr.gov.voxx.car.system.constants;
 
 public class EndpointPath {
+    public static final String AUTH_ENDPOINT = "/auth";
+    
     public static final String MODEL_ENDPOINT_V1 = "/v1/model";
     public static final String MARKA_ENDPOINT_V1 = "/v1/marka";
     public static final String FIRMA_ENDPOINT_V1 = "/v1/firma";
@@ -16,5 +18,6 @@ public class EndpointPath {
     public static final String ALISFATURASI_ENDPOINT_V1 = "/v1/alisfaturasi";
     public static final String ARACKULLANAN_ENDPOINT_V1 = "/v1/arackullanan";
     public static final String FILODANCIKIS_ENDPOINT_V1 = "/v1/filodancikis";
+    public static final String DASHBOARD_ENDPOINT_V1 = "/v1/dashboard";
 
 }

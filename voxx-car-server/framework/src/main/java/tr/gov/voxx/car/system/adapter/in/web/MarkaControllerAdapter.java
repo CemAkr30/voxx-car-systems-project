@@ -7,10 +7,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tr.gov.voxx.car.system.adapter.in.web.data.MarkaRequest;
 import tr.gov.voxx.car.system.adapter.in.web.data.MarkaResponse;
+import tr.gov.voxx.car.system.adapter.in.web.data.ModelResponse;
 import tr.gov.voxx.car.system.adapter.in.web.mapper.MarkaMapper;
+import tr.gov.voxx.car.system.adapter.in.web.mapper.ModelMapper;
 import tr.gov.voxx.car.system.application.port.in.MarkaApplicationCommandPort;
 import tr.gov.voxx.car.system.application.port.in.MarkaApplicationQueryPort;
+import tr.gov.voxx.car.system.application.port.in.ModelApplicationQueryPort;
 import tr.gov.voxx.car.system.domain.entity.Marka;
+import tr.gov.voxx.car.system.domain.entity.Model;
 import tr.gov.voxx.car.system.domain.valueobject.MarkaId;
 
 import java.util.List;
@@ -25,6 +29,8 @@ public class MarkaControllerAdapter {
 
     private final MarkaApplicationCommandPort markaApplicationCommandPort;
     private final MarkaApplicationQueryPort markaApplicationQueryPort;
+
+    private final ModelApplicationQueryPort modelApplicationQueryPort;
 
     @GetMapping("/{id}")
     @Operation(summary = "Marka Getir", description = "ID’ye göre marka verisini döner")
@@ -64,4 +70,12 @@ public class MarkaControllerAdapter {
         markaApplicationCommandPort.deleteById(new MarkaId(id));
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/{id}/model")
+    @Operation(summary = "Marka Kaynağına Göre Modelleri Getir", description = "Belirtilen Marka ID ile ilgili bütün modelleri getirir")
+    public ResponseEntity<List<ModelResponse>> findByMarkaIdGetAllModel(@PathVariable("id") String markaId) {
+        List<Model> modelList = modelApplicationQueryPort.findMarkaIdGetAll(markaId);
+        return ResponseEntity.ok(ModelMapper.toResponseList(modelList));
+    }
+
 }

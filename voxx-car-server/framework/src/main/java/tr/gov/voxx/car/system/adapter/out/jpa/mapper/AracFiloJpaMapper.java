@@ -55,6 +55,7 @@ public class AracFiloJpaMapper {
                 .filoDurum(entity.getFiloDurum())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
+                .isDeleted(entity.isDeleted())
                 .build();
     }
 

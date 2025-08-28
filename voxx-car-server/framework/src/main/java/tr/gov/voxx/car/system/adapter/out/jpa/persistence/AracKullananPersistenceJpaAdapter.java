@@ -47,14 +47,25 @@ public class AracKullananPersistenceJpaAdapter implements AracKullananPersistenc
     @Transactional
     public void deleteById(AracKullananId aracKullananId) {
         Optional<AracKullananEntity> entity = aracKullananJpaRepository.findById(aracKullananId.getValue());
-        entity.ifPresent(aracKullananJpaRepository::delete);
+        entity.ifPresent(e -> {
+                    e.setDeleted(true);
+                    aracKullananJpaRepository.save(e);
+                }
+        );
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<AracKullanan> findAll() {
         return AracKullananJpaMapper.toAracKullananList(
-                aracKullananJpaRepository.findAll()
+                aracKullananJpaRepository.findByIsDeletedFalse()
+        );
+    }
+
+    @Override
+    public List<AracKullanan> findFirmaIdGetAll(String firmaId) {
+        return AracKullananJpaMapper.toAracKullananList(
+                aracKullananJpaRepository.findByFirmaId(firmaId)
         );
     }
 }

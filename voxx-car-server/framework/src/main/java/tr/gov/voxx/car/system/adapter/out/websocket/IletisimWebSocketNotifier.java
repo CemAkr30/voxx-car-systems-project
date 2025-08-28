@@ -16,16 +16,16 @@ public class IletisimWebSocketNotifier {
 
     public void notifyIletisimCreated(IletisimCreatedEvent event) {
         messagingTemplate.convertAndSend("/topic/iletisim",
-                Map.of("type", "CREATED", "id", event.id()));
+                Map.of("type", "CREATED", "id", event.firmaId()));
     }
 
     public void notifyIletisimUpdated(IletisimUpdatedEvent event) {
         messagingTemplate.convertAndSend("/topic/iletisim",
-                Map.of("type", "UPDATED", "id", event.id()));
+                Map.of("type", "UPDATED", "id", event.firmaId()));
     }
 
     public void notifyIletisimDeleted(IletisimDeletedEvent event) {
         messagingTemplate.convertAndSend("/topic/iletisim",
-                Map.of("type", "DELETED", "id", event.id()));
+                Map.of("type", "DELETED", "id", event.firmaId()));
     }
 }

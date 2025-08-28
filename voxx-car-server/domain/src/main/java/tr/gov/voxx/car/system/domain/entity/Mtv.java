@@ -20,7 +20,7 @@ public class Mtv extends AbstractAggregateModel<MtvId> {
     private Double miktar;
     private OdemeTipi odemeTipi;
     private FirmaId odeyenFirmaId;
-    private String not;
+    private String aciklama;
     private String gecikmeCezasi;
     private Boolean odendi;
 
@@ -37,7 +37,7 @@ public class Mtv extends AbstractAggregateModel<MtvId> {
         this.miktar = other.miktar;
         this.odemeTipi = other.odemeTipi;
         this.odeyenFirmaId = other.odeyenFirmaId;
-        this.not = other.not;
+        this.aciklama = other.aciklama;
         this.gecikmeCezasi = other.gecikmeCezasi;
         this.odendi = other.odendi;
     }

@@ -18,4 +18,5 @@ public class FirmaResponse {
     private String vergiNo;
     private Instant createdAt;
     private Instant updatedAt;
+    private boolean isDeleted;
 }

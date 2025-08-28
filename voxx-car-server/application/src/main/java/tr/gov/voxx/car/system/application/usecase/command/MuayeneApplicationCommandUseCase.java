@@ -22,7 +22,6 @@ public class MuayeneApplicationCommandUseCase implements MuayeneApplicationComma
     @Override
     public void post(Muayene entity) {
         entity.initIdGenerator();
-
         domainEventPublisher.publish("muayene-created-topic", MuayeneCreatedEvent.builder()
                 .id(entity.getId())
                 .aracFiloId(entity.getAracFiloId())
@@ -30,7 +29,7 @@ public class MuayeneApplicationCommandUseCase implements MuayeneApplicationComma
                 .makbuzNo(entity.getMakbuzNo())
                 .odeyenFirmaId(entity.getOdeyenFirmaId())
                 .gecikmeCezasi(entity.getGecikmeCezasi())
-                .not(entity.getNot())
+                .aciklama(entity.getAciklama())
                 .yeri(entity.getYeri())
                 .odemeTipi(entity.getOdemeTipi())
                 .miktar(entity.getMiktar())
@@ -48,7 +47,6 @@ public class MuayeneApplicationCommandUseCase implements MuayeneApplicationComma
             throw new NotFoundException("Muayene not found with id: " + entity.getId());
         }
         existing.updateFrom(entity);
-
         domainEventPublisher.publish("muayene-updated-topic", MuayeneUpdatedEvent.builder()
                 .id(entity.getId())
                 .aracFiloId(entity.getAracFiloId())
@@ -56,7 +54,7 @@ public class MuayeneApplicationCommandUseCase implements MuayeneApplicationComma
                 .makbuzNo(entity.getMakbuzNo())
                 .odeyenFirmaId(entity.getOdeyenFirmaId())
                 .gecikmeCezasi(entity.getGecikmeCezasi())
-                .not(entity.getNot())
+                .aciklama(entity.getAciklama())
                 .yeri(entity.getYeri())
                 .odemeTipi(entity.getOdemeTipi())
                 .miktar(entity.getMiktar())
@@ -68,8 +66,14 @@ public class MuayeneApplicationCommandUseCase implements MuayeneApplicationComma
 
     @Override
     public void deleteById(MuayeneId muayeneId) {
+        Muayene existing = persistenceJpaPort.findById(muayeneId);
+        if (existing == null) {
+            throw new NotFoundException("Muayene not found with id: " + muayeneId);
+        }
+        
         domainEventPublisher.publish("muayene-deleted-topic", MuayeneDeletedEvent.builder()
                 .id(muayeneId)
+                .aracFiloId(existing.getAracFiloId())
                 .build());
     }
 }

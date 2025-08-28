@@ -36,9 +36,10 @@ public class AlisFaturasiJpaMapper {
                 .kur(entity.getKur())
                 .faturaTry(entity.getFaturaTry())
                 .faturaYukle(entity.getFaturaYukle())
-                .not(entity.getNot())
+                .aciklama(entity.getAciklama())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
+                .isDeleted(entity.isDeleted())
                 .build();
     }
 
@@ -66,7 +67,7 @@ public class AlisFaturasiJpaMapper {
         entity.setGecikmeCezasi(alisFaturasi.getGecikmeCezasi());
         entity.setKur(alisFaturasi.getKur());
         entity.setFaturaTry(alisFaturasi.getFaturaTry());
-        entity.setNot(alisFaturasi.getNot());
+        entity.setAciklama(alisFaturasi.getAciklama());
         return entity;
     }
 
@@ -102,7 +103,7 @@ public class AlisFaturasiJpaMapper {
                 .kur(alisFaturasiCreatedEvent.kur())
                 .faturaTry(alisFaturasiCreatedEvent.faturaTry())
                 .faturaYukle(alisFaturasiCreatedEvent.faturaYukle())
-                .not(alisFaturasiCreatedEvent.not())
+                .aciklama(alisFaturasiCreatedEvent.aciklama())
                 .build();
     }
 
@@ -128,7 +129,7 @@ public class AlisFaturasiJpaMapper {
                 .kur(alisFaturasiUpdatedEvent.kur())
                 .faturaTry(alisFaturasiUpdatedEvent.faturaTry())
                 .faturaYukle(alisFaturasiUpdatedEvent.faturaYukle())
-                .not(alisFaturasiUpdatedEvent.not())
+                .aciklama(alisFaturasiUpdatedEvent.aciklama())
                 .build();
     }
 }

@@ -4,6 +4,9 @@ import tr.gov.voxx.car.system.common.application.port.out.jpa.PersistenceJpaExec
 import tr.gov.voxx.car.system.domain.entity.Hasar;
 import tr.gov.voxx.car.system.domain.valueobject.HasarId;
 
+import java.util.List;
+
 public interface HasarPersistenceJpaPort extends PersistenceJpaExecutor<Hasar, HasarId> {
+    List<Hasar> findAracFiloIdGetAll(String aracFiloId);
 
 }

@@ -22,7 +22,7 @@ public class MuayeneJpaMapper {
                 .makbuzNo(entity.getMakbuzNo())
                 .odeyenFirmaId(new FirmaId(entity.getOdeyenFirmaId()))
                 .gecikmeCezasi(entity.getGecikmeCezasi())
-                .not(entity.getNot())
+                .aciklama(entity.getAciklama())
                 .yeri(entity.getYeri())
                 .odemeTipi(entity.getOdemeTipi())
                 .miktar(entity.getMiktar())
@@ -31,6 +31,7 @@ public class MuayeneJpaMapper {
                 .bitisTarihi(entity.getBitisTarihi())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
+                .isDeleted(entity.isDeleted())
                 .build();
     }
 
@@ -45,7 +46,7 @@ public class MuayeneJpaMapper {
         entity.setMakbuzNo(muayene.getMakbuzNo());
         entity.setOdeyenFirmaId(muayene.getOdeyenFirmaId().getValue());
         entity.setGecikmeCezasi(muayene.getGecikmeCezasi());
-        entity.setNot(muayene.getNot());
+        entity.setAciklama(muayene.getAciklama());
         entity.setYeri(muayene.getYeri());
         entity.setOdemeTipi(muayene.getOdemeTipi());
         entity.setMiktar(muayene.getMiktar());
@@ -73,7 +74,7 @@ public class MuayeneJpaMapper {
                 .makbuzNo(muayeneCreatedEvent.makbuzNo())
                 .odeyenFirmaId(muayeneCreatedEvent.odeyenFirmaId())
                 .gecikmeCezasi(muayeneCreatedEvent.gecikmeCezasi())
-                .not(muayeneCreatedEvent.not())
+                .aciklama(muayeneCreatedEvent.aciklama())
                 .yeri(muayeneCreatedEvent.yeri())
                 .odemeTipi(muayeneCreatedEvent.odemeTipi())
                 .miktar(muayeneCreatedEvent.miktar())
@@ -91,7 +92,7 @@ public class MuayeneJpaMapper {
                 .makbuzNo(muayeneUpdatedEvent.makbuzNo())
                 .odeyenFirmaId(muayeneUpdatedEvent.odeyenFirmaId())
                 .gecikmeCezasi(muayeneUpdatedEvent.gecikmeCezasi())
-                .not(muayeneUpdatedEvent.not())
+                .aciklama(muayeneUpdatedEvent.aciklama())
                 .yeri(muayeneUpdatedEvent.yeri())
                 .odemeTipi(muayeneUpdatedEvent.odemeTipi())
                 .miktar(muayeneUpdatedEvent.miktar())

@@ -44,7 +44,7 @@ public class AlisFaturasiApplicationCommandUseCase implements AlisFaturasiApplic
                 .kur(entity.getKur())
                 .faturaTry(entity.getFaturaTry())
                 .faturaYukle(entity.getFaturaYukle())
-                .not(entity.getNot())
+                .aciklama(entity.getAciklama())
                 .build());
     }
 
@@ -77,14 +77,20 @@ public class AlisFaturasiApplicationCommandUseCase implements AlisFaturasiApplic
                 .kur(entity.getKur())
                 .faturaTry(entity.getFaturaTry())
                 .faturaYukle(entity.getFaturaYukle())
-                .not(entity.getNot())
+                .aciklama(entity.getAciklama())
                 .build());
     }
 
     @Override
     public void deleteById(AlisFaturasiId alisFaturasiId) {
+        AlisFaturasi existing = persistenceJpaPort.findById(alisFaturasiId);
+        if (existing == null) {
+            throw new NotFoundException("AlisFaturasi not found with id: " + alisFaturasiId);
+        }
+        
         domainEventPublisher.publish("alisfaturasi-deleted-topic", AlisFaturasiDeletedEvent.builder()
                 .id(alisFaturasiId)
+                .aracFiloId(existing.getAracFiloId())
                 .build());
     }
 }

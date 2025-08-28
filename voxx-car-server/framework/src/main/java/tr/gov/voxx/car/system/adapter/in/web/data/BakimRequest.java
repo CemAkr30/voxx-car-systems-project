@@ -18,6 +18,6 @@ public class BakimRequest {
     private Double toplamTutar;
     private String faturaNo;
     private String fatura;
-    private String notlar;
+    private String aciklama;
     private String odeyenFirmaId;
 }

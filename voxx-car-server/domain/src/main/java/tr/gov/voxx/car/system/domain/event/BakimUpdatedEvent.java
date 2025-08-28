@@ -21,7 +21,7 @@ public record BakimUpdatedEvent(
         Double toplamTutar,
         String faturaNo,
         String fatura,
-        String notlar,
+        String aciklama,
         FirmaId odeyenFirmaId
 ) implements Serializable {
 
@@ -39,7 +39,7 @@ public record BakimUpdatedEvent(
             @JsonProperty("toplamTutar") Double toplamTutar,
             @JsonProperty("faturaNo") String faturaNo,
             @JsonProperty("fatura") String fatura,
-            @JsonProperty("notlar") String notlar,
+            @JsonProperty("aciklama") String aciklama,
             @JsonProperty("odeyenFirmaId") FirmaId odeyenFirmaId
     ) {
         this.id = id;
@@ -51,7 +51,7 @@ public record BakimUpdatedEvent(
         this.toplamTutar = toplamTutar;
         this.faturaNo = faturaNo;
         this.fatura = fatura;
-        this.notlar = notlar;
+        this.aciklama = aciklama;
         this.odeyenFirmaId = odeyenFirmaId;
     }
 }

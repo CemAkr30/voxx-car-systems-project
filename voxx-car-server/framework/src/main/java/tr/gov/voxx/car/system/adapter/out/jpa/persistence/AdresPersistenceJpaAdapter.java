@@ -47,14 +47,25 @@ public class AdresPersistenceJpaAdapter implements AdresPersistenceJpaPort {
     @Transactional
     public void deleteById(AdresId adresId) {
         Optional<AdresEntity> entity = adresJpaRepository.findById(adresId.getValue());
-        entity.ifPresent(adresJpaRepository::delete);
+        entity.ifPresent(e -> {
+                    e.setDeleted(true);
+                    adresJpaRepository.save(e);
+                }
+        );
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Adres> findAll() {
         return AdresJpaMapper.toAdresList(
-                adresJpaRepository.findAll()
+                adresJpaRepository.findByIsDeletedFalse()
+        );
+    }
+
+    @Override
+    public List<Adres> findFirmaIdGetAll(String firmaId) {
+        return AdresJpaMapper.toAdresList(
+                adresJpaRepository.findByFirmaId(firmaId)
         );
     }
 }

@@ -78,7 +78,7 @@ CREATE TABLE "tb_alisfaturasi" (
                                    "kur" DOUBLE PRECISION,
                                    "fatura_try" DOUBLE PRECISION,
                                    "fatura_yukle" TEXT,
-                                   "not" TEXT,
+                                   "aciklama" TEXT,
                                    "is_deleted" BOOLEAN DEFAULT FALSE,
                                    "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
                                    "updated_at" TIMESTAMPTZ
@@ -150,7 +150,7 @@ CREATE TABLE "tb_bakim" (
                             "toplam_tutar" DOUBLE PRECISION,
                             "fatura_no" VARCHAR(255),
                             "fatura" TEXT,
-                            "notlar" TEXT,
+                            "aciklama" TEXT,
                             "odeyen_firma_id" character varying,
                             "is_deleted" BOOLEAN DEFAULT FALSE,
                             "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -166,7 +166,7 @@ CREATE TABLE "tb_filodancikis" (
                                    "anahtar_teslim_fiyati" DOUBLE PRECISION,
                                    "arac_devir_giderleri" DOUBLE PRECISION,
                                    "fatura_yukle" TEXT,
-                                   "not" TEXT,
+                                   "aciklama" TEXT,
                                    "is_deleted" BOOLEAN DEFAULT FALSE,
                                    "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
                                    "updated_at" TIMESTAMPTZ
@@ -203,6 +203,7 @@ CREATE TABLE "tb_kaza" (
                            "kaza_tutanagi" TEXT,
                            "onarim_durumu" onarim_durumu,
                            "odeyen_firma_id" character varying,
+                           "odendi" BOOLEAN DEFAULT FALSE,
                            "is_deleted" BOOLEAN DEFAULT FALSE,
                            "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
                            "updated_at" TIMESTAMPTZ
@@ -225,23 +226,52 @@ CREATE TABLE "tb_model" (
                             "updated_at" TIMESTAMPTZ
 );
 
-CREATE TABLE "tb_arackullanan" (
-                                   "id" character varying PRIMARY KEY,
-                                   "ad" VARCHAR(255),
-                                   "soyad" VARCHAR(255),
-                                   "email" VARCHAR(255),
-                                   "telefon_no" VARCHAR(255),
-                                   "adres" VARCHAR(255),
-                                   "ehliyet_no" VARCHAR(255),
-                                   "ehliyet_tipi" ehliyet_tipi,
-                                   "ehliyet_on" TEXT,
-                                   "ehliyet_arka" TEXT,
-                                   "ehliyet_bitis_tarihi" TIMESTAMPTZ,
-                                   "cinsiyet_tipi" cinsiyet,
-                                   "firma_id" VARCHAR(255),
-                                   "is_deleted" BOOLEAN DEFAULT FALSE,
-                                   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
-                                   "updated_at" TIMESTAMPTZ
+CREATE TABLE "tb_mtv" (
+                           "id" character varying PRIMARY KEY,
+                           "arac_filo_id" character varying,
+                           "yil" CHAR(4),
+                           "taksit" CHAR(2),
+                           "makbuz_no" VARCHAR(255),
+                           "miktar" DOUBLE PRECISION,
+                           "odeme_tipi" odeme_tipi,
+                           "odeyen_firma_id" character varying,
+                           "aciklama" TEXT,
+                           "gecikme_cezasi" VARCHAR(255),
+                           "odendi" BOOLEAN DEFAULT FALSE,
+                           "is_deleted" BOOLEAN DEFAULT FALSE,
+                           "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
+                           "updated_at" TIMESTAMPTZ
+);
+
+CREATE TABLE "tb_sigorta" (
+                          "id" character varying PRIMARY KEY,
+                          "arac_filo_id" character varying,
+                          "acente" VARCHAR(255),
+                          "sigorta_sirketi" VARCHAR(255),
+                          "tip" sigorta_tipi,
+                          "baslangic_tarihi" TIMESTAMPTZ,
+                          "bitis_tarihi" TIMESTAMPTZ,
+                          "police_no" VARCHAR(255),
+                          "is_deleted" BOOLEAN DEFAULT FALSE,
+                          "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
+                          "updated_at" TIMESTAMPTZ
+);
+
+CREATE TABLE "tb_muayene" (
+                              "id" character varying PRIMARY KEY,
+                              "arac_filo_id" character varying,
+                              "yeri" VARCHAR(255),
+                              "tip" muayene_tipi,
+                              "baslangic_tarihi" TIMESTAMPTZ,
+                              "bitis_tarihi" TIMESTAMPTZ,
+                              "makbuz_no" VARCHAR(255),
+                              "gecikme_cezasi" VARCHAR(255),
+                              "aciklama" TEXT,
+                              "odeyen_firma_id" character varying,
+                              "odendi" BOOLEAN DEFAULT FALSE,
+                              "is_deleted" BOOLEAN DEFAULT FALSE,
+                              "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
+                              "updated_at" TIMESTAMPTZ
 );
 
 -- Foreign key constraints eklemeleri:
@@ -297,3 +327,20 @@ ALTER TABLE "tb_kaza"
 ALTER TABLE "tb_model"
     ADD CONSTRAINT fk_model_marka FOREIGN KEY ("marka_id") REFERENCES "tb_marka" ("id");
 
+ALTER TABLE "tb_mtv"
+    ADD CONSTRAINT fk_mtv_arac FOREIGN KEY ("arac_filo_id") REFERENCES "tb_aracfilo" ("id");
+
+ALTER TABLE "tb_mtv"
+    ADD CONSTRAINT fk_mtv_firma FOREIGN KEY ("odeyen_firma_id") REFERENCES "tb_firma" ("id");
+
+ALTER TABLE "tb_sigorta"
+    ADD CONSTRAINT fk_sigorta_arac FOREIGN KEY ("arac_filo_id") REFERENCES "tb_aracfilo" ("id");
+
+ALTER TABLE "tb_muayene"
+    ADD CONSTRAINT fk_muayene_arac FOREIGN KEY ("arac_filo_id") REFERENCES "tb_aracfilo" ("id");
+
+ALTER TABLE "tb_muayene"
+    ADD CONSTRAINT fk_muayene_firma FOREIGN KEY ("odeyen_firma_id") REFERENCES "tb_firma" ("id");
+
+ALTER TABLE "tb_muayene"
+    ADD CONSTRAINT fk_muayene_arac_filo FOREIGN KEY ("arac_filo_id") REFERENCES "tb_aracfilo" ("id");

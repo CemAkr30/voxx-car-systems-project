@@ -48,7 +48,11 @@ public class ModelPersistenceJpaAdapter implements ModelPersistenceJpaPort {
     @Transactional
     public void deleteById(ModelId modelId) {
         Optional<ModelEntity> entity = modelJpaRepository.findById(modelId.getValue());
-        entity.ifPresent(modelJpaRepository::delete);
+        entity.ifPresent(e -> {
+                    e.setDeleted(true);
+                    modelJpaRepository.save(e);
+                }
+        );
     }
 
 
@@ -56,7 +60,7 @@ public class ModelPersistenceJpaAdapter implements ModelPersistenceJpaPort {
     @Transactional(readOnly = true)
     public List<Model> findAll() {
         return ModelJpaMapper.toModelList(
-                modelJpaRepository.findAll()
+                modelJpaRepository.findByIsDeletedFalse()
         );
     }
 
@@ -70,5 +74,12 @@ public class ModelPersistenceJpaAdapter implements ModelPersistenceJpaPort {
 
         Model model = ModelJpaMapper.toModel(results.get(0));
         return Optional.of(model);
+    }
+
+    @Override
+    public List<Model> findMarkaIdGetAll(String markaId) {
+        return ModelJpaMapper.toModelList(
+                modelJpaRepository.findByMarkaId(markaId)
+        );
     }
 }

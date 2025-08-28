@@ -16,16 +16,16 @@ public class MTVWebSocketNotifier {
 
     public void notifyMTVCreated(MTVCreatedEvent event) {
         messagingTemplate.convertAndSend("/topic/mtv",
-                Map.of("type", "CREATED", "id", event.id()));
+                Map.of("type", "CREATED", "id", event.aracFiloId()));
     }
 
     public void notifyMTVUpdated(MTVUpdatedEvent event) {
         messagingTemplate.convertAndSend("/topic/mtv",
-                Map.of("type", "UPDATED", "id", event.id()));
+                Map.of("type", "UPDATED", "id", event.aracFiloId()));
     }
 
     public void notifyMTVDeleted(MTVDeletedEvent event) {
         messagingTemplate.convertAndSend("/topic/mtv",
-                Map.of("type", "DELETED", "id", event.id()));
+                Map.of("type", "DELETED", "id", event.aracFiloId()));
     }
 }

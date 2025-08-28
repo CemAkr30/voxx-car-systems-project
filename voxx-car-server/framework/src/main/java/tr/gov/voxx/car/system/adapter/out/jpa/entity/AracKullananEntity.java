@@ -1,6 +1,9 @@
 package tr.gov.voxx.car.system.adapter.out.jpa.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Table;
 import lombok.*;
 import tr.gov.voxx.car.system.common.framework.persistence.AbstractEntity;
 import tr.gov.voxx.car.system.domain.enumeration.Cinsiyet;
@@ -24,9 +27,7 @@ public class AracKullananEntity extends AbstractEntity {
     private String ehliyetNo;
     @Enumerated(EnumType.STRING)
     private EhliyetTipi ehliyetTipi;
-    @Lob
     private String ehliyetOn;
-    @Lob
     private String ehliyetArka;
     private Instant ehliyetBitisTarihi;
     @Enumerated(EnumType.STRING)

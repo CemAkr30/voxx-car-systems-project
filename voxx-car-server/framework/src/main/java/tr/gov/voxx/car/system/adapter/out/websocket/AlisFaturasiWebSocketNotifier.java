@@ -16,16 +16,16 @@ public class AlisFaturasiWebSocketNotifier {
 
     public void notifyAlisFaturasiCreated(AlisFaturasiCreatedEvent event) {
         messagingTemplate.convertAndSend("/topic/alisFaturasi",
-                Map.of("type", "CREATED", "id", event.id()));
+                Map.of("type", "CREATED", "id", event.aracFiloId()));
     }
 
     public void notifyAlisFaturasiUpdated(AlisFaturasiUpdatedEvent event) {
         messagingTemplate.convertAndSend("/topic/alisFaturasi",
-                Map.of("type", "UPDATED", "id", event.id()));
+                Map.of("type", "UPDATED", "id", event.aracFiloId()));
     }
 
     public void notifyAlisFaturasiDeleted(AlisFaturasiDeletedEvent event) {
         messagingTemplate.convertAndSend("/topic/alisFaturasi",
-                Map.of("type", "DELETED", "id", event.id()));
+                Map.of("type", "DELETED", "id", event.aracFiloId()));
     }
 }

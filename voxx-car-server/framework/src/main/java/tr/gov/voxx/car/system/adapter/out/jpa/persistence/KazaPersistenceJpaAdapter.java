@@ -44,14 +44,25 @@ public class KazaPersistenceJpaAdapter implements KazaPersistenceJpaPort {
     @Transactional
     public void deleteById(KazaId id) {
         Optional<KazaEntity> entity = kazaJpaRepository.findById(id.getValue());
-        entity.ifPresent(kazaJpaRepository::delete);
+        entity.ifPresent(e -> {
+                    e.setDeleted(true);
+                    kazaJpaRepository.save(e);
+                }
+        );
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Kaza> findAll() {
         return KazaJpaMapper.toKazaList(
-                kazaJpaRepository.findAll()
+                kazaJpaRepository.findByIsDeletedFalse()
+        );
+    }
+
+    @Override
+    public List<Kaza> findAracFiloIdGetAll(String aracFiloId) {
+        return KazaJpaMapper.toKazaList(
+                kazaJpaRepository.findByAracFiloId(aracFiloId)
         );
     }
 }

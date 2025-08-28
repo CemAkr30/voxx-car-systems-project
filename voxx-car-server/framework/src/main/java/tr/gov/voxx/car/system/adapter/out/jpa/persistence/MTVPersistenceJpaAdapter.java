@@ -48,14 +48,32 @@ public class MTVPersistenceJpaAdapter implements MTVPersistenceJpaPort {
     @Transactional
     public void deleteById(MtvId mtvId) {
         Optional<MTVEntity> entity = mtvJpaRepository.findById(mtvId.getValue());
-        entity.ifPresent(mtvJpaRepository::delete);
+        entity.ifPresent(e -> {
+                    e.setDeleted(true);
+                    mtvJpaRepository.save(e);
+                }
+        );
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Mtv> findAll() {
         return MTVJpaMapper.toMtvList(
-                mtvJpaRepository.findAll()
+                mtvJpaRepository.findByIsDeletedFalse()
+        );
+    }
+
+    @Override
+    public List<Mtv> findAracFiloIdGetAll(String aracFiloId) {
+        return MTVJpaMapper.toMtvList(
+                mtvJpaRepository.findByAracFiloId(aracFiloId)
+        );
+    }
+
+    @Override
+    public List<Mtv> findByYilAndTaksitAndOdendi(String yil, String taksit, Boolean odendi) {
+        return MTVJpaMapper.toMtvList(
+                mtvJpaRepository.findByYilAndTaksitAndOdendi(yil, taksit, odendi)
         );
     }
 }

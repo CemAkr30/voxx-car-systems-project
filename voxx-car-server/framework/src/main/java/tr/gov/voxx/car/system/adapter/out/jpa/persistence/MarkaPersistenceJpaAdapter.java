@@ -47,7 +47,11 @@ public class MarkaPersistenceJpaAdapter implements MarkaPersistenceJpaPort {
     @Transactional
     public void deleteById(MarkaId markaId) {
         Optional<MarkaEntity> entity = markaJpaRepository.findById(markaId.getValue());
-        entity.ifPresent(markaJpaRepository::delete);
+        entity.ifPresent(e -> {
+                    e.setDeleted(true);
+                    markaJpaRepository.save(e);
+                }
+        );
     }
 
 
@@ -55,7 +59,7 @@ public class MarkaPersistenceJpaAdapter implements MarkaPersistenceJpaPort {
     @Transactional(readOnly = true)
     public List<Marka> findAll() {
         return MarkaJpaMapper.toMarkaList(
-                markaJpaRepository.findAll()
+                markaJpaRepository.findByIsDeletedFalse()
         );
     }
 

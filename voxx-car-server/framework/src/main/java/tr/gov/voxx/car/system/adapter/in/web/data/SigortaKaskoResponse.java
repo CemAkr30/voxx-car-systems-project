@@ -24,4 +24,5 @@ public class SigortaKaskoResponse {
     private Instant bitisTarihi;
     private Instant createdAt;
     private Instant updatedAt;
+    private boolean isDeleted;
 }

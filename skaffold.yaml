@@ -1,0 +1,29 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: voxx-spring
+build:
+  platforms: ["linux/amd64"]
+  artifacts:
+    - image: voxx-car-server
+      context: voxx-car-server
+      docker:
+        dockerfile: Dockerfile
+    - image: voxx-car-client
+      context: voxx-car-client
+      docker:
+        dockerfile: Dockerfile
+  local:
+    push: false
+manifests:
+  rawYaml:
+    - k8s/namespace.yaml
+    - k8s/postgres.yaml
+    - k8s/kc-postgres.yaml
+    - k8s/keycloak.yaml
+    - k8s/zookeeper-kafka.yaml
+    - k8s/kafdrop.yaml
+    - k8s/couchbase.yaml
+    - k8s/backend-deployment.yaml
+    - k8s/client-deployment.yaml
+    - k8s/ingress.yaml

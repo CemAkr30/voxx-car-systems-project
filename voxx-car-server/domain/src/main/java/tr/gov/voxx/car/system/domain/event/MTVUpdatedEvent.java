@@ -21,7 +21,7 @@ public record MTVUpdatedEvent(
         Double miktar,
         OdemeTipi odemeTipi,
         FirmaId odeyenFirmaId,
-        String not,
+        String aciklama,
         String gecikmeCezasi,
         Boolean odendi
 ) implements Serializable {
@@ -39,7 +39,7 @@ public record MTVUpdatedEvent(
             @JsonProperty("miktar") Double miktar,
             @JsonProperty("odemeTipi") OdemeTipi odemeTipi,
             @JsonProperty("odeyenFirmaId") FirmaId odeyenFirmaId,
-            @JsonProperty("not") String not,
+            @JsonProperty("aciklama") String aciklama,
             @JsonProperty("gecikmeCezasi") String gecikmeCezasi,
             @JsonProperty("odendi") Boolean odendi
     ) {
@@ -51,7 +51,7 @@ public record MTVUpdatedEvent(
         this.miktar = miktar;
         this.odemeTipi = odemeTipi;
         this.odeyenFirmaId = odeyenFirmaId;
-        this.not = not;
+        this.aciklama = aciklama;
         this.gecikmeCezasi = gecikmeCezasi;
         this.odendi = odendi;
     }

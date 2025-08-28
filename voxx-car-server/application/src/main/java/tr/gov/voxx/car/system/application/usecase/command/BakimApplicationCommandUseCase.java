@@ -32,7 +32,7 @@ public class BakimApplicationCommandUseCase implements BakimApplicationCommandPo
                 .toplamTutar(entity.getToplamTutar())
                 .faturaNo(entity.getFaturaNo())
                 .fatura(entity.getFatura())
-                .notlar(entity.getNotlar())
+                .aciklama(entity.getAciklama())
                 .odeyenFirmaId(entity.getOdeyenFirmaId())
                 .build());
     }
@@ -55,13 +55,21 @@ public class BakimApplicationCommandUseCase implements BakimApplicationCommandPo
                 .toplamTutar(entity.getToplamTutar())
                 .faturaNo(entity.getFaturaNo())
                 .fatura(entity.getFatura())
-                .notlar(entity.getNotlar())
+                .aciklama(entity.getAciklama())
                 .odeyenFirmaId(entity.getOdeyenFirmaId())
                 .build());
     }
 
     @Override
     public void deleteById(BakimId id) {
-        publisher.publish("bakim-deleted-topic", BakimDeletedEvent.builder().id(id).build());
+        Bakim existing = persistencePort.findById(id);
+        if (existing == null) {
+            throw new NotFoundException("Bakim not found with id: " + id);
+        }
+        
+        publisher.publish("bakim-deleted-topic", BakimDeletedEvent.builder()
+                .id(id)
+                .aracFiloId(existing.getAracFiloId())
+                .build());
     }
 }

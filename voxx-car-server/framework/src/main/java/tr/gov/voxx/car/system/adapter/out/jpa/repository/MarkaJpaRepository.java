@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface MarkaJpaRepository extends JpaRepository<MarkaEntity, String> {
     List<MarkaEntity> findByAdi(String adi);
+    List<MarkaEntity> findByIsDeletedFalse();
 }

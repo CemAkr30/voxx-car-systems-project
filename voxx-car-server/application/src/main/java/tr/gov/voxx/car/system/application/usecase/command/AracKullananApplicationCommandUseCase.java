@@ -36,6 +36,7 @@ public class AracKullananApplicationCommandUseCase implements AracKullananApplic
                 .ehliyetArka(entity.getEhliyetArka())
                 .ehliyetBitisTarihi(entity.getEhliyetBitisTarihi())
                 .cinsiyetTipi(entity.getCinsiyetTipi())
+                .soyad(entity.getSoyad())
                 .firmaId(entity.getFirmaId())
                 .build());
     }
@@ -62,14 +63,21 @@ public class AracKullananApplicationCommandUseCase implements AracKullananApplic
                 .ehliyetArka(entity.getEhliyetArka())
                 .ehliyetBitisTarihi(entity.getEhliyetBitisTarihi())
                 .cinsiyetTipi(entity.getCinsiyetTipi())
+                .soyad(entity.getSoyad())
                 .firmaId(entity.getFirmaId())
                 .build());
     }
 
     @Override
     public void deleteById(AracKullananId aracKullananId) {
+        AracKullanan existing = persistenceJpaPort.findById(aracKullananId);
+        if (existing == null) {
+            throw new NotFoundException("AracKullanan not found with id: " + aracKullananId);
+        }
+        
         domainEventPublisher.publish("arackullanan-deleted-topic", AracKullananDeletedEvent.builder()
                 .id(aracKullananId)
+                .firmaId(existing.getFirmaId())
                 .build());
     }
 }

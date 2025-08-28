@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a2619102-5116-425a-bf63-20d085aa6c15" name="Changes" comment="k8s package define edildi. cicd pipeline oluşturuldu">
+      <change afterPath="$PROJECT_DIR$/.github/workflows/cicd.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/cicd.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/voxx-car-systems-project.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/backend-deployment.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/client-deployment.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/couchbase.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/ingress.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/kafdrop.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/kc-postgres.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/keycloak.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/namespace.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/postgres.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/zookeeper-kafka.yaml" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="release/v1.2.6" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GithubProjectSettings">
+    <option name="branchProtectionPatterns">
+      <list>
+        <option value="main" />
+        <option value="develop" />
+      </list>
+    </option>
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/cemakar/Applications/IntelliJ IDEA Ultimate.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;
+  }
+}</component>
+  <component name="TaskManager">
+    <task id="LOCAL-00001" summary="k8s package define edildi. cicd pipeline oluşturuldu">
+      <option name="closed" value="true" />
+      <created>1756207130082</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1756207130082</updated>
+    </task>
+    <task id="LOCAL-00002" summary="k8s package define edildi. cicd pipeline oluşturuldu">
+      <option name="closed" value="true" />
+      <created>1756207242465</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1756207242465</updated>
+    </task>
+    <task id="LOCAL-00003" summary="k8s package define edildi. cicd pipeline oluşturuldu">
+      <option name="closed" value="true" />
+      <created>1756207745490</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1756207745490</updated>
+    </task>
+    <task id="LOCAL-00004" summary="k8s package define edildi. cicd pipeline oluşturuldu">
+      <option name="closed" value="true" />
+      <created>1756208105339</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1756208105339</updated>
+    </task>
+    <task id="LOCAL-00005" summary="k8s package define edildi. cicd pipeline oluşturuldu">
+      <option name="closed" value="true" />
+      <created>1756208817200</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1756208817200</updated>
+    </task>
+    <task id="LOCAL-00006" summary="k8s package define edildi. cicd pipeline oluşturuldu">
+      <option name="closed" value="true" />
+      <created>1756208998532</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1756208998532</updated>
+    </task>
+    <task id="LOCAL-00007" summary="k8s package define edildi. cicd pipeline oluşturuldu">
+      <option name="closed" value="true" />
+      <created>1756209210965</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1756209210965</updated>
+    </task>
+    <task id="LOCAL-00008" summary="k8s package define edildi. cicd pipeline oluşturuldu">
+      <option name="closed" value="true" />
+      <created>1756210351347</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1756210351348</updated>
+    </task>
+    <task id="LOCAL-00009" summary="k8s package define edildi. cicd pipeline oluşturuldu">
+      <option name="closed" value="true" />
+      <created>1756210875086</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1756210875086</updated>
+    </task>
+    <task id="LOCAL-00010" summary="k8s package define edildi. cicd pipeline oluşturuldu">
+      <option name="closed" value="true" />
+      <created>1756213265585</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1756213265585</updated>
+    </task>
+    <task id="LOCAL-00011" summary="k8s package define edildi. cicd pipeline oluşturuldu">
+      <option name="closed" value="true" />
+      <created>1756213673853</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1756213673853</updated>
+    </task>
+    <task id="LOCAL-00012" summary="k8s package define edildi. cicd pipeline oluşturuldu">
+      <option name="closed" value="true" />
+      <created>1756214019146</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1756214019146</updated>
+    </task>
+    <task id="LOCAL-00013" summary="k8s package define edildi. cicd pipeline oluşturuldu">
+      <option name="closed" value="true" />
+      <created>1756215899084</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1756215899084</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="k8s package define edildi. cicd pipeline oluşturuldu" />
+    <option name="LAST_COMMIT_MESSAGE" value="k8s package define edildi. cicd pipeline oluşturuldu" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/AracFiloControllerAdapter.java</url>
+          <line>52</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/AracFiloApplicationCommandUseCase.java</url>
+          <line>23</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

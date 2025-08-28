@@ -48,14 +48,32 @@ public class MuayenePersistenceJpaAdapter implements MuayenePersistenceJpaPort {
     @Transactional
     public void deleteById(MuayeneId muayeneId) {
         Optional<MuayeneEntity> entity = muayeneJpaRepository.findById(muayeneId.getValue());
-        entity.ifPresent(muayeneJpaRepository::delete);
+        entity.ifPresent(e -> {
+                    e.setDeleted(true);
+                    muayeneJpaRepository.save(e);
+                }
+        );
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Muayene> findAll() {
         return MuayeneJpaMapper.toMuayeneList(
-                muayeneJpaRepository.findAll()
+                muayeneJpaRepository.findByIsDeletedFalse()
+        );
+    }
+
+    @Override
+    public List<Muayene> findAracFiloIdGetAll(String aracFiloId) {
+        return MuayeneJpaMapper.toMuayeneList(
+                muayeneJpaRepository.findByAracFiloId(aracFiloId)
+        );
+    }
+
+    @Override
+    public List<Muayene> findByBitisTarihiBefore(java.time.Instant bitis) {
+        return MuayeneJpaMapper.toMuayeneList(
+                muayeneJpaRepository.findByBitisTarihiBefore(bitis)
         );
     }
 }

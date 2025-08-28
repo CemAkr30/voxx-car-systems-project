@@ -20,10 +20,12 @@ public class MuayeneMapper {
                 .miktar(muayene.getMiktar())
                 .odemeTipi(muayene.getOdemeTipi())
                 .odeyenFirmaId(muayene.getOdeyenFirmaId().getValue())
-                .not(muayene.getNot())
+                .aciklama(muayene.getAciklama())
                 .yeri(muayene.getYeri())
                 .gecikmeCezasi(muayene.getGecikmeCezasi())
                 .odendi(muayene.getOdendi())
+                .baslangicTarihi(muayene.getBaslangicTarihi())
+                .bitisTarihi(muayene.getBitisTarihi())
                 .createdAt(muayene.getCreatedAt())
                 .updatedAt(muayene.getUpdatedAt())
                 .build();
@@ -37,10 +39,12 @@ public class MuayeneMapper {
                 .miktar(request.getMiktar())
                 .odemeTipi(request.getOdemeTipi())
                 .odeyenFirmaId(new FirmaId(request.getOdeyenFirmaId()))
-                .not(request.getNot())
+                .aciklama(request.getAciklama())
                 .yeri(request.getYeri())
                 .gecikmeCezasi(request.getGecikmeCezasi())
                 .odendi(request.getOdendi())
+                .baslangicTarihi(request.getBaslangicTarihi())
+                .bitisTarihi(request.getBitisTarihi())
                 .build();
     }
 

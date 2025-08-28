@@ -21,4 +21,5 @@ public class HasarResponse {
     private HasarTipi hasarTipi;
     private Instant createdAt;
     private Instant updatedAt;
+    private boolean isDeleted;
 }

@@ -17,4 +17,5 @@ public class ModelResponse {
     private String markaId;
     private Instant createdAt;
     private Instant updatedAt;
+    private boolean isDeleted;
 }

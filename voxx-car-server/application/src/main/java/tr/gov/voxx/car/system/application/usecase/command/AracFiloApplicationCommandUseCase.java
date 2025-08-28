@@ -23,7 +23,7 @@ public class AracFiloApplicationCommandUseCase implements AracFiloApplicationCom
     public void post(AracFilo entity) {
         entity.initIdGenerator();
 
-        eventPublisher.publish("arac-filo-created", AracFiloCreatedEvent.builder()
+        eventPublisher.publish("arac-filo-created-topic", AracFiloCreatedEvent.builder()
                 .id(entity.getId())
                 .plaka(entity.getPlaka())
                 .markaId(entity.getMarkaId())
@@ -65,7 +65,7 @@ public class AracFiloApplicationCommandUseCase implements AracFiloApplicationCom
             throw new NotFoundException("Araç bulunamadı: " + entity.getId().getValue());
         }
 
-        eventPublisher.publish("arac-filo-updated", AracFiloUpdatedEvent.builder()
+        eventPublisher.publish("arac-filo-updated-topic", AracFiloUpdatedEvent.builder()
                 .id(entity.getId())
                 .plaka(entity.getPlaka())
                 .markaId(entity.getMarkaId())
@@ -102,6 +102,6 @@ public class AracFiloApplicationCommandUseCase implements AracFiloApplicationCom
 
     @Override
     public void deleteById(AracFiloId id) {
-        eventPublisher.publish("arac-filo-deleted", AracFiloDeletedEvent.builder().id(id).build());
+        eventPublisher.publish("arac-filo-deleted-topic", AracFiloDeletedEvent.builder().id(id).build());
     }
 }

@@ -39,7 +39,7 @@ public class HasarApplicationCommandUseCase implements HasarApplicationCommandPo
         }
         existing.updateFrom(entity);
 
-        domainEventPublisher.publish("Hasar-updated-topic", HasarUpdatedEvent.builder()
+        domainEventPublisher.publish("hasar-updated-topic", HasarUpdatedEvent.builder()
                 .id(entity.getId())
                 .aracFiloId(entity.getAracFiloId())
                 .hasarliParca(entity.getHasarliParca())
@@ -49,8 +49,14 @@ public class HasarApplicationCommandUseCase implements HasarApplicationCommandPo
 
     @Override
     public void deleteById(HasarId hasarId) {
-        domainEventPublisher.publish("Hasar-deleted-topic", HasarDeletedEvent.builder()
+        Hasar existing = persistenceJpaPort.findById(hasarId);
+        if (existing == null) {
+            throw new NotFoundException("Hasar not found with id: " + hasarId);
+        }
+        
+        domainEventPublisher.publish("hasar-deleted-topic", HasarDeletedEvent.builder()
                 .id(hasarId)
+                .aracFiloId(existing.getAracFiloId())
                 .build());
     }
 }

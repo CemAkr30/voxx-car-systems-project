@@ -48,14 +48,25 @@ public class HasarPersistenceJpaAdapter implements HasarPersistenceJpaPort {
     @Transactional
     public void deleteById(HasarId hasarId) {
         Optional<HasarEntity> entity = hasarJpaRepository.findById(hasarId.getValue());
-        entity.ifPresent(hasarJpaRepository::delete);
+        entity.ifPresent(e -> {
+                    e.setDeleted(true);
+                    hasarJpaRepository.save(e);
+                }
+        );
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Hasar> findAll() {
         return HasarJpaMapper.toHasarList(
-                hasarJpaRepository.findAll()
+                hasarJpaRepository.findByIsDeletedFalse()
+        );
+    }
+
+    @Override
+    public List<Hasar> findAracFiloIdGetAll(String aracFiloId) {
+        return HasarJpaMapper.toHasarList(
+                hasarJpaRepository.findByAracFiloId(aracFiloId)
         );
     }
 }

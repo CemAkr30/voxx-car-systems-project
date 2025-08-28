@@ -1,0 +1,102 @@
+{
+  "realm": "voxx-car-systems",
+  "enabled": true,
+  "clients": [
+    {
+      "clientId": "voxx-car-client",
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "redirectUris": [
+        "http://voxx-car-app:9090/*"
+      ],
+      "webOrigins": [
+        "http://voxx-car-app:9090"
+      ],
+      "baseUrl": "http://voxx-car-app:9090",
+      "adminUrl": "http://voxx-car-app:9090",
+      "rootUrl": "http://voxx-car-app:9090",
+      "attributes": {
+        "post.logout.redirect.uris": "http://voxx-car-client:3000",
+        "access.token.lifespan": "86400",
+        "refresh.token.max.reuse": "0",
+        "refresh.token.lifespan": "86400",
+        "id.token.lifespan": "86400"
+      },
+      "enabled": true,
+      "defaultClientScopes": [
+        "web-origins",
+        "role_list",
+        "profile",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone"
+      ],
+      "protocolMappers": [
+        {
+          "name": "client roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-client-role-mapper",
+          "config": {
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "resource_access.${client_id}.roles",
+            "jsonType.label": "String",
+            "usermodel.clientRoleMapping.clientId": "voxx-car-client"
+          }
+        }
+      ],
+      "fullScopeAllowed": true,
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": true
+    }
+  ],
+  "roles": {
+    "realm": [
+      {
+        "name": "admin",
+        "description": "Realm admin role"
+      }
+    ],
+    "client": {
+      "voxx-car-client": [
+        {
+          "name": "client_admin",
+          "description": "client_admin"
+        },
+        {
+          "name": "client_user",
+          "description": "client_user"
+        }
+      ]
+    }
+  },
+  "users": [
+    {
+      "username": "app_admin",
+      "enabled": true,
+      "emailVerified": false,
+      "firstName": "App",
+      "lastName": "Admin",
+      "email": "app_admin@example.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "app_admin123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "admin"
+      ],
+      "clientRoles": {
+        "voxx-car-client": [
+          "client_admin"
+        ]
+      }
+    }
+  ]
+}

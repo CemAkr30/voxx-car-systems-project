@@ -1,7 +1,6 @@
 package tr.gov.voxx.car.system.adapter.out.jpa.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import lombok.*;
 import tr.gov.voxx.car.system.common.framework.persistence.AbstractEntity;
@@ -22,7 +21,6 @@ public class KazaEntity extends AbstractEntity {
     private Instant kazaTarihi;
     private String kazaIli;
     private String kazaNedeni;
-    @Lob
     private String kazaTutanagi;
     private String onarimDurumu;
     private String odeyenFirmaId;

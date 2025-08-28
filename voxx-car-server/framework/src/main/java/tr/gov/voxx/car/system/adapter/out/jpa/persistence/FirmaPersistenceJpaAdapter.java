@@ -47,7 +47,11 @@ public class FirmaPersistenceJpaAdapter implements FirmaPersistenceJpaPort {
     @Transactional
     public void deleteById(FirmaId firmaId) {
         Optional<FirmaEntity> entity = firmaJpaRepository.findById(firmaId.getValue());
-        entity.ifPresent(firmaJpaRepository::delete);
+        entity.ifPresent(e -> {
+                    e.setDeleted(true);
+                    firmaJpaRepository.save(e);
+                }
+        );
     }
 
 
@@ -55,7 +59,7 @@ public class FirmaPersistenceJpaAdapter implements FirmaPersistenceJpaPort {
     @Transactional(readOnly = true)
     public List<Firma> findAll() {
         return FirmaJpaMapper.toFirmaList(
-                firmaJpaRepository.findAll()
+                firmaJpaRepository.findByIsDeletedFalse()
         );
     }
 }

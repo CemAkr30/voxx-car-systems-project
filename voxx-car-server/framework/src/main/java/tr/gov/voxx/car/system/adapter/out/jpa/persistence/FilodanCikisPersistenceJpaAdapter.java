@@ -48,14 +48,25 @@ public class FilodanCikisPersistenceJpaAdapter implements FilodanCikisPersistenc
     @Transactional
     public void deleteById(FilodanCikisId filodanCikisId) {
         Optional<FilodanCikisEntity> entity = filodanCikisJpaRepository.findById(filodanCikisId.getValue());
-        entity.ifPresent(filodanCikisJpaRepository::delete);
+        entity.ifPresent(e -> {
+                    e.setDeleted(true);
+                    filodanCikisJpaRepository.save(e);
+                }
+        );
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<FilodanCikis> findAll() {
         return FilodanCikisJpaMapper.toFilodanCikisList(
-                filodanCikisJpaRepository.findAll()
+                filodanCikisJpaRepository.findByIsDeletedFalse()
+        );
+    }
+
+    @Override
+    public List<FilodanCikis> findAracFiloIdGetAll(String aracFiloId) {
+        return FilodanCikisJpaMapper.toFilodanCikisList(
+                filodanCikisJpaRepository.findByAracFiloId(aracFiloId)
         );
     }
 }
