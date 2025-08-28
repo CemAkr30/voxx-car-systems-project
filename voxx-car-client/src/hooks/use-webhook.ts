@@ -17,7 +17,7 @@ export function useWebSocketTopic<T extends WebSocketMessage>({
 
     useEffect(() => {
         const client = new Client({
-            webSocketFactory: () => new SockJS("http://voxxcarsystems.online/ws"),
+            webSocketFactory: () => new SockJS("https://voxxcarsystems.online/ws"),
             reconnectDelay: 5000,
             onConnect: () => {
                 client.subscribe(topic, (message: IMessage) => {

@@ -6,8 +6,19 @@ interface ApiError {
     data?: unknown;
 }
 
+// Get base URL from environment or use current protocol
+const getBaseURL = () => {
+    if (import.meta.env.VITE_API_BASE_URL) {
+        return import.meta.env.VITE_API_BASE_URL;
+    }
+    // Use current protocol (http/https) from window.location
+    const protocol = window.location.protocol;
+    const host = window.location.host;
+    return `${protocol}//${host}/api/`;
+};
+
 export const axiosClient = axios.create({
-    baseURL: "https://voxxcarsystems.online/api/",
+    baseURL: getBaseURL(),
     timeout: 10000, // Add timeout for better UX
 });
 
