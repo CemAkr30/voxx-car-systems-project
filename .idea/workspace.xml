@@ -4,28 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2619102-5116-425a-bf63-20d085aa6c15" name="Changes" comment="k8s package define edildi. cicd pipeline oluşturuldu">
-      <change afterPath="$PROJECT_DIR$/.github/workflows/cicd.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/cicd.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/voxx-car-systems-project.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/backend-deployment.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/client-deployment.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/couchbase.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/ingress.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/kafdrop.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/kc-postgres.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/keycloak.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/namespace.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/postgres.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/zookeeper-kafka.yaml" beforeDir="false" />
+    <list default="true" id="a2619102-5116-425a-bf63-20d085aa6c15" name="Changes" comment="ci-cd pipeline">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/nginx/nginx.conf" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/nginx/nginx.conf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -160,12 +142,45 @@
       <option name="project" value="LOCAL" />
       <updated>1756215899084</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="ci-cd pipeline">
+      <option name="closed" value="true" />
+      <created>1756407939367</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1756407939367</updated>
+    </task>
+    <task id="LOCAL-00015" summary="ci-cd pipeline">
+      <option name="closed" value="true" />
+      <created>1756407996540</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1756407996540</updated>
+    </task>
+    <task id="LOCAL-00016" summary="ci-cd pipeline">
+      <option name="closed" value="true" />
+      <created>1756408030183</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1756408030183</updated>
+    </task>
+    <task id="LOCAL-00017" summary="ci-cd pipeline">
+      <option name="closed" value="true" />
+      <created>1756408284759</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1756408284759</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="k8s package define edildi. cicd pipeline oluşturuldu" />
-    <option name="LAST_COMMIT_MESSAGE" value="k8s package define edildi. cicd pipeline oluşturuldu" />
+    <MESSAGE value="ci-cd pipeline" />
+    <option name="LAST_COMMIT_MESSAGE" value="ci-cd pipeline" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
