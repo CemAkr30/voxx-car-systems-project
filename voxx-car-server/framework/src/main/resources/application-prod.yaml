@@ -99,9 +99,9 @@ security:
 app:
   cors:
     allowed:
-      origins: "*"
-      methods: "*"
-      headers: "*"
+      origins: "https://voxxcarsystems.online"
+      methods: "GET,POST,OPTIONS"
+      headers: "Content-Type,Authorization"
       credentials: true
 
 kafka:
