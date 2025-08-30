@@ -1,8 +1,6 @@
 server:
   shutdown: graceful
   port: 9090
-  forward-headers-strategy: framework
-  use-forward-headers: true
 
 spring:
   application:
