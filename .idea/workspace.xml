@@ -15,7 +15,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="develop" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -52,7 +52,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "develop",
+    "git-widget-placeholder": "release/v1.2.7",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/cemakar/Desktop/projects/voxx-car-systems-project",
     "node.js.detected.package.eslint": "true",
@@ -263,7 +263,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1756539483529</updated>
-      <workItem from="1756539484353" duration="2467000" />
+      <workItem from="1756539484353" duration="4242000" />
     </task>
     <task id="LOCAL-00024" summary="axios.ts düzeltme">
       <option name="closed" value="true" />
@@ -297,7 +297,31 @@
       <option name="project" value="LOCAL" />
       <updated>1756543353295</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="axios.ts düzeltme">
+      <option name="closed" value="true" />
+      <created>1756544731850</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1756544731850</updated>
+    </task>
+    <task id="LOCAL-00029" summary="axios.ts düzeltme">
+      <option name="closed" value="true" />
+      <created>1756544738136</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1756544738136</updated>
+    </task>
+    <task id="LOCAL-00030" summary="axios.ts düzeltme">
+      <option name="closed" value="true" />
+      <created>1756545528396</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1756545528396</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

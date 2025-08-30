@@ -10,6 +10,10 @@ RUN pnpm install --frozen-lockfile
 
 COPY . .
 
+# Set environment variables for build
+ARG VITE_API_BASE_URL=https://voxxcarsystems.online/api/
+ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
+
 RUN pnpm run build
 
 # --- Runtime stage: serve static build with Nginx on port 80 ---

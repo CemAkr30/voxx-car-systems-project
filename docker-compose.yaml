@@ -38,9 +38,13 @@ services:
     build:
       context: ./voxx-car-client
       dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: https://voxxcarsystems.online/api/
     container_name: voxx-car-ui
     ports:
       - "3000:80"
+    environment:
+      - VITE_API_BASE_URL=https://voxxcarsystems.online/api/
     restart: unless-stopped
     networks:
       - voxx-car-network

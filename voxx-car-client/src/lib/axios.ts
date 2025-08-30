@@ -1,4 +1,5 @@
 import axios, {AxiosError, type AxiosResponse, type InternalAxiosRequestConfig,} from "axios";
+import env from "../env";
 
 interface ApiError {
     message: string;
@@ -8,6 +9,11 @@ interface ApiError {
 
 // Environment-based base URL
 const getBaseURL = () => {
+    // Environment variable'dan al
+    if (env.VITE_API_BASE_URL) {
+        return env.VITE_API_BASE_URL;
+    }
+    
     // Production'da her zaman HTTPS kullan
     if (window.location.protocol === 'https:') {
         return "https://voxxcarsystems.online/api/";
@@ -37,14 +43,32 @@ axiosClient.interceptors.request.use(
                 config.headers.Authorization = `Bearer ${token}`;
             }
             
-            // Force HTTPS for production
-            if (window.location.protocol === 'https:' && config.url && config.url.startsWith('http://')) {
-                config.url = config.url.replace('http://', 'https://');
+            // Force HTTPS for production - AGGRESSIVE
+            if (window.location.protocol === 'https:') {
+                // Base URL'i zorla HTTPS yap
+                if (config.baseURL && config.baseURL.startsWith('http://')) {
+                    config.baseURL = config.baseURL.replace('http://', 'https://');
+                }
+                
+                // URL'i zorla HTTPS yap
+                if (config.url && config.url.startsWith('http://')) {
+                    config.url = config.url.replace('http://', 'https://');
+                }
+                
+                // Full URL'i kontrol et
+                const fullUrl = config.baseURL + config.url;
+                if (fullUrl.startsWith('http://')) {
+                    config.url = fullUrl.replace('http://', 'https://');
+                }
             }
             
             // Ensure proper headers for CORS
             config.headers['Content-Type'] = 'application/json';
             config.headers['Accept'] = 'application/json, text/plain, */*';
+            
+            // Debug log
+            console.log('Request URL:', config.baseURL + config.url);
+            console.log('Protocol:', window.location.protocol);
             
         } catch (error) {
             console.warn("Failed to retrieve access token from localStorage:", error);
