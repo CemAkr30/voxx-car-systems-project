@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2619102-5116-425a-bf63-20d085aa6c15" name="Changes" comment="ssl nginx ayarlarsın letscrypt">
+    <list default="true" id="a2619102-5116-425a-bf63-20d085aa6c15" name="Changes" comment="axios.ts düzeltme">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -20,6 +20,12 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "CemAkr30"
+  }
+}]]></component>
   <component name="GithubProjectSettings">
     <option name="branchProtectionPatterns">
       <list>
@@ -28,13 +34,44 @@
       </list>
     </option>
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/cemakar/Applications/IntelliJ IDEA Ultimate.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/CemAkr30/voxx-car-systems-project.git",
+    "accountId": "5b6c29aa-f0ff-42c8-95ae-2f10fd3ba633"
   }
-}</component>
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 1
+}]]></component>
+  <component name="ProjectId" id="31zuzJcg36EHG3LgBzw3iQ7Ijdc" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "develop",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/cemakar/Desktop/projects/voxx-car-systems-project",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "/Users/cemakar/Applications/IntelliJ IDEA Ultimate.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.25659.59" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.25659.59" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task id="LOCAL-00001" summary="k8s package define edildi. cicd pipeline oluşturuldu">
       <option name="closed" value="true" />
@@ -220,14 +257,58 @@
       <option name="project" value="LOCAL" />
       <updated>1756411137926</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a2619102-5116-425a-bf63-20d085aa6c15" name="Changes" comment="ssl nginx ayarlarsın letscrypt" />
+      <created>1756539483529</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1756539483529</updated>
+      <workItem from="1756539484353" duration="2467000" />
+    </task>
+    <task id="LOCAL-00024" summary="axios.ts düzeltme">
+      <option name="closed" value="true" />
+      <created>1756539776667</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1756539776667</updated>
+    </task>
+    <task id="LOCAL-00025" summary="axios.ts düzeltme">
+      <option name="closed" value="true" />
+      <created>1756541878057</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1756541878057</updated>
+    </task>
+    <task id="LOCAL-00026" summary="axios.ts düzeltme">
+      <option name="closed" value="true" />
+      <created>1756542296142</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1756542296142</updated>
+    </task>
+    <task id="LOCAL-00027" summary="axios.ts düzeltme">
+      <option name="closed" value="true" />
+      <created>1756543353295</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1756543353295</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="k8s package define edildi. cicd pipeline oluşturuldu" />
     <MESSAGE value="ci-cd pipeline" />
     <MESSAGE value="ssl nginx ayarlarsın letscrypt" />
-    <option name="LAST_COMMIT_MESSAGE" value="ssl nginx ayarlarsın letscrypt" />
+    <MESSAGE value="axios.ts düzeltme" />
+    <option name="LAST_COMMIT_MESSAGE" value="axios.ts düzeltme" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
