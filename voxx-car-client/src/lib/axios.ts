@@ -1,5 +1,4 @@
 import axios, {AxiosError, type AxiosResponse, type InternalAxiosRequestConfig,} from "axios";
-import { env } from "@/env";
 import { getApiBaseUrl } from "./url-utils";
 
 interface ApiError {

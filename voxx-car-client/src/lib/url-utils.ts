@@ -1,3 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const { env } = import.meta; 
+
+
 /**
  * Ensures that a URL uses HTTPS in production environments
  * @param url The URL to ensure HTTPS for
@@ -18,8 +22,8 @@ export function ensureHttps(url: string): string {
  */
 export function getApiBaseUrl(): string {
     // Use environment variable if available
-    if (import.meta.env.VITE_API_BASE_URL) {
-        return ensureHttps(import.meta.env.VITE_API_BASE_URL);
+    if (env.VITE_API_BASE_URL) {
+        return ensureHttps(env.VITE_API_BASE_URL);
     }
     
     // Force HTTPS for production
