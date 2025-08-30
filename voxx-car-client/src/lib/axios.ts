@@ -1,4 +1,6 @@
 import axios, {AxiosError, type AxiosResponse, type InternalAxiosRequestConfig,} from "axios";
+import { env } from "@/env";
+import { getApiBaseUrl } from "./url-utils";
 
 interface ApiError {
     message: string;
@@ -7,14 +9,26 @@ interface ApiError {
 }
 
 export const axiosClient = axios.create({
-    baseURL: "https://voxxcarsystems.online/api/",
+    baseURL: getApiBaseUrl(),
     timeout: 10000, // Add timeout for better UX
 });
 
+// Add debugging to see what URLs are being requested
+console.log('Axios baseURL:', axiosClient.defaults.baseURL);
 
 // Request interceptor with better error handling
 axiosClient.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
+        // Debug: Log the full URL being requested
+        const fullUrl = `${config.baseURL}${config.url}`;
+        console.log('Making request to:', fullUrl);
+        
+        // Ensure we're not making HTTP requests when we should be using HTTPS
+        if (typeof window !== 'undefined' && window.location.protocol === 'https:' && fullUrl.startsWith('http://')) {
+            console.error('Blocking HTTP request in HTTPS context:', fullUrl);
+            throw new Error('Mixed Content: HTTP requests are not allowed in HTTPS context');
+        }
+        
         try {
             const token = localStorage.getItem("accessToken");
             if (token) {
