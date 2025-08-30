@@ -1,10 +1,16 @@
-name: CI/CD
+name: CI/CD - Voxx Car Systems
 
 on:
   push:
     branches:
       - main
       - release/**
+  workflow_dispatch:
+
+env:
+  REGISTRY: docker.io
+  IMAGE_NAME_BACKEND: ${{ secrets.DOCKERHUB_USERNAME }}/voxx-car-server
+  IMAGE_NAME_FRONTEND: ${{ secrets.DOCKERHUB_USERNAME }}/voxx-car-client
 
 jobs:
   build-and-push:
@@ -28,30 +34,70 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Extract metadata for backend
+        id: meta-backend
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE_NAME_BACKEND }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix={{branch}}-
+
+      - name: Extract metadata for frontend
+        id: meta-frontend
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE_NAME_FRONTEND }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix={{branch}}-
+
       - name: Build and push backend
         uses: docker/build-push-action@v6
         with:
           context: ./voxx-car-server
           file: ./voxx-car-server/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/voxx-car-server:latest
+          tags: ${{ steps.meta-backend.outputs.tags }}
+          labels: ${{ steps.meta-backend.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
-      - name: Build and push client
+      - name: Build and push frontend
         uses: docker/build-push-action@v6
         with:
           context: ./voxx-car-client
           file: ./voxx-car-client/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/voxx-car-client:latest
+          tags: ${{ steps.meta-frontend.outputs.tags }}
+          labels: ${{ steps.meta-frontend.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   deploy:
     needs: build-and-push
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: SSH to Hostinger and deploy via Skaffold
+      - name: Create production environment file
+        run: |
+          cat > .env.prod << EOF
+          KAFKA_HOST_NAME=${{ secrets.KAFKA_HOST_NAME }}
+          SPRING_PROFILES_ACTIVE=prod
+          DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN=${{ secrets.DOCKERHUB_TOKEN }}
+          EOF
+
+      - name: Deploy to Hostinger
         uses: appleboy/ssh-action@v1.1.0
         with:
           host: ${{ secrets.HOSTINGER_HOST }}
@@ -59,15 +105,75 @@ jobs:
           key: ${{ secrets.HOSTINGER_SSH_KEY }}
           port: ${{ secrets.HOSTINGER_SSH_PORT }}
           script: |
+            set -e
+            echo "🚀 Starting deployment..."
+            
+            # Navigate to project directory
             cd ${{ secrets.HOSTINGER_PROJECT_DIR }}
+            
+            # Login to DockerHub
             echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-            echo "Pulling latest code..."
-            git checkout main
-            git pull
-            echo "docker-compose.yaml bulundu, uygulamalar kapatılıyor..."
-            docker-compose --env-file .env.prod down
-            echo "docker image'ları siliniyor, yeni revision çıkılıyor..."
+            
+            # Pull latest code
+            echo "📥 Pulling latest code..."
+            git fetch origin
+            git reset --hard origin/main
+            
+            # Copy environment file
+            echo "📋 Setting up environment..."
+            cp .env.prod .env
+            
+            # Stop existing containers
+            echo "🛑 Stopping existing containers..."
+            docker-compose down || true
+            
+            # Clean up old images
+            echo "🧹 Cleaning up old images..."
             docker image prune -f
             docker system prune -f
-            echo "docker-compose.yaml bulundu, başlatıldı ediliyor..."
-            docker-compose --env-file .env.prod up -d
+            
+            # Pull latest images
+            echo "📦 Pulling latest images..."
+            docker-compose pull
+            
+            # Start containers
+            echo "🚀 Starting containers..."
+            docker-compose up -d
+            
+            # Wait for services to be ready
+            echo "⏳ Waiting for services to be ready..."
+            sleep 30
+            
+            # Health check
+            echo "🔍 Performing health check..."
+            if curl -f http://localhost/api/health || curl -f https://localhost/api/health; then
+              echo "✅ Deployment successful!"
+            else
+              echo "❌ Health check failed!"
+              exit 1
+            fi
+
+  rollback:
+    needs: deploy
+    runs-on: ubuntu-latest
+    if: failure()
+    steps:
+      - name: Rollback deployment
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.HOSTINGER_HOST }}
+          username: ${{ secrets.HOSTINGER_USER }}
+          key: ${{ secrets.HOSTINGER_SSH_KEY }}
+          port: ${{ secrets.HOSTINGER_SSH_PORT }}
+          script: |
+            echo "🔄 Rolling back deployment..."
+            cd ${{ secrets.HOSTINGER_PROJECT_DIR }}
+            
+            # Revert to previous commit
+            git reset --hard HEAD~1
+            
+            # Restart with previous version
+            docker-compose down
+            docker-compose up -d
+            
+            echo "✅ Rollback completed!"

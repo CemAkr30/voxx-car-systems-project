@@ -9,8 +9,8 @@ interface ApiError {
 export const axiosClient = axios.create({
     baseURL: "https://voxxcarsystems.online/api/",
     timeout: 10000, // Add timeout for better UX
+    withCredentials: true, // Enable credentials for CORS
 });
-
 
 // Request interceptor with better error handling
 axiosClient.interceptors.request.use(
@@ -20,6 +20,11 @@ axiosClient.interceptors.request.use(
             if (token) {
                 config.headers.Authorization = `Bearer ${token}`;
             }
+            
+            // Ensure proper headers for CORS
+            config.headers['Content-Type'] = 'application/json';
+            config.headers['Accept'] = 'application/json, text/plain, */*';
+            
         } catch (error) {
             console.warn("Failed to retrieve access token from localStorage:", error);
             // Continue without token rather than failing the request
