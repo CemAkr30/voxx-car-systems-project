@@ -6,8 +6,24 @@ interface ApiError {
     data?: unknown;
 }
 
+// Environment-based base URL
+const getBaseURL = () => {
+    // Production'da her zaman HTTPS kullan
+    if (window.location.protocol === 'https:') {
+        return "https://voxxcarsystems.online/api/";
+    }
+    
+    // Development'da localhost kullan
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        return "http://localhost/api/";
+    }
+    
+    // Fallback olarak HTTPS kullan
+    return "https://voxxcarsystems.online/api/";
+};
+
 export const axiosClient = axios.create({
-    baseURL: "https://voxxcarsystems.online/api/",
+    baseURL: getBaseURL(),
     timeout: 10000, // Add timeout for better UX
     withCredentials: true, // Enable credentials for CORS
 });
@@ -19,6 +35,11 @@ axiosClient.interceptors.request.use(
             const token = localStorage.getItem("accessToken");
             if (token) {
                 config.headers.Authorization = `Bearer ${token}`;
+            }
+            
+            // Force HTTPS for production
+            if (window.location.protocol === 'https:' && config.url && config.url.startsWith('http://')) {
+                config.url = config.url.replace('http://', 'https://');
             }
             
             // Ensure proper headers for CORS
