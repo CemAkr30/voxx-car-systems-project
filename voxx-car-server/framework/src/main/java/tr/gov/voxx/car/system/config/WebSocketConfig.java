@@ -25,12 +25,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
             registration.setAllowedOriginPatterns(PREFIX_STAR);
         } else {
             String[] origins = corsAllowedOrigins.split(PREFIX_COMMA);
-            // Trim whitespace from origins
             for (int i = 0; i < origins.length; i++) {
                 origins[i] = origins[i].trim();
             }
-            registration.setAllowedOrigins(origins);
+            registration.setAllowedOriginPatterns(origins);
         }
+
 
         registration.withSockJS();
     }
