@@ -1,6 +1,21 @@
 version: "3.8"
 
 services:
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - ./infrastructure/nginx/certbot:/var/www/certbot
+    entrypoint: >
+      sh -c "certbot certonly --webroot
+      --webroot-path=/var/www/certbot
+      --email senin@email.com
+      --agree-tos
+      --no-eff-email
+      -d voxxcarsystems.online
+      -d www.voxxcarsystems.online"
+
   nginx:
     image: nginx:latest
     container_name: voxx-car-nginx
