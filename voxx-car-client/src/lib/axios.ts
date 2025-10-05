@@ -8,8 +8,8 @@ interface ApiError {
 }
 
 export const axiosClient = axios.create({
-    baseURL: getApiBaseUrl(),
-    timeout: 10000, // Add timeout for better UX
+    baseURL: getApiBaseUrl() ? getApiBaseUrl() : "http://localhost:9090/",
+    timeout: 10000,
 });
 
 // Add debugging to see what URLs are being requested

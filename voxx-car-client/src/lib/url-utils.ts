@@ -21,10 +21,14 @@ export function ensureHttps(url: string): string {
  * @returns The base API URL
  */
 export function getApiBaseUrl(): string {
-    console.log(env.VITE_API_BASE_URL);
-    if (env.VITE_API_BASE_URL) {
-        return env.VITE_API_BASE_URL.replace(/^http:\/\//, "https://");
+    try {
+        console.log(env.VITE_API_BASE_URL);
+        if (env.VITE_API_BASE_URL) {
+            return env.VITE_API_BASE_URL.replace(/^http:\/\//, "https://");
+        }
+        return "https://voxxcarsystems.online/api/";
+    }catch (e){
+        return "";
     }
-    return "https://voxxcarsystems.online/api/";
 }
 
