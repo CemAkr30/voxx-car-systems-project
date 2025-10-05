@@ -22,5 +22,5 @@ public class BakimEntity extends AbstractEntity {
     private String faturaNo;
     private String fatura;
     private String aciklama;
-    private String mtvOdeyenFirma;
+    private String bakimOdeyenFirma;
 }

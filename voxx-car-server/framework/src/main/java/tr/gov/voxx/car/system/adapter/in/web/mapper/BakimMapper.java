@@ -24,7 +24,7 @@ public class BakimMapper {
                 .faturaNo(entity.getFaturaNo())
                 .fatura(entity.getFatura())
                 .aciklama(entity.getAciklama())
-                .mtvOdeyenFirma(entity.getMtvOdeyenFirma())
+                .bakimOdeyenFirma(entity.getBakimOdeyenFirma())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .build();
@@ -45,7 +45,7 @@ public class BakimMapper {
                 .faturaNo(request.getFaturaNo())
                 .fatura(request.getFatura())
                 .aciklama(request.getAciklama())
-                .mtvOdeyenFirma(request.getMtvOdeyenFirma())
+                .bakimOdeyenFirma(request.getBakimOdeyenFirma())
                 .build();
     }
 }
