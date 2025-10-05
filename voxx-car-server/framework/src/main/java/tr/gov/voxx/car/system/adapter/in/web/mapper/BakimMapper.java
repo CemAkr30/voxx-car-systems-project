@@ -5,7 +5,6 @@ import tr.gov.voxx.car.system.adapter.in.web.data.BakimRequest;
 import tr.gov.voxx.car.system.adapter.in.web.data.BakimResponse;
 import tr.gov.voxx.car.system.domain.entity.Bakim;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
-import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,7 +24,7 @@ public class BakimMapper {
                 .faturaNo(entity.getFaturaNo())
                 .fatura(entity.getFatura())
                 .aciklama(entity.getAciklama())
-                .odeyenFirmaId(entity.getOdeyenFirmaId().getValue())
+                .mtvOdeyenFirma(entity.getMtvOdeyenFirma())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .build();
@@ -46,7 +45,7 @@ public class BakimMapper {
                 .faturaNo(request.getFaturaNo())
                 .fatura(request.getFatura())
                 .aciklama(request.getAciklama())
-                .odeyenFirmaId(new FirmaId(request.getOdeyenFirmaId()))
+                .mtvOdeyenFirma(request.getMtvOdeyenFirma())
                 .build();
     }
 }

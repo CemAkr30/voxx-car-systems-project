@@ -26,7 +26,7 @@ public class KazaJpaMapper {
                 .kazaNedeni(entity.getKazaNedeni())
                 .kazaTutanagi(entity.getKazaTutanagi())
                 .onarimDurumu(entity.getOnarimDurumu())
-                .odeyenFirmaId(new FirmaId(entity.getOdeyenFirmaId()))
+                .mtvOdeyenFirma(entity.getMtvOdeyenFirma())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .isDeleted(entity.isDeleted())
@@ -46,7 +46,7 @@ public class KazaJpaMapper {
         entity.setKazaNedeni(kaza.getKazaNedeni());
         entity.setKazaTutanagi(kaza.getKazaTutanagi());
         entity.setOnarimDurumu(kaza.getOnarimDurumu());
-        entity.setOdeyenFirmaId(kaza.getOdeyenFirmaId().getValue());
+        entity.setMtvOdeyenFirma(kaza.getMtvOdeyenFirma());
         return entity;
     }
 

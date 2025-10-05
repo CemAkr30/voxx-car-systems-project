@@ -6,7 +6,6 @@ import tr.gov.voxx.car.system.common.domain.core.IdFactory;
 import tr.gov.voxx.car.system.common.domain.entity.AbstractAggregateModel;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.BakimId;
-import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
 @Getter
 @SuperBuilder(toBuilder = true)
@@ -21,7 +20,7 @@ public class Bakim extends AbstractAggregateModel<BakimId> {
     private String faturaNo;
     private String fatura;
     private String aciklama;
-    private FirmaId odeyenFirmaId;
+    private String mtvOdeyenFirma;
 
 
     public void initIdGenerator() {
@@ -38,7 +37,6 @@ public class Bakim extends AbstractAggregateModel<BakimId> {
         this.faturaNo = other.faturaNo;
         this.fatura = other.fatura;
         this.aciklama = other.aciklama;
-        this.odeyenFirmaId = other.odeyenFirmaId;
-
+        this.mtvOdeyenFirma = other.mtvOdeyenFirma;
     }
 }

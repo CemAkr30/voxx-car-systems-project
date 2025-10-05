@@ -23,5 +23,5 @@ public class KazaEntity extends AbstractEntity {
     private String kazaNedeni;
     private String kazaTutanagi;
     private String onarimDurumu;
-    private String odeyenFirmaId;
+    private String mtvOdeyenFirma;
 }

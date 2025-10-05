@@ -5,7 +5,6 @@ import tr.gov.voxx.car.system.adapter.out.jpa.entity.BakimEntity;
 import tr.gov.voxx.car.system.domain.entity.Bakim;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.BakimId;
-import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +26,7 @@ public class BakimJpaMapper {
                 .faturaNo(entity.getFaturaNo())
                 .fatura(entity.getFatura())
                 .aciklama(entity.getAciklama())
-                .odeyenFirmaId(new FirmaId(entity.getOdeyenFirmaId()))
+                .mtvOdeyenFirma(entity.getMtvOdeyenFirma())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .isDeleted(entity.isDeleted())
@@ -48,7 +47,7 @@ public class BakimJpaMapper {
         entity.setFaturaNo(bakim.getFaturaNo());
         entity.setFatura(bakim.getFatura());
         entity.setAciklama(bakim.getAciklama());
-        entity.setOdeyenFirmaId(bakim.getOdeyenFirmaId().getValue());
+        entity.setMtvOdeyenFirma(bakim.getMtvOdeyenFirma());
         return entity;
     }
 

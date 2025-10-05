@@ -17,8 +17,8 @@ public class MTVDurumDetayMapper {
 
         // Firma bilgilerini al
         String odeyenFirmaUnvani = null;
-        if (mtv.getOdeyenFirmaId() != null) {
-            Firma firma = firmaMap.get(mtv.getOdeyenFirmaId().getValue());
+        if (mtv.getMtvOdeyenFirma() != null) {
+            Firma firma = firmaMap.get(mtv.getMtvOdeyenFirma());
             odeyenFirmaUnvani = firma != null ? firma.getUnvan() : null;
         }
 

@@ -17,7 +17,7 @@ public class MuayeneRequest {
     private String aracFiloId;
     private MuayeneTipi muayeneTipi;
     private String makbuzNo;
-    private String odeyenFirmaId;
+    private String mtvOdeyenFirma;
     private String gecikmeCezasi;
     private String aciklama;
     private String yeri;

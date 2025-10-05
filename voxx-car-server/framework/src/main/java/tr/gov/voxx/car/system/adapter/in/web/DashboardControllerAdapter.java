@@ -14,13 +14,13 @@ import tr.gov.voxx.car.system.adapter.in.web.data.SigortaDurumResponse;
 import tr.gov.voxx.car.system.adapter.in.web.mapper.MTVDurumMapper;
 import tr.gov.voxx.car.system.adapter.in.web.mapper.MuayeneDurumMapper;
 import tr.gov.voxx.car.system.adapter.in.web.mapper.SigortaDurumMapper;
-import tr.gov.voxx.car.system.application.port.in.AracFiloApplicationQueryPort;
-import tr.gov.voxx.car.system.application.port.in.FirmaApplicationQueryPort;
-import tr.gov.voxx.car.system.application.port.in.MTVApplicationQueryPort;
-import tr.gov.voxx.car.system.application.port.in.MuayeneApplicationQueryPort;
-import tr.gov.voxx.car.system.application.port.in.SigortaKaskoApplicationQueryPort;
+import tr.gov.voxx.car.system.application.port.in.*;
+import tr.gov.voxx.car.system.domain.entity.Mtv;
+import tr.gov.voxx.car.system.domain.entity.Muayene;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
+
+import java.util.Objects;
 
 import static tr.gov.voxx.car.system.constants.EndpointPath.DASHBOARD_ENDPOINT_V1;
 
@@ -59,8 +59,8 @@ public class DashboardControllerAdapter {
 
         // Firma bilgilerini almak için odeyenFirmaId'leri topla
         var firmaIds = mtvList.stream()
-                .filter(mtv -> mtv.getOdeyenFirmaId() != null)
-                .map(mtv -> mtv.getOdeyenFirmaId().getValue())
+                .map(Mtv::getMtvOdeyenFirma)
+                .filter(Objects::nonNull)
                 .distinct()
                 .toList();
 
@@ -110,8 +110,8 @@ public class DashboardControllerAdapter {
 
         // Firma bilgilerini almak için odeyenFirmaId'leri topla
         var firmaIds = muayeneList.stream()
-                .filter(muayene -> muayene.getOdeyenFirmaId() != null)
-                .map(muayene -> muayene.getOdeyenFirmaId().getValue())
+                .map(Muayene::getMtvOdeyenFirma)
+                .filter(Objects::nonNull)
                 .distinct()
                 .toList();
 
