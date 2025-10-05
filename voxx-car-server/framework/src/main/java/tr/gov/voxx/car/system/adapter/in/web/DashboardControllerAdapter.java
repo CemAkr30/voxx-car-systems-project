@@ -110,7 +110,7 @@ public class DashboardControllerAdapter {
 
         // Firma bilgilerini almak için odeyenFirmaId'leri topla
         var firmaIds = muayeneList.stream()
-                .map(Muayene::getMuayeneOdeyenFirma)
+                .map(Muayene::getMtvOdeyenFirma)
                 .filter(Objects::nonNull)
                 .distinct()
                 .toList();

@@ -22,7 +22,7 @@ public class BakimResponse {
     private String faturaNo;
     private String fatura;
     private String aciklama;
-    private String bakimOdeyenFirma;
+    private String mtvOdeyenFirma;
     private Instant createdAt;
     private Instant updatedAt;
     private boolean isDeleted;

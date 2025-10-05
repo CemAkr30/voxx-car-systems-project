@@ -26,7 +26,7 @@ public class BakimJpaMapper {
                 .faturaNo(entity.getFaturaNo())
                 .fatura(entity.getFatura())
                 .aciklama(entity.getAciklama())
-                .bakimOdeyenFirma(entity.getBakimOdeyenFirma())
+                .mtvOdeyenFirma(entity.getMtvOdeyenFirma())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .isDeleted(entity.isDeleted())
@@ -47,7 +47,7 @@ public class BakimJpaMapper {
         entity.setFaturaNo(bakim.getFaturaNo());
         entity.setFatura(bakim.getFatura());
         entity.setAciklama(bakim.getAciklama());
-        entity.setBakimOdeyenFirma(bakim.getBakimOdeyenFirma());
+        entity.setMtvOdeyenFirma(bakim.getMtvOdeyenFirma());
         return entity;
     }
 

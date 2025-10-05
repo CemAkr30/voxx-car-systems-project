@@ -23,7 +23,7 @@ public class MuayeneEntity extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private MuayeneTipi muayeneTipi;
     private String makbuzNo;
-    private String muayeneOdeyenFirma;
+    private String mtvOdeyenFirma;
     private String gecikmeCezasi;
     private String aciklama;
     private String yeri;

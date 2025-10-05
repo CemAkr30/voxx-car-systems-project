@@ -19,5 +19,5 @@ public class BakimRequest {
     private String faturaNo;
     private String fatura;
     private String aciklama;
-    private String bakimOdeyenFirma;
+    private String mtvOdeyenFirma;
 }

@@ -18,7 +18,7 @@ public class Muayene extends AbstractAggregateModel<MuayeneId> {
     private AracFiloId aracFiloId;
     private MuayeneTipi muayeneTipi;
     private String makbuzNo;
-    private String muayeneOdeyenFirma;
+    private String mtvOdeyenFirma;
     private Instant baslangicTarihi;
     private Instant bitisTarihi;
     private String gecikmeCezasi;
@@ -37,7 +37,7 @@ public class Muayene extends AbstractAggregateModel<MuayeneId> {
         this.aracFiloId = other.aracFiloId;
         this.muayeneTipi = other.muayeneTipi;
         this.makbuzNo = other.makbuzNo;
-        this.muayeneOdeyenFirma = other.muayeneOdeyenFirma;
+        this.mtvOdeyenFirma = other.mtvOdeyenFirma;
         this.baslangicTarihi = other.baslangicTarihi;
         this.bitisTarihi = other.bitisTarihi;
         this.aciklama = other.aciklama;

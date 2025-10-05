@@ -20,7 +20,7 @@ public class Bakim extends AbstractAggregateModel<BakimId> {
     private String faturaNo;
     private String fatura;
     private String aciklama;
-    private String bakimOdeyenFirma;
+    private String mtvOdeyenFirma;
 
 
     public void initIdGenerator() {
@@ -37,6 +37,6 @@ public class Bakim extends AbstractAggregateModel<BakimId> {
         this.faturaNo = other.faturaNo;
         this.fatura = other.fatura;
         this.aciklama = other.aciklama;
-        this.bakimOdeyenFirma = other.bakimOdeyenFirma;
+        this.mtvOdeyenFirma = other.mtvOdeyenFirma;
     }
 }

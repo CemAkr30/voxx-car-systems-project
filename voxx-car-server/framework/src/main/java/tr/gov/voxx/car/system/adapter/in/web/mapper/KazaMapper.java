@@ -24,7 +24,7 @@ public class KazaMapper {
                 .kazaNedeni(entity.getKazaNedeni())
                 .kazaTutanagi(entity.getKazaTutanagi())
                 .onarimDurumu(entity.getOnarimDurumu())
-                .kazaOdeyenFirma(entity.getKazaOdeyenFirma())
+                .mtvOdeyenFirma(entity.getMtvOdeyenFirma())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .build();
@@ -44,7 +44,7 @@ public class KazaMapper {
                 .kazaNedeni(request.getKazaNedeni())
                 .kazaTutanagi(request.getKazaTutanagi())
                 .onarimDurumu(request.getOnarimDurumu())
-                .kazaOdeyenFirma(request.getKazaOdeyenFirma())
+                .mtvOdeyenFirma(request.getMtvOdeyenFirma())
                 .build();
     }
 }

@@ -17,7 +17,7 @@ public class MuayeneJpaMapper {
                 .aracFiloId(new AracFiloId(entity.getAracFiloId()))
                 .muayeneTipi(entity.getMuayeneTipi())
                 .makbuzNo(entity.getMakbuzNo())
-                .muayeneOdeyenFirma(entity.getMuayeneOdeyenFirma())
+                .mtvOdeyenFirma(entity.getMtvOdeyenFirma())
                 .gecikmeCezasi(entity.getGecikmeCezasi())
                 .aciklama(entity.getAciklama())
                 .yeri(entity.getYeri())
@@ -41,7 +41,7 @@ public class MuayeneJpaMapper {
         entity.setAracFiloId(muayene.getAracFiloId().getValue());
         entity.setMuayeneTipi(muayene.getMuayeneTipi());
         entity.setMakbuzNo(muayene.getMakbuzNo());
-        entity.setMuayeneOdeyenFirma(muayene.getMuayeneOdeyenFirma());
+        entity.setMtvOdeyenFirma(muayene.getMtvOdeyenFirma());
         entity.setGecikmeCezasi(muayene.getGecikmeCezasi());
         entity.setAciklama(muayene.getAciklama());
         entity.setYeri(muayene.getYeri());
