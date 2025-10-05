@@ -22,6 +22,7 @@ import static tr.gov.voxx.car.system.constants.EndpointPath.ARAC_FILO_ENDPOINT_V
 public class AracFiloControllerAdapter {
 
     private final AracFiloApplicationCommandPort commandPort;
+    private final AracFirmaDetayApplicationCommandPort aracFirmaDetayApplicationCommandPort;
     private final AracFiloApplicationQueryPort queryPort;
 
     private final SigortaKaskoApplicationQueryPort sigortaKaskoApplicationQueryPort;
@@ -32,6 +33,7 @@ public class AracFiloControllerAdapter {
     private final KazaApplicationQueryPort kazaApplicationQueryPort;
     private final AlisFaturasiApplicationQueryPort alisFaturasiApplicationQueryPort;
     private final FilodanCikisApplicationQueryPort filodanCikisApplicationQueryPort;
+    private final AracFirmaDetayApplicationQueryPort aracFirmaDetayApplicationQueryPort;
 
 
     @GetMapping("/{id}")
@@ -124,5 +126,20 @@ public class AracFiloControllerAdapter {
     public ResponseEntity<List<FilodanCikisResponse>> findAracFiloIdGetFilodanCikis(@PathVariable("id") String aracFiloId) {
         List<FilodanCikis> filodanCikisList = filodanCikisApplicationQueryPort.findAracFiloIdGetAll(aracFiloId);
         return ResponseEntity.ok(FilodanCikisMapper.toResponseList(filodanCikisList));
+    }
+
+    @PostMapping("/kirala")
+    @Operation(summary = "Araç Firma Detay Bilgisine Göre Ekler", description = "Araç Firma Detay Bilgisine Göre Ekler")
+    public ResponseEntity<Void> kirala(@RequestBody AracFirmaDetayRequest aracFirmaDetayRequest) {
+        aracFirmaDetayApplicationCommandPort.post(AracFirmaDetayMapper.toAracFirmaDetay(aracFirmaDetayRequest));
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/kiralayan-firmalar")
+    @Operation(summary = "Araç Filo ID ye göre kiralayan araçları getir", description = "Belirtilen Araç Filo ID ye göre kiralayan araçları getir")
+    public ResponseEntity<List<AracFirmaDetayResponse>> kiralayanFirmalar(@PathVariable("id") String aracFiloId) {
+        return ResponseEntity.ok(AracFirmaDetayMapper.toResponseList(
+                aracFirmaDetayApplicationQueryPort.kiralayanFirmalar(new AracFiloId(aracFiloId))
+        ));
     }
 }

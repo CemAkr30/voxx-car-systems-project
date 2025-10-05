@@ -5,26 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="639c7637-b8e5-40fd-b92e-4d41b1374ad1" name="Changes" comment="düzeltme development">
+      <change afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/port/in/AracFirmaDetayApplicationCommandPort.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/port/in/AracFirmaDetayApplicationQueryPort.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/port/out/AracFirmaDetayPersistenceJpaPort.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/AracFirmaDetayApplicationCommandUseCase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/AracFirmaDetayApplicationQueryUseCase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/voxx-car-server/domain/src/main/java/tr/gov/voxx/car/system/domain/entity/AracFirmaDetay.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/voxx-car-server/domain/src/main/java/tr/gov/voxx/car/system/domain/valueobject/AracFirmaDetayId.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/data/AracFirmaDetayRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/data/AracFirmaDetayResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/mapper/AracFirmaDetayMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/jpa/entity/AracFirmaDetayEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/jpa/mapper/AracFirmaDetayJpaMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/jpa/persistence/AracFirmaDetayPersistenceJpaAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/jpa/repository/AracFirmaDetayJpaRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxx-car-server/domain/src/main/java/tr/gov/voxx/car/system/domain/entity/Bakim.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/domain/src/main/java/tr/gov/voxx/car/system/domain/entity/Bakim.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxx-car-server/domain/src/main/java/tr/gov/voxx/car/system/domain/entity/Kaza.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/domain/src/main/java/tr/gov/voxx/car/system/domain/entity/Kaza.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxx-car-server/domain/src/main/java/tr/gov/voxx/car/system/domain/entity/Muayene.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/domain/src/main/java/tr/gov/voxx/car/system/domain/entity/Muayene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/DashboardControllerAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/DashboardControllerAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/data/BakimRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/data/BakimRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/data/BakimResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/data/BakimResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/data/KazaRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/data/KazaRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/data/KazaResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/data/KazaResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/data/MuayeneRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/data/MuayeneRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/data/MuayeneResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/data/MuayeneResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/mapper/BakimMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/mapper/BakimMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/mapper/KazaMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/mapper/KazaMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/mapper/MuayeneMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/mapper/MuayeneMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/jpa/entity/BakimEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/jpa/entity/BakimEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/jpa/entity/KazaEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/jpa/entity/KazaEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/jpa/entity/MuayeneEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/jpa/entity/MuayeneEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/jpa/mapper/BakimJpaMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/jpa/mapper/BakimJpaMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/jpa/mapper/KazaJpaMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/jpa/mapper/KazaJpaMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/jpa/mapper/MuayeneJpaMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/jpa/mapper/MuayeneJpaMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/AracFiloControllerAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/AracFiloControllerAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/FirmaControllerAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/FirmaControllerAdapter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +32,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -97,6 +95,15 @@
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="tr.gov.voxx.car.system.adapter.in.web" />
+      <recent name="tr.gov.voxx.car.system.adapter.in.web.mapper" />
+      <recent name="tr.gov.voxx.car.system.adapter.in.web.data" />
+      <recent name="tr.gov.voxx.car.system.adapter.out.jpa.repository" />
+      <recent name="tr.gov.voxx.car.system.adapter.out.jpa.persistence" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="framework" />
@@ -130,7 +137,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1759657167969</updated>
-      <workItem from="1759657169713" duration="4688000" />
+      <workItem from="1759657169713" duration="8013000" />
     </task>
     <task id="LOCAL-00002" summary="düzeltme development">
       <option name="closed" value="true" />
@@ -172,7 +179,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759661492398</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="düzeltme development">
+      <option name="closed" value="true" />
+      <created>1759661936186</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1759661936186</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

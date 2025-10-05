@@ -6,10 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tr.gov.voxx.car.system.adapter.in.web.data.*;
-import tr.gov.voxx.car.system.adapter.in.web.mapper.AdresMapper;
-import tr.gov.voxx.car.system.adapter.in.web.mapper.AracKullananMapper;
-import tr.gov.voxx.car.system.adapter.in.web.mapper.FirmaMapper;
-import tr.gov.voxx.car.system.adapter.in.web.mapper.IletisimMapper;
+import tr.gov.voxx.car.system.adapter.in.web.mapper.*;
 import tr.gov.voxx.car.system.application.port.in.*;
 import tr.gov.voxx.car.system.domain.entity.Adres;
 import tr.gov.voxx.car.system.domain.entity.AracKullanan;
@@ -33,6 +30,7 @@ public class FirmaControllerAdapter {
     private final AdresApplicationQueryPort adresApplicationQueryPort;
     private final AracKullananApplicationQueryPort aracKullananApplicationQueryPort;
     private final IletisimApplicationQueryPort iletisimApplicationQueryPort;
+    private final AracFirmaDetayApplicationQueryPort aracFirmaDetayApplicationQueryPort;
 
     @GetMapping("/{id}")
     @Operation(summary = "Firma Getir", description = "ID’ye göre firma verisini döner")
@@ -92,5 +90,13 @@ public class FirmaControllerAdapter {
     public ResponseEntity<List<IletisimResponse>> findFirmaIdGetAllIletisim(@PathVariable("id") String firmaId) {
         List<Iletisim> iletisimList = iletisimApplicationQueryPort.findFirmaIdGetAll(firmaId);
         return ResponseEntity.ok(IletisimMapper.toResponseList(iletisimList));
+    }
+
+    @GetMapping("/{id}/kiralanan-araclar")
+    @Operation(summary = "Firma ID ye göre kiralayan araçları getir", description = "Belirtilen Firma ID ye göre kiralayan araçları getir")
+    public ResponseEntity<List<AracFirmaDetayResponse>> kiralananAracFirmaDetay(@PathVariable("id") String firmaId) {
+        return ResponseEntity.ok(AracFirmaDetayMapper.toResponseList(
+                aracFirmaDetayApplicationQueryPort.kiralananAraclar(new FirmaId(firmaId)))
+        );
     }
 }
