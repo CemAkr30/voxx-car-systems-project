@@ -4,6 +4,7 @@ import lombok.experimental.UtilityClass;
 import tr.gov.voxx.car.system.adapter.out.jpa.entity.MuayeneEntity;
 import tr.gov.voxx.car.system.domain.entity.Muayene;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
+import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 import tr.gov.voxx.car.system.domain.valueobject.MuayeneId;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class MuayeneJpaMapper {
                 .aracFiloId(new AracFiloId(entity.getAracFiloId()))
                 .muayeneTipi(entity.getMuayeneTipi())
                 .makbuzNo(entity.getMakbuzNo())
-                .mtvOdeyenFirma(entity.getMtvOdeyenFirma())
+                .odeyenFirmaId(new FirmaId(entity.getOdeyenFirmaId()))
                 .gecikmeCezasi(entity.getGecikmeCezasi())
                 .aciklama(entity.getAciklama())
                 .yeri(entity.getYeri())
@@ -41,7 +42,7 @@ public class MuayeneJpaMapper {
         entity.setAracFiloId(muayene.getAracFiloId().getValue());
         entity.setMuayeneTipi(muayene.getMuayeneTipi());
         entity.setMakbuzNo(muayene.getMakbuzNo());
-        entity.setMtvOdeyenFirma(muayene.getMtvOdeyenFirma());
+        entity.setOdeyenFirmaId(muayene.getOdeyenFirmaId().getValue());
         entity.setGecikmeCezasi(muayene.getGecikmeCezasi());
         entity.setAciklama(muayene.getAciklama());
         entity.setYeri(muayene.getYeri());

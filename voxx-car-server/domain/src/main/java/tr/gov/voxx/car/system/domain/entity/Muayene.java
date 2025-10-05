@@ -7,6 +7,7 @@ import tr.gov.voxx.car.system.common.domain.entity.AbstractAggregateModel;
 import tr.gov.voxx.car.system.domain.enumeration.MuayeneTipi;
 import tr.gov.voxx.car.system.domain.enumeration.OdemeTipi;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
+import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 import tr.gov.voxx.car.system.domain.valueobject.MuayeneId;
 
 import java.time.Instant;
@@ -18,7 +19,7 @@ public class Muayene extends AbstractAggregateModel<MuayeneId> {
     private AracFiloId aracFiloId;
     private MuayeneTipi muayeneTipi;
     private String makbuzNo;
-    private String mtvOdeyenFirma;
+    private FirmaId odeyenFirmaId;
     private Instant baslangicTarihi;
     private Instant bitisTarihi;
     private String gecikmeCezasi;
@@ -37,7 +38,7 @@ public class Muayene extends AbstractAggregateModel<MuayeneId> {
         this.aracFiloId = other.aracFiloId;
         this.muayeneTipi = other.muayeneTipi;
         this.makbuzNo = other.makbuzNo;
-        this.mtvOdeyenFirma = other.mtvOdeyenFirma;
+        this.odeyenFirmaId = other.odeyenFirmaId;
         this.baslangicTarihi = other.baslangicTarihi;
         this.bitisTarihi = other.bitisTarihi;
         this.aciklama = other.aciklama;

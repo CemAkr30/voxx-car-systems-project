@@ -20,13 +20,12 @@ public class KazaJpaMapper {
                 .id(new KazaId(entity.getId()))
                 .aracFiloId(new AracFiloId(entity.getAracFiloId()))
                 .firmaId(new FirmaId(entity.getFirmaId()))
-                .musteriId(entity.getMusteriId())
                 .kazaTarihi(entity.getKazaTarihi())
                 .kazaIli(entity.getKazaIli())
                 .kazaNedeni(entity.getKazaNedeni())
                 .kazaTutanagi(entity.getKazaTutanagi())
                 .onarimDurumu(entity.getOnarimDurumu())
-                .mtvOdeyenFirma(entity.getMtvOdeyenFirma())
+                .odeyenFirmaId(new FirmaId(entity.getOdeyenFirmaId()))
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .isDeleted(entity.isDeleted())
@@ -40,13 +39,12 @@ public class KazaJpaMapper {
         entity.setId(kaza.getId().getValue());
         entity.setAracFiloId(kaza.getAracFiloId().getValue());
         entity.setFirmaId(kaza.getFirmaId().getValue());
-        entity.setMusteriId(kaza.getMusteriId());
         entity.setKazaTarihi(kaza.getKazaTarihi());
         entity.setKazaIli(kaza.getKazaIli());
         entity.setKazaNedeni(kaza.getKazaNedeni());
         entity.setKazaTutanagi(kaza.getKazaTutanagi());
         entity.setOnarimDurumu(kaza.getOnarimDurumu());
-        entity.setMtvOdeyenFirma(kaza.getMtvOdeyenFirma());
+        entity.setOdeyenFirmaId(kaza.getOdeyenFirmaId().getValue());
         return entity;
     }
 

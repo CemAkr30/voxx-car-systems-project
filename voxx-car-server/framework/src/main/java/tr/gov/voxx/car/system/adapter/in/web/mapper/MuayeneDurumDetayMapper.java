@@ -19,8 +19,8 @@ public class MuayeneDurumDetayMapper {
 
         // Firma bilgilerini al
         String odeyenFirmaUnvani = null;
-        if (muayene.getMtvOdeyenFirma() != null) {
-            Firma firma = firmaMap.get(muayene.getMtvOdeyenFirma());
+        if (muayene.getOdeyenFirmaId() != null) {
+            Firma firma = firmaMap.get(muayene.getOdeyenFirmaId());
             odeyenFirmaUnvani = firma != null ? firma.getUnvan() : null;
         }
 

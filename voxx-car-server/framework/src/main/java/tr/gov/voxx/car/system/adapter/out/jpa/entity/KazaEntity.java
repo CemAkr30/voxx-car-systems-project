@@ -17,11 +17,10 @@ import java.time.Instant;
 public class KazaEntity extends AbstractEntity {
     private String aracFiloId;
     private String firmaId;
-    private String musteriId;
     private Instant kazaTarihi;
     private String kazaIli;
     private String kazaNedeni;
     private String kazaTutanagi;
     private String onarimDurumu;
-    private String mtvOdeyenFirma;
+    private String odeyenFirmaId;
 }

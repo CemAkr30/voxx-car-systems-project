@@ -16,13 +16,12 @@ public class Kaza extends AbstractAggregateModel<KazaId> {
 
     private AracFiloId aracFiloId;
     private FirmaId firmaId;
-    private String musteriId;
     private Instant kazaTarihi;
     private String kazaIli;
     private String kazaNedeni;
     private String kazaTutanagi;
     private String onarimDurumu;
-    private String mtvOdeyenFirma;
+    private FirmaId odeyenFirmaId;
 
     public void initIdGenerator() {
         this.setId(new KazaId(IdFactory.create()));
@@ -31,12 +30,11 @@ public class Kaza extends AbstractAggregateModel<KazaId> {
     public void updateFrom(Kaza other) {
         this.aracFiloId = other.aracFiloId;
         this.firmaId = other.firmaId;
-        this.musteriId = other.musteriId;
         this.kazaTarihi = other.kazaTarihi;
         this.kazaIli = other.kazaIli;
         this.kazaNedeni = other.kazaNedeni;
         this.kazaTutanagi = other.kazaTutanagi;
         this.onarimDurumu = other.onarimDurumu;
-        this.mtvOdeyenFirma = other.mtvOdeyenFirma;
+        this.odeyenFirmaId = other.odeyenFirmaId;
     }
 }

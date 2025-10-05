@@ -18,13 +18,12 @@ public class KazaMapper {
                 .id(entity.getId().getValue())
                 .aracFiloId(entity.getAracFiloId().getValue())
                 .firmaId(entity.getFirmaId().getValue())
-                .musteriId(entity.getMusteriId())
                 .kazaTarihi(entity.getKazaTarihi())
                 .kazaIli(entity.getKazaIli())
                 .kazaNedeni(entity.getKazaNedeni())
                 .kazaTutanagi(entity.getKazaTutanagi())
                 .onarimDurumu(entity.getOnarimDurumu())
-                .mtvOdeyenFirma(entity.getMtvOdeyenFirma())
+                .odeyenFirmaId(entity.getOdeyenFirmaId().getValue())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .build();
@@ -38,13 +37,12 @@ public class KazaMapper {
         return Kaza.builder()
                 .aracFiloId(new AracFiloId(request.getAracFiloId()))
                 .firmaId(new FirmaId(request.getFirmaId()))
-                .musteriId(request.getMusteriId())
                 .kazaTarihi(request.getKazaTarihi())
                 .kazaIli(request.getKazaIli())
                 .kazaNedeni(request.getKazaNedeni())
                 .kazaTutanagi(request.getKazaTutanagi())
                 .onarimDurumu(request.getOnarimDurumu())
-                .mtvOdeyenFirma(request.getMtvOdeyenFirma())
+                .odeyenFirmaId(new FirmaId(request.getOdeyenFirmaId()))
                 .build();
     }
 }

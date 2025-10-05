@@ -16,7 +16,6 @@ import tr.gov.voxx.car.system.adapter.in.web.mapper.MuayeneDurumMapper;
 import tr.gov.voxx.car.system.adapter.in.web.mapper.SigortaDurumMapper;
 import tr.gov.voxx.car.system.application.port.in.*;
 import tr.gov.voxx.car.system.domain.entity.Mtv;
-import tr.gov.voxx.car.system.domain.entity.Muayene;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
@@ -110,8 +109,8 @@ public class DashboardControllerAdapter {
 
         // Firma bilgilerini almak için odeyenFirmaId'leri topla
         var firmaIds = muayeneList.stream()
-                .map(Muayene::getMtvOdeyenFirma)
-                .filter(Objects::nonNull)
+                .filter(muayene -> muayene.getOdeyenFirmaId() != null)
+                .map(muayene -> muayene.getOdeyenFirmaId().getValue())
                 .distinct()
                 .toList();
 

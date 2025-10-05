@@ -15,13 +15,12 @@ public class KazaResponse {
     private String id;
     private String aracFiloId;
     private String firmaId;
-    private String musteriId;
     private Instant kazaTarihi;
     private String kazaIli;
     private String kazaNedeni;
     private String kazaTutanagi;
     private String onarimDurumu;
-    private String mtvOdeyenFirma;
+    private String odeyenFirmaId;
     private boolean isDeleted;
     private Instant createdAt;
     private Instant updatedAt;
