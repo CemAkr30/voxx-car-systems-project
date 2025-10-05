@@ -16,7 +16,7 @@ public class HasarMapper {
                 .aracFiloId(hasar.getAracFiloId().getValue())
                 .hasarliParca(hasar.getHasarliParca())
                 .hasarTipi(hasar.getHasarTipi())
-                .not(hasar.getNot())
+                .aciklama(hasar.getAciklama())
                 .createdAt(hasar.getCreatedAt())
                 .updatedAt(hasar.getUpdatedAt())
                 .build();
@@ -27,7 +27,7 @@ public class HasarMapper {
                 .aracFiloId(new AracFiloId(request.getAracFiloId()))
                 .hasarliParca(request.getHasarliParca())
                 .hasarTipi(request.getHasarTipi())
-                .not(request.getNot())
+                .aciklama(request.getAciklama())
                 .build();
     }
 

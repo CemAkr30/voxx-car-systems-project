@@ -19,7 +19,7 @@ public class HasarResponse {
     private String aracFiloId;
     private HasarliParca hasarliParca;
     private HasarTipi hasarTipi;
-    private String not;
+    private String aciklama;
     private Instant createdAt;
     private Instant updatedAt;
     private boolean isDeleted;

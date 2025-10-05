@@ -22,5 +22,5 @@ public class HasarEntity extends AbstractEntity {
     private HasarliParca hasarliParca;
     @Enumerated(EnumType.STRING)
     private HasarTipi hasarTipi;
-    private String not;
+    private String aciklama;
 }

@@ -16,7 +16,7 @@ public class Hasar extends AbstractAggregateModel<HasarId> {
     private AracFiloId aracFiloId;
     private HasarliParca hasarliParca;
     private HasarTipi hasarTipi;
-    private String not;
+    private String aciklama;
 
     public void initIdGenerator() {
         super.setId(new HasarId(IdFactory.create()));
@@ -26,7 +26,7 @@ public class Hasar extends AbstractAggregateModel<HasarId> {
         this.aracFiloId = other.aracFiloId;
         this.hasarliParca = other.hasarliParca;
         this.hasarTipi = other.hasarTipi;
-        this.not = other.not;
+        this.aciklama = other.aciklama;
     }
 }
 

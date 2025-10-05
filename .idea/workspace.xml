@@ -5,12 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="639c7637-b8e5-40fd-b92e-4d41b1374ad1" name="Changes" comment="düzeltme development">
-      <change afterPath="$PROJECT_DIR$/voxx-car-server/domain/src/main/java/tr/gov/voxx/car/system/domain/enumeration/KazaNedeni.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxx-car-server/domain/src/main/java/tr/gov/voxx/car/system/domain/entity/Kaza.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/domain/src/main/java/tr/gov/voxx/car/system/domain/entity/Kaza.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/data/KazaRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/data/KazaRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/data/KazaResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/data/KazaResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/jpa/entity/KazaEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/jpa/entity/KazaEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/domain/src/main/java/tr/gov/voxx/car/system/domain/entity/Hasar.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/domain/src/main/java/tr/gov/voxx/car/system/domain/entity/Hasar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/data/HasarRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/data/HasarRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/data/HasarResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/data/HasarResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/mapper/HasarMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/in/web/mapper/HasarMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/jpa/entity/HasarEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/jpa/entity/HasarEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/jpa/mapper/HasarJpaMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/jpa/mapper/HasarJpaMapper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -222,7 +223,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759668158097</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="düzeltme development">
+      <option name="closed" value="true" />
+      <created>1759668378723</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1759668378723</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
