@@ -1,6 +1,8 @@
 package tr.gov.voxx.car.system.adapter.out.jpa.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import lombok.*;
 import tr.gov.voxx.car.system.common.framework.persistence.AbstractEntity;
@@ -21,10 +23,12 @@ public class AracFiloEntity extends AbstractEntity {
     private String markaId;
     private String modelId;
     private String modelYili;
+    @Enumerated(EnumType.STRING)
     private AracSegmentTipi segment;
     private String motorNo;
     private String sasiNo;
     private String renk;
+    @Enumerated(EnumType.STRING)
     private KasaTipi kasaTipi;
     private String lastikTipi;
     private Instant filoyaGirisTarihi;
