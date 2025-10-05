@@ -27,6 +27,9 @@ public class BakimJpaMapper {
                 .fatura(entity.getFatura())
                 .aciklama(entity.getAciklama())
                 .bakimOdeyenFirma(entity.getBakimOdeyenFirma())
+                .aracGuncelKm(entity.getAracGuncelKm())
+                .bakimAraligi(entity.getBakimAraligi())
+                .parcaAdedi(entity.getParcaAdedi())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .isDeleted(entity.isDeleted())
@@ -48,6 +51,9 @@ public class BakimJpaMapper {
         entity.setFatura(bakim.getFatura());
         entity.setAciklama(bakim.getAciklama());
         entity.setBakimOdeyenFirma(bakim.getBakimOdeyenFirma());
+        entity.setAracGuncelKm(bakim.getAracGuncelKm());
+        entity.setBakimAraligi(bakim.getBakimAraligi());
+        entity.setParcaAdedi(bakim.getParcaAdedi());
         return entity;
     }
 

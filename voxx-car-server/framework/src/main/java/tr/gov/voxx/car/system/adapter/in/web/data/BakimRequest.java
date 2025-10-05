@@ -20,4 +20,7 @@ public class BakimRequest {
     private String fatura;
     private String aciklama;
     private String bakimOdeyenFirma;
+    private String aracGuncelKm;
+    private String bakimAraligi;
+    private String parcaAdedi;
 }

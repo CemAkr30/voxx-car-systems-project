@@ -21,7 +21,9 @@ public class Bakim extends AbstractAggregateModel<BakimId> {
     private String fatura;
     private String aciklama;
     private String bakimOdeyenFirma;
-
+    private String aracGuncelKm;
+    private String bakimAraligi;
+    private String parcaAdedi;
 
     public void initIdGenerator() {
         this.setId(new BakimId(IdFactory.create()));

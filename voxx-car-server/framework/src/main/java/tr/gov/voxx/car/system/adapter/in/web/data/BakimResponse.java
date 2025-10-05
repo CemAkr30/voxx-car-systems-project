@@ -23,6 +23,9 @@ public class BakimResponse {
     private String fatura;
     private String aciklama;
     private String bakimOdeyenFirma;
+    private String aracGuncelKm;
+    private String bakimAraligi;
+    private String parcaAdedi;
     private Instant createdAt;
     private Instant updatedAt;
     private boolean isDeleted;
