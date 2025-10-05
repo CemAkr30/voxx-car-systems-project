@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import tr.gov.voxx.car.system.common.domain.core.IdFactory;
 import tr.gov.voxx.car.system.common.domain.entity.AbstractAggregateModel;
+import tr.gov.voxx.car.system.domain.enumeration.KazaNedeni;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 import tr.gov.voxx.car.system.domain.valueobject.KazaId;
@@ -18,7 +19,7 @@ public class Kaza extends AbstractAggregateModel<KazaId> {
     private FirmaId firmaId;
     private Instant kazaTarihi;
     private String kazaIli;
-    private String kazaNedeni;
+    private KazaNedeni kazaNedeni;
     private String kazaTutanagi;
     private String onarimDurumu;
     private FirmaId odeyenFirmaId;
