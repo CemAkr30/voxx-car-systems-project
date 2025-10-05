@@ -27,7 +27,6 @@ public class AracFiloJpaMapper {
                 .markaId(new MarkaId(entity.getMarkaId()))
                 .modelId(new ModelId(entity.getModelId()))
                 .modelYili(entity.getModelYili())
-                .aracTipi(entity.getAracTipi())
                 .segment(entity.getSegment())
                 .motorNo(entity.getMotorNo())
                 .sasiNo(entity.getSasiNo())
@@ -70,7 +69,6 @@ public class AracFiloJpaMapper {
         entity.setMarkaId(aracFilo.getMarkaId().getValue());
         entity.setModelId(aracFilo.getModelId().getValue());
         entity.setModelYili(aracFilo.getModelYili());
-        entity.setAracTipi(aracFilo.getAracTipi());
         entity.setSegment(aracFilo.getSegment());
         entity.setMotorNo(aracFilo.getMotorNo());
         entity.setSasiNo(aracFilo.getSasiNo());
@@ -115,7 +113,6 @@ public class AracFiloJpaMapper {
                 .markaId(event.markaId())
                 .modelId(event.modelId())
                 .modelYili(event.modelYili())
-                .aracTipi(event.aracTipi())
                 .segment(event.segment())
                 .motorNo(event.motorNo())
                 .sasiNo(event.sasiNo())
@@ -151,7 +148,6 @@ public class AracFiloJpaMapper {
                 .markaId(event.markaId())
                 .modelId(event.modelId())
                 .modelYili(event.modelYili())
-                .aracTipi(event.aracTipi())
                 .segment(event.segment())
                 .motorNo(event.motorNo())
                 .sasiNo(event.sasiNo())

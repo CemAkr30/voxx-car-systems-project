@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
 import tr.gov.voxx.car.system.common.framework.persistence.AbstractEntity;
+import tr.gov.voxx.car.system.domain.enumeration.AracSegmentTipi;
+import tr.gov.voxx.car.system.domain.enumeration.KasaTipi;
 
 import java.time.Instant;
 
@@ -19,12 +21,11 @@ public class AracFiloEntity extends AbstractEntity {
     private String markaId;
     private String modelId;
     private String modelYili;
-    private String aracTipi;
-    private String segment;
+    private AracSegmentTipi segment;
     private String motorNo;
     private String sasiNo;
     private String renk;
-    private String kasaTipi;
+    private KasaTipi kasaTipi;
     private String lastikTipi;
     private Instant filoyaGirisTarihi;
     private String filoyaGirisKm;

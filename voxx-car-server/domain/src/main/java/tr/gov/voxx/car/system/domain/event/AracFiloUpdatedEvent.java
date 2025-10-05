@@ -3,6 +3,8 @@ package tr.gov.voxx.car.system.domain.event;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
+import tr.gov.voxx.car.system.domain.enumeration.AracSegmentTipi;
+import tr.gov.voxx.car.system.domain.enumeration.KasaTipi;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 import tr.gov.voxx.car.system.domain.valueobject.MarkaId;
@@ -19,12 +21,11 @@ public record AracFiloUpdatedEvent(
         MarkaId markaId,
         ModelId modelId,
         String modelYili,
-        String aracTipi,
-        String segment,
+        AracSegmentTipi segment,
         String motorNo,
         String sasiNo,
         String renk,
-        String kasaTipi,
+        KasaTipi kasaTipi,
         String lastikTipi,
         Instant filoyaGirisTarihi,
         String filoyaGirisKm,
@@ -57,12 +58,11 @@ public record AracFiloUpdatedEvent(
             @JsonProperty("markaId") MarkaId markaId,
             @JsonProperty("modelId") ModelId modelId,
             @JsonProperty("modelYili") String modelYili,
-            @JsonProperty("aracTipi") String aracTipi,
-            @JsonProperty("segment") String segment,
+            @JsonProperty("segment") AracSegmentTipi segment,
             @JsonProperty("motorNo") String motorNo,
             @JsonProperty("sasiNo") String sasiNo,
             @JsonProperty("renk") String renk,
-            @JsonProperty("kasaTipi") String kasaTipi,
+            @JsonProperty("kasaTipi") KasaTipi kasaTipi,
             @JsonProperty("lastikTipi") String lastikTipi,
             @JsonProperty("filoyaGirisTarihi") Instant filoyaGirisTarihi,
             @JsonProperty("filoyaGirisKm") String filoyaGirisKm,
@@ -89,7 +89,6 @@ public record AracFiloUpdatedEvent(
         this.markaId = markaId;
         this.modelId = modelId;
         this.modelYili = modelYili;
-        this.aracTipi = aracTipi;
         this.segment = segment;
         this.motorNo = motorNo;
         this.sasiNo = sasiNo;

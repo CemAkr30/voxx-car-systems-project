@@ -35,6 +35,10 @@ CREATE TYPE para_birimi AS ENUM ('USD', 'EUR', 'GBP', 'JPY', 'TRY', 'AUD', 'CAD'
 
 CREATE TYPE sigorta_tipi AS ENUM ('KASKO', 'TRAFIK');
 
+CREATE TYPE arac_segment_tipi AS ENUM ('A', 'B','C','D','E');
+
+CREATE TYPE kasa_tipi AS ENUM ('SEDAN', 'HATCHBACK','STATION_WAGON','SUV','CROSSOVER','COUPE','CABRIO','MPV','PICKUP','VAN');
+
 -- Tablolar ve Foreign Key'lerle beraber:
 
 CREATE TABLE "tb_firma" (
@@ -90,12 +94,11 @@ CREATE TABLE "tb_aracfilo" (
                                "marka_id" character varying,
                                "model_id" character varying,
                                "model_yili" VARCHAR(255),
-                               "arac_tipi" VARCHAR(255),
-                               "segment" VARCHAR(255),
+                               "segment" arac_segment_tipi,
                                "motor_no" VARCHAR(255),
                                "sasi_no" VARCHAR(255),
                                "renk" VARCHAR(255),
-                               "kasa_tipi" VARCHAR(255),
+                               "kasa_tipi" kasa_tipi,
                                "lastik_tipi" VARCHAR(255),
                                "filoya_giris_tarihi" TIMESTAMPTZ,
                                "filoya_giris_km" VARCHAR(255),

@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import tr.gov.voxx.car.system.domain.enumeration.AracSegmentTipi;
+import tr.gov.voxx.car.system.domain.enumeration.KasaTipi;
 
 import java.time.Instant;
 
@@ -17,12 +19,11 @@ public class AracFiloResponse {
     private String markaId;
     private String modelId;
     private String modelYili;
-    private String aracTipi;
-    private String segment;
+    private AracSegmentTipi segment;
     private String motorNo;
     private String sasiNo;
     private String renk;
-    private String kasaTipi;
+    private KasaTipi kasaTipi;
     private String lastikTipi;
     private Instant filoyaGirisTarihi;
     private String filoyaGirisKm;
