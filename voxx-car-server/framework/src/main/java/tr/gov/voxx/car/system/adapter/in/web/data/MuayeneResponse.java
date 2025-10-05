@@ -20,7 +20,7 @@ public class MuayeneResponse {
     private String makbuzNo;
     private Double miktar;
     private OdemeTipi odemeTipi;
-    private String mtvOdeyenFirma;
+    private String muayeneOdeyenFirma;
     private String aciklama;
     private String yeri;
     private String gecikmeCezasi;

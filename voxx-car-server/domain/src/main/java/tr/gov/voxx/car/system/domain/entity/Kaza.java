@@ -22,7 +22,7 @@ public class Kaza extends AbstractAggregateModel<KazaId> {
     private String kazaNedeni;
     private String kazaTutanagi;
     private String onarimDurumu;
-    private String mtvOdeyenFirma;
+    private String kazaOdeyenFirma;
 
     public void initIdGenerator() {
         this.setId(new KazaId(IdFactory.create()));
@@ -37,6 +37,6 @@ public class Kaza extends AbstractAggregateModel<KazaId> {
         this.kazaNedeni = other.kazaNedeni;
         this.kazaTutanagi = other.kazaTutanagi;
         this.onarimDurumu = other.onarimDurumu;
-        this.mtvOdeyenFirma = other.mtvOdeyenFirma;
+        this.kazaOdeyenFirma = other.kazaOdeyenFirma;
     }
 }
