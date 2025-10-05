@@ -17,6 +17,7 @@ public class HasarJpaMapper {
                 .aracFiloId(new AracFiloId(entity.getAracFiloId()))
                 .hasarliParca(entity.getHasarliParca())
                 .hasarTipi(entity.getHasarTipi())
+                .not(entity.getNot())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .isDeleted(entity.isDeleted())
@@ -32,6 +33,7 @@ public class HasarJpaMapper {
         entity.setAracFiloId(hasar.getAracFiloId().getValue());
         entity.setHasarliParca(hasar.getHasarliParca());
         entity.setHasarTipi(hasar.getHasarTipi());
+        entity.setNot(hasar.getNot());
 
         return entity;
     }

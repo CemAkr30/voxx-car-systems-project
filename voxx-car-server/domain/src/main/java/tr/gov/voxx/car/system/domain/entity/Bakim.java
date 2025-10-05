@@ -40,5 +40,8 @@ public class Bakim extends AbstractAggregateModel<BakimId> {
         this.fatura = other.fatura;
         this.aciklama = other.aciklama;
         this.bakimOdeyenFirma = other.bakimOdeyenFirma;
+        this.aracGuncelKm = other.aracGuncelKm;
+        this.bakimAraligi = other.bakimAraligi;
+        this.parcaAdedi = other.parcaAdedi;
     }
 }

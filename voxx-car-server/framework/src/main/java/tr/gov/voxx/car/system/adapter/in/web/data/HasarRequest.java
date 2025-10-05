@@ -15,4 +15,5 @@ public class HasarRequest {
     private String aracFiloId;
     private HasarliParca hasarliParca;
     private HasarTipi hasarTipi;
+    private String not;
 }
