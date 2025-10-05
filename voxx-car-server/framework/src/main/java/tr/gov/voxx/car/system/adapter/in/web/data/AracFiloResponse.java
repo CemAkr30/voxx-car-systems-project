@@ -30,7 +30,7 @@ public class AracFiloResponse {
     private Instant tescilTarihi;
     private Instant trafigeCikisTarihi;
     private boolean garantisiVarMi;
-    private Instant garantiBitisTarihi;
+    private Instant garantiBaslangicTarihi;
     private String garantiSuresiYil;
     private String garantiKm;
     private boolean tramer;

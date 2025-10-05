@@ -32,7 +32,7 @@ public record AracFiloUpdatedEvent(
         Instant tescilTarihi,
         Instant trafigeCikisTarihi,
         boolean garantisiVarMi,
-        Instant garantiBitisTarihi,
+        Instant garantiBaslangicTarihi,
         String garantiSuresiYil,
         String garantiKm,
         boolean tramer,
@@ -69,7 +69,7 @@ public record AracFiloUpdatedEvent(
             @JsonProperty("tescilTarihi") Instant tescilTarihi,
             @JsonProperty("trafigeCikisTarihi") Instant trafigeCikisTarihi,
             @JsonProperty("garantisiVarMi") boolean garantisiVarMi,
-            @JsonProperty("garantiBitisTarihi") Instant garantiBitisTarihi,
+            @JsonProperty("garantiBaslangicTarihi") Instant garantiBaslangicTarihi,
             @JsonProperty("garantiSuresiYil") String garantiSuresiYil,
             @JsonProperty("garantiKm") String garantiKm,
             @JsonProperty("tramer") boolean tramer,
@@ -100,7 +100,7 @@ public record AracFiloUpdatedEvent(
         this.tescilTarihi = tescilTarihi;
         this.trafigeCikisTarihi = trafigeCikisTarihi;
         this.garantisiVarMi = garantisiVarMi;
-        this.garantiBitisTarihi = garantiBitisTarihi;
+        this.garantiBaslangicTarihi = garantiBaslangicTarihi;
         this.garantiSuresiYil = garantiSuresiYil;
         this.garantiKm = garantiKm;
         this.tramer = tramer;

@@ -32,7 +32,7 @@ public class AracFilo extends AbstractAggregateModel<AracFiloId> {
     private Instant tescilTarihi;
     private Instant trafigeCikisTarihi;
     private boolean garantisiVarMi;
-    private Instant garantiBitisTarihi;
+    private Instant garantiBaslangicTarihi;
     private String garantiSuresiYil;
     private String garantiKm;
     private boolean tramer;
@@ -67,7 +67,7 @@ public class AracFilo extends AbstractAggregateModel<AracFiloId> {
         this.tescilTarihi = other.tescilTarihi;
         this.trafigeCikisTarihi = other.trafigeCikisTarihi;
         this.garantisiVarMi = other.garantisiVarMi;
-        this.garantiBitisTarihi = other.garantiBitisTarihi;
+        this.garantiBaslangicTarihi = other.garantiBaslangicTarihi;
         this.garantiSuresiYil = other.garantiSuresiYil;
         this.garantiKm = other.garantiKm;
         this.tramer = other.tramer;

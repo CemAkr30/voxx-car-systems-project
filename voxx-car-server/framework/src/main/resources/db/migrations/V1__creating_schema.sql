@@ -105,7 +105,7 @@ CREATE TABLE "tb_aracfilo" (
                                "tescil_tarihi" TIMESTAMPTZ,
                                "trafige_cikis_tarihi" TIMESTAMPTZ,
                                "garantisi_var_mi" BOOLEAN,
-                               "garanti_bitis_tarihi" TIMESTAMPTZ,
+                               "garanti_baslangic_tarihi" TIMESTAMPTZ,
                                "garanti_suresi_yil" VARCHAR(255),
                                "garanti_km" VARCHAR(255),
                                "tramer" BOOLEAN,

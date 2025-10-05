@@ -38,7 +38,7 @@ public class AracFiloJpaMapper {
                 .tescilTarihi(entity.getTescilTarihi())
                 .trafigeCikisTarihi(entity.getTrafigeCikisTarihi())
                 .garantisiVarMi(entity.isGarantisiVarMi())
-                .garantiBitisTarihi(entity.getGarantiBitisTarihi())
+                .garantiBaslangicTarihi(entity.getGarantiBaslangicTarihi())
                 .garantiSuresiYil(entity.getGarantiSuresiYil())
                 .garantiKm(entity.getGarantiKm())
                 .tramer(entity.isTramer())
@@ -80,7 +80,7 @@ public class AracFiloJpaMapper {
         entity.setTescilTarihi(aracFilo.getTescilTarihi());
         entity.setTrafigeCikisTarihi(aracFilo.getTrafigeCikisTarihi());
         entity.setGarantisiVarMi(aracFilo.isGarantisiVarMi());
-        entity.setGarantiBitisTarihi(aracFilo.getGarantiBitisTarihi());
+        entity.setGarantiBaslangicTarihi(aracFilo.getGarantiBaslangicTarihi());
         entity.setGarantiSuresiYil(aracFilo.getGarantiSuresiYil());
         entity.setGarantiKm(aracFilo.getGarantiKm());
         entity.setTramer(aracFilo.isTramer());
@@ -124,7 +124,7 @@ public class AracFiloJpaMapper {
                 .tescilTarihi(event.tescilTarihi())
                 .trafigeCikisTarihi(event.trafigeCikisTarihi())
                 .garantisiVarMi(event.garantisiVarMi())
-                .garantiBitisTarihi(event.garantiBitisTarihi())
+                .garantiBaslangicTarihi(event.garantiBaslangicTarihi())
                 .garantiSuresiYil(event.garantiSuresiYil())
                 .garantiKm(event.garantiKm())
                 .tramer(event.tramer())
@@ -159,7 +159,7 @@ public class AracFiloJpaMapper {
                 .tescilTarihi(event.tescilTarihi())
                 .trafigeCikisTarihi(event.trafigeCikisTarihi())
                 .garantisiVarMi(event.garantisiVarMi())
-                .garantiBitisTarihi(event.garantiBitisTarihi())
+                .garantiBaslangicTarihi(event.garantiBaslangicTarihi())
                 .garantiSuresiYil(event.garantiSuresiYil())
                 .garantiKm(event.garantiKm())
                 .tramer(event.tramer())

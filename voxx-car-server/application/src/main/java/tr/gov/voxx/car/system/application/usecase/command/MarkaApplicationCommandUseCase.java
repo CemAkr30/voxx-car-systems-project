@@ -59,6 +59,9 @@ public class MarkaApplicationCommandUseCase implements MarkaApplicationCommandPo
         /*domainEventPublisher.publish("marka-deleted-topic", MarkaDeletedEvent.builder()
                 .id(markaId)
                 .build());*/
+
+        markaPersistenceJpaPort.deleteById(markaId);
+        log.info("Deleted entity: {}", markaId);
     }
 }
 
