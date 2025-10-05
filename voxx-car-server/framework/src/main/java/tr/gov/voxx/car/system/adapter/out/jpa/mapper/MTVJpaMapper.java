@@ -3,10 +3,7 @@ package tr.gov.voxx.car.system.adapter.out.jpa.mapper;
 import lombok.experimental.UtilityClass;
 import tr.gov.voxx.car.system.adapter.out.jpa.entity.MTVEntity;
 import tr.gov.voxx.car.system.domain.entity.Mtv;
-import tr.gov.voxx.car.system.domain.event.MTVCreatedEvent;
-import tr.gov.voxx.car.system.domain.event.MTVUpdatedEvent;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
-import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 import tr.gov.voxx.car.system.domain.valueobject.MtvId;
 
 import java.util.List;
@@ -23,7 +20,7 @@ public class MTVJpaMapper {
                 .makbuzNo(entity.getMakbuzNo())
                 .miktar(entity.getMiktar())
                 .odemeTipi(entity.getOdemeTipi())
-                .odeyenFirmaId(new FirmaId(entity.getOdeyenFirmaId()))
+                .mtvOdeyenFirma(entity.getMtvOdeyenFirma())
                 .aciklama(entity.getAciklama())
                 .gecikmeCezasi(entity.getGecikmeCezasi())
                 .odendi(entity.getOdendi())
@@ -45,7 +42,7 @@ public class MTVJpaMapper {
         entity.setMakbuzNo(mtv.getMakbuzNo());
         entity.setMiktar(mtv.getMiktar());
         entity.setOdemeTipi(mtv.getOdemeTipi());
-        entity.setOdeyenFirmaId(mtv.getOdeyenFirmaId().getValue());
+        entity.setMtvOdeyenFirma(mtv.getMtvOdeyenFirma());
         entity.setAciklama(mtv.getAciklama());
         entity.setGecikmeCezasi(mtv.getGecikmeCezasi());
         entity.setOdendi(mtv.getOdendi());
@@ -62,7 +59,7 @@ public class MTVJpaMapper {
     }
 
 
-    public static Mtv toMtvFromMtvCreatedEvent(MTVCreatedEvent mtvCreatedEvent) {
+    /*public static Mtv toMtvFromMtvCreatedEvent(MTVCreatedEvent mtvCreatedEvent) {
         return Mtv.builder()
                 .id(mtvCreatedEvent.id())
                 .aracFiloId(mtvCreatedEvent.aracFiloId())
@@ -92,6 +89,6 @@ public class MTVJpaMapper {
                 .gecikmeCezasi(mtvUpdatedEvent.gecikmeCezasi())
                 .odendi(mtvUpdatedEvent.odendi())
                 .build();
-    }
+    }*/
 }
 

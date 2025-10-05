@@ -3,8 +3,6 @@ package tr.gov.voxx.car.system.adapter.out.jpa.mapper;
 import lombok.experimental.UtilityClass;
 import tr.gov.voxx.car.system.adapter.out.jpa.entity.BakimEntity;
 import tr.gov.voxx.car.system.domain.entity.Bakim;
-import tr.gov.voxx.car.system.domain.event.BakimCreatedEvent;
-import tr.gov.voxx.car.system.domain.event.BakimUpdatedEvent;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.BakimId;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
@@ -59,7 +57,7 @@ public class BakimJpaMapper {
         return entities.stream().map(BakimJpaMapper::toBakim).collect(Collectors.toList());
     }
 
-    public static Bakim toBakimFromBakimCreatedEvent(BakimCreatedEvent event) {
+    /*public static Bakim toBakimFromBakimCreatedEvent(BakimCreatedEvent event) {
         return Bakim.builder()
                 .id(event.id())
                 .aracFiloId(event.aracFiloId())
@@ -89,5 +87,5 @@ public class BakimJpaMapper {
                 .aciklama(event.aciklama())
                 .odeyenFirmaId(event.odeyenFirmaId())
                 .build();
-    }
+    }*/
 }

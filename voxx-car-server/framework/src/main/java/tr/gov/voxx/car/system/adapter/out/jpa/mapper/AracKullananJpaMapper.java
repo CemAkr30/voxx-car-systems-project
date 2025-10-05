@@ -3,8 +3,6 @@ package tr.gov.voxx.car.system.adapter.out.jpa.mapper;
 import lombok.experimental.UtilityClass;
 import tr.gov.voxx.car.system.adapter.out.jpa.entity.AracKullananEntity;
 import tr.gov.voxx.car.system.domain.entity.AracKullanan;
-import tr.gov.voxx.car.system.domain.event.AracKullananCreatedEvent;
-import tr.gov.voxx.car.system.domain.event.AracKullananUpdatedEvent;
 import tr.gov.voxx.car.system.domain.valueobject.AracKullananId;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
@@ -65,7 +63,7 @@ public class AracKullananJpaMapper {
     }
 
 
-    public static AracKullanan toAracKullananFromAracKullananCreatedEvent(AracKullananCreatedEvent aracKullananCreatedEvent) {
+    /*public static AracKullanan toAracKullananFromAracKullananCreatedEvent(AracKullananCreatedEvent aracKullananCreatedEvent) {
         return AracKullanan.builder()
                 .id(aracKullananCreatedEvent.id())
                 .ad(aracKullananCreatedEvent.ad())
@@ -99,7 +97,7 @@ public class AracKullananJpaMapper {
                 .ehliyetTipi(aracKullananUpdatedEvent.ehliyetTipi())
                 .firmaId(aracKullananUpdatedEvent.firmaId())
                 .build();
-    }
+    }*/
 }
 
 

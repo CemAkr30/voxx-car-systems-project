@@ -3,8 +3,6 @@ package tr.gov.voxx.car.system.adapter.out.jpa.mapper;
 import lombok.experimental.UtilityClass;
 import tr.gov.voxx.car.system.adapter.out.jpa.entity.AracFiloEntity;
 import tr.gov.voxx.car.system.domain.entity.AracFilo;
-import tr.gov.voxx.car.system.domain.event.AracFiloCreatedEvent;
-import tr.gov.voxx.car.system.domain.event.AracFiloUpdatedEvent;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 import tr.gov.voxx.car.system.domain.valueobject.MarkaId;
@@ -106,7 +104,7 @@ public class AracFiloJpaMapper {
                 .collect(Collectors.toList());
     }
 
-    public static AracFilo toAracFiloFromAracFiloCreatedEvent(AracFiloCreatedEvent event) {
+    /*public static AracFilo toAracFiloFromAracFiloCreatedEvent(AracFiloCreatedEvent event) {
         return AracFilo.builder()
                 .id(event.id())
                 .plaka(event.plaka())
@@ -174,5 +172,5 @@ public class AracFiloJpaMapper {
                 .kiralayanFirmaId(event.kiralayanFirmaId())
                 .filoDurum(event.filoDurum())
                 .build();
-    }
+    }*/
 }

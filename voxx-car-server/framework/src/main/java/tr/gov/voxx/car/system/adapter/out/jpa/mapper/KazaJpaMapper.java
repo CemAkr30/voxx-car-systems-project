@@ -3,8 +3,6 @@ package tr.gov.voxx.car.system.adapter.out.jpa.mapper;
 import lombok.experimental.UtilityClass;
 import tr.gov.voxx.car.system.adapter.out.jpa.entity.KazaEntity;
 import tr.gov.voxx.car.system.domain.entity.Kaza;
-import tr.gov.voxx.car.system.domain.event.KazaCreatedEvent;
-import tr.gov.voxx.car.system.domain.event.KazaUpdatedEvent;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 import tr.gov.voxx.car.system.domain.valueobject.KazaId;
@@ -57,7 +55,7 @@ public class KazaJpaMapper {
         return entities.stream().map(KazaJpaMapper::toKaza).collect(Collectors.toList());
     }
 
-    public static Kaza toKazaFromKazaCreatedEvent(KazaCreatedEvent event) {
+    /*public static Kaza toKazaFromKazaCreatedEvent(KazaCreatedEvent event) {
         return Kaza.builder()
                 .id(event.id())
                 .aracFiloId(event.aracId())
@@ -85,5 +83,5 @@ public class KazaJpaMapper {
                 .onarimDurumu(event.onarimDurumu())
                 .odeyenFirmaId(event.odeyenFirmaId())
                 .build();
-    }
+    }*/
 }

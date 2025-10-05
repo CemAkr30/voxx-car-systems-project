@@ -6,7 +6,6 @@ import tr.gov.voxx.car.system.adapter.in.web.data.MTVRequest;
 import tr.gov.voxx.car.system.adapter.in.web.data.MTVResponse;
 import tr.gov.voxx.car.system.domain.entity.Mtv;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
-import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class MTVMapper {
                 .makbuzNo(mtv.getMakbuzNo())
                 .miktar(mtv.getMiktar())
                 .odemeTipi(mtv.getOdemeTipi())
-                .odeyenFirmaId(mtv.getOdeyenFirmaId().getValue())
+                .mtvOdeyenFirma(mtv.getMtvOdeyenFirma())
                 .aciklama(mtv.getAciklama())
                 .gecikmeCezasi(mtv.getGecikmeCezasi())
                 .odendi(mtv.getOdendi())
@@ -38,7 +37,7 @@ public class MTVMapper {
                 .makbuzNo(request.getMakbuzNo())
                 .miktar(request.getMiktar())
                 .odemeTipi(request.getOdemeTipi())
-                .odeyenFirmaId(new FirmaId(request.getOdeyenFirmaId()))
+                .mtvOdeyenFirma(request.getMtvOdeyenFirma())
                 .aciklama(request.getAciklama())
                 .gecikmeCezasi(request.getGecikmeCezasi())
                 .odendi(request.getOdendi())

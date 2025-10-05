@@ -3,8 +3,6 @@ package tr.gov.voxx.car.system.adapter.out.jpa.mapper;
 import lombok.experimental.UtilityClass;
 import tr.gov.voxx.car.system.adapter.out.jpa.entity.FilodanCikisEntity;
 import tr.gov.voxx.car.system.domain.entity.FilodanCikis;
-import tr.gov.voxx.car.system.domain.event.FilodanCikisCreatedEvent;
-import tr.gov.voxx.car.system.domain.event.FilodanCikisUpdatedEvent;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.FilodanCikisId;
 
@@ -57,7 +55,7 @@ public class FilodanCikisJpaMapper {
     }
 
 
-    public static FilodanCikis toFilodanCikisFromFilodanCikisCreatedEvent(FilodanCikisCreatedEvent filodanCikisCreatedEvent) {
+    /*public static FilodanCikis toFilodanCikisFromFilodanCikisCreatedEvent(FilodanCikisCreatedEvent filodanCikisCreatedEvent) {
         return FilodanCikis.builder()
                 .id(filodanCikisCreatedEvent.id())
                 .aracFiloId(filodanCikisCreatedEvent.aracFiloId())
@@ -83,6 +81,6 @@ public class FilodanCikisJpaMapper {
                 .faturaYukle(filodanCikisUpdatedEvent.faturaYukle())
                 .aciklama(filodanCikisUpdatedEvent.aciklama())
                 .build();
-    }
+    }*/
 }
 

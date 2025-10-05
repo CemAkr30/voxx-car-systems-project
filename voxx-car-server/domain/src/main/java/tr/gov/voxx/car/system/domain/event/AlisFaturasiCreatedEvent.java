@@ -1,4 +1,4 @@
-package tr.gov.voxx.car.system.domain.event;
+/*package tr.gov.voxx.car.system.domain.event;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -86,6 +86,6 @@ public record AlisFaturasiCreatedEvent(
         this.faturaYukle = faturaYukle;
         this.aciklama = aciklama;
     }
-}
+}*/
 
 
