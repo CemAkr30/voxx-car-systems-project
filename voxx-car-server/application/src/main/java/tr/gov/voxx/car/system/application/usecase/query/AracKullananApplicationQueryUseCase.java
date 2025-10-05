@@ -1,7 +1,6 @@
 package tr.gov.voxx.car.system.application.usecase.query;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import tr.gov.voxx.car.system.application.port.in.AracKullananApplicationQueryPort;
 import tr.gov.voxx.car.system.application.port.out.AracKullananPersistenceJpaPort;
@@ -18,7 +17,6 @@ public class AracKullananApplicationQueryUseCase implements AracKullananApplicat
 
 
     @Override
-    @Cacheable(value = "aracKullanan", key = "#aracKullananId")
     public AracKullanan get(AracKullananId aracKullananId) {
         return aracKullananPersistenceJpaPort.findById(aracKullananId);
     }

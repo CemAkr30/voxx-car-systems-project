@@ -1,6 +1,156 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PropertiesComponent">{}</component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="639c7637-b8e5-40fd-b92e-4d41b1374ad1" name="Changes" comment="düzeltme development">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/AdresApplicationCommandUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/AdresApplicationCommandUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/AlisFaturasiApplicationCommandUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/AlisFaturasiApplicationCommandUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/AracFiloApplicationCommandUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/AracFiloApplicationCommandUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/AracKullananApplicationCommandUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/AracKullananApplicationCommandUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/BakimApplicationCommandUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/BakimApplicationCommandUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/FilodanCikisApplicationCommandUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/FilodanCikisApplicationCommandUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/FirmaApplicationCommandUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/FirmaApplicationCommandUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/HasarApplicationCommandUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/HasarApplicationCommandUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/IletisimApplicationCommandUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/IletisimApplicationCommandUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/KazaApplicationCommandUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/KazaApplicationCommandUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/MTVApplicationCommandUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/MTVApplicationCommandUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/MarkaApplicationCommandUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/MarkaApplicationCommandUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/ModelApplicationCommandUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/ModelApplicationCommandUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/MuayeneApplicationCommandUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/MuayeneApplicationCommandUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/SigortaKaskoApplicationCommandUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/command/SigortaKaskoApplicationCommandUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/AdresApplicationQueryUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/AdresApplicationQueryUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/AlisFaturasiApplicationQueryUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/AlisFaturasiApplicationQueryUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/AracFiloApplicationQueryUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/AracFiloApplicationQueryUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/AracKullananApplicationQueryUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/AracKullananApplicationQueryUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/BakimApplicationQueryUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/BakimApplicationQueryUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/FilodanCikisApplicationQueryUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/FilodanCikisApplicationQueryUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/FirmaApplicationQueryUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/FirmaApplicationQueryUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/HasarApplicationQueryUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/HasarApplicationQueryUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/IletisimApplicationQueryUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/IletisimApplicationQueryUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/KazaApplicationQueryUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/KazaApplicationQueryUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/MTVApplicationQueryUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/MTVApplicationQueryUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/MarkaApplicationQueryUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/MarkaApplicationQueryUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/ModelApplicationQueryUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/ModelApplicationQueryUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/MuayeneApplicationQueryUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/MuayeneApplicationQueryUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/SigortaKaskoApplicationQueryUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/application/src/main/java/tr/gov/voxx/car/system/application/usecase/query/SigortaKaskoApplicationQueryUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/AdresEventConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/AdresEventConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/AlisFaturasiEventConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/AlisFaturasiEventConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/AracFiloEventConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/AracFiloEventConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/AracKullananEventConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/AracKullananEventConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/BakimEventConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/BakimEventConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/FilodanCikisEventCostumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/FilodanCikisEventCostumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/FirmaEventConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/FirmaEventConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/HasarEventConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/HasarEventConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/IletisimEventConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/IletisimEventConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/KazaEventConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/KazaEventConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/MTVEventConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/MTVEventConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/MarkaEventConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/MarkaEventConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/ModelEventConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/ModelEventConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/MuayeneEventConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/MuayeneEventConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/SigortaEventConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/consumer/SigortaEventConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/producer/KafkaEventPublisherAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/messaging/kafka/producer/KafkaEventPublisherAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/AdresWebSocketNotifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/AdresWebSocketNotifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/AlisFaturasiWebSocketNotifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/AlisFaturasiWebSocketNotifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/AracFiloWebSocketNotifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/AracFiloWebSocketNotifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/AracKullananWebSocketNotifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/AracKullananWebSocketNotifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/BakimWebSocketNotifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/BakimWebSocketNotifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/FilodanCikisWebSocketNotifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/FilodanCikisWebSocketNotifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/FirmaWebSocketNotifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/FirmaWebSocketNotifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/HasarWebSocketNotifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/HasarWebSocketNotifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/IletisimWebSocketNotifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/IletisimWebSocketNotifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/KazaWebSocketNotifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/KazaWebSocketNotifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/MTVWebSocketNotifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/MTVWebSocketNotifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/MarkaWebSocketNotifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/MarkaWebSocketNotifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/ModelWebSocketNotifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/ModelWebSocketNotifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/MuayeneWebSocketNotifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/MuayeneWebSocketNotifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/SigortaWebSocketNotifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/adapter/out/websocket/SigortaWebSocketNotifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/config/CouchbaseCacheConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/config/CouchbaseCacheConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/config/KafkaConsumerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/config/KafkaConsumerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/config/KafkaProducerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/config/KafkaProducerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/config/WebSocketConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/config/WebSocketConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/container/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/java/tr/gov/voxx/car/system/container/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/resources/application-dev.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/resources/application-dev.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voxx-car-server/framework/src/main/resources/application-prod.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/voxx-car-server/framework/src/main/resources/application-prod.yaml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+      </list>
+    </option>
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "CemAkr30"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/CemAkr30/voxx-car-systems-project.git",
+    "accountId": "5b6c29aa-f0ff-42c8-95ae-2f10fd3ba633"
+  }
+}]]></component>
+  <component name="OptimizeOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 5
+}]]></component>
+  <component name="ProjectId" id="33dqCCYkqzLDeg6aYH5Fi7NeEJz" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Maven.common-domain [clean,compile,package...].executor": "Run",
+    "Maven.voxx-car-server [clean,compile,package...].executor": "Run",
+    "Maven.voxx-car-server [clean,install].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.Application.executor": "Debug",
+    "git-widget-placeholder": "develop",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "pnpm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "actions.on.save",
+    "ts.external.directory.path": "/Users/cemakar/Desktop/projects/voxx-car-systems-project/voxx-car-client/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
   <component name="RunManager">
     <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="framework" />
@@ -9,5 +159,45 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.25659.59" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.25659.59" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task id="LOCAL-00001" summary="düzeltme development">
+      <option name="closed" value="true" />
+      <created>1759657152830</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1759657152830</updated>
+    </task>
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="639c7637-b8e5-40fd-b92e-4d41b1374ad1" name="Changes" comment="düzeltme development" />
+      <created>1759657167969</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1759657167969</updated>
+      <workItem from="1759657169713" duration="1795000" />
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="düzeltme development" />
+    <option name="LAST_COMMIT_MESSAGE" value="düzeltme development" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

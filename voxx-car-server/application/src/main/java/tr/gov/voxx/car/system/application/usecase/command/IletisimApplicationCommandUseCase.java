@@ -1,33 +1,34 @@
 package tr.gov.voxx.car.system.application.usecase.command;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tr.gov.voxx.car.system.application.port.in.IletisimApplicationCommandPort;
 import tr.gov.voxx.car.system.application.port.out.IletisimPersistenceJpaPort;
-import tr.gov.voxx.car.system.common.application.port.out.event.DomainEventPublisher;
 import tr.gov.voxx.car.system.domain.entity.Iletisim;
-import tr.gov.voxx.car.system.domain.event.IletisimCreatedEvent;
-import tr.gov.voxx.car.system.domain.event.IletisimDeletedEvent;
-import tr.gov.voxx.car.system.domain.event.IletisimUpdatedEvent;
 import tr.gov.voxx.car.system.domain.exception.NotFoundException;
 import tr.gov.voxx.car.system.domain.valueobject.IletisimId;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class IletisimApplicationCommandUseCase implements IletisimApplicationCommandPort {
 
     private final IletisimPersistenceJpaPort iletisimPersistenceJpaPort;
-    private final DomainEventPublisher domainEventPublisher;
+    //private final DomainEventPublisher domainEventPublisher;
 
     @Override
     public void post(Iletisim entity) {
         entity.initIdGenerator();
-        domainEventPublisher.publish("iletisim-created-topic", IletisimCreatedEvent.builder()
+        /*domainEventPublisher.publish("iletisim-created-topic", IletisimCreatedEvent.builder()
                 .id(entity.getId())
                 .firmaId(entity.getFirmaId())
                 .numara(entity.getNumara())
                 .tip(entity.getTip())
-                .build());
+                .build());*/
+
+        iletisimPersistenceJpaPort.persist(entity);
+        log.info("Persisted entity: {}", entity);
     }
 
     @Override
@@ -38,12 +39,15 @@ public class IletisimApplicationCommandUseCase implements IletisimApplicationCom
         }
         existing.updateFrom(entity);
 
-        domainEventPublisher.publish("iletisim-updated-topic", IletisimUpdatedEvent.builder()
+        /*domainEventPublisher.publish("iletisim-updated-topic", IletisimUpdatedEvent.builder()
                 .id(entity.getId())
                 .firmaId(entity.getFirmaId())
                 .numara(entity.getNumara())
                 .tip(entity.getTip())
-                .build());
+                .build());*/
+
+        iletisimPersistenceJpaPort.merge(existing);
+        log.info("Updated entity: {}", entity);
     }
 
     @Override
@@ -53,10 +57,13 @@ public class IletisimApplicationCommandUseCase implements IletisimApplicationCom
             throw new NotFoundException("Iletisim not found with id: " + iletisimId);
         }
         
-        domainEventPublisher.publish("iletisim-deleted-topic", IletisimDeletedEvent.builder()
+        /*domainEventPublisher.publish("iletisim-deleted-topic", IletisimDeletedEvent.builder()
                 .id(iletisimId)
                 .firmaId(existing.getFirmaId())
-                .build());
+                .build());*/
+
+        iletisimPersistenceJpaPort.deleteById(iletisimId);
+        log.info("Deleted entity: {}", existing);
     }
 }
 

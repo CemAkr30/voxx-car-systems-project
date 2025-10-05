@@ -1,28 +1,26 @@
 package tr.gov.voxx.car.system.application.usecase.command;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tr.gov.voxx.car.system.application.port.in.AracKullananApplicationCommandPort;
 import tr.gov.voxx.car.system.application.port.out.AracKullananPersistenceJpaPort;
-import tr.gov.voxx.car.system.common.application.port.out.event.DomainEventPublisher;
 import tr.gov.voxx.car.system.domain.entity.AracKullanan;
-import tr.gov.voxx.car.system.domain.event.AracKullananCreatedEvent;
-import tr.gov.voxx.car.system.domain.event.AracKullananDeletedEvent;
-import tr.gov.voxx.car.system.domain.event.AracKullananUpdatedEvent;
 import tr.gov.voxx.car.system.domain.exception.NotFoundException;
 import tr.gov.voxx.car.system.domain.valueobject.AracKullananId;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AracKullananApplicationCommandUseCase implements AracKullananApplicationCommandPort {
 
     private final AracKullananPersistenceJpaPort persistenceJpaPort;
-    private final DomainEventPublisher domainEventPublisher;
+    //private final DomainEventPublisher domainEventPublisher;
 
     @Override
     public void post(AracKullanan entity) {
         entity.initIdGenerator();
-        domainEventPublisher.publish("arackullanan-created-topic", AracKullananCreatedEvent.builder()
+        /*domainEventPublisher.publish("arackullanan-created-topic", AracKullananCreatedEvent.builder()
                 .id(entity.getId())
                 .ad(entity.getAd())
                 .email(entity.getEmail())
@@ -38,7 +36,9 @@ public class AracKullananApplicationCommandUseCase implements AracKullananApplic
                 .cinsiyetTipi(entity.getCinsiyetTipi())
                 .soyad(entity.getSoyad())
                 .firmaId(entity.getFirmaId())
-                .build());
+                .build());*/
+        persistenceJpaPort.persist(entity);
+        log.info("Persisted entity: {}", entity);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class AracKullananApplicationCommandUseCase implements AracKullananApplic
         }
         existing.updateFrom(entity);
 
-        domainEventPublisher.publish("arackullanan-updated-topic", AracKullananUpdatedEvent.builder()
+        /*domainEventPublisher.publish("arackullanan-updated-topic", AracKullananUpdatedEvent.builder()
                 .id(entity.getId())
                 .ad(entity.getAd())
                 .email(entity.getEmail())
@@ -65,7 +65,9 @@ public class AracKullananApplicationCommandUseCase implements AracKullananApplic
                 .cinsiyetTipi(entity.getCinsiyetTipi())
                 .soyad(entity.getSoyad())
                 .firmaId(entity.getFirmaId())
-                .build());
+                .build());*/
+        persistenceJpaPort.merge(existing);
+        log.info("Updated entity: {}", entity);
     }
 
     @Override
@@ -75,10 +77,13 @@ public class AracKullananApplicationCommandUseCase implements AracKullananApplic
             throw new NotFoundException("AracKullanan not found with id: " + aracKullananId);
         }
         
-        domainEventPublisher.publish("arackullanan-deleted-topic", AracKullananDeletedEvent.builder()
+        /*domainEventPublisher.publish("arackullanan-deleted-topic", AracKullananDeletedEvent.builder()
                 .id(aracKullananId)
                 .firmaId(existing.getFirmaId())
-                .build());
+                .build());*/
+
+        persistenceJpaPort.deleteById(aracKullananId);
+        log.info("Deleted entity: {}", existing);
     }
 }
 

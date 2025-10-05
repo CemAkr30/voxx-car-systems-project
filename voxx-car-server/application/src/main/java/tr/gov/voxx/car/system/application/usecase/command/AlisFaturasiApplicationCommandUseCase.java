@@ -1,29 +1,27 @@
 package tr.gov.voxx.car.system.application.usecase.command;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tr.gov.voxx.car.system.application.port.in.AlisFaturasiApplicationCommandPort;
 import tr.gov.voxx.car.system.application.port.out.AlisFaturasiPersistenceJpaPort;
-import tr.gov.voxx.car.system.common.application.port.out.event.DomainEventPublisher;
 import tr.gov.voxx.car.system.domain.entity.AlisFaturasi;
-import tr.gov.voxx.car.system.domain.event.AlisFaturasiCreatedEvent;
-import tr.gov.voxx.car.system.domain.event.AlisFaturasiDeletedEvent;
-import tr.gov.voxx.car.system.domain.event.AlisFaturasiUpdatedEvent;
 import tr.gov.voxx.car.system.domain.exception.NotFoundException;
 import tr.gov.voxx.car.system.domain.valueobject.AlisFaturasiId;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AlisFaturasiApplicationCommandUseCase implements AlisFaturasiApplicationCommandPort {
 
     private final AlisFaturasiPersistenceJpaPort persistenceJpaPort;
-    private final DomainEventPublisher domainEventPublisher;
+    //private final DomainEventPublisher domainEventPublisher;
 
     @Override
     public void post(AlisFaturasi entity) {
         entity.initIdGenerator();
 
-        domainEventPublisher.publish("alisfaturasi-created-topic", AlisFaturasiCreatedEvent.builder()
+        /*domainEventPublisher.publish("alisfaturasi-created-topic", AlisFaturasiCreatedEvent.builder()
                 .id(entity.getId())
                 .aracFiloId(entity.getAracFiloId())
                 .alisFaturasiTarihi(entity.getAlisFaturasiTarihi())
@@ -45,7 +43,10 @@ public class AlisFaturasiApplicationCommandUseCase implements AlisFaturasiApplic
                 .faturaTry(entity.getFaturaTry())
                 .faturaYukle(entity.getFaturaYukle())
                 .aciklama(entity.getAciklama())
-                .build());
+                .build());*/
+
+        persistenceJpaPort.persist(entity);
+        log.info("Persisted entity: {}", entity);
     }
 
     @Override
@@ -56,7 +57,7 @@ public class AlisFaturasiApplicationCommandUseCase implements AlisFaturasiApplic
         }
         existing.updateFrom(entity);
 
-        domainEventPublisher.publish("alisfaturasi-updated-topic", AlisFaturasiUpdatedEvent.builder()
+        /*domainEventPublisher.publish("alisfaturasi-updated-topic", AlisFaturasiUpdatedEvent.builder()
                 .id(entity.getId())
                 .aracFiloId(entity.getAracFiloId())
                 .alisFaturasiTarihi(entity.getAlisFaturasiTarihi())
@@ -78,7 +79,9 @@ public class AlisFaturasiApplicationCommandUseCase implements AlisFaturasiApplic
                 .faturaTry(entity.getFaturaTry())
                 .faturaYukle(entity.getFaturaYukle())
                 .aciklama(entity.getAciklama())
-                .build());
+                .build());*/
+        persistenceJpaPort.merge(existing);
+        log.info("Updated entity: {}", entity);
     }
 
     @Override
@@ -88,9 +91,11 @@ public class AlisFaturasiApplicationCommandUseCase implements AlisFaturasiApplic
             throw new NotFoundException("AlisFaturasi not found with id: " + alisFaturasiId);
         }
         
-        domainEventPublisher.publish("alisfaturasi-deleted-topic", AlisFaturasiDeletedEvent.builder()
+        /*domainEventPublisher.publish("alisfaturasi-deleted-topic", AlisFaturasiDeletedEvent.builder()
                 .id(alisFaturasiId)
                 .aracFiloId(existing.getAracFiloId())
-                .build());
+                .build());*/
+        persistenceJpaPort.deleteById(alisFaturasiId);
+        log.info("Deleted entity: {}", alisFaturasiId);
     }
 }

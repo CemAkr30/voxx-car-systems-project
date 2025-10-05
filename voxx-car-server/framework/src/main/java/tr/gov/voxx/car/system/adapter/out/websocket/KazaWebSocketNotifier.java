@@ -1,4 +1,4 @@
-package tr.gov.voxx.car.system.adapter.out.websocket;
+/*package tr.gov.voxx.car.system.adapter.out.websocket;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -28,4 +28,4 @@ public class KazaWebSocketNotifier {
         messagingTemplate.convertAndSend("/topic/kaza",
                 Map.of("type", "DELETED", "id", event.id()));
     }
-}
+}*/

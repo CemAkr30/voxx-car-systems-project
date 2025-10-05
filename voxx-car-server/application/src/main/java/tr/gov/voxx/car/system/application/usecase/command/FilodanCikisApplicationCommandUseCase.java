@@ -1,29 +1,27 @@
 package tr.gov.voxx.car.system.application.usecase.command;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tr.gov.voxx.car.system.application.port.in.FilodanCikisApplicationCommandPort;
 import tr.gov.voxx.car.system.application.port.out.FilodanCikisPersistenceJpaPort;
-import tr.gov.voxx.car.system.common.application.port.out.event.DomainEventPublisher;
 import tr.gov.voxx.car.system.domain.entity.FilodanCikis;
-import tr.gov.voxx.car.system.domain.event.FilodanCikisCreatedEvent;
-import tr.gov.voxx.car.system.domain.event.FilodanCikisDeletedEvent;
-import tr.gov.voxx.car.system.domain.event.FilodanCikisUpdatedEvent;
 import tr.gov.voxx.car.system.domain.exception.NotFoundException;
 import tr.gov.voxx.car.system.domain.valueobject.FilodanCikisId;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class FilodanCikisApplicationCommandUseCase implements FilodanCikisApplicationCommandPort {
 
     private final FilodanCikisPersistenceJpaPort persistenceJpaPort;
-    private final DomainEventPublisher domainEventPublisher;
+    //private final DomainEventPublisher domainEventPublisher;
 
     @Override
     public void post(FilodanCikis entity) {
         entity.initIdGenerator();
 
-        domainEventPublisher.publish("filodancikis-created-topic", FilodanCikisCreatedEvent.builder()
+        /*domainEventPublisher.publish("filodancikis-created-topic", FilodanCikisCreatedEvent.builder()
                 .id(entity.getId())
                 .aracFiloId(entity.getAracFiloId())
                 .filodanCikisNedeni(entity.getFilodanCikisNedeni())
@@ -33,7 +31,9 @@ public class FilodanCikisApplicationCommandUseCase implements FilodanCikisApplic
                 .aracDevirGiderleri(entity.getAracDevirGiderleri())
                 .faturaYukle(entity.getFaturaYukle())
                 .aciklama(entity.getAciklama())
-                .build());
+                .build());*/
+        persistenceJpaPort.persist(entity);
+        log.info("Persisted entity: {}", entity);
     }
 
 
@@ -45,7 +45,7 @@ public class FilodanCikisApplicationCommandUseCase implements FilodanCikisApplic
         }
         existing.updateFrom(entity);
 
-        domainEventPublisher.publish("filodancikis-updated-topic", FilodanCikisUpdatedEvent.builder()
+        /*domainEventPublisher.publish("filodancikis-updated-topic", FilodanCikisUpdatedEvent.builder()
                 .id(entity.getId())
                 .aracFiloId(entity.getAracFiloId())
                 .filodanCikisNedeni(entity.getFilodanCikisNedeni())
@@ -55,7 +55,9 @@ public class FilodanCikisApplicationCommandUseCase implements FilodanCikisApplic
                 .aracDevirGiderleri(entity.getAracDevirGiderleri())
                 .faturaYukle(entity.getFaturaYukle())
                 .aciklama(entity.getAciklama())
-                .build());
+                .build());*/
+        persistenceJpaPort.merge(existing);
+        log.info("Updated entity: {}", entity);
     }
 
     @Override
@@ -65,9 +67,11 @@ public class FilodanCikisApplicationCommandUseCase implements FilodanCikisApplic
             throw new NotFoundException("FilodanCikis not found with id: " + filodanCikisId);
         }
         
-        domainEventPublisher.publish("filodancikis-deleted-topic", FilodanCikisDeletedEvent.builder()
+        /*domainEventPublisher.publish("filodancikis-deleted-topic", FilodanCikisDeletedEvent.builder()
                 .id(filodanCikisId)
                 .aracFiloId(existing.getAracFiloId())
-                .build());
+                .build());*/
+        persistenceJpaPort.deleteById(filodanCikisId);
+        log.info("Deleted entity: {}", existing);
     }
 }

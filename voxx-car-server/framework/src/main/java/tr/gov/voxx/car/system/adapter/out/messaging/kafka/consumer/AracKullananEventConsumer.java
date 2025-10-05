@@ -1,4 +1,4 @@
-package tr.gov.voxx.car.system.adapter.out.messaging.kafka.consumer;
+/*package tr.gov.voxx.car.system.adapter.out.messaging.kafka.consumer;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -45,6 +45,6 @@ public class AracKullananEventConsumer {
         persistenceJpaPort.deleteById(event.id());
         aracKullananWebSocketNotifier.notifyAracKullananDeleted(event);
     }
-}
+}*/
 
 

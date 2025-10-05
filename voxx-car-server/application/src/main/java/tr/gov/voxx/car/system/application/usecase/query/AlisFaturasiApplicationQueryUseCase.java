@@ -1,7 +1,6 @@
 package tr.gov.voxx.car.system.application.usecase.query;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import tr.gov.voxx.car.system.application.port.in.AlisFaturasiApplicationQueryPort;
 import tr.gov.voxx.car.system.application.port.out.AlisFaturasiPersistenceJpaPort;
@@ -17,7 +16,6 @@ public class AlisFaturasiApplicationQueryUseCase implements AlisFaturasiApplicat
     private final AlisFaturasiPersistenceJpaPort persistenceJpaPort;
 
     @Override
-    @Cacheable(value = "alisFaturasi", key = "#alisFaturasiId")
     public AlisFaturasi get(AlisFaturasiId alisFaturasiId) {
         return persistenceJpaPort.findById(alisFaturasiId);
     }
