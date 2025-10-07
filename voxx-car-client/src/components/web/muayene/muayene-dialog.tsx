@@ -15,6 +15,7 @@ import {
 } from "@/enums";
 import { useAppForm } from "@/hooks/demo.form";
 import {
+	getMuayenelerByAracFiloIdQueryOptions,
 	useCreateMuayeneMutation,
 	useUpdateMuayeneMutation,
 } from "@/hooks/use-muayene-hooks";
@@ -25,6 +26,7 @@ import {
 	type CreateMuayeneRequest,
 	type Muayene,
 } from "@/schemas/muayene";
+import { useQueryClient } from "@tanstack/react-query";
 import { RefreshCw } from "lucide-react";
 import React, { useMemo } from "react";
 
@@ -50,6 +52,7 @@ type MuayeneDialogProps = MuayeneDialogCreateProps | MuayeneDialogUpdateProps;
 
 export default function MuayeneDialog(props: MuayeneDialogProps) {
 	const { mode, open, close, firmalar, aracFiloId } = props;
+	const queryClient = useQueryClient();
 
 	const odemeTipiOptions = OdemeTipiListesi.map((tip) => ({
 		label: OdemeTipiListesiLabel[tip],
@@ -109,6 +112,9 @@ export default function MuayeneDialog(props: MuayeneDialogProps) {
 				} else if (mode === "update") {
 					await updateMuayeneMutation!.mutateAsync(value as Muayene);
 				}
+				await queryClient.invalidateQueries(
+					getMuayenelerByAracFiloIdQueryOptions(aracFiloId),
+				);
 				formApi.reset();
 			} catch (_error) {}
 		},

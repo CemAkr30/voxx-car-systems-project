@@ -5,7 +5,11 @@ import {
 	updateMuayene,
 } from "@/requests/muayene";
 import type { CreateMuayeneRequest, Muayene } from "@/schemas/muayene";
-import { queryOptions, useMutation } from "@tanstack/react-query";
+import {
+	queryOptions,
+	useMutation,
+	useQueryClient,
+} from "@tanstack/react-query";
 
 export function getMuayenelerByAracFiloIdQueryOptions(aracFiloId: string) {
 	return queryOptions({
@@ -33,10 +37,17 @@ export const useUpdateMuayeneMutation = (onSuccess?: () => void) => {
 	});
 };
 
-export const useDeleteMuayeneMutation = (onSuccess?: () => void) => {
+export const useDeleteMuayeneMutation = (
+	aracFiloId: string,
+	onSuccess?: () => void,
+) => {
+	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: async (id: string) => await deleteMuayene(id),
-		onSuccess() {
+		async onSuccess() {
+			await queryClient.invalidateQueries(
+				getMuayenelerByAracFiloIdQueryOptions(aracFiloId),
+			);
 			onSuccess?.();
 		},
 	});

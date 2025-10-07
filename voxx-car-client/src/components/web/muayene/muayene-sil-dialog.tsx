@@ -22,7 +22,10 @@ export default function MuayeneSilDialog({
 	close,
 	selectedMuayene,
 }: MuayeneDialogDeleteProps) {
-	const deleteMuayeneMutation = useDeleteMuayeneMutation(close);
+	const deleteMuayeneMutation = useDeleteMuayeneMutation(
+		selectedMuayene.aracFiloId,
+		close,
+	);
 
 	return (
 		<Dialog open={open} onOpenChange={close}>

@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 export const getAllMtv = async (): Promise<Mtv[]> => {
 	const { data } = await axiosClient.get<Mtv[]>(`${urls.mtv}`);
-	return data.filter((d) => !d.isDeleted);
+	return data.filter((d) => !d.deleted);
 };
 
 export const getMtvByAracFiloId = async (
@@ -15,7 +15,7 @@ export const getMtvByAracFiloId = async (
 	const { data } = await axiosClient.get<Mtv[]>(
 		`${urls.aracfilo}/${aracFiloId}/mtv`,
 	);
-	return data.filter((d) => !d.isDeleted);
+	return data.filter((d) => !d.deleted);
 };
 
 export const createMtv = async (mtv: CreateMtvRequest): Promise<void> => {

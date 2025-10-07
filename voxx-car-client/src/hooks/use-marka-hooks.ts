@@ -5,7 +5,11 @@ import {
 	updateMarka,
 } from "@/requests/marka";
 import type { CreateMarkaRequest, Marka } from "@/schemas/marka";
-import { queryOptions, useMutation } from "@tanstack/react-query";
+import {
+	queryOptions,
+	useMutation,
+	useQueryClient,
+} from "@tanstack/react-query";
 
 export function getMarkalarQueryOptions() {
 	return queryOptions({
@@ -34,10 +38,12 @@ export const useUpdateMarkaMutation = (onSuccess?: () => void) => {
 };
 
 export const useDeleteMarkaMutation = (onSuccess?: () => void) => {
+	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: async (id: string) => await deleteMarka(id),
-		onSuccess() {
+		async onSuccess() {
 			onSuccess?.();
+			await queryClient.invalidateQueries(getMarkalarQueryOptions());
 		},
 	});
 };

@@ -25,14 +25,11 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { getIletisimlerByFirmaIdQueryOptions } from "@/hooks/use-iletisim-hooks";
-import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { IletisimTipiListesiLabel, type IletisimTipi } from "@/enums";
 import { Button } from "@/components/ui/button";
 import IletisimDialog from "@/components/web/iletisim/iletisim-dialog";
 import IletisimSilDialog from "@/components/web/iletisim/iletisim-sil-dialog";
-import type { WebSocketMessage } from "@/types";
-import { useWebSocketTopic } from "@/hooks/use-webhook";
-import { toast } from "sonner";
 
 interface DialogState {
 	create: boolean;
@@ -129,25 +126,6 @@ const getContactTypeInfo = (type: IletisimTipi) => {
 
 function RouteComponent() {
 	const { firmaId } = Route.useParams();
-	const queryClient = useQueryClient();
-
-	useWebSocketTopic<WebSocketMessage>({
-		topic: "/topic/iletisim",
-		onMessage: async ({ type }) => {
-			if (type === "CREATED") {
-				toast.success("İletişim başarılı bir şekilde kayıt edildi");
-			}
-			if (type === "UPDATED") {
-				toast.success("İletişim başarılı bir şekilde güncellendi");
-			}
-			if (type === "DELETED") {
-				toast.success("İletişim başarılı bir şekilde silindi");
-			}
-			await queryClient.invalidateQueries(
-				getIletisimlerByFirmaIdQueryOptions(firmaId),
-			);
-		},
-	});
 
 	const [dialogState, setDialogState] = useState<DialogState>({
 		create: false,
@@ -249,7 +227,9 @@ function RouteComponent() {
 									<TableCell>
 										<div className="flex items-center gap-3">
 											<div
-												className={`p-2 rounded-lg ${getContactTypeInfo(iletisim.tip)} shadow-sm`}
+												className={`p-2 rounded-lg ${getContactTypeInfo(
+													iletisim.tip,
+												)} shadow-sm`}
 											>
 												<iletisimTip.icon className="h-4 w-4" />
 											</div>

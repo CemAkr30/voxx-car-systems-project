@@ -122,6 +122,9 @@ export function DatePicker({
 	const field = useFieldContext<Date>();
 	const errors = useStore(field.store, (state) => state.meta.errors);
 
+	const dropdown: React.ComponentProps<typeof Calendar>["captionLayout"] =
+		"dropdown";
+
 	return (
 		<div className="space-y-2">
 			<Label htmlFor={label} className="text-sm font-medium text-gray-700">
@@ -144,8 +147,11 @@ export function DatePicker({
 				<PopoverContent className="w-auto p-0">
 					<Calendar
 						mode="single"
+						defaultMonth={field.state.value}
 						selected={field.state.value}
 						onSelect={(e) => field.handleChange(e || new Date())}
+						captionLayout={dropdown}
+						className="rounded-lg border shadow-sm"
 					/>
 				</PopoverContent>
 			</Popover>
@@ -154,11 +160,7 @@ export function DatePicker({
 	);
 }
 
-export function Checkbox({
-	label,
-}: {
-	label: string;
-}) {
+export function Checkbox({ label }: { label: string }) {
 	const field = useFieldContext<boolean>();
 	const errors = useStore(field.store, (state) => state.meta.errors);
 
@@ -266,7 +268,10 @@ export function Slider({
 export function Switch({
 	label,
 	description,
-}: { label: string; description?: string }) {
+}: {
+	label: string;
+	description?: string;
+}) {
 	const field = useFieldContext<boolean>();
 	const errors = useStore(field.store, (state) => state.meta.errors);
 

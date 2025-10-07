@@ -30,7 +30,7 @@ export default function AracFiloSilDialog({
 				<DialogHeader>
 					<DialogTitle>Seçili AracFiloyı Sil</DialogTitle>
 					<DialogDescription>
-						<i>{selectedAracFilo.aracTipi}</i> aracFiloyı silmek istediğinizden
+						<i>{selectedAracFilo.plaka}</i> aracFiloyı silmek istediğinizden
 						emin misiniz? Bu işlem geri alınamaz.
 					</DialogDescription>
 				</DialogHeader>

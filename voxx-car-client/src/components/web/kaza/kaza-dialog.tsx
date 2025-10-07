@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { useAppForm } from "@/hooks/demo.form";
 import {
+	getKazalarByAracFiloIdQueryOptions,
 	useCreateKazaMutation,
 	useUpdateKazaMutation,
 } from "@/hooks/use-kaza-hooks";
@@ -18,14 +19,16 @@ import {
 	kazaUpdateSchema,
 	type CreateKazaRequest,
 } from "@/schemas/kaza";
-import { useQuery } from "@tanstack/react-query";
 import { RefreshCw } from "lucide-react";
 import type { Firma } from "@/schemas/firma.ts";
 import { useMemo } from "react";
-import { OnarimDurumuTipiListesi, OnarimDurumuTipiListesiLabel } from "@/enums";
-import { useStore } from "@tanstack/react-form";
-import { getAracKullananlarByFirmaIdQueryOptions } from "@/hooks/use-arac-kullanan-hooks";
-import type { AracKullanan } from "@/schemas/arac-kullanan";
+import {
+	KazaNedeniListesi,
+	KazaNedeniListesiLabel,
+	OnarimDurumuTipiListesi,
+	OnarimDurumuTipiListesiLabel,
+} from "@/enums";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface KazaDialogCreateProps {
 	mode: "create";
@@ -49,10 +52,16 @@ type KazaDialogProps = KazaDialogCreateProps | KazaDialogUpdateProps;
 
 export default function KazaDialog(props: KazaDialogProps) {
 	const { mode, open, close, firmalar, aracFiloId } = props;
+	const queryClient = useQueryClient();
 
 	const onarimDurumuOptions = OnarimDurumuTipiListesi.map((onarimDurumu) => ({
 		label: OnarimDurumuTipiListesiLabel[onarimDurumu],
 		value: onarimDurumu,
+	}));
+
+	const kazaNedeniOptions = KazaNedeniListesi.map((kazaNedeni) => ({
+		label: KazaNedeniListesiLabel[kazaNedeni],
+		value: kazaNedeni,
 	}));
 
 	const firmalarOptions = useMemo(
@@ -97,42 +106,13 @@ export default function KazaDialog(props: KazaDialogProps) {
 				} else if (mode === "update") {
 					await updateKazaMutation!.mutateAsync(value as Kaza);
 				}
+				await queryClient.invalidateQueries(
+					getKazalarByAracFiloIdQueryOptions(aracFiloId),
+				);
 				formApi.reset();
 			} catch (_error) {}
 		},
 	});
-
-	const { odeyenFirmaId } = useStore(form.store, (state) => ({
-		odeyenFirmaId: state.values.odeyenFirmaId,
-	}));
-
-	const {
-		data: aracKullananlar,
-		isLoading: isAracKullananlarLoading,
-		isFetching: isAracKullananlarFetching,
-		refetch: refetchAracKullananlar,
-	} = useQuery({
-		...getAracKullananlarByFirmaIdQueryOptions(odeyenFirmaId),
-		enabled: !!odeyenFirmaId && odeyenFirmaId.trim() !== "",
-		refetchOnMount: true,
-		retry: (failureCount) => failureCount < 3,
-	});
-
-	const aracKullananlarOptions = useMemo(() => {
-		if (!aracKullananlar || !Array.isArray(aracKullananlar)) {
-			return [];
-		}
-		return aracKullananlar.map((model: AracKullanan) => ({
-			label: `${model.ad} ${model.soyad}`,
-			value: model.id,
-		}));
-	}, [aracKullananlar]);
-
-	const isMusteriSelectDisabled =
-		!odeyenFirmaId ||
-		isAracKullananlarLoading ||
-		isAracKullananlarFetching ||
-		aracKullananlarOptions.length === 0;
 
 	return (
 		<Dialog
@@ -165,34 +145,9 @@ export default function KazaDialog(props: KazaDialogProps) {
 						{(field) => <field.Select label="Firma" values={firmalarOptions} />}
 					</form.AppField>
 
-					<form.AppField
-						name="odeyenFirmaId"
-						listeners={{
-							onChange: ({ value }) => {
-								form.setFieldValue("odeyenFirmaId", value);
-								form.setFieldValue("musteriId", "");
-								if (value) refetchAracKullananlar();
-							},
-						}}
-					>
+					<form.AppField name="odeyenFirmaId">
 						{(field) => (
 							<field.Select label="Ödeyen Firma" values={firmalarOptions} />
-						)}
-					</form.AppField>
-
-					<form.AppField
-						name="musteriId"
-						validators={{
-							onChangeListenTo: ["odeyenFirmaId"],
-						}}
-					>
-						{(field) => (
-							<field.Select
-								label="Müşteri"
-								values={aracKullananlarOptions}
-								placeholder="Müşteri Seçiniz"
-								disabled={isMusteriSelectDisabled}
-							/>
 						)}
 					</form.AppField>
 
@@ -205,7 +160,9 @@ export default function KazaDialog(props: KazaDialogProps) {
 					</form.AppField>
 
 					<form.AppField name="kazaNedeni">
-						{(field) => <field.TextField label="Kaza Nedeni" />}
+						{(field) => (
+							<field.Select label="Kaza Nedeni" values={kazaNedeniOptions} />
+						)}
 					</form.AppField>
 
 					<form.AppField name="kazaTutanagi">

@@ -22,7 +22,10 @@ export default function AdresSilDialog({
 	close,
 	selectedAdres,
 }: AdresDialogDeleteProps) {
-	const deleteAdresMutation = useDeleteAdresMutation(close);
+	const deleteAdresMutation = useDeleteAdresMutation(
+		selectedAdres.firmaId,
+		close,
+	);
 
 	return (
 		<Dialog open={open} onOpenChange={close}>

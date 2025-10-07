@@ -22,7 +22,10 @@ export default function BakimSilDialog({
 	close,
 	selectedBakim,
 }: BakimDialogDeleteProps) {
-	const deleteBakimMutation = useDeleteBakimMutation(close);
+	const deleteBakimMutation = useDeleteBakimMutation(
+		selectedBakim.aracFiloId,
+		close,
+	);
 
 	return (
 		<Dialog open={open} onOpenChange={close}>

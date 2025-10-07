@@ -23,15 +23,12 @@ import {
 	useDeleteHasarMutation,
 	useUpdateHasarMutation,
 } from "@/hooks/use-hasar-hooks";
-import { useWebSocketTopic } from "@/hooks/use-webhook";
 import { cn, isUUID } from "@/lib/utils";
 import type { Hasar } from "@/schemas/hasar";
-import type { WebSocketMessage } from "@/types";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useBlocker } from "@tanstack/react-router";
 import { AlertTriangle, Car, Edit, Save, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 
 interface DialogState {
 	create: boolean;
@@ -53,6 +50,7 @@ export const Route = createFileRoute(
 
 function RouteComponent() {
 	const { aracFiloId } = Route.useParams();
+	const queryClient = useQueryClient();
 	const createHasarMutation = useCreateHasarMutation();
 	const updateHasarMutation = useUpdateHasarMutation();
 	const deleteHasarMutation = useDeleteHasarMutation();
@@ -67,32 +65,6 @@ function RouteComponent() {
 		create: false,
 		update: false,
 		delete: false,
-	});
-	const queryClient = useQueryClient();
-
-	useWebSocketTopic<WebSocketMessage>({
-		topic: "/topic/hasar",
-		onMessage: async ({ type }) => {
-			if (type === "CREATED") {
-				toast.success("Hasar başarılı bir şekilde kayıt edildi");
-			}
-			if (type === "UPDATED") {
-				toast.success("Hasar başarılı bir şekilde güncellendi");
-			}
-			if (type === "DELETED") {
-				toast.success("Hasar başarılı bir şekilde silindi");
-			}
-
-			await queryClient.invalidateQueries(
-				getHasarlarByAracFiloIdQueryOptions(aracFiloId),
-			);
-
-			const hasarlar = await queryClient.fetchQuery(
-				getHasarlarByAracFiloIdQueryOptions(aracFiloId),
-			);
-
-			setSelectedParts(hasarlar);
-		},
 	});
 
 	const selectedPartTip = (parca: HasarliParca) => {
@@ -148,6 +120,9 @@ function RouteComponent() {
 			for (const part of selectedParts) {
 				if (part.id?.startsWith("new-id")) {
 					await createHasarMutation.mutate(part);
+					setSelectedParts((prevState) =>
+						prevState.filter((old) => old.id !== part.id),
+					);
 				} else {
 					if (updatedParts.includes(part.id)) {
 						await updateHasarMutation.mutate(part);
@@ -164,10 +139,26 @@ function RouteComponent() {
 					prevState.filter((oldId) => oldId !== id),
 				);
 			}
+
+			// Cache'i invalidate et ve en güncel veriyi al
+			await queryClient.invalidateQueries(
+				getHasarlarByAracFiloIdQueryOptions(aracFiloId),
+			);
+
+			const data = await queryClient.fetchQuery(
+				getHasarlarByAracFiloIdQueryOptions(aracFiloId),
+			);
+
+			if (data) {
+				console.log({ data });
+				setSelectedParts(data);
+			}
 		} catch (error) {
 			console.error("An error occurred while saving parts", error);
 		}
 	};
+
+	const handleGenelNot = async () => setSelectedPart("GENEL");
 
 	const hasarliParcaPath = {
 		[HasarliParcaListesi[0]]:
@@ -196,6 +187,7 @@ function RouteComponent() {
 			"M 194.52539 184.57617 C 194.52539 184.57617 189.15748 207.17706 186.87109 218.52734 C 184.51408 230.22824 180.5957 253.72852 180.5957 253.72852 L 230.54492 253.92773 C 230.54492 253.92773 230.62943 244.00261 237.41211 237.40234 C 244.1948 230.80208 253.92773 229.25195 253.92773 229.25195 L 253.92773 226.66406 L 236.2168 184.57617 L 194.52539 184.57617 z M 197.41211 187.85938 L 233.23242 187.95898 L 245.27148 217.3125 L 190.84375 217.01367 L 197.41211 187.85938 z ",
 		[HasarliParcaListesi[12]]:
 			"m 264.96038,229.59999 -0.0124,1.29352 c 0,0 7.3661,2.58006 12.27131,9.03071 4.90521,6.45066 4.9176,14.05367 4.9176,14.05367 l 15.89538,0.0497 c 0,0 -0.0236,-2.34918 2.10745,-3.88316 2.13099,-1.53399 4.23578,-1.76356 4.23578,-1.76356 l -0.0995,-7.38799 -5.07458,-4.87558 v -6.46761 z",
+		[HasarliParcaListesi[13]]: "",
 	};
 
 	return (
@@ -231,6 +223,13 @@ function RouteComponent() {
 							</div>
 
 							<div className="flex items-center gap-4">
+								<Button
+									className="bg-white/20 hover:bg-white/30 text-white border-white/30 backdrop-blur-sm transition-all duration-200 hover:scale-105"
+									onClick={handleGenelNot}
+								>
+									<Save className="w-4 h-4 mr-2" />
+									Araç Hasar Hakkında Genel Not
+								</Button>
 								<Button
 									className="bg-white/20 hover:bg-white/30 text-white border-white/30 backdrop-blur-sm transition-all duration-200 hover:scale-105"
 									onClick={handleHasarParcaSubmit}
@@ -408,75 +407,107 @@ function RouteComponent() {
 							</div>
 						) : (
 							<div className="space-y-3 max-h-[35rem] overflow-y-auto">
-								{selectedParts.map((damage) => (
-									<div
-										key={damage.id}
-										className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-4 hover:shadow-md transition-all duration-200"
-									>
-										<div className="flex items-start justify-between">
-											<div className="flex items-start gap-3 flex-1">
-												<div className="flex-1 min-w-0">
-													<div className="flex items-center gap-2 mb-2">
-														<h4 className="font-semibold text-slate-900 dark:text-slate-100">
-															{HasarliParcaListesiLabel[damage.hasarliParca]} -{" "}
-															{HasarTipiListesiLabel[damage.hasarTipi]}
-														</h4>
+								{selectedParts
+									.filter((s) => s.hasarliParca !== "GENEL")
+									.map((damage) => (
+										<div
+											key={damage.id}
+											className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-4 hover:shadow-md transition-all duration-200"
+										>
+											<div className="flex items-start justify-between">
+												<div className="flex items-start gap-3 flex-1">
+													<div className="flex-1 min-w-0">
+														<div className="flex items-center gap-2 mb-2">
+															<h4 className="font-semibold text-slate-900 dark:text-slate-100">
+																{HasarliParcaListesiLabel[damage.hasarliParca]}{" "}
+																- {HasarTipiListesiLabel[damage.hasarTipi]}
+															</h4>
+														</div>
 													</div>
 												</div>
-											</div>
-											<div className="flex items-center gap-1 ml-2">
-												<Button
-													variant="ghost"
-													size="sm"
-													className="h-8 w-8 p-0"
-													onClick={() => setSelectedPart(damage.hasarliParca)}
-												>
-													<Edit className="h-3 w-3" />
-												</Button>
-												<Button
-													variant="ghost"
-													size="sm"
-													className="h-8 w-8 p-0 text-red-500 hover:text-red-700 hover:bg-red-50"
-													onClick={() =>
-														setSelectedParts((prevState) => {
-															if (isUUID(damage.id)) {
-																setDeletedParts((prevState) => [
-																	...prevState,
-																	damage.id,
-																]);
+												<div className="flex items-center gap-1 ml-2">
+													<Button
+														variant="ghost"
+														size="sm"
+														className="h-8 w-8 p-0"
+														onClick={() => setSelectedPart(damage.hasarliParca)}
+													>
+														<Edit className="h-3 w-3" />
+													</Button>
+													<Button
+														variant="ghost"
+														size="sm"
+														className="h-8 w-8 p-0 text-red-500 hover:text-red-700 hover:bg-red-50"
+														onClick={() =>
+															setSelectedParts((prevState) => {
+																if (isUUID(damage.id)) {
+																	setDeletedParts((prevState) => [
+																		...prevState,
+																		damage.id,
+																	]);
+																	return prevState.filter(
+																		(part) => part.id !== damage.id,
+																	);
+																}
 																return prevState.filter(
 																	(part) => part.id !== damage.id,
 																);
-															}
-															return prevState.filter(
-																(part) => part.id !== damage.id,
-															);
-														})
-													}
-												>
-													<X className="h-3 w-3" />
-												</Button>
+															})
+														}
+													>
+														<X className="h-3 w-3" />
+													</Button>
+												</div>
 											</div>
 										</div>
-									</div>
-								))}
+									))}
 							</div>
 						)}
 					</div>
+				</div>
+
+				<div className="col-span-full">
+					{selectedParts.find((s) => s.hasarliParca === "GENEL")?.aciklama && (
+						<div className="mt-6 rounded-2xl border border-indigo-200 bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-6 shadow-sm">
+							<h3 className="text-lg font-semibold text-indigo-700 mb-2">
+								Araç Hakkında Genel Not
+							</h3>
+							<p className="text-gray-700 leading-relaxed whitespace-pre-line">
+								{
+									selectedParts.find((s) => s.hasarliParca === "GENEL")
+										?.aciklama
+								}
+							</p>
+						</div>
+					)}
 				</div>
 			</div>
 
 			<AlertDialog open={status === "blocked"}>
 				<AlertDialogContent>
 					<AlertDialogHeader>
-						<AlertDialogTitle>Emin misiniz?</AlertDialogTitle>
+						<AlertDialogTitle>Kaydedilmemiş değişiklikler var</AlertDialogTitle>
 						<AlertDialogDescription>
-							Değişiklikleri kaydetmediniz
+							Hasarlı parçalarda veya araç notlarında bazı değişiklikler
+							yaptınız:
+							<ul className="list-disc list-inside mt-2 space-y-1">
+								<li>Yeni bir hasarlı parça eklediniz</li>
+								<li>Mevcut bir parçayı güncellediniz</li>
+								<li>Bir hasarlı parçayı sildiniz</li>
+								<li>Ya da araç notlarına yeni bir açıklama eklediniz</li>
+							</ul>
+							<p className="mt-3">
+								Bu değişiklikleri <strong>kaydetmeden</strong> devam ederseniz,
+								yaptığınız tüm düzenlemeler kaybolacaktır. Devam etmek
+								istediğinize emin misiniz?
+							</p>
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
-						<AlertDialogCancel onClick={reset}>İptal et</AlertDialogCancel>
-						<AlertDialogAction onClick={proceed}>Devam et</AlertDialogAction>
+						<AlertDialogCancel onClick={reset}>Vazgeç</AlertDialogCancel>
+						<AlertDialogAction onClick={proceed}>
+							Kaydetmeden Devam Et
+						</AlertDialogAction>
 					</AlertDialogFooter>
 				</AlertDialogContent>
 			</AlertDialog>

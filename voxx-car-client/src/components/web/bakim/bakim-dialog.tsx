@@ -7,9 +7,15 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import { BakimNedeniTipiListesi, BakimNedeniTipiListesiLabel } from "@/enums";
+import {
+	BakimNedeniTipiListesi,
+	BakimNedeniTipiListesiLabel,
+	OdemeYapanFirmaListesi,
+	OdemeYapanFirmaListesiLabel,
+} from "@/enums";
 import { useAppForm } from "@/hooks/demo.form";
 import {
+	getBakimlarByAracFiloIdQueryOptions,
 	useCreateBakimMutation,
 	useUpdateBakimMutation,
 } from "@/hooks/use-bakim-hooks";
@@ -19,16 +25,14 @@ import {
 	bakimUpdateSchema,
 	type CreateBakimRequest,
 } from "@/schemas/bakim";
+import { useQueryClient } from "@tanstack/react-query";
 import { RefreshCw } from "lucide-react";
-import type { Firma } from "@/schemas/firma.ts";
-import { useMemo } from "react";
 
 interface BakimDialogCreateProps {
 	mode: "create";
 	open: boolean;
 	close: () => void;
 	aracFiloId: string;
-	firmalar: Firma[];
 	initialValues: { aracFiloId: string };
 }
 
@@ -37,28 +41,24 @@ interface BakimDialogUpdateProps {
 	open: boolean;
 	close: () => void;
 	aracFiloId: string;
-	firmalar: Firma[];
 	initialValues: Bakim;
 }
 
 type BakimDialogProps = BakimDialogCreateProps | BakimDialogUpdateProps;
 
 export default function BakimDialog(props: BakimDialogProps) {
-	const { mode, open, close, firmalar, aracFiloId } = props;
+	const { mode, open, close, aracFiloId } = props;
+	const queryClient = useQueryClient();
 
 	const bakimNedeniTipiOptions = BakimNedeniTipiListesi.map((bakimNedeni) => ({
 		label: BakimNedeniTipiListesiLabel[bakimNedeni],
 		value: bakimNedeni,
 	}));
 
-	const firmalarOptions = useMemo(
-		() =>
-			firmalar.map((firma: Firma) => ({
-				label: firma.unvan,
-				value: firma.id,
-			})),
-		[firmalar],
-	);
+	const bakimOdeyenOptions = OdemeYapanFirmaListesi.map((firma) => ({
+		label: OdemeYapanFirmaListesiLabel[firma],
+		value: firma,
+	}));
 
 	const createBakimMutation = useCreateBakimMutation(close);
 	const updateBakimMutation =
@@ -71,13 +71,15 @@ export default function BakimDialog(props: BakimDialogProps) {
 						aracFiloId,
 						bakimNedeni: BakimNedeniTipiListesi[0],
 						parca: "",
+						parcaAdedi: 0,
 						parcaTutari: 0,
 						iscilikTutari: 0,
-						toplamTutar: 0,
+						bakimAraligi: 0,
+						aracGuncelKm: 0,
 						faturaNo: "",
 						fatura: "",
 						aciklama: "",
-						odeyenFirmaId: "",
+						bakimOdeyenFirma: OdemeYapanFirmaListesi[5],
 					}
 				: {
 						...props.initialValues,
@@ -93,6 +95,9 @@ export default function BakimDialog(props: BakimDialogProps) {
 				} else if (mode === "update") {
 					await updateBakimMutation!.mutateAsync(value as Bakim);
 				}
+				await queryClient.invalidateQueries(
+					getBakimlarByAracFiloIdQueryOptions(aracFiloId),
+				);
 				formApi.reset();
 			} catch (_error) {}
 		},
@@ -139,6 +144,10 @@ export default function BakimDialog(props: BakimDialogProps) {
 							{(field) => <field.TextField label="Parça" />}
 						</form.AppField>
 
+						<form.AppField name="parcaAdedi">
+							{(field) => <field.TextField label="Parça Adedi" />}
+						</form.AppField>
+
 						<form.AppField name="parcaTutari">
 							{(field) => <field.TextField label="Parça tutarı" />}
 						</form.AppField>
@@ -147,14 +156,18 @@ export default function BakimDialog(props: BakimDialogProps) {
 							{(field) => <field.TextField label="İşçilik tutarı" />}
 						</form.AppField>
 
-						<form.AppField name="toplamTutar">
-							{(field) => <field.TextField label="Parça tutarı" />}
-						</form.AppField>
-
 						<form.AppField name="faturaNo">
 							{(field) => <field.TextField label="Fatura numarası" />}
 						</form.AppField>
 					</div>
+
+					<form.AppField name="bakimAraligi">
+						{(field) => <field.TextField label="Bakım Aralığı (km)" />}
+					</form.AppField>
+
+					<form.AppField name="aracGuncelKm">
+						{(field) => <field.TextField label="Araç Güncel Kilometre" />}
+					</form.AppField>
 
 					<form.AppField name="fatura">
 						{(field) => <field.TextField label="Fatura" />}
@@ -164,9 +177,9 @@ export default function BakimDialog(props: BakimDialogProps) {
 						{(field) => <field.TextArea label="Açıklama" />}
 					</form.AppField>
 
-					<form.AppField name="odeyenFirmaId">
+					<form.AppField name="bakimOdeyenFirma">
 						{(field) => (
-							<field.Select label="Ödeyen Firma" values={firmalarOptions} />
+							<field.Select label="Ödeyen Firma" values={bakimOdeyenOptions} />
 						)}
 					</form.AppField>
 

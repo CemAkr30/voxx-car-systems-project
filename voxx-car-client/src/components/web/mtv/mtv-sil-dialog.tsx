@@ -22,7 +22,7 @@ export default function MtvSilDialog({
 	close,
 	selectedMtv,
 }: MtvDialogDeleteProps) {
-	const deleteMtvMutation = useDeleteMtvMutation(close);
+	const deleteMtvMutation = useDeleteMtvMutation(selectedMtv.aracFiloId, close);
 
 	return (
 		<Dialog open={open} onOpenChange={close}>

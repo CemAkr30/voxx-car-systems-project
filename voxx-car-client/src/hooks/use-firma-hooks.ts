@@ -6,7 +6,11 @@ import {
 	updateFirma,
 } from "@/requests/firma";
 import type { CreateFirmaRequest, Firma } from "@/schemas/firma";
-import { queryOptions, useMutation } from "@tanstack/react-query";
+import {
+	queryOptions,
+	useMutation,
+	useQueryClient,
+} from "@tanstack/react-query";
 
 export function getFirmalarQueryOptions() {
 	return queryOptions({
@@ -42,10 +46,12 @@ export const useUpdateFirmaMutation = (onSuccess?: () => void) => {
 };
 
 export const useDeleteFirmaMutation = (onSuccess?: () => void) => {
+	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: async (id: string) => await deleteFirma(id),
-		onSuccess() {
+		async onSuccess() {
 			onSuccess?.();
+			await queryClient.invalidateQueries(getFirmalarQueryOptions());
 		},
 	});
 };

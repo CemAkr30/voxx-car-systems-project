@@ -13,6 +13,7 @@ import {
 	type HasarliParca,
 } from "@/enums";
 import { useAppForm } from "@/hooks/demo.form";
+import { cn } from "@/lib/utils";
 import {
 	hasarCreateSchema,
 	hasarUpdateSchema,
@@ -71,7 +72,11 @@ export default function HasarDialog(props: HasarDialogProps) {
 				? {
 						aracFiloId,
 						hasarliParca,
-						hasarTipi: HasarTipiListesi[4],
+						hasarTipi:
+							hasarliParca === "GENEL"
+								? HasarTipiListesi[0]
+								: HasarTipiListesi[4],
+						aciklama: "",
 					}
 				: props.initialValues,
 		validators: {
@@ -86,9 +91,10 @@ export default function HasarDialog(props: HasarDialogProps) {
 						{
 							id: `new-id-${new Date().getTime()}`,
 							aracFiloId,
+							aciklama: value.aciklama,
 							hasarliParca: value.hasarliParca,
 							hasarTipi: value.hasarTipi,
-							isDeleted: false,
+							deleted: false,
 						},
 					]);
 				} else if (mode === "update") {
@@ -109,6 +115,7 @@ export default function HasarDialog(props: HasarDialogProps) {
 								return {
 									...part,
 									hasarTipi: value.hasarTipi,
+									aciklama: value.aciklama,
 									updatedAt: new Date().toISOString(), // better format than toDateString
 								};
 							}
@@ -133,7 +140,9 @@ export default function HasarDialog(props: HasarDialogProps) {
 			<DialogContent className="sm:max-w-[550px]">
 				<DialogHeader>
 					<DialogTitle>
-						{`${mode === "create" ? "Yeni Hasar Ekle" : "Seçili Hasarı Güncelle"} - ${HasarliParcaListesiLabel[hasarliParca]}`}
+						{`${
+							mode === "create" ? "Yeni Hasar Ekle" : "Seçili Hasarı Güncelle"
+						} - ${HasarliParcaListesiLabel[hasarliParca]}`}
 					</DialogTitle>
 				</DialogHeader>
 				<form
@@ -144,10 +153,16 @@ export default function HasarDialog(props: HasarDialogProps) {
 					}}
 					className="space-y-6"
 				>
-					<form.AppField name="hasarTipi">
-						{(field) => (
-							<field.Select label="Hasar Tipi" values={hasarTipiOptions} />
-						)}
+					<div className={cn(hasarliParca === "GENEL" && "hidden")}>
+						<form.AppField name="hasarTipi">
+							{(field) => (
+								<field.Select label="Hasar Tipi" values={hasarTipiOptions} />
+							)}
+						</form.AppField>
+					</div>
+
+					<form.AppField name="aciklama">
+						{(field) => <field.TextArea label="Açıklama / Not" />}
 					</form.AppField>
 
 					<DialogFooter>

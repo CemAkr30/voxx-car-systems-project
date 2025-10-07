@@ -1,21 +1,21 @@
 version: "3.8"
 
 services:
-  nginx:
-    image: nginx:latest
-    container_name: voxx-car-nginx
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./infrastructure/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - /etc/letsencrypt:/etc/letsencrypt:ro
-    depends_on:
-      - app
-      - client
-    networks:
-      - voxx-car-network
-    restart: unless-stopped
+  # nginx:
+  #   image: nginx:latest
+  #   container_name: voxx-car-nginx
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./infrastructure/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+  #     - /etc/letsencrypt:/etc/letsencrypt:ro
+  #   depends_on:
+  #     - app
+  #     - client
+  #   networks:
+  #     - voxx-car-network
+  #   restart: unless-stopped
 
   app:
     build:
@@ -34,18 +34,18 @@ services:
       app_postgres:
         condition: service_healthy
 
-  client:
-    build:
-      context: ./voxx-car-client
-      dockerfile: Dockerfile
-      args:
-        VITE_API_BASE_URL: "https://voxxcarsystems.online/api/"
-    container_name: voxx-car-ui
-    ports:
-      - "3000:80"
-    restart: unless-stopped
-    networks:
-      - voxx-car-network
+  # client:
+  #   build:
+  #     context: ./voxx-car-client
+  #     dockerfile: Dockerfile
+  #     args:
+  #       VITE_API_BASE_URL: "https://voxxcarsystems.online/api/"
+  #   container_name: voxx-car-ui
+  #   ports:
+  #     - "3000:80"
+  #   restart: unless-stopped
+  #   networks:
+  #     - voxx-car-network
 
   app_postgres:
     container_name: postgres-service
@@ -62,7 +62,7 @@ services:
       - voxx-car-network
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U username -d voxx_car_systems" ]
+      test: ["CMD-SHELL", "pg_isready -U username -d voxx_car_systems"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -124,7 +124,7 @@ services:
       - voxx-car-network
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U keycloak -d keycloak" ]
+      test: ["CMD-SHELL", "pg_isready -U keycloak -d keycloak"]
       interval: 10s
       timeout: 5s
       retries: 5

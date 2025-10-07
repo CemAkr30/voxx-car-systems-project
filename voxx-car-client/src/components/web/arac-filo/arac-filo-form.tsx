@@ -1,11 +1,20 @@
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import {
+	AracSegmentListesi,
+	AracSegmentListesiLabel,
+	AracSegmentListesiYardımMetni,
+	KasaTipiListesi,
+	KasaTipiListesiLabel,
+} from "@/enums";
 import { useAppForm } from "@/hooks/demo.form";
 import {
+	getAracFilolarQueryOptions,
 	useCreateAracFiloMutation,
 	useUpdateAracFiloMutation,
 } from "@/hooks/use-arac-filo-hooks";
 import { getModellerByMarkaIdQueryOptions } from "@/hooks/use-model-hooks";
+import { cn } from "@/lib/utils";
 import {
 	aracFiloCreateSchema,
 	aracFiloUpdateSchema,
@@ -16,8 +25,8 @@ import type { Firma } from "@/schemas/firma";
 import { type Marka } from "@/schemas/marka";
 import type { Model } from "@/schemas/model";
 import { useStore } from "@tanstack/react-form";
-import { useQuery } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Link, useNavigate } from "@tanstack/react-router";
 import {
 	Building,
 	Car,
@@ -46,6 +55,7 @@ type AracFiloFormProps = AracFiloFormCreateProps | AracFiloFormUpdateProps;
 
 export default function AracFiloForm(props: AracFiloFormProps) {
 	const { mode, markalar, firmalar } = props;
+	const queryClient = useQueryClient();
 
 	const createAracFiloMutation = useCreateAracFiloMutation();
 	const updateAracFiloMutation =
@@ -60,26 +70,24 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 						markaId: "",
 						modelId: "",
 						modelYili: "",
-						aracTipi: "",
-						segment: "",
+						segment: AracSegmentListesi[0],
 						motorNo: "",
 						sasiNo: "",
 						renk: "",
-						kasaTipi: "",
+						kasaTipi: KasaTipiListesi[0],
 						lastikTipi: "",
 						filoyaGirisTarihi: new Date(),
 						filoyaGirisKm: "",
 						tescilTarihi: new Date(),
 						trafigeCikisTarihi: new Date(),
 						garantisiVarMi: false,
-						garantiBitisTarihi: new Date(),
+						garantiBaslangicTarihi: new Date(),
 						garantiSuresiYil: "",
 						garantiKm: "",
 						tramer: false,
 						tramerTutari: 0,
 						sonKmTarihi: new Date(),
 						sonKm: "",
-						sonYakitMiktari: "",
 						kiralandiMi: false,
 						kiralandigiTarih: new Date(),
 						kontratSuresi: "",
@@ -95,8 +103,8 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 							props.initialValues.trafigeCikisTarihi,
 						),
 						sonKmTarihi: new Date(props.initialValues.sonKmTarihi),
-						garantiBitisTarihi: new Date(
-							props.initialValues.garantiBitisTarihi,
+						garantiBaslangicTarihi: new Date(
+							props.initialValues.garantiBaslangicTarihi,
 						),
 						kiralandigiTarih: new Date(props.initialValues.kiralandigiTarih),
 						kiralikBitisTarihi: new Date(
@@ -104,6 +112,7 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 						),
 					},
 		validators: {
+			// @ts-expect-error
 			onChange: mode === "create" ? aracFiloCreateSchema : aracFiloUpdateSchema,
 		},
 		onSubmit: async ({ formApi, value }) => {
@@ -115,6 +124,7 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 				} else if (mode === "update") {
 					await updateAracFiloMutation!.mutateAsync(value as AracFilo);
 				}
+				await queryClient.invalidateQueries(getAracFilolarQueryOptions());
 				navigate({ to: "/arac-filo" });
 				formApi.reset();
 			} catch (error) {
@@ -123,8 +133,9 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 		},
 	});
 
-	const { markaId, canSubmit } = useStore(form.store, (state) => ({
+	const { markaId, canSubmit, segment } = useStore(form.store, (state) => ({
 		markaId: state.values.markaId,
+		segment: state.values.segment,
 		canSubmit: state.canSubmit,
 	}));
 
@@ -145,6 +156,16 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 			})),
 		[firmalar],
 	);
+
+	const segmentOptions = AracSegmentListesi.map((segment) => ({
+		label: AracSegmentListesiLabel[segment],
+		value: segment,
+	}));
+
+	const kasaTipiOptions = KasaTipiListesi.map((kasaTipi) => ({
+		label: KasaTipiListesiLabel[kasaTipi],
+		value: kasaTipi,
+	}));
 
 	const {
 		data: modeller,
@@ -246,11 +267,6 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 									<field.TextField label="Plaka" placeholder="Plaka" />
 								)}
 							</form.AppField>
-							<form.AppField name="aracTipi">
-								{(field) => (
-									<field.TextField label="Araç Tipi" placeholder="Araç Tipi" />
-								)}
-							</form.AppField>
 							<form.AppField name="modelYili">
 								{(field) => (
 									<field.TextField
@@ -259,11 +275,16 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 									/>
 								)}
 							</form.AppField>
-							<form.AppField name="segment">
-								{(field) => (
-									<field.TextField label="Segment" placeholder="Segment" />
-								)}
-							</form.AppField>
+							<div className="col-span-full">
+								<form.AppField name="segment">
+									{(field) => (
+										<field.Select label="Segment" values={segmentOptions} />
+									)}
+								</form.AppField>
+								<div className="mt-1 text-sm text-muted-foreground whitespace-pre-line">
+									{AracSegmentListesiYardımMetni[segment]}
+								</div>
+							</div>
 						</div>
 					</CardContent>
 				</Card>
@@ -295,11 +316,6 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 							<form.AppField name="renk">
 								{(field) => <field.TextField label="Renk" placeholder="Renk" />}
 							</form.AppField>
-							<form.AppField name="kasaTipi">
-								{(field) => (
-									<field.TextField label="Kasa Tipi" placeholder="Kasa Tipi" />
-								)}
-							</form.AppField>
 							<form.AppField name="lastikTipi">
 								{(field) => (
 									<field.TextField
@@ -308,6 +324,13 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 									/>
 								)}
 							</form.AppField>
+							<div className="col-span-full">
+								<form.AppField name="kasaTipi">
+									{(field) => (
+										<field.Select label="Kasa Tipi" values={kasaTipiOptions} />
+									)}
+								</form.AppField>
+							</div>
 						</div>
 					</CardContent>
 				</Card>
@@ -360,14 +383,6 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 							<form.AppField name="sonKmTarihi">
 								{(field) => <field.DatePicker label="Son Kilometre Tarihi" />}
 							</form.AppField>
-							<form.AppField name="sonYakitMiktari">
-								{(field) => (
-									<field.TextField
-										label="Son Yakıt Miktarı"
-										placeholder="Son Yakıt Miktarı"
-									/>
-								)}
-							</form.AppField>
 						</div>
 					</CardContent>
 				</Card>
@@ -382,23 +397,23 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 						<form.AppField name="garantisiVarMi">
 							{(field) => <field.Checkbox label="Garanti var mı?" />}
 						</form.AppField>
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+						<div>
 							<form.Subscribe selector={(state) => state.values.garantisiVarMi}>
 								{(garantisiVarMi) => (
-									<React.Fragment>
+									<div className="flex flex-col w-full gap-3">
+										<form.AppField name="garantiBaslangicTarihi">
+											{(field) => (
+												<field.DatePicker
+													label="Garanti Başlangıç Tarihi"
+													disabled={!garantisiVarMi}
+												/>
+											)}
+										</form.AppField>
 										<form.AppField name="garantiSuresiYil">
 											{(field) => (
 												<field.TextField
 													label="Garanti Süresi (Yıl)"
 													placeholder="Garanti Süresi (Yıl)"
-													disabled={!garantisiVarMi}
-												/>
-											)}
-										</form.AppField>
-										<form.AppField name="garantiBitisTarihi">
-											{(field) => (
-												<field.DatePicker
-													label="Garanti Bitiş Tarihi"
 													disabled={!garantisiVarMi}
 												/>
 											)}
@@ -412,7 +427,7 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 												/>
 											)}
 										</form.AppField>
-									</React.Fragment>
+									</div>
 								)}
 							</form.Subscribe>
 						</div>
@@ -516,13 +531,12 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 					</CardContent>
 				</Card>
 				<div className="flex justify-end space-x-4">
-					<Button
-						variant="outline"
-						onClick={() => form.reset()}
-						disabled={isSubmitting}
+					<Link
+						to="/arac-filo"
+						className={cn(buttonVariants({ variant: "outline" }))}
 					>
 						İptal
-					</Button>
+					</Link>
 					<Button type="submit" disabled={isSubmitting || !canSubmit}>
 						{isSubmitting && (
 							<RefreshCw className="h-4 w-4 mr-2 animate-spin" />

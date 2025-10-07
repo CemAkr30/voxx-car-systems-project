@@ -13,6 +13,7 @@ import {
 } from "@/enums";
 import { useAppForm } from "@/hooks/demo.form";
 import {
+	getFilodanCikislarByAracFiloIdQueryOptions,
 	useCreateFilodanCikisMutation,
 	useUpdateFilodanCikisMutation,
 } from "@/hooks/use-filodan-cikis-hooks";
@@ -22,6 +23,7 @@ import {
 	filodanCikisUpdateSchema,
 	type CreateFilodanCikisRequest,
 } from "@/schemas/filodan-cikis";
+import { useQueryClient } from "@tanstack/react-query";
 import { RefreshCw } from "lucide-react";
 
 interface FilodanCikisDialogCreateProps {
@@ -46,6 +48,7 @@ type FilodanCikisDialogProps =
 
 export default function FilodanCikisDialog(props: FilodanCikisDialogProps) {
 	const { mode, open, close, aracFiloId } = props;
+	const queryClient = useQueryClient();
 
 	const filodanCikisNedeniOptions = FilodanCikisNedeniListesi.map(
 		(filodanCikisNedeni) => ({
@@ -91,6 +94,9 @@ export default function FilodanCikisDialog(props: FilodanCikisDialogProps) {
 				} else if (mode === "update") {
 					await updateFilodanCikisMutation!.mutateAsync(value as FilodanCikis);
 				}
+				await queryClient.invalidateQueries(
+					getFilodanCikislarByAracFiloIdQueryOptions(aracFiloId),
+				);
 				formApi.reset();
 			} catch (_error) {}
 		},

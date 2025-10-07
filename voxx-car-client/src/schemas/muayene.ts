@@ -4,7 +4,7 @@ import { z } from "zod";
 export const muayeneCreateSchema = z.object({
 	aracFiloId: z.string(),
 	muayeneTipi: z.enum(MuayeneTipiListesi),
-	makbuzNo: z.string(),
+	makbuzNo: z.string().min(1, "Makbuz no zorunludur"),
 	odeyenFirmaId: z.string(),
 	miktar: z.coerce.number(),
 	odemeTipi: z.enum(OdemeTipiListesi),
@@ -21,6 +21,6 @@ export const muayeneUpdateSchema = muayeneCreateSchema.extend({
 	id: z.string(),
 	createdAt: z.string(),
 	updatedAt: z.string(),
-	isDeleted: z.boolean(),
+	deleted: z.boolean(),
 });
 export type Muayene = z.infer<typeof muayeneUpdateSchema>;

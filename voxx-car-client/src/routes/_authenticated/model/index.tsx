@@ -24,10 +24,7 @@ import type { Model } from "@/schemas/model";
 import ModelDialog from "@/components/web/model/model-dialog";
 import ModelSilDialog from "@/components/web/model/model-sil-dialog";
 import { getMarkalarQueryOptions } from "@/hooks/use-marka-hooks";
-import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
-import { useWebSocketTopic } from "@/hooks/use-webhook";
-import type { WebSocketMessage } from "@/types";
-import { toast } from "sonner";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 interface DialogState {
 	create: boolean;
@@ -45,24 +42,6 @@ export const Route = createFileRoute("/_authenticated/model/")({
 });
 
 function RouteComponent() {
-	const queryClient = useQueryClient();
-
-	useWebSocketTopic<WebSocketMessage>({
-		topic: "/topic/model",
-		onMessage: async ({ type }) => {
-			if (type === "CREATED") {
-				toast.success("Model başarılı bir şekilde kayıt edildi");
-			}
-			if (type === "UPDATED") {
-				toast.success("Model başarılı bir şekilde güncellendi");
-			}
-			if (type === "DELETED") {
-				toast.success("Model başarılı bir şekilde silindi");
-			}
-			await queryClient.invalidateQueries(getModellerQueryOptions());
-		},
-	});
-
 	const [selectedItems, setSelectedItems] = useState<string[]>([]);
 	const [searchTerm, setSearchTerm] = useState<string>("");
 	const [dialogState, setDialogState] = useState<DialogState>({

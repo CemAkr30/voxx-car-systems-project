@@ -1,4 +1,4 @@
-import { OdemeTipiListesi } from "@/enums";
+import { OdemeYapanFirmaListesi, OdemeTipiListesi } from "@/enums";
 import { z } from "zod";
 
 export const mtvCreateSchema = z.object({
@@ -8,7 +8,7 @@ export const mtvCreateSchema = z.object({
 	makbuzNo: z.string().min(1, "Makbuz no gereklidir"),
 	miktar: z.coerce.number(),
 	odemeTipi: z.enum(OdemeTipiListesi),
-	odeyenFirmaId: z.string(),
+	mtvOdeyenFirma: z.enum(OdemeYapanFirmaListesi).optional(),
 	aciklama: z.string(),
 	gecikmeCezasi: z.string(),
 	odendi: z.boolean().default(false),
@@ -19,6 +19,6 @@ export const mtvUpdateSchema = mtvCreateSchema.extend({
 	id: z.string(),
 	createdAt: z.string(),
 	updatedAt: z.string(),
-	isDeleted: z.boolean(),
+	deleted: z.boolean(),
 });
 export type Mtv = z.infer<typeof mtvUpdateSchema>;

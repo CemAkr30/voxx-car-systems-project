@@ -1,6 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { env } = import.meta; 
-
+const { env } = import.meta;
 
 /**
  * Ensures that a URL uses HTTPS in production environments
@@ -8,12 +7,12 @@ const { env } = import.meta;
  * @returns The URL with HTTPS protocol
  */
 export function ensureHttps(url: string): string {
-    // If we're in a browser environment and on HTTPS, ensure the URL is also HTTPS
-    if (typeof window !== 'undefined' && window.location.protocol === 'https:') {
-        // Replace http:// with https://
-        return url.replace(/^http:\/\//, 'https://');
-    }
-    return url;
+	// If we're in a browser environment and on HTTPS, ensure the URL is also HTTPS
+	if (typeof window !== "undefined" && window.location.protocol === "https:") {
+		// Replace http:// with https://
+		return url.replace(/^http:\/\//, "https://");
+	}
+	return url;
 }
 
 /**
@@ -21,14 +20,13 @@ export function ensureHttps(url: string): string {
  * @returns The base API URL
  */
 export function getApiBaseUrl(): string {
-    try {
-        console.log(env.VITE_API_BASE_URL);
-        if (env.VITE_API_BASE_URL) {
-            return env.VITE_API_BASE_URL.replace(/^http:\/\//, "https://");
-        }
-        return "https://voxxcarsystems.online/api/";
-    }catch (e){
-        return "";
-    }
+	try {
+		console.log(env.VITE_API_BASE_URL);
+		if (env.VITE_API_BASE_URL) {
+			return env.VITE_API_BASE_URL.replace(/^http:\/\//, "https://");
+		}
+		return "https://voxxcarsystems.online/api/";
+	} catch (_e) {
+		return "";
+	}
 }
-

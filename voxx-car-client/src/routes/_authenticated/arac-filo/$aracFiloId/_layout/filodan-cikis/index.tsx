@@ -8,9 +8,9 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 
-import { getFilodanCikisByAracFiloIdQueryOptions } from "@/hooks/use-filodan-cikis-hooks";
+import { getFilodanCikislarByAracFiloIdQueryOptions } from "@/hooks/use-filodan-cikis-hooks";
 import type { FilodanCikis } from "@/schemas/filodan-cikis";
-import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
@@ -18,16 +18,13 @@ import FilodanCikisDialog from "@/components/web/filodan-cikis/filodan-cikis-dia
 import FilodanCikisSilDialog from "@/components/web/filodan-cikis/filodan-cikis-sil-dialog";
 import { FilodanCikisNedeniListesiLabel } from "@/enums";
 import { formatDate } from "@/lib/utils";
-import { useWebSocketTopic } from "@/hooks/use-webhook";
-import type { WebSocketMessage } from "@/types";
-import { toast } from "sonner";
 
 export const Route = createFileRoute(
 	"/_authenticated/arac-filo/$aracFiloId/_layout/filodan-cikis/",
 )({
 	loader: ({ context: { queryClient }, params: { aracFiloId } }) => {
 		queryClient.ensureQueryData(
-			getFilodanCikisByAracFiloIdQueryOptions(aracFiloId),
+			getFilodanCikislarByAracFiloIdQueryOptions(aracFiloId),
 		);
 	},
 	component: RouteComponent,
@@ -42,25 +39,6 @@ interface DialogState {
 
 function RouteComponent() {
 	const { aracFiloId } = Route.useParams();
-	const queryClient = useQueryClient();
-
-	useWebSocketTopic<WebSocketMessage>({
-		topic: "/topic/filodanCikis",
-		onMessage: async ({ type }) => {
-			if (type === "CREATED") {
-				toast.success("Filodan çıkış başarılı bir şekilde kayıt edildi");
-			}
-			if (type === "UPDATED") {
-				toast.success("Filodan çıkış başarılı bir şekilde güncellendi");
-			}
-			if (type === "DELETED") {
-				toast.success("Filodan çıkış başarılı bir şekilde silindi");
-			}
-			await queryClient.invalidateQueries(
-				getFilodanCikisByAracFiloIdQueryOptions(aracFiloId),
-			);
-		},
-	});
 
 	const [dialogState, setDialogState] = useState<DialogState>({
 		create: false,
@@ -69,7 +47,7 @@ function RouteComponent() {
 	});
 
 	const { data: filodanCikislar = [] } = useSuspenseQuery(
-		getFilodanCikisByAracFiloIdQueryOptions(aracFiloId),
+		getFilodanCikislarByAracFiloIdQueryOptions(aracFiloId),
 	);
 
 	const openDialog = (type: keyof DialogState, filodanCikis?: FilodanCikis) => {

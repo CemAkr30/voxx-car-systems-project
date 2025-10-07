@@ -5,7 +5,11 @@ import {
 	updateAdres,
 } from "@/requests/adres";
 import type { CreateAdresRequest, Adres } from "@/schemas/adres";
-import { queryOptions, useMutation } from "@tanstack/react-query";
+import {
+	queryOptions,
+	useMutation,
+	useQueryClient,
+} from "@tanstack/react-query";
 
 export function getAdreslerByFirmaIdQueryOptions(firmaId: string) {
 	return queryOptions({
@@ -33,11 +37,18 @@ export const useUpdateAdresMutation = (onSuccess?: () => void) => {
 	});
 };
 
-export const useDeleteAdresMutation = (onSuccess?: () => void) => {
+export const useDeleteAdresMutation = (
+	firmaId: string,
+	onSuccess?: () => void,
+) => {
+	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: async (id: string) => await deleteAdres(id),
-		onSuccess() {
+		async onSuccess() {
 			onSuccess?.();
+			await queryClient.invalidateQueries(
+				getAdreslerByFirmaIdQueryOptions(firmaId),
+			);
 		},
 	});
 };
