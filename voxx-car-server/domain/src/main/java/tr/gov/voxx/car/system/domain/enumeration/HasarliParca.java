@@ -13,5 +13,6 @@ public enum HasarliParca {
     SOL_ON_CAMURLUK,
     SOL_ON_KAPI,
     SOL_ARKA_KAPI,
-    SOL_ARKA_CAMURLUK
+    SOL_ARKA_CAMURLUK,
+    GENEL
 }

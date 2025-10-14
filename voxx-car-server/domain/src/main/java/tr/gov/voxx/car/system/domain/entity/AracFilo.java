@@ -40,11 +40,6 @@ public class AracFilo extends AbstractAggregateModel<AracFiloId> {
     private Instant sonKmTarihi;
     private String sonKm;
     private String sonYakitMiktari;
-    private boolean kiralandiMi;
-    private Instant kiralandigiTarih;
-    private String kontratSuresi;
-    private Instant kiralikBitisTarihi;
-    private FirmaId kiralayanFirmaId;
     private Integer filoDurum;
 
     public void initIdGenerator() {
@@ -75,11 +70,6 @@ public class AracFilo extends AbstractAggregateModel<AracFiloId> {
         this.sonKmTarihi = other.sonKmTarihi;
         this.sonKm = other.sonKm;
         this.sonYakitMiktari = other.sonYakitMiktari;
-        this.kiralandiMi = other.kiralandiMi;
-        this.kiralandigiTarih = other.kiralandigiTarih;
-        this.kontratSuresi = other.kontratSuresi;
-        this.kiralikBitisTarihi = other.kiralikBitisTarihi;
-        this.kiralayanFirmaId = other.kiralayanFirmaId;
         this.filoDurum = other.filoDurum;
     }
 }

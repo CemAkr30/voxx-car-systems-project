@@ -38,11 +38,6 @@ public class AracFiloResponse {
     private Instant sonKmTarihi;
     private String sonKm;
     private String sonYakitMiktari;
-    private boolean kiralandiMi;
-    private Instant kiralandigiTarih;
-    private String kontratSuresi;
-    private Instant kiralikBitisTarihi;
-    private String kiralayanFirmaId;
     private Integer filoDurum;
     private Instant createdAt;
     private Instant updatedAt;

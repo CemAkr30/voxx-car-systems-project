@@ -36,4 +36,9 @@ public class AracFirmaDetayApplicationQueryUseCase implements AracFirmaDetayAppl
     public List<AracFirmaDetay> kiralananAraclar(FirmaId firmaId) {
         return aracFirmaDetayPersistenceJpaPort.kiralananAraclar(firmaId);
     }
+
+    @Override
+    public List<AracFirmaDetay> kiralanabilirAraclar() {
+        return aracFirmaDetayPersistenceJpaPort.kiralanabilirAraclar();
+    }
 }
