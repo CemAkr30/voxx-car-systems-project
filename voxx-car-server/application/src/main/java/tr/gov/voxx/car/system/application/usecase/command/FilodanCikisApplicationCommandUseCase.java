@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tr.gov.voxx.car.system.application.port.in.FilodanCikisApplicationCommandPort;
+import tr.gov.voxx.car.system.application.port.out.AracFiloPersistenceJpaPort;
 import tr.gov.voxx.car.system.application.port.out.FilodanCikisPersistenceJpaPort;
 import tr.gov.voxx.car.system.domain.entity.FilodanCikis;
 import tr.gov.voxx.car.system.domain.exception.NotFoundException;
+import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.FilodanCikisId;
 
 @Slf4j
@@ -15,6 +17,7 @@ import tr.gov.voxx.car.system.domain.valueobject.FilodanCikisId;
 public class FilodanCikisApplicationCommandUseCase implements FilodanCikisApplicationCommandPort {
 
     private final FilodanCikisPersistenceJpaPort persistenceJpaPort;
+    private final AracFiloPersistenceJpaPort aracFiloPersistenceJpaPort;
     //private final DomainEventPublisher domainEventPublisher;
 
     @Override
@@ -66,12 +69,17 @@ public class FilodanCikisApplicationCommandUseCase implements FilodanCikisApplic
         if (existing == null) {
             throw new NotFoundException("FilodanCikis not found with id: " + filodanCikisId);
         }
-        
-        /*domainEventPublisher.publish("filodancikis-deleted-topic", FilodanCikisDeletedEvent.builder()
-                .id(filodanCikisId)
-                .aracFiloId(existing.getAracFiloId())
-                .build());*/
+
         persistenceJpaPort.deleteById(filodanCikisId);
         log.info("Deleted entity: {}", existing);
+
+        AracFiloId aracFiloId = existing.getAracFiloId();
+        String aracFiloIdStr = aracFiloId.getValue();
+        int aktifCikisSayisi = persistenceJpaPort.countByAracFiloIdAndIsDeletedFalse(aracFiloIdStr);
+
+        if (aktifCikisSayisi == 0) {
+            aracFiloPersistenceJpaPort.updateFiloDurum(aracFiloIdStr, 0);
+            log.info("Updated AracFilo {} filoDurum to 0 because no active FilodanCikis remains", aracFiloId);
+        }
     }
 }

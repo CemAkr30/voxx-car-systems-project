@@ -44,11 +44,6 @@ public class AracFiloJpaMapper {
                 .sonKmTarihi(entity.getSonKmTarihi())
                 .sonKm(entity.getSonKm())
                 .sonYakitMiktari(entity.getSonYakitMiktari())
-                .kiralandiMi(entity.isKiralandiMi())
-                .kiralandigiTarih(entity.getKiralandigiTarih())
-                .kontratSuresi(entity.getKontratSuresi())
-                .kiralikBitisTarihi(entity.getKiralikBitisTarihi())
-                .kiralayanFirmaId(new FirmaId(entity.getKiralayanFirmaId()))
                 .filoDurum(entity.getFiloDurum())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
@@ -86,11 +81,6 @@ public class AracFiloJpaMapper {
         entity.setSonKmTarihi(aracFilo.getSonKmTarihi());
         entity.setSonKm(aracFilo.getSonKm());
         entity.setSonYakitMiktari(aracFilo.getSonYakitMiktari());
-        entity.setKiralandiMi(aracFilo.isKiralandiMi());
-        entity.setKiralandigiTarih(aracFilo.getKiralandigiTarih());
-        entity.setKontratSuresi(aracFilo.getKontratSuresi());
-        entity.setKiralikBitisTarihi(aracFilo.getKiralikBitisTarihi());
-        entity.setKiralayanFirmaId(aracFilo.getKiralayanFirmaId().getValue());
         entity.setFiloDurum(aracFilo.getFiloDurum());
         return entity;
     }

@@ -19,4 +19,9 @@ public class AracFirmaDetayRequest {
     private Double sozlesmeTutari;
     private Double aylikFaturaTutari;
     private Double kapora;
+    private Instant sozlesmeBaslangicTarihi;
+    private Instant sozlesmeBitisTarihi;
+    private String teslimatTutanagi;
+    private String sozlesme;
+    private Integer odemeVadesi;
 }

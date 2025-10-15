@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import tr.gov.voxx.car.system.adapter.in.web.data.AracFirmaDetayResponse;
 import tr.gov.voxx.car.system.adapter.in.web.data.MTVDurumResponse;
 import tr.gov.voxx.car.system.adapter.in.web.data.MuayeneDurumResponse;
 import tr.gov.voxx.car.system.adapter.in.web.data.SigortaDurumResponse;
+import tr.gov.voxx.car.system.adapter.in.web.mapper.AracFirmaDetayMapper;
 import tr.gov.voxx.car.system.adapter.in.web.mapper.MTVDurumMapper;
 import tr.gov.voxx.car.system.adapter.in.web.mapper.MuayeneDurumMapper;
 import tr.gov.voxx.car.system.adapter.in.web.mapper.SigortaDurumMapper;
@@ -19,7 +21,9 @@ import tr.gov.voxx.car.system.domain.entity.Mtv;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static tr.gov.voxx.car.system.constants.EndpointPath.DASHBOARD_ENDPOINT_V1;
 
@@ -34,6 +38,7 @@ public class DashboardControllerAdapter {
     private final MuayeneApplicationQueryPort muayeneApplicationQueryPort;
     private final SigortaKaskoApplicationQueryPort sigortaKaskoApplicationQueryPort;
     private final FirmaApplicationQueryPort firmaApplicationQueryPort;
+    private final AracFirmaDetayApplicationQueryPort aracFirmaDetayApplicationQueryPort;
 
     @GetMapping("/mtvdurum")
     @Operation(summary = "MTV Durumu", description = "Belirtilen kriterlere göre MTV durumunu getirir")
@@ -125,23 +130,23 @@ public class DashboardControllerAdapter {
     }
 
     @GetMapping("/sigortadurum")
-    @Operation(summary = "Sigorta Durumu", description = "Belirtilen tarihe göre sigorta bitişine 30 günden az kalan sigortaları getirir")
+    @Operation(summary = "Sigorta Durumu", description = "Belirtilen tarihe göre sigorta bitişine 15 günden az kalan sigortaları getirir")
     public ResponseEntity<SigortaDurumResponse> getSigortaDurum() {
         // Şu anki tarihi kullan
         java.time.LocalDate kontrolTarihi = java.time.LocalDate.now();
 
-        // 30 gün sonrasına kadar olan sigortaları al
-        java.time.Instant bitisTarihi = kontrolTarihi.plusDays(30).atStartOfDay(java.time.ZoneId.systemDefault()).toInstant();
+        // 15 gün sonrasına kadar olan sigortaları al
+        java.time.Instant bitisTarihi = kontrolTarihi.plusDays(15).atStartOfDay(java.time.ZoneId.systemDefault()).toInstant();
 
         var tumSigortalar = sigortaKaskoApplicationQueryPort.findByBitisTarihiBefore(bitisTarihi);
 
-        // Sadece 30 günden az kalan sigortaları filtrele
+        // Sadece 15 günden az kalan sigortaları filtrele
         var sigortaList = tumSigortalar.stream()
                 .filter(sigorta -> {
                     if (sigorta.getBitisTarihi() == null) return false;
                     java.time.LocalDate bitisTarihiLocal = sigorta.getBitisTarihi().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
                     long kalanGun = java.time.temporal.ChronoUnit.DAYS.between(kontrolTarihi, bitisTarihiLocal);
-                    return kalanGun <= 30 && kalanGun >= 0; // Sadece 30 günden az kalan ve henüz bitmemiş olanlar
+                    return kalanGun <= 15 && kalanGun >= 0; // Sadece 15 günden az kalan ve henüz bitmemiş olanlar
                 })
                 .toList();
 
@@ -159,5 +164,45 @@ public class DashboardControllerAdapter {
                 ));
 
         return ResponseEntity.ok(SigortaDurumMapper.toResponse(sigortaList, aracFiloMap, kontrolTarihi));
+    }
+
+    @GetMapping("/filo")
+    @Operation(summary = "Filo Durumu", description = "Aktif veya pasif araç filolarını getirir")
+    public ResponseEntity<?> getFiloDurum(@RequestParam String status) {
+        boolean isAktif = status.equalsIgnoreCase("aktif");
+        var list = aracFiloApplicationQueryPort.findByAktiflikDurumu(isAktif);
+        return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/firma")
+    @Operation(summary = "Firma ve Araç Sayısı", description = "Her firmanın kiraladığı araç sayısını getirir")
+    public ResponseEntity<List<String>> getFirmaAracSayisi() {
+        var kiralananAraclar = aracFirmaDetayApplicationQueryPort.getTumDetaylar();
+
+        var firmaAracSayisiMap = kiralananAraclar.stream()
+                .filter(detay -> detay.getFirmaId() != null)
+                .collect(Collectors.groupingBy(
+                        detay -> detay.getFirmaId().getValue(),
+                        Collectors.counting()
+                ));
+
+        var response = firmaAracSayisiMap.entrySet().stream()
+                .map(entry -> {
+                    var firma = firmaApplicationQueryPort.get(new FirmaId(entry.getKey()));
+                    return firma.getUnvan() + " / " + entry.getValue() + " araç";
+                })
+                .toList();
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/kira")
+    @Operation(summary = "Kiralanan Araçlar", description = "Sözleşme bitiş tarihine göre sıralanmış kiralanan araçları getirir")
+    public ResponseEntity<List<AracFirmaDetayResponse>> getKiralananAraclar() {
+        var detayList = aracFirmaDetayApplicationQueryPort.getKiralananAraclarSirali();
+
+        var response = AracFirmaDetayMapper.toResponseList(detayList);
+
+        return ResponseEntity.ok(response);
     }
 } 

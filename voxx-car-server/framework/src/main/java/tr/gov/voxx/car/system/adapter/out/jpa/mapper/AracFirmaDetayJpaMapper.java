@@ -24,6 +24,11 @@ public class AracFirmaDetayJpaMapper {
                 .sozlesmeTutari(entity.getSozlesmeTutari())
                 .aylikFaturaTutari(entity.getAylikFaturaTutari())
                 .kapora(entity.getKapora())
+                .sozlesmeBaslangicTarihi(entity.getSozlesmeBaslangicTarihi())
+                .sozlesmeBitisTarihi(entity.getSozlesmeBitisTarihi())
+                .teslimatTutanagi(entity.getTeslimatTutanagi())
+                .sozlesme(entity.getSozlesme())
+                .odemeVadesi(entity.getOdemeVadesi())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .isDeleted(entity.isDeleted())
@@ -43,6 +48,11 @@ public class AracFirmaDetayJpaMapper {
         entity.setSozlesmeTutari(aracFirmaDetay.getSozlesmeTutari());
         entity.setAylikFaturaTutari(aracFirmaDetay.getKapora());
         entity.setKapora(aracFirmaDetay.getKapora());
+        entity.setSozlesmeBaslangicTarihi(aracFirmaDetay.getSozlesmeBaslangicTarihi());
+        entity.setSozlesmeBitisTarihi(aracFirmaDetay.getSozlesmeBitisTarihi());
+        entity.setTeslimatTutanagi(aracFirmaDetay.getTeslimatTutanagi());
+        entity.setSozlesme(aracFirmaDetay.getSozlesme());
+        entity.setOdemeVadesi(aracFirmaDetay.getOdemeVadesi());
         return entity;
     }
 

@@ -20,5 +20,6 @@ public class SigortaKaskoRequest {
     private String policeNo;
     private Instant baslangicTarihi;
     private Instant bitisTarihi;
+    private String sozlesme;
 
 }

@@ -24,4 +24,9 @@ public class AracFiloApplicationQueryUseCase implements AracFiloApplicationQuery
     public List<AracFilo> getAll() {
         return aracFiloPersistenceJpaPort.findAll();
     }
+
+    @Override
+    public List<AracFilo> findByAktiflikDurumu(boolean isAktif) {
+        return aracFiloPersistenceJpaPort.findByAktiflikDurumu(isAktif);
+    }
 }

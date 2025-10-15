@@ -10,6 +10,7 @@ import tr.gov.voxx.car.system.adapter.in.web.mapper.*;
 import tr.gov.voxx.car.system.application.port.in.*;
 import tr.gov.voxx.car.system.domain.entity.*;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
+import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
 import java.util.List;
 
@@ -140,6 +141,14 @@ public class AracFiloControllerAdapter {
     public ResponseEntity<List<AracFirmaDetayResponse>> kiralayanFirmalar(@PathVariable("id") String aracFiloId) {
         return ResponseEntity.ok(AracFirmaDetayMapper.toResponseList(
                 aracFirmaDetayApplicationQueryPort.kiralayanFirmalar(new AracFiloId(aracFiloId))
+        ));
+    }
+
+    @GetMapping("/{id}/kiralanabilir-araclar")
+    @Operation(summary = "Firma ID ye göre kiralanabilir araçları getir", description = "Belirtilen Firma ID ye göre kiralanabilir araçları getir")
+    public ResponseEntity<List<AracFirmaDetayResponse>> kiralanabilirAracFirmaDetay() {
+        return ResponseEntity.ok(AracFirmaDetayMapper.toResponseList(
+                aracFirmaDetayApplicationQueryPort.kiralanabilirAraclar()
         ));
     }
 }

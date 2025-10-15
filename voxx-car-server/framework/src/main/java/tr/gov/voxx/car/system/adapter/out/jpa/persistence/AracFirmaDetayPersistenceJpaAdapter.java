@@ -13,6 +13,7 @@ import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.AracFirmaDetayId;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,6 +77,28 @@ public class AracFirmaDetayPersistenceJpaAdapter implements AracFirmaDetayPersis
     public List<AracFirmaDetay> kiralananAraclar(FirmaId firmaId) {
         return AracFirmaDetayJpaMapper.toAracFirmaDetayList(
                 aracFirmaDetayJpaRepository.findByFirmaId(firmaId.getValue())
+        );
+    }
+
+    @Override
+    public List<AracFirmaDetay> kiralanabilirAraclar() {
+        Instant now = Instant.now();
+        return AracFirmaDetayJpaMapper.toAracFirmaDetayList(
+                aracFirmaDetayJpaRepository.findAllKiralanabilirAraclar(now)
+        );
+    }
+
+    @Override
+    public List<AracFirmaDetay> kiralananAraclarSirali() {
+        return AracFirmaDetayJpaMapper.toAracFirmaDetayList(
+                aracFirmaDetayJpaRepository.findByDeletedFalseOrderBySozlesmeBitisTarihiAsc()
+        );
+    }
+
+    @Override
+    public List<AracFirmaDetay> tumDetaylar() {
+        return AracFirmaDetayJpaMapper.toAracFirmaDetayList(
+                aracFirmaDetayJpaRepository.findAllByDeletedFalse()
         );
     }
 }

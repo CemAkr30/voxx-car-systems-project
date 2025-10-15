@@ -21,6 +21,7 @@ public class SigortaKaskoJpaMapper {
                 .policeNo(entity.getPoliceNo())
                 .baslangicTarihi(entity.getBaslangicTarihi())
                 .bitisTarihi(entity.getBitisTarihi())
+                .sozlesme(entity.getSozlesme())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .isDeleted(entity.isDeleted())
@@ -40,6 +41,7 @@ public class SigortaKaskoJpaMapper {
         entity.setPoliceNo(sigortaKasko.getPoliceNo());
         entity.setBaslangicTarihi(sigortaKasko.getBaslangicTarihi());
         entity.setBitisTarihi(sigortaKasko.getBitisTarihi());
+        entity.setSozlesme(sigortaKasko.getSozlesme());
         return entity;
     }
 

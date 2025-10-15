@@ -20,6 +20,7 @@ public class SigortaKaskoMapper {
                 .policeNo(sigortaKasko.getPoliceNo())
                 .baslangicTarihi(sigortaKasko.getBaslangicTarihi())
                 .bitisTarihi(sigortaKasko.getBitisTarihi())
+                .sozlesme(sigortaKasko.getSozlesme())
                 .createdAt(sigortaKasko.getCreatedAt())
                 .updatedAt(sigortaKasko.getUpdatedAt())
                 .build();
@@ -34,6 +35,7 @@ public class SigortaKaskoMapper {
                 .policeNo(request.getPoliceNo())
                 .baslangicTarihi(request.getBaslangicTarihi())
                 .bitisTarihi(request.getBitisTarihi())
+                .sozlesme(request.getSozlesme())
                 .build();
     }
 

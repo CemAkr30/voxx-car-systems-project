@@ -13,4 +13,10 @@ public interface AracFirmaDetayApplicationQueryPort extends QueryExecutor<AracFi
     List<AracFirmaDetay> kiralayanFirmalar(AracFiloId aracFiloId);
 
     List<AracFirmaDetay> kiralananAraclar(FirmaId firmaId);
+
+    List<AracFirmaDetay> kiralanabilirAraclar();
+
+    List<AracFirmaDetay> getKiralananAraclarSirali();
+
+    List<AracFirmaDetay> getTumDetaylar();
 }
