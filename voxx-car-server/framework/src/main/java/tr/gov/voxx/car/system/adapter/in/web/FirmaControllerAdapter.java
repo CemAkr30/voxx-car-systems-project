@@ -31,6 +31,8 @@ public class FirmaControllerAdapter {
     private final AracKullananApplicationQueryPort aracKullananApplicationQueryPort;
     private final IletisimApplicationQueryPort iletisimApplicationQueryPort;
     private final AracFirmaDetayApplicationQueryPort aracFirmaDetayApplicationQueryPort;
+    private final FirmaDokumanDetayApplicationCommandPort firmaDokumanDetayApplicationCommandPort;
+    private final FirmaDokumanDetayApplicationQueryPort firmaDokumanDetayApplicationQueryPort;
 
     @GetMapping("/{id}")
     @Operation(summary = "Firma Getir", description = "ID’ye göre firma verisini döner")
@@ -97,6 +99,21 @@ public class FirmaControllerAdapter {
     public ResponseEntity<List<AracFirmaDetayResponse>> kiralananAracFirmaDetay(@PathVariable("id") String firmaId) {
         return ResponseEntity.ok(AracFirmaDetayMapper.toResponseList(
                 aracFirmaDetayApplicationQueryPort.kiralananAraclar(new FirmaId(firmaId)))
+        );
+    }
+
+    @PostMapping("/{id}/dokuman-ekle")
+    @Operation(summary = "Firma Doküman Ekle", description = "Firma doküman ekler")
+    public ResponseEntity<Void> createDokuman(@RequestBody FirmaDokumanDetayRequest request) {
+        firmaDokumanDetayApplicationCommandPort.post(FirmaDokumanDetayMapper.toFirmaDokumanDetay(request));
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/dokumanlar")
+    @Operation(summary = "Firma Kaynağına Göre Dokümanları Getir", description = "Belirtilen Firma ID ile ilgili bütün dokümanlarını getirir")
+    public ResponseEntity<List<FirmaDokumanDetayResponse>> findFirmaIdGetAllDokuman(@PathVariable("id") String firmaId) {
+        return ResponseEntity.ok(FirmaDokumanDetayMapper.toResponseList(
+                firmaDokumanDetayApplicationQueryPort.findFirmaIdGetAll(firmaId))
         );
     }
 }

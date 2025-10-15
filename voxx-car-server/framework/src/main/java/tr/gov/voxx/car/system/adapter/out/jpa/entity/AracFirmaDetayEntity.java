@@ -1,5 +1,6 @@
 package tr.gov.voxx.car.system.adapter.out.jpa.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
@@ -25,9 +26,9 @@ public class AracFirmaDetayEntity extends AbstractEntity {
     private Double kapora;
     private Instant sozlesmeBaslangicTarihi;
     private Instant sozlesmeBitisTarihi;
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String teslimatTutanagi;
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String sozlesme;
     private Integer odemeVadesi;
 }
