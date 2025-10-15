@@ -102,7 +102,7 @@ public class FirmaControllerAdapter {
         );
     }
 
-    @PostMapping("/{id}/dokuman-ekle")
+    @PostMapping("/dokuman-ekle")
     @Operation(summary = "Firma Doküman Ekle", description = "Firma doküman ekler")
     public ResponseEntity<Void> createDokuman(@RequestBody FirmaDokumanDetayRequest request) {
         firmaDokumanDetayApplicationCommandPort.post(FirmaDokumanDetayMapper.toFirmaDokumanDetay(request));
