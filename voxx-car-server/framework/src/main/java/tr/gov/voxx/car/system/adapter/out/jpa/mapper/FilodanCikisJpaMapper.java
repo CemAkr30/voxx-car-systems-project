@@ -22,6 +22,7 @@ public class FilodanCikisJpaMapper {
                 .aracDevirGiderleri(entity.getAracDevirGiderleri())
                 .faturaYukle(entity.getFaturaYukle())
                 .aciklama(entity.getAciklama())
+                .sozlesme(entity.getSozlesme())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .isDeleted(entity.isDeleted())
@@ -42,6 +43,7 @@ public class FilodanCikisJpaMapper {
         entity.setAracDevirGiderleri(filodanCikis.getAracDevirGiderleri());
         entity.setFaturaYukle(filodanCikis.getFaturaYukle());
         entity.setAciklama(filodanCikis.getAciklama());
+        entity.setSozlesme(filodanCikis.getSozlesme());
         return entity;
     }
 

@@ -41,6 +41,7 @@ public class AracFiloMapper {
                 .sonKm(entity.getSonKm())
                 .sonYakitMiktari(entity.getSonYakitMiktari())
                 .filoDurum(entity.getFiloDurum())
+                .muayeneBitisTarihi(entity.getMuayeneBitisTarihi())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .build();
@@ -76,6 +77,7 @@ public class AracFiloMapper {
                 .sonKm(request.getSonKm())
                 .sonYakitMiktari(request.getSonYakitMiktari())
                 .filoDurum(request.getFiloDurum())
+                .muayeneBitisTarihi(request.getMuayeneBitisTarihi())
                 .build();
     }
 }

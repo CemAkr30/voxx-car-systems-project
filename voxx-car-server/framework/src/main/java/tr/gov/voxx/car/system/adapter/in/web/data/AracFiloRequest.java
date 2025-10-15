@@ -38,4 +38,5 @@ public class AracFiloRequest {
     private String sonKm;
     private String sonYakitMiktari;
     private Integer filoDurum;
+    private Instant muayeneBitisTarihi;
 }

@@ -22,6 +22,7 @@ public class FilodanCikisResponse {
     private Double aracDevirGiderleri;
     private String faturaYukle;
     private String aciklama;
+    private String sozlesme;
     private Instant createdAt;
     private Instant updatedAt;
     private boolean isDeleted;

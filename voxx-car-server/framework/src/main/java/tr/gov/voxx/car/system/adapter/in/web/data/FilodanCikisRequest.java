@@ -21,4 +21,5 @@ public class FilodanCikisRequest {
     private Double aracDevirGiderleri;
     private String faturaYukle;
     private String aciklama;
+    private String sozlesme;
 }

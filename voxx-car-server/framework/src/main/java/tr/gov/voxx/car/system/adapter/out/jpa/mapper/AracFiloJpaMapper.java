@@ -45,6 +45,7 @@ public class AracFiloJpaMapper {
                 .sonKm(entity.getSonKm())
                 .sonYakitMiktari(entity.getSonYakitMiktari())
                 .filoDurum(entity.getFiloDurum())
+                .muayeneBitisTarihi(entity.getMuayeneBitisTarihi())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .isDeleted(entity.isDeleted())
@@ -82,6 +83,7 @@ public class AracFiloJpaMapper {
         entity.setSonKm(aracFilo.getSonKm());
         entity.setSonYakitMiktari(aracFilo.getSonYakitMiktari());
         entity.setFiloDurum(aracFilo.getFiloDurum());
+        entity.setMuayeneBitisTarihi(aracFilo.getMuayeneBitisTarihi());
         return entity;
     }
 
