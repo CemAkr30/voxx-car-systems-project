@@ -36,6 +36,9 @@ public class FilodanCikisApplicationCommandUseCase implements FilodanCikisApplic
                 .aciklama(entity.getAciklama())
                 .build());*/
         persistenceJpaPort.persist(entity);
+        AracFiloId aracFiloId = entity.getAracFiloId();
+        String aracFiloIdStr = aracFiloId.getValue();
+        aracFiloPersistenceJpaPort.updateFiloDurum(aracFiloIdStr, 1);
         log.info("Persisted entity: {}", entity);
     }
 
