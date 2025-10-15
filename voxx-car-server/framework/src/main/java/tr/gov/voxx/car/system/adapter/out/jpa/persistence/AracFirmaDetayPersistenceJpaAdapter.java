@@ -91,14 +91,14 @@ public class AracFirmaDetayPersistenceJpaAdapter implements AracFirmaDetayPersis
     @Override
     public List<AracFirmaDetay> kiralananAraclarSirali() {
         return AracFirmaDetayJpaMapper.toAracFirmaDetayList(
-                aracFirmaDetayJpaRepository.findByDeletedFalseOrderBySozlesmeBitisTarihiAsc()
+                aracFirmaDetayJpaRepository.findByIsDeletedFalseOrderBySozlesmeBitisTarihiAsc()
         );
     }
 
     @Override
     public List<AracFirmaDetay> tumDetaylar() {
         return AracFirmaDetayJpaMapper.toAracFirmaDetayList(
-                aracFirmaDetayJpaRepository.findAllByDeletedFalse()
+                aracFirmaDetayJpaRepository.findAllByIsDeletedFalse()
         );
     }
 }
