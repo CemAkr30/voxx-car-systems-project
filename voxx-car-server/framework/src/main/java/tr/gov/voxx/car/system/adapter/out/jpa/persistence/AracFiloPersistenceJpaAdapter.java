@@ -73,7 +73,14 @@ public class AracFiloPersistenceJpaAdapter implements AracFiloPersistenceJpaPort
 
     @Override
     @Transactional
-    public void updateFiloDurum(String aracFiloId, Integer durum) {
-        aracFiloJpaRepository.updateFiloDurum(aracFiloId, durum);
+    public void updateFiloDurum(String aracFiloId, Integer filoDurum) {
+        Optional<AracFiloEntity> entityOpt = aracFiloJpaRepository.findById(aracFiloId);
+        if (entityOpt.isPresent()) {
+            AracFiloEntity entity = entityOpt.get();
+            entity.setFiloDurum(filoDurum);
+            aracFiloJpaRepository.save(entity);
+        } else {
+            throw new EntityNotFoundException("AracFilo not found with id: " + aracFiloId);
+        }
     }
 }
