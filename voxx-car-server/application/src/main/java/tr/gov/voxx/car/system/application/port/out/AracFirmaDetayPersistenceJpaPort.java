@@ -15,4 +15,8 @@ public interface AracFirmaDetayPersistenceJpaPort extends PersistenceJpaExecutor
     List<AracFirmaDetay> kiralananAraclar(FirmaId firmaId);
 
     List<AracFirmaDetay> kiralanabilirAraclar();
+
+    List<AracFirmaDetay> kiralananAraclarSirali();
+
+    List<AracFirmaDetay> tumDetaylar();
 }

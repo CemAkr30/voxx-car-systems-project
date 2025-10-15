@@ -61,4 +61,13 @@ public class AracFiloPersistenceJpaAdapter implements AracFiloPersistenceJpaPort
                 aracFiloJpaRepository.findByIsDeletedFalse()
         );
     }
+
+    @Override
+    public List<AracFilo> findByAktiflikDurumu(boolean isAktif) {
+        Integer durum = isAktif ? 1 : 0;
+
+        return AracFiloJpaMapper.toAracFiloList(
+                aracFiloJpaRepository.findByDeletedFalseAndFiloDurum(durum)
+        );
+    }
 }

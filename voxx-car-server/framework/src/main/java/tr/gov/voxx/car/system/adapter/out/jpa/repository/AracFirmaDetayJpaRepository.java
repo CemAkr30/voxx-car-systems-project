@@ -21,4 +21,8 @@ public interface AracFirmaDetayJpaRepository extends JpaRepository<AracFirmaDeta
     List<AracFirmaDetayEntity> findAllKiralanabilirAraclar(@Param("today") Instant today);
 
     List<AracFirmaDetayEntity> findByIsDeletedFalse();
+
+    List<AracFirmaDetayEntity> findByDeletedFalseOrderBySozlesmeBitisTarihiAsc();
+
+    List<AracFirmaDetayEntity> findAllByDeletedFalse();
 }

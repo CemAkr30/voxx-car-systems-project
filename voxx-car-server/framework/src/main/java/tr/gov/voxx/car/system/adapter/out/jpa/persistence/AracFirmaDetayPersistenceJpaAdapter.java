@@ -87,4 +87,18 @@ public class AracFirmaDetayPersistenceJpaAdapter implements AracFirmaDetayPersis
                 aracFirmaDetayJpaRepository.findAllKiralanabilirAraclar(now)
         );
     }
+
+    @Override
+    public List<AracFirmaDetay> kiralananAraclarSirali() {
+        return AracFirmaDetayJpaMapper.toAracFirmaDetayList(
+                aracFirmaDetayJpaRepository.findByDeletedFalseOrderBySozlesmeBitisTarihiAsc()
+        );
+    }
+
+    @Override
+    public List<AracFirmaDetay> tumDetaylar() {
+        return AracFirmaDetayJpaMapper.toAracFirmaDetayList(
+                aracFirmaDetayJpaRepository.findAllByDeletedFalse()
+        );
+    }
 }
