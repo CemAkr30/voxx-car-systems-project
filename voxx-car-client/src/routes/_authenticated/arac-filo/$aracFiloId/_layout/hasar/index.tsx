@@ -389,7 +389,7 @@ function RouteComponent() {
 							<div>
 								<h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2">
 									<AlertTriangle className="h-5 w-5 text-amber-500" />
-									Seçilen Hasarlı Parçalar ({selectedParts.length})
+									Seçilen Hasarlı Parçalar ({selectedParts.filter((s) => s.hasarliParca !== "GENEL").length})
 								</h3>
 							</div>
 						</div>

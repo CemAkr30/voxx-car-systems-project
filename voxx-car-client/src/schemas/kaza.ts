@@ -7,7 +7,7 @@ export const kazaCreateSchema = z.object({
 	kazaTarihi: z.date(),
 	kazaIli: z.string(),
 	kazaNedeni: z.enum(KazaNedeniListesi),
-	kazaTutanagi: z.string(),
+	kazaTutanagi: z.string().optional(), // Base64 formatında kaza tutanağı dosyası
 	onarimDurumu: z.enum(OnarimDurumuTipiListesi),
 	odeyenFirmaId: z.string(),
 });

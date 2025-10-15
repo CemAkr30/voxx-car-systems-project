@@ -26,11 +26,6 @@ export const aracFiloCreateSchema = z.object({
 	tramerTutari: z.coerce.number(),
 	sonKmTarihi: z.date(),
 	sonKm: z.string().min(1, "Lütfen son kilometreyi giriniz."),
-	kiralandiMi: z.boolean(),
-	kiralandigiTarih: z.date(),
-	kontratSuresi: z.string().min(1, "Lütfen kontrat süresini giriniz."),
-	kiralikBitisTarihi: z.date(),
-	kiralayanFirmaId: z.string().min(1, "Lütfen kiraya veren firmayı seçiniz."),
 	filoDurum: z.coerce.number(),
 });
 

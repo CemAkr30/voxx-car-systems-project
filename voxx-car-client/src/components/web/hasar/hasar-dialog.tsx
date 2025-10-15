@@ -183,8 +183,8 @@ export default function HasarDialog(props: HasarDialogProps) {
 								<RefreshCw className="h-4 w-4 mr-2 animate-spin" />
 							) : null} */}
 							{mode === "create"
-								? "Yeni Hasar Ekle"
-								: "Seçili Hasaryı Güncelle"}
+								? hasarliParca === "GENEL" ? "Yeni Not Ekle" : "Yeni Hasar Ekle"
+								: hasarliParca === "GENEL" ? "Seçili Notu Güncelle" : "Seçili Hasarı Güncelle"}
 						</Button>
 					</DialogFooter>
 				</form>

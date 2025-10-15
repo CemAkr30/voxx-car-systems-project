@@ -88,11 +88,6 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 						tramerTutari: 0,
 						sonKmTarihi: new Date(),
 						sonKm: "",
-						kiralandiMi: false,
-						kiralandigiTarih: new Date(),
-						kontratSuresi: "",
-						kiralikBitisTarihi: new Date(),
-						kiralayanFirmaId: "",
 						filoDurum: 0,
 					}
 				: {
@@ -105,10 +100,6 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 						sonKmTarihi: new Date(props.initialValues.sonKmTarihi),
 						garantiBaslangicTarihi: new Date(
 							props.initialValues.garantiBaslangicTarihi,
-						),
-						kiralandigiTarih: new Date(props.initialValues.kiralandigiTarih),
-						kiralikBitisTarihi: new Date(
-							props.initialValues.kiralikBitisTarihi,
 						),
 					},
 		validators: {
@@ -457,62 +448,6 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 								</form.AppField>
 							)}
 						</form.Subscribe>
-					</CardContent>
-				</Card>
-				<Card>
-					<CardHeader>
-						<CardTitle className="flex items-center gap-2">
-							<Building className="h-5 w-5" />
-							Kiralama Bilgileri
-						</CardTitle>
-					</CardHeader>
-					<CardContent className="space-y-4">
-						<form.AppField name="kiralandiMi">
-							{(field) => <field.Checkbox label="Araç kiralandı mı?" />}
-						</form.AppField>
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-							<form.Subscribe selector={(state) => state.values.kiralandiMi}>
-								{(kiralandiMi) => (
-									<React.Fragment>
-										<form.AppField name="kiralandigiTarih">
-											{(field) => (
-												<field.DatePicker
-													label="Kiralandığı Tarih"
-													disabled={!kiralandiMi}
-												/>
-											)}
-										</form.AppField>
-										<form.AppField name="kontratSuresi">
-											{(field) => (
-												<field.TextField
-													label="Kontrat Süresi"
-													placeholder="Kontrat Süresi"
-													disabled={!kiralandiMi}
-												/>
-											)}
-										</form.AppField>
-										<form.AppField name="kiralikBitisTarihi">
-											{(field) => (
-												<field.DatePicker
-													label="Kiralık Bitiş Tarihi"
-													disabled={!kiralandiMi}
-												/>
-											)}
-										</form.AppField>
-										<form.AppField name="kiralayanFirmaId">
-											{(field) => (
-												<field.Select
-													label="Kiralayan Firma"
-													values={firmalarOptions}
-													placeholder="Kiralayan Firma"
-													disabled={!kiralandiMi}
-												/>
-											)}
-										</form.AppField>
-									</React.Fragment>
-								)}
-							</form.Subscribe>
-						</div>
 					</CardContent>
 				</Card>
 				<Card>

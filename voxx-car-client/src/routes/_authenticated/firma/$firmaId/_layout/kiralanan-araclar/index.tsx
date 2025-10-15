@@ -7,7 +7,7 @@ import {
 	Table,
 } from "@/components/ui/table";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { MapPin } from "lucide-react";
+import { MapPin, Download } from "lucide-react";
 import { useState } from "react";
 import { getKiralananAracFilolarByFirmaIdQueryOptions } from "@/hooks/use-arac-kirala-hooks";
 import { useSuspenseQueries } from "@tanstack/react-query";
@@ -85,6 +85,51 @@ function RouteComponent() {
 		setOpenDropdowns(new Set());
 	};
 
+	// Dosya indirme fonksiyonu
+	const downloadFile = (base64String: string, fileName: string) => {
+		if (!base64String) return;
+		
+		// Base64 string'i binary'ye çevir
+		const binaryString = atob(base64String);
+		const bytes = new Uint8Array(binaryString.length);
+		for (let i = 0; i < binaryString.length; i++) {
+			bytes[i] = binaryString.charCodeAt(i);
+		}
+		
+		// Dosya tipini belirle (ilk birkaç byte'a bakarak)
+		let mimeType = 'application/octet-stream';
+		let fileExtension = 'bin';
+		
+		if (bytes[0] === 0x25 && bytes[1] === 0x50 && bytes[2] === 0x44 && bytes[3] === 0x46) {
+			// PDF
+			mimeType = 'application/pdf';
+			fileExtension = 'pdf';
+		} else if (bytes[0] === 0xFF && bytes[1] === 0xD8 && bytes[2] === 0xFF) {
+			// JPEG
+			mimeType = 'image/jpeg';
+			fileExtension = 'jpg';
+		} else if (bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4E && bytes[3] === 0x47) {
+			// PNG
+			mimeType = 'image/png';
+			fileExtension = 'png';
+		} else if (bytes[0] === 0xD0 && bytes[1] === 0xCF && bytes[2] === 0x11 && bytes[3] === 0xE0) {
+			// DOC/DOCX
+			mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+			fileExtension = 'docx';
+		}
+		
+		// Blob oluştur ve indir
+		const blob = new Blob([bytes], { type: mimeType });
+		const url = URL.createObjectURL(blob);
+		const link = document.createElement('a');
+		link.href = url;
+		link.download = `${fileName}.${fileExtension}`;
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
+		URL.revokeObjectURL(url);
+	};
+
 	return (
 		<div className="space-y-8">
 			<div className="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-2xl shadow-xl">
@@ -143,6 +188,8 @@ function RouteComponent() {
 							<TableHead>Aylık Fatura</TableHead>
 							<TableHead>Sözleşme Tutarı</TableHead>
 							<TableHead>Kapora</TableHead>
+							<TableHead>Teslimat Tutanağı</TableHead>
+							<TableHead>Sözleşme</TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
@@ -182,10 +229,10 @@ function RouteComponent() {
 									}
 								</TableCell>
 								<TableCell>
-									{formatDate(kiralananArac.baslangicTarihi.toString())}
+									{formatDate(kiralananArac.sozlesmeBaslangicTarihi.toString())}
 								</TableCell>
 								<TableCell>
-									{formatDate(kiralananArac.bitisTarihi.toString())}
+									{formatDate(kiralananArac.sozlesmeBitisTarihi.toString())}
 								</TableCell>
 								<TableCell>
 									{formatCurrency(kiralananArac.aylikFaturaTutari)}
@@ -194,6 +241,42 @@ function RouteComponent() {
 									{formatCurrency(kiralananArac.sozlesmeTutari)}
 								</TableCell>
 								<TableCell>{formatCurrency(kiralananArac.kapora)}</TableCell>
+								<TableCell>
+									{kiralananArac.teslimatTutanagi ? (
+										<Button
+											variant="outline"
+											size="sm"
+											onClick={() => downloadFile(
+												kiralananArac.teslimatTutanagi!,
+												`teslimat-tutanagi-${kiralananArac.id}`
+											)}
+											className="flex items-center gap-1"
+										>
+											<Download className="h-4 w-4" />
+											İndir
+										</Button>
+									) : (
+										<span className="text-gray-400 text-sm">Dosya yok</span>
+									)}
+								</TableCell>
+								<TableCell>
+									{kiralananArac.sozlesme ? (
+										<Button
+											variant="outline"
+											size="sm"
+											onClick={() => downloadFile(
+												kiralananArac.sozlesme!,
+												`sozlesme-${kiralananArac.id}`
+											)}
+											className="flex items-center gap-1"
+										>
+											<Download className="h-4 w-4" />
+											İndir
+										</Button>
+									) : (
+										<span className="text-gray-400 text-sm">Dosya yok</span>
+									)}
+								</TableCell>
 							</TableRow>
 						))}
 					</TableBody>

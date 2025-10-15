@@ -9,6 +9,7 @@ export const sigortaCreateSchema = z.object({
 	policeNo: z.string().min(1, "Poliçe no gereklidir"),
 	baslangicTarihi: z.date(),
 	bitisTarihi: z.date(),
+	sozlesme: z.string().optional(), // Base64 formatında sözleşme dosyası
 });
 export type CreateSigortaRequest = z.infer<typeof sigortaCreateSchema>;
 
