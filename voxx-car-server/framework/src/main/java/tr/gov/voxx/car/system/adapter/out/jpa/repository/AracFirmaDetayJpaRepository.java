@@ -22,7 +22,7 @@ public interface AracFirmaDetayJpaRepository extends JpaRepository<AracFirmaDeta
 
     List<AracFirmaDetayEntity> findByIsDeletedFalse();
 
-    List<AracFirmaDetayEntity> findByDeletedFalseOrderBySozlesmeBitisTarihiAsc();
+    List<AracFirmaDetayEntity> findByIsDeletedFalseOrderBySozlesmeBitisTarihiAsc();
 
-    List<AracFirmaDetayEntity> findAllByDeletedFalse();
+    List<AracFirmaDetayEntity> findAllByIsDeletedFalse();
 }
