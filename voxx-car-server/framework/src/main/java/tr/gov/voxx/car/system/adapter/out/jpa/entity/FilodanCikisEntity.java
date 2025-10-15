@@ -22,6 +22,7 @@ public class FilodanCikisEntity extends AbstractEntity {
     private String alici;
     private Double anahtarTeslimFiyati;
     private Double aracDevirGiderleri;
+    @Lob
     private String faturaYukle;
     private String aciklama;
     @Lob

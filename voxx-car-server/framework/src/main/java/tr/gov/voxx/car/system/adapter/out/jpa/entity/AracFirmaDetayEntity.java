@@ -25,6 +25,7 @@ public class AracFirmaDetayEntity extends AbstractEntity {
     private Double kapora;
     private Instant sozlesmeBaslangicTarihi;
     private Instant sozlesmeBitisTarihi;
+    @Lob
     private String teslimatTutanagi;
     @Lob
     private String sozlesme;

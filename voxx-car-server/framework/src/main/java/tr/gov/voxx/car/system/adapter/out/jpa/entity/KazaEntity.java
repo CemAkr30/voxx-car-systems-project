@@ -1,9 +1,6 @@
 package tr.gov.voxx.car.system.adapter.out.jpa.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import tr.gov.voxx.car.system.common.framework.persistence.AbstractEntity;
 import tr.gov.voxx.car.system.domain.enumeration.KazaNedeni;
@@ -24,6 +21,7 @@ public class KazaEntity extends AbstractEntity {
     private String kazaIli;
     @Enumerated(EnumType.STRING)
     private KazaNedeni kazaNedeni;
+    @Lob
     private String kazaTutanagi;
     private String onarimDurumu;
     private String odeyenFirmaId;
