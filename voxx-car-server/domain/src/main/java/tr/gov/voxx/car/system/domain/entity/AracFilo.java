@@ -41,6 +41,7 @@ public class AracFilo extends AbstractAggregateModel<AracFiloId> {
     private String sonKm;
     private String sonYakitMiktari;
     private Integer filoDurum;
+    private Instant muayeneBitisTarihi;
 
     public void initIdGenerator() {
         super.setId(new AracFiloId(IdFactory.create()));
@@ -71,5 +72,6 @@ public class AracFilo extends AbstractAggregateModel<AracFiloId> {
         this.sonKm = other.sonKm;
         this.sonYakitMiktari = other.sonYakitMiktari;
         this.filoDurum = other.filoDurum;
+        this.muayeneBitisTarihi = other.muayeneBitisTarihi;
     }
 }

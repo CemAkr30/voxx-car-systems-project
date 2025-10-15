@@ -39,6 +39,7 @@ public class AracFiloResponse {
     private String sonKm;
     private String sonYakitMiktari;
     private Integer filoDurum;
+    private Instant muayeneBitisTarihi;
     private Instant createdAt;
     private Instant updatedAt;
     private boolean isDeleted;
