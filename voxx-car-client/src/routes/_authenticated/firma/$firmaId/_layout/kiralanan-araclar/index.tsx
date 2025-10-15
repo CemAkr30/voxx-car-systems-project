@@ -183,11 +183,14 @@ function RouteComponent() {
 						<TableRow>
 							<TableHead>Arac Plaka</TableHead>
 							<TableHead>Marka / Model</TableHead>
-							<TableHead>Başlangıç Tarihi</TableHead>
-							<TableHead>Bitiş Tarihi</TableHead>
+							<TableHead>Kira Başlangıç</TableHead>
+							<TableHead>Kira Bitiş</TableHead>
+							<TableHead>Sözleşme Başlangıç</TableHead>
+							<TableHead>Sözleşme Bitiş</TableHead>
 							<TableHead>Aylık Fatura</TableHead>
 							<TableHead>Sözleşme Tutarı</TableHead>
 							<TableHead>Kapora</TableHead>
+							<TableHead>Ödeme Vadesi</TableHead>
 							<TableHead>Teslimat Tutanağı</TableHead>
 							<TableHead>Sözleşme</TableHead>
 						</TableRow>
@@ -229,6 +232,12 @@ function RouteComponent() {
 									}
 								</TableCell>
 								<TableCell>
+									{formatDate(kiralananArac.baslangicTarihi.toString())}
+								</TableCell>
+								<TableCell>
+									{formatDate(kiralananArac.bitisTarihi.toString())}
+								</TableCell>
+								<TableCell>
 									{formatDate(kiralananArac.sozlesmeBaslangicTarihi.toString())}
 								</TableCell>
 								<TableCell>
@@ -241,6 +250,9 @@ function RouteComponent() {
 									{formatCurrency(kiralananArac.sozlesmeTutari)}
 								</TableCell>
 								<TableCell>{formatCurrency(kiralananArac.kapora)}</TableCell>
+								<TableCell>
+									{kiralananArac.odemeVadesi ? `${kiralananArac.odemeVadesi} gün` : '-'}
+								</TableCell>
 								<TableCell>
 									{kiralananArac.teslimatTutanagi ? (
 										<Button
