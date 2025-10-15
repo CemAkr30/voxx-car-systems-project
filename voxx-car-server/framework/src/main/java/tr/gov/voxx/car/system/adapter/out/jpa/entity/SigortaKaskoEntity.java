@@ -23,6 +23,6 @@ public class SigortaKaskoEntity extends AbstractEntity {
     private String policeNo;
     private Instant baslangicTarihi;
     private Instant bitisTarihi;
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String sozlesme;
 }

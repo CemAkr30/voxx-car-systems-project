@@ -21,7 +21,7 @@ public class KazaEntity extends AbstractEntity {
     private String kazaIli;
     @Enumerated(EnumType.STRING)
     private KazaNedeni kazaNedeni;
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String kazaTutanagi;
     private String onarimDurumu;
     private String odeyenFirmaId;
