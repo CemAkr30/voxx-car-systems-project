@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface AracFiloPersistenceJpaPort extends PersistenceJpaExecutor<AracFilo, AracFiloId> {
     List<AracFilo> findByAktiflikDurumu(boolean isAktif);
+
+    void updateFiloDurum(String aracFiloId, Integer durum);
 }

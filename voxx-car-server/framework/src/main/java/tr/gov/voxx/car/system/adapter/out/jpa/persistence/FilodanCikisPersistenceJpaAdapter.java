@@ -59,7 +59,7 @@ public class FilodanCikisPersistenceJpaAdapter implements FilodanCikisPersistenc
     @Transactional(readOnly = true)
     public List<FilodanCikis> findAll() {
         return FilodanCikisJpaMapper.toFilodanCikisList(
-                filodanCikisJpaRepository.findByIsDeletedFalse()
+                filodanCikisJpaRepository.findByDeletedFalse()
         );
     }
 
@@ -68,6 +68,11 @@ public class FilodanCikisPersistenceJpaAdapter implements FilodanCikisPersistenc
         return FilodanCikisJpaMapper.toFilodanCikisList(
                 filodanCikisJpaRepository.findByAracFiloId(aracFiloId)
         );
+    }
+
+    @Override
+    public int countByAracFiloIdAndIsDeletedFalse(String aracFiloId) {
+        return filodanCikisJpaRepository.countByAracFiloIdAndDeletedFalse(aracFiloId);
     }
 }
 

@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface FilodanCikisPersistenceJpaPort extends PersistenceJpaExecutor<FilodanCikis, FilodanCikisId> {
     List<FilodanCikis> findAracFiloIdGetAll(String aracFiloId);
+    int countByAracFiloIdAndIsDeletedFalse(String aracFiloId);
 
 }

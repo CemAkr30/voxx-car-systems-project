@@ -70,4 +70,10 @@ public class AracFiloPersistenceJpaAdapter implements AracFiloPersistenceJpaPort
                 aracFiloJpaRepository.findByDeletedFalseAndFiloDurum(durum)
         );
     }
+
+    @Override
+    @Transactional
+    public void updateFiloDurum(String aracFiloId, Integer durum) {
+        aracFiloJpaRepository.updateFiloDurum(aracFiloId, durum);
+    }
 }
