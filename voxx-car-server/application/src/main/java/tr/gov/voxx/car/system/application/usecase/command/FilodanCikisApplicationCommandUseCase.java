@@ -18,30 +18,17 @@ public class FilodanCikisApplicationCommandUseCase implements FilodanCikisApplic
 
     private final FilodanCikisPersistenceJpaPort persistenceJpaPort;
     private final AracFiloPersistenceJpaPort aracFiloPersistenceJpaPort;
-    //private final DomainEventPublisher domainEventPublisher;
 
     @Override
     public void post(FilodanCikis entity) {
         entity.initIdGenerator();
-
-        /*domainEventPublisher.publish("filodancikis-created-topic", FilodanCikisCreatedEvent.builder()
-                .id(entity.getId())
-                .aracFiloId(entity.getAracFiloId())
-                .filodanCikisNedeni(entity.getFilodanCikisNedeni())
-                .filodanCikisTarihi(entity.getFilodanCikisTarihi())
-                .alici(entity.getAlici())
-                .anahtarTeslimFiyati(entity.getAnahtarTeslimFiyati())
-                .aracDevirGiderleri(entity.getAracDevirGiderleri())
-                .faturaYukle(entity.getFaturaYukle())
-                .aciklama(entity.getAciklama())
-                .build());*/
         persistenceJpaPort.persist(entity);
-        AracFiloId aracFiloId = entity.getAracFiloId();
-        String aracFiloIdStr = aracFiloId.getValue();
-        aracFiloPersistenceJpaPort.updateFiloDurum(aracFiloIdStr, 1);
-        log.info("Persisted entity: {}", entity);
-    }
 
+        // Araç çıkışı yapılınca filoDurum = 1 yap
+        aracFiloPersistenceJpaPort.updateFiloDurum(entity.getAracFiloId().getValue(), 1);
+
+        log.info("Persisted FilodanCikis entity: {} and updated AracFilo filoDurum to 1", entity);
+    }
 
     @Override
     public void put(FilodanCikis entity) {
@@ -50,20 +37,8 @@ public class FilodanCikisApplicationCommandUseCase implements FilodanCikisApplic
             throw new NotFoundException("FilodanCikis not found with id: " + entity.getId());
         }
         existing.updateFrom(entity);
-
-        /*domainEventPublisher.publish("filodancikis-updated-topic", FilodanCikisUpdatedEvent.builder()
-                .id(entity.getId())
-                .aracFiloId(entity.getAracFiloId())
-                .filodanCikisNedeni(entity.getFilodanCikisNedeni())
-                .filodanCikisTarihi(entity.getFilodanCikisTarihi())
-                .alici(entity.getAlici())
-                .anahtarTeslimFiyati(entity.getAnahtarTeslimFiyati())
-                .aracDevirGiderleri(entity.getAracDevirGiderleri())
-                .faturaYukle(entity.getFaturaYukle())
-                .aciklama(entity.getAciklama())
-                .build());*/
         persistenceJpaPort.merge(existing);
-        log.info("Updated entity: {}", entity);
+        log.info("Updated FilodanCikis entity: {}", entity);
     }
 
     @Override
@@ -74,15 +49,17 @@ public class FilodanCikisApplicationCommandUseCase implements FilodanCikisApplic
         }
 
         persistenceJpaPort.deleteById(filodanCikisId);
-        log.info("Deleted entity: {}", existing);
+        log.info("Deleted FilodanCikis entity: {}", existing);
 
         AracFiloId aracFiloId = existing.getAracFiloId();
         String aracFiloIdStr = aracFiloId.getValue();
         int aktifCikisSayisi = persistenceJpaPort.countByAracFiloIdAndIsDeletedFalse(aracFiloIdStr);
 
         if (aktifCikisSayisi == 0) {
+            // Aktif çıkış kalmadıysa filoDurum = 0 yap
             aracFiloPersistenceJpaPort.updateFiloDurum(aracFiloIdStr, 0);
-            log.info("Updated AracFilo {} filoDurum to 0 because no active FilodanCikis remains", aracFiloId);
+            log.info("Updated AracFilo {} filoDurum to 0 as no active FilodanCikis remains", aracFiloId);
         }
     }
 }
+
