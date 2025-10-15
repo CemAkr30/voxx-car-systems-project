@@ -26,4 +26,5 @@ public class SigortaKaskoEntity extends AbstractEntity {
     private String policeNo;
     private Instant baslangicTarihi;
     private Instant bitisTarihi;
+    private String sozlesme;
 }
