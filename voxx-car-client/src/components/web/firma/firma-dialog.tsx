@@ -10,6 +10,7 @@ import {
 import { useAppForm } from "@/hooks/demo.form";
 import {
 	getFirmalarQueryOptions,
+	getFirmaQueryOptions,
 	useCreateFirmaMutation,
 	useUpdateFirmaMutation,
 } from "@/hooks/use-firma-hooks";
@@ -63,9 +64,9 @@ export default function FirmaDialog(props: FirmaDialogProps) {
 					await createFirmaMutation.mutateAsync(value as CreateFirmaRequest);
 				} else if (mode === "update") {
 					await updateFirmaMutation!.mutateAsync(value as Firma);
+					await queryClient.invalidateQueries(getFirmaQueryOptions(props.initialValues.id));
 				}
 				await queryClient.invalidateQueries(getFirmalarQueryOptions());
-				formApi.reset();
 			} catch (_error) {}
 		},
 	});
