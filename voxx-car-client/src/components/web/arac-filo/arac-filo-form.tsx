@@ -75,6 +75,7 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 						sasiNo: "",
 						renk: "",
 						kasaTipi: KasaTipiListesi[0],
+						muayeneBitisTarihi: new Date(),
 						lastikTipi: "",
 						filoyaGirisTarihi: new Date(),
 						filoyaGirisKm: "",
@@ -96,6 +97,9 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 						tescilTarihi: new Date(props.initialValues.tescilTarihi),
 						trafigeCikisTarihi: new Date(
 							props.initialValues.trafigeCikisTarihi,
+						),
+						muayeneBitisTarihi: new Date(
+							props.initialValues.muayeneBitisTarihi,
 						),
 						sonKmTarihi: new Date(props.initialValues.sonKmTarihi),
 						garantiBaslangicTarihi: new Date(
@@ -333,7 +337,7 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 						</CardTitle>
 					</CardHeader>
 					<CardContent>
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
 							<form.AppField name="filoyaGirisKm">
 								{(field) => (
 									<field.TextField
@@ -352,6 +356,9 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 								{(field) => <field.DatePicker label="Trafiğe Çıkış Tarihi" />}
 							</form.AppField>
 						</div>
+						<form.AppField name="muayeneBitisTarihi">
+								{(field) => <field.DatePicker label="Muayene Bitiş Tarihi" />}
+							</form.AppField>
 					</CardContent>
 				</Card>
 				<Card>

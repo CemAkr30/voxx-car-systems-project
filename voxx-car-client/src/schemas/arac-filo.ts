@@ -18,6 +18,7 @@ export const aracFiloCreateSchema = z.object({
 	trafigeCikisTarihi: z.date(),
 	garantisiVarMi: z.boolean(),
 	garantiBaslangicTarihi: z.date(),
+	muayeneBitisTarihi: z.date(),
 	garantiSuresiYil: z
 		.string()
 		.min(1, "Lütfen garanti süresini yıl olarak giriniz."),
