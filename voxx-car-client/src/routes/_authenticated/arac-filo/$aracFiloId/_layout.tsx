@@ -154,8 +154,7 @@ function RouteComponent() {
 									Araç Detayları
 								</h1>
 								<p className="text-white/80 text-lg">
-									Plaka: {aracFilo.plaka} • Kiralayan Firma ID: #
-									{aracFilo.kiralayanFirmaId}
+									Plaka: {aracFilo.plaka}
 								</p>
 							</div>
 						</div>
