@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface BakimJpaRepository extends JpaRepository<BakimEntity, String> {
-    List<BakimEntity> findByAracFiloId(String aracFiloId);
+    List<BakimEntity> findByAracFiloIdAndIsDeletedFalse(String aracFiloId);
     List<BakimEntity> findByIsDeletedFalse();
 }

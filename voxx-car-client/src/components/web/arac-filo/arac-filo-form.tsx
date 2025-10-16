@@ -433,47 +433,6 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 						</div>
 					</CardContent>
 				</Card>
-				<Card>
-					<CardHeader>
-						<CardTitle className="flex items-center gap-2">
-							<Shield className="h-5 w-5" />
-							Sigorta & Hasar Bilgileri
-						</CardTitle>
-					</CardHeader>
-					<CardContent className="space-y-4">
-						<form.AppField name="tramer">
-							{(field) => <field.Checkbox label="Tramer kaydı var mı?" />}
-						</form.AppField>
-						<form.Subscribe selector={(state) => state.values.tramer}>
-							{(tramer) => (
-								<form.AppField name="tramerTutari">
-									{(field) => (
-										<field.TextField
-											label="Tramer Tutarı"
-											placeholder="0"
-											disabled={!tramer}
-										/>
-									)}
-								</form.AppField>
-							)}
-						</form.Subscribe>
-					</CardContent>
-				</Card>
-				<Card>
-					<CardHeader>
-						<CardTitle>Filo Durumu</CardTitle>
-					</CardHeader>
-					<CardContent className="space-y-4">
-						<form.AppField name="filoDurum">
-							{(field) => (
-								<field.TextField
-									label="Filo Durum"
-									placeholder="Filo durumu seçiniz"
-								/>
-							)}
-						</form.AppField>
-					</CardContent>
-				</Card>
 				<div className="flex justify-end space-x-4">
 					<Link
 						to="/arac-filo"

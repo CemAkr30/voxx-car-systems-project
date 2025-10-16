@@ -66,14 +66,14 @@ public class MuayenePersistenceJpaAdapter implements MuayenePersistenceJpaPort {
     @Override
     public List<Muayene> findAracFiloIdGetAll(String aracFiloId) {
         return MuayeneJpaMapper.toMuayeneList(
-                muayeneJpaRepository.findByAracFiloId(aracFiloId)
+                muayeneJpaRepository.findByAracFiloIdAndIsDeletedFalse(aracFiloId)
         );
     }
 
     @Override
     public List<Muayene> findByBitisTarihiBefore(java.time.Instant bitis) {
         return MuayeneJpaMapper.toMuayeneList(
-                muayeneJpaRepository.findByBitisTarihiBefore(bitis)
+                muayeneJpaRepository.findByBitisTarihiBeforeAndIsDeletedFalse(bitis)
         );
     }
 }
