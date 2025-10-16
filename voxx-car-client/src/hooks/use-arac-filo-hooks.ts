@@ -4,6 +4,7 @@ import {
 	getAllAracFilo,
 	getAracFilo,
 	updateAracFilo,
+	updateAracFiloTramer,
 } from "@/requests/arac-filo";
 import type { CreateAracFiloRequest, AracFilo } from "@/schemas/arac-filo";
 import {
@@ -39,6 +40,15 @@ export const useCreateAracFiloMutation = (onSuccess?: () => void) => {
 export const useUpdateAracFiloMutation = (onSuccess?: () => void) => {
 	return useMutation({
 		mutationFn: async (aracFilo: AracFilo) => await updateAracFilo(aracFilo),
+		onSuccess() {
+			onSuccess?.();
+		},
+	});
+};
+
+export const useUpdateAracFiloTramerMutation = (onSuccess?: () => void) => {
+	return useMutation({
+		mutationFn: async ({ aracFiloId, tramer, tramerTutari }: { aracFiloId: string, tramer: boolean, tramerTutari: number }) => await updateAracFiloTramer(aracFiloId, tramer, tramerTutari),
 		onSuccess() {
 			onSuccess?.();
 		},

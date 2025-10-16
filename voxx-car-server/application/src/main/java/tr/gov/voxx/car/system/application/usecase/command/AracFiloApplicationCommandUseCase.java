@@ -107,4 +107,16 @@ public class AracFiloApplicationCommandUseCase implements AracFiloApplicationCom
         persistencePort.deleteById(id);
         log.info("Deleted entity: {}", id);
     }
+
+    @Override
+    public void updateTramer(AracFiloId aracFiloId, boolean tramer, Double tramerTutari) {
+        AracFilo existing = persistencePort.findById(aracFiloId);
+        if (existing == null) {
+            throw new NotFoundException("Araç bulunamadı: " + aracFiloId.getValue());
+        }
+
+        existing.updateTramer(tramer, tramerTutari);
+        persistencePort.merge(existing);
+        log.info("Updated tramer for entity: {} - tramer: {}, tutari: {}", aracFiloId, tramer, tramerTutari);
+    }
 }

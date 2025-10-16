@@ -74,4 +74,9 @@ public class AracFilo extends AbstractAggregateModel<AracFiloId> {
         this.filoDurum = other.filoDurum;
         this.muayeneBitisTarihi = other.muayeneBitisTarihi;
     }
+
+    public void updateTramer(boolean tramer, Double tramerTutari) {
+        this.tramer = tramer;
+        this.tramerTutari = tramerTutari;
+    }
 }

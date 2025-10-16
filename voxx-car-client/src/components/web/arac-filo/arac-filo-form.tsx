@@ -10,6 +10,7 @@ import {
 import { useAppForm } from "@/hooks/demo.form";
 import {
 	getAracFilolarQueryOptions,
+	getAracFiloQueryOptions,
 	useCreateAracFiloMutation,
 	useUpdateAracFiloMutation,
 } from "@/hooks/use-arac-filo-hooks";
@@ -118,6 +119,7 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 					);
 				} else if (mode === "update") {
 					await updateAracFiloMutation!.mutateAsync(value as AracFilo);
+					await queryClient.invalidateQueries(getAracFiloQueryOptions(props.initialValues.id!));
 				}
 				await queryClient.invalidateQueries(getAracFilolarQueryOptions());
 				navigate({ to: "/arac-filo" });

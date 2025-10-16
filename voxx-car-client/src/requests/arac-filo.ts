@@ -43,6 +43,21 @@ export const updateAracFilo = async (aracFilo: AracFilo): Promise<void> => {
 	}
 };
 
+export const updateAracFiloTramer = async (aracFiloId: string, tramer: boolean, tramerTutari: number): Promise<void> => {
+	try {
+		await axiosClient.patch(
+			`${urls.aracfilo}/${aracFiloId}/tramer`,
+			{ tramer, tramerTutari },
+		);
+	} catch (error) {
+		if (isAxiosError(error)) {
+			toast.error("AracFiloyı tramer güncellerken sorun oluştu");
+			throw new Error(error.request?.response.code);
+		}
+		throw new Error("error updating aracFilo tramer");
+	}
+};
+
 export const deleteAracFilo = async (id: string): Promise<void> => {
 	try {
 		await axiosClient.delete(`${urls.aracfilo}/${id}`);
