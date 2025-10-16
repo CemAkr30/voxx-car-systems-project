@@ -8,24 +8,23 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 
-import { getBakimByAracFiloIdQueryOptions } from "@/hooks/use-bakim-hooks";
+import { getBakimlarByAracFiloIdQueryOptions } from "@/hooks/use-bakim-hooks";
 import type { Bakim } from "@/schemas/bakim";
-import { useQueryClient, useSuspenseQueries } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
 import BakimDialog from "@/components/web/bakim/bakim-dialog.tsx";
 import BakimSilDialog from "@/components/web/bakim/bakim-sil-dialog.tsx";
-import { getFirmalarQueryOptions } from "@/hooks/use-firma-hooks.ts";
-import type { WebSocketMessage } from "@/types";
-import { useWebSocketTopic } from "@/hooks/use-webhook";
-import { toast } from "sonner";
+import { OdemeYapanFirmaListesiLabel } from "@/enums";
 
 export const Route = createFileRoute(
 	"/_authenticated/arac-filo/$aracFiloId/_layout/bakim/",
 )({
 	loader: ({ context: { queryClient }, params: { aracFiloId } }) => {
-		queryClient.ensureQueryData(getBakimByAracFiloIdQueryOptions(aracFiloId));
+		queryClient.ensureQueryData(
+			getBakimlarByAracFiloIdQueryOptions(aracFiloId),
+		);
 	},
 	component: RouteComponent,
 });
@@ -39,25 +38,6 @@ interface DialogState {
 
 function RouteComponent() {
 	const { aracFiloId } = Route.useParams();
-	const queryClient = useQueryClient();
-
-	useWebSocketTopic<WebSocketMessage>({
-		topic: "/topic/bakim",
-		onMessage: async ({ type }) => {
-			if (type === "CREATED") {
-				toast.success("Bakım başarılı bir şekilde kayıt edildi");
-			}
-			if (type === "UPDATED") {
-				toast.success("Bakım başarılı bir şekilde güncellendi");
-			}
-			if (type === "DELETED") {
-				toast.success("Bakım başarılı bir şekilde silindi");
-			}
-			await queryClient.invalidateQueries(
-				getBakimByAracFiloIdQueryOptions(aracFiloId),
-			);
-		},
-	});
 
 	const [dialogState, setDialogState] = useState<DialogState>({
 		create: false,
@@ -65,12 +45,9 @@ function RouteComponent() {
 		delete: false,
 	});
 
-	const [{ data: bakim = [] }, { data: firmalar }] = useSuspenseQueries({
-		queries: [
-			getBakimByAracFiloIdQueryOptions(aracFiloId),
-			getFirmalarQueryOptions(),
-		],
-	});
+	const { data: bakim = [] } = useSuspenseQuery(
+		getBakimlarByAracFiloIdQueryOptions(aracFiloId),
+	);
 
 	const openDialog = (type: keyof DialogState, bakim?: Bakim) => {
 		setDialogState({
@@ -234,11 +211,7 @@ function RouteComponent() {
 									</TableCell>
 									<TableCell>
 										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{
-												firmalar.find(
-													(firma) => bakim.odeyenFirmaId === firma.id,
-												)?.unvan
-											}
+											{OdemeYapanFirmaListesiLabel[bakim.bakimOdeyenFirma]}
 										</span>
 									</TableCell>
 
@@ -276,7 +249,6 @@ function RouteComponent() {
 					open={dialogState.create}
 					close={closeDialog}
 					initialValues={{ aracFiloId }}
-					firmalar={firmalar}
 				/>
 			)}
 
@@ -287,7 +259,6 @@ function RouteComponent() {
 					open={dialogState.update}
 					close={closeDialog}
 					initialValues={dialogState.selectedBakim}
-					firmalar={firmalar}
 				/>
 			)}
 

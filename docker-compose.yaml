@@ -62,7 +62,7 @@ services:
       - voxx-car-network
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U username -d voxx_car_systems" ]
+      test: ["CMD-SHELL", "pg_isready -U username -d voxx_car_systems"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -124,7 +124,7 @@ services:
       - voxx-car-network
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U keycloak -d keycloak" ]
+      test: ["CMD-SHELL", "pg_isready -U keycloak -d keycloak"]
       interval: 10s
       timeout: 5s
       retries: 5

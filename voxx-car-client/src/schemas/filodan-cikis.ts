@@ -8,7 +8,7 @@ export const filodanCikisCreateSchema = z.object({
 	alici: z.string(),
 	anahtarTeslimFiyati: z.coerce.number(),
 	aracDevirGiderleri: z.coerce.number(),
-	faturaYukle: z.string(),
+	faturaYukle: z.string().optional(), // Base64 formatında fatura dosyası
 	aciklama: z.string(),
 });
 export type CreateFilodanCikisRequest = z.infer<
@@ -19,6 +19,6 @@ export const filodanCikisUpdateSchema = filodanCikisCreateSchema.extend({
 	id: z.string(),
 	createdAt: z.string(),
 	updatedAt: z.string(),
-	isDeleted: z.boolean(),
+	deleted: z.boolean(),
 });
 export type FilodanCikis = z.infer<typeof filodanCikisUpdateSchema>;

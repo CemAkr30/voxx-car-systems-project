@@ -486,7 +486,6 @@ export default function MtvDashboard({ mtvler }: DashboardMTVProps) {
 					open={dialogState.update}
 					close={closeDialog}
 					initialValues={dialogState.selectedMtv}
-					firmalar={[]}
 				/>
 			)}
 

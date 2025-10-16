@@ -8,9 +8,9 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 
-import { getKazaByAracFiloIdQueryOptions } from "@/hooks/use-kaza-hooks";
+import { getKazalarByAracFiloIdQueryOptions } from "@/hooks/use-kaza-hooks";
 import type { Kaza } from "@/schemas/kaza";
-import { useQueryClient, useSuspenseQueries } from "@tanstack/react-query";
+import { useSuspenseQueries } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
@@ -18,19 +18,14 @@ import { getFirmalarQueryOptions } from "@/hooks/use-firma-hooks.ts";
 import KazaDialog from "@/components/web/kaza/kaza-dialog";
 import KazaSilDialog from "@/components/web/kaza/kaza-sil-dialog";
 import { formatDate } from "@/lib/utils";
-import { OnarimDurumuTipiListesiLabel } from "@/enums";
-import { useWebSocketTopic } from "@/hooks/use-webhook";
-import type { WebSocketMessage } from "@/types";
-import { toast } from "sonner";
-import { getAracKullananlarQueryOptions } from "@/hooks/use-arac-kullanan-hooks";
+import { KazaNedeniListesiLabel, OnarimDurumuTipiListesiLabel } from "@/enums";
 
 export const Route = createFileRoute(
 	"/_authenticated/arac-filo/$aracFiloId/_layout/kaza/",
 )({
 	loader: ({ context: { queryClient }, params: { aracFiloId } }) => {
-		queryClient.ensureQueryData(getKazaByAracFiloIdQueryOptions(aracFiloId));
+		queryClient.ensureQueryData(getKazalarByAracFiloIdQueryOptions(aracFiloId));
 		queryClient.ensureQueryData(getFirmalarQueryOptions());
-		queryClient.ensureQueryData(getAracKullananlarQueryOptions());
 	},
 	component: RouteComponent,
 });
@@ -44,25 +39,6 @@ interface DialogState {
 
 function RouteComponent() {
 	const { aracFiloId } = Route.useParams();
-	const queryClient = useQueryClient();
-
-	useWebSocketTopic<WebSocketMessage>({
-		topic: "/topic/kaza",
-		onMessage: async ({ type }) => {
-			if (type === "CREATED") {
-				toast.success("Kaza başarılı bir şekilde kayıt edildi");
-			}
-			if (type === "UPDATED") {
-				toast.success("Kaza başarılı bir şekilde güncellendi");
-			}
-			if (type === "DELETED") {
-				toast.success("Kaza başarılı bir şekilde silindi");
-			}
-			await queryClient.invalidateQueries(
-				getKazaByAracFiloIdQueryOptions(aracFiloId),
-			);
-		},
-	});
 
 	const [dialogState, setDialogState] = useState<DialogState>({
 		create: false,
@@ -70,14 +46,12 @@ function RouteComponent() {
 		delete: false,
 	});
 
-	const [{ data: kaza = [] }, { data: firmalar }, { data: musteriler }] =
-		useSuspenseQueries({
-			queries: [
-				getKazaByAracFiloIdQueryOptions(aracFiloId),
-				getFirmalarQueryOptions(),
-				getAracKullananlarQueryOptions(),
-			],
-		});
+	const [{ data: kaza = [] }, { data: firmalar }] = useSuspenseQueries({
+		queries: [
+			getKazalarByAracFiloIdQueryOptions(aracFiloId),
+			getFirmalarQueryOptions(),
+		],
+	});
 
 	const openDialog = (type: keyof DialogState, kaza?: Kaza) => {
 		setDialogState({
@@ -161,9 +135,6 @@ function RouteComponent() {
 								Ödeyen Firma
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Müşteri
-							</TableHead>
-							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 								Kaza Tarihi
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
@@ -206,11 +177,6 @@ function RouteComponent() {
 									</TableCell>
 									<TableCell>
 										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{`${musteriler.find((musteri) => kaza.musteriId === musteri.id)?.ad} ${musteriler.find((musteri) => kaza.musteriId === musteri.id)?.soyad}`}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
 											{formatDate(kaza.kazaTarihi.toString())}
 										</span>
 									</TableCell>
@@ -221,7 +187,7 @@ function RouteComponent() {
 									</TableCell>
 									<TableCell>
 										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{kaza.kazaNedeni}
+											{KazaNedeniListesiLabel[kaza.kazaNedeni]}
 										</span>
 									</TableCell>
 									<TableCell>

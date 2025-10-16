@@ -10,6 +10,7 @@ import {
 import { IletisimTipiListesi, IletisimTipiListesiLabel } from "@/enums";
 import { useAppForm } from "@/hooks/demo.form";
 import {
+	getIletisimlerByFirmaIdQueryOptions,
 	useCreateIletisimMutation,
 	useUpdateIletisimMutation,
 } from "@/hooks/use-iletisim-hooks";
@@ -19,6 +20,7 @@ import {
 	iletisimCreateSchema,
 	iletisimUpdateSchema,
 } from "@/schemas/iletisim";
+import { useQueryClient } from "@tanstack/react-query";
 import { RefreshCw } from "lucide-react";
 
 interface IletisimDialogCreateProps {
@@ -40,7 +42,8 @@ type IletisimDialogProps =
 	| IletisimDialogUpdateProps;
 
 export default function IletisimDialog(props: IletisimDialogProps) {
-	const { mode, open, close } = props;
+	const { mode, open, close, initialValues } = props;
+	const queryClient = useQueryClient();
 
 	const iletisimTipiOptions = IletisimTipiListesi.map((tip) => ({
 		label: IletisimTipiListesiLabel[tip],
@@ -72,6 +75,9 @@ export default function IletisimDialog(props: IletisimDialogProps) {
 				} else if (mode === "update") {
 					await updateIletisimMutation!.mutateAsync(value as Iletisim);
 				}
+				await queryClient.invalidateQueries(
+					getIletisimlerByFirmaIdQueryOptions(initialValues.firmaId),
+				);
 				formApi.reset();
 			} catch (_error) {}
 		},

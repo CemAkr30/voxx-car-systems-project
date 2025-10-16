@@ -5,7 +5,11 @@ import {
 	updateSigorta,
 } from "@/requests/sigorta";
 import type { CreateSigortaRequest, Sigorta } from "@/schemas/sigorta";
-import { queryOptions, useMutation } from "@tanstack/react-query";
+import {
+	queryOptions,
+	useMutation,
+	useQueryClient,
+} from "@tanstack/react-query";
 
 export function getSigortalarByAracFiloIdQueryOptions(aracFiloId: string) {
 	return queryOptions({
@@ -33,11 +37,18 @@ export const useUpdateSigortaMutation = (onSuccess?: () => void) => {
 	});
 };
 
-export const useDeleteSigortaMutation = (onSuccess?: () => void) => {
+export const useDeleteSigortaMutation = (
+	aracFiloId: string,
+	onSuccess?: () => void,
+) => {
+	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: async (id: string) => await deleteSigorta(id),
-		onSuccess() {
+		async onSuccess() {
 			onSuccess?.();
+			await queryClient.invalidateQueries(
+				getSigortalarByAracFiloIdQueryOptions(aracFiloId),
+			);
 		},
 	});
 };

@@ -22,7 +22,10 @@ export default function FilodanCikisSilDialog({
 	close,
 	selectedFilodanCikis,
 }: FilodanCikisDialogDeleteProps) {
-	const deleteFilodanCikisMutation = useDeleteFilodanCikisMutation(close);
+	const deleteFilodanCikisMutation = useDeleteFilodanCikisMutation(
+		selectedFilodanCikis.aracFiloId,
+		close,
+	);
 
 	return (
 		<Dialog open={open} onOpenChange={close}>

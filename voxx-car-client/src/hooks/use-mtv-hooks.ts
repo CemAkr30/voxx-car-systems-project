@@ -6,7 +6,11 @@ import {
 	updateMtv,
 } from "@/requests/mtv";
 import type { CreateMtvRequest, Mtv } from "@/schemas/mtv";
-import { queryOptions, useMutation } from "@tanstack/react-query";
+import {
+	queryOptions,
+	useMutation,
+	useQueryClient,
+} from "@tanstack/react-query";
 
 export function getMtvlerQueryOptions() {
 	return queryOptions({
@@ -41,11 +45,18 @@ export const useUpdateMtvMutation = (onSuccess?: () => void) => {
 	});
 };
 
-export const useDeleteMtvMutation = (onSuccess?: () => void) => {
+export const useDeleteMtvMutation = (
+	aracFiloId: string,
+	onSuccess?: () => void,
+) => {
+	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: async (id: string) => await deleteMtv(id),
-		onSuccess() {
+		async onSuccess() {
 			onSuccess?.();
+			await queryClient.invalidateQueries(
+				getMtvlerByAracFiloIdQueryOptions(aracFiloId),
+			);
 		},
 	});
 };

@@ -5,9 +5,13 @@ import {
 	updateBakim,
 } from "@/requests/bakim";
 import type { Bakim, CreateBakimRequest } from "@/schemas/bakim";
-import { queryOptions, useMutation } from "@tanstack/react-query";
+import {
+	queryOptions,
+	useMutation,
+	useQueryClient,
+} from "@tanstack/react-query";
 
-export function getBakimByAracFiloIdQueryOptions(aracFiloId: string) {
+export function getBakimlarByAracFiloIdQueryOptions(aracFiloId: string) {
 	return queryOptions({
 		queryKey: ["aracFilo", { aracFiloId }, "bakim"],
 		queryFn: () => getBakimByAracFiloId(aracFiloId),
@@ -33,11 +37,18 @@ export const useUpdateBakimMutation = (onSuccess?: () => void) => {
 	});
 };
 
-export const useDeleteBakimMutation = (onSuccess?: () => void) => {
+export const useDeleteBakimMutation = (
+	aracFiloId: string,
+	onSuccess?: () => void,
+) => {
+	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: async (id: string) => await deleteBakim(id),
-		onSuccess() {
+		async onSuccess() {
 			onSuccess?.();
+			await queryClient.invalidateQueries(
+				getBakimlarByAracFiloIdQueryOptions(aracFiloId),
+			);
 		},
 	});
 };

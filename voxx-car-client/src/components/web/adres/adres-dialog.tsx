@@ -7,9 +7,10 @@ import {
 	DialogDescription,
 	DialogFooter,
 } from "@/components/ui/dialog";
-import { AdresTipiListesi } from "@/enums";
+import { AdresTipiListesi, AdresTipiListesiLabel } from "@/enums";
 import { useAppForm } from "@/hooks/demo.form";
 import {
+	getAdreslerByFirmaIdQueryOptions,
 	useCreateAdresMutation,
 	useUpdateAdresMutation,
 } from "@/hooks/use-adres-hooks";
@@ -19,6 +20,7 @@ import {
 	adresCreateSchema,
 	adresUpdateSchema,
 } from "@/schemas/adres";
+import { useQueryClient } from "@tanstack/react-query";
 import { RefreshCw } from "lucide-react";
 
 interface AdresDialogCreateProps {
@@ -38,10 +40,11 @@ interface AdresDialogUpdateProps {
 type AdresDialogProps = AdresDialogCreateProps | AdresDialogUpdateProps;
 
 export default function AdresDialog(props: AdresDialogProps) {
-	const { mode, open, close } = props;
+	const { mode, open, close, initialValues } = props;
+	const queryClient = useQueryClient();
 
 	const adresTipiOptions = AdresTipiListesi.map((tip) => ({
-		label: tip,
+		label: AdresTipiListesiLabel[tip],
 		value: tip,
 	}));
 
@@ -68,6 +71,9 @@ export default function AdresDialog(props: AdresDialogProps) {
 				} else if (mode === "update") {
 					await updateAdresMutation!.mutateAsync(value as Adres);
 				}
+				await queryClient.invalidateQueries(
+					getAdreslerByFirmaIdQueryOptions(initialValues.firmaId),
+				);
 				formApi.reset();
 			} catch (_error) {}
 		},

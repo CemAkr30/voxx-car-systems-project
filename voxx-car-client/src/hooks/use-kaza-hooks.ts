@@ -5,9 +5,13 @@ import {
 	updateKaza,
 } from "@/requests/kaza";
 import type { CreateKazaRequest, Kaza } from "@/schemas/kaza";
-import { queryOptions, useMutation } from "@tanstack/react-query";
+import {
+	queryOptions,
+	useMutation,
+	useQueryClient,
+} from "@tanstack/react-query";
 
-export function getKazaByAracFiloIdQueryOptions(aracFiloId: string) {
+export function getKazalarByAracFiloIdQueryOptions(aracFiloId: string) {
 	return queryOptions({
 		queryKey: ["aracFilo", { aracFiloId }, "kaza"],
 		queryFn: () => getKazaByAracFiloId(aracFiloId),
@@ -33,11 +37,18 @@ export const useUpdateKazaMutation = (onSuccess?: () => void) => {
 	});
 };
 
-export const useDeleteKazaMutation = (onSuccess?: () => void) => {
+export const useDeleteKazaMutation = (
+	aracFiloId: string,
+	onSuccess?: () => void,
+) => {
+	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: async (id: string) => await deleteKaza(id),
-		onSuccess() {
+		async onSuccess() {
 			onSuccess?.();
+			await queryClient.invalidateQueries(
+				getKazalarByAracFiloIdQueryOptions(aracFiloId),
+			);
 		},
 	});
 };

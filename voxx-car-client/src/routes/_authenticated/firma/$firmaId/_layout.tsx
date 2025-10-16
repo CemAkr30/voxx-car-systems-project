@@ -1,23 +1,20 @@
 import { Button } from "@/components/ui/button";
 import FirmaDialog from "@/components/web/firma/firma-dialog";
 import { getAdreslerByFirmaIdQueryOptions } from "@/hooks/use-adres-hooks";
-import { getAracKullananlarByFirmaIdQueryOptions } from "@/hooks/use-arac-kullanan-hooks";
+import { getKiralananAracFilolarByFirmaIdQueryOptions } from "@/hooks/use-arac-kirala-hooks";
 import { getFirmaQueryOptions } from "@/hooks/use-firma-hooks";
-import { useWebSocketTopic } from "@/hooks/use-webhook";
 import { cn, relativeDate } from "@/lib/utils";
-import type { WebSocketMessage } from "@/types";
-import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { ArrowUpRight, Building2, Car, MapPin, Phone } from "lucide-react";
 import { useState } from "react";
-import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/firma/$firmaId/_layout")({
 	loader: ({ context: { queryClient }, params: { firmaId } }) => {
 		queryClient.ensureQueryData(getFirmaQueryOptions(firmaId));
 		queryClient.ensureQueryData(getAdreslerByFirmaIdQueryOptions(firmaId));
 		queryClient.ensureQueryData(
-			getAracKullananlarByFirmaIdQueryOptions(firmaId),
+			getKiralananAracFilolarByFirmaIdQueryOptions(firmaId),
 		);
 	},
 	component: RouteComponent,
@@ -25,22 +22,7 @@ export const Route = createFileRoute("/_authenticated/firma/$firmaId/_layout")({
 
 function RouteComponent() {
 	const { firmaId } = Route.useParams();
-	const queryClient = useQueryClient();
-	useWebSocketTopic<WebSocketMessage>({
-		topic: "/topic/firma",
-		onMessage: async ({ type }) => {
-			if (type === "CREATED") {
-				toast.success("Firma başarılı bir şekilde kayıt edildi");
-			}
-			if (type === "UPDATED") {
-				toast.success("Firma başarılı bir şekilde güncellendi");
-			}
-			if (type === "DELETED") {
-				toast.success("Firma başarılı bir şekilde silindi");
-			}
-			await queryClient.invalidateQueries(getFirmaQueryOptions(firmaId));
-		},
-	});
+
 	const { data: firma } = useSuspenseQuery(getFirmaQueryOptions(firmaId));
 	const [updateModal, setUpdateModal] = useState(false);
 	return (
@@ -242,7 +224,7 @@ function RouteComponent() {
 					</div>
 				</Link>
 				<Link
-					to="/firma/$firmaId/arac-kullanan"
+					to="/firma/$firmaId/kiralanan-araclar"
 					params={{ firmaId }}
 					className="group"
 				>
@@ -272,10 +254,10 @@ function RouteComponent() {
 							</div>
 							<div className="space-y-2">
 								<h3 className="font-bold text-lg text-slate-900 dark:text-slate-100 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors">
-									Araç Kullananlar
+									Kiralanan Araçlar
 								</h3>
 								<p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-									Firmada araç kullanan kişilerin listesi
+									Firmanın kiraladığı araçlar
 								</p>
 							</div>
 						</div>

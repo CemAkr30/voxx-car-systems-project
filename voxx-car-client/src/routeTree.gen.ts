@@ -26,9 +26,9 @@ import { Route as AuthenticatedFirmaFirmaIdLayoutRouteImport } from './routes/_a
 import { Route as AuthenticatedAracFiloAracFiloIdLayoutRouteImport } from './routes/_authenticated/arac-filo/$aracFiloId/_layout'
 import { Route as AuthenticatedFirmaFirmaIdLayoutIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/index'
 import { Route as AuthenticatedAracFiloForm_layoutOlusturIndexRouteImport } from './routes/_authenticated/arac-filo/_form_layout/olustur/index'
+import { Route as AuthenticatedFirmaFirmaIdLayoutKiralananAraclarIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/kiralanan-araclar/index'
 import { Route as AuthenticatedFirmaFirmaIdLayoutIletisimIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/iletisim/index'
 import { Route as AuthenticatedFirmaFirmaIdLayoutDetayIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/detay/index'
-import { Route as AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/arac-kullanan/index'
 import { Route as AuthenticatedFirmaFirmaIdLayoutAdresIndexRouteImport } from './routes/_authenticated/firma/$firmaId/_layout/adres/index'
 import { Route as AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRouteImport } from './routes/_authenticated/arac-filo/_form_layout/$aracFiloId/guncelle/index'
 import { Route as AuthenticatedAracFiloAracFiloIdLayoutSigortaIndexRouteImport } from './routes/_authenticated/arac-filo/$aracFiloId/_layout/sigorta/index'
@@ -145,6 +145,12 @@ const AuthenticatedAracFiloForm_layoutOlusturIndexRoute =
     path: '/olustur/',
     getParentRoute: () => AuthenticatedAracFiloForm_layoutRoute,
   } as any)
+const AuthenticatedFirmaFirmaIdLayoutKiralananAraclarIndexRoute =
+  AuthenticatedFirmaFirmaIdLayoutKiralananAraclarIndexRouteImport.update({
+    id: '/kiralanan-araclar/',
+    path: '/kiralanan-araclar/',
+    getParentRoute: () => AuthenticatedFirmaFirmaIdLayoutRoute,
+  } as any)
 const AuthenticatedFirmaFirmaIdLayoutIletisimIndexRoute =
   AuthenticatedFirmaFirmaIdLayoutIletisimIndexRouteImport.update({
     id: '/iletisim/',
@@ -155,12 +161,6 @@ const AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute =
   AuthenticatedFirmaFirmaIdLayoutDetayIndexRouteImport.update({
     id: '/detay/',
     path: '/detay/',
-    getParentRoute: () => AuthenticatedFirmaFirmaIdLayoutRoute,
-  } as any)
-const AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute =
-  AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRouteImport.update({
-    id: '/arac-kullanan/',
-    path: '/arac-kullanan/',
     getParentRoute: () => AuthenticatedFirmaFirmaIdLayoutRoute,
   } as any)
 const AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute =
@@ -255,9 +255,9 @@ export interface FileRoutesByFullPath {
   '/arac-filo/$aracFiloId/sigorta': typeof AuthenticatedAracFiloAracFiloIdLayoutSigortaIndexRoute
   '/arac-filo/$aracFiloId/guncelle': typeof AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRoute
   '/firma/$firmaId/adres': typeof AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute
-  '/firma/$firmaId/arac-kullanan': typeof AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute
   '/firma/$firmaId/detay': typeof AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute
   '/firma/$firmaId/iletisim': typeof AuthenticatedFirmaFirmaIdLayoutIletisimIndexRoute
+  '/firma/$firmaId/kiralanan-araclar': typeof AuthenticatedFirmaFirmaIdLayoutKiralananAraclarIndexRoute
 }
 export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -281,9 +281,9 @@ export interface FileRoutesByTo {
   '/arac-filo/$aracFiloId/sigorta': typeof AuthenticatedAracFiloAracFiloIdLayoutSigortaIndexRoute
   '/arac-filo/$aracFiloId/guncelle': typeof AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRoute
   '/firma/$firmaId/adres': typeof AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute
-  '/firma/$firmaId/arac-kullanan': typeof AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute
   '/firma/$firmaId/detay': typeof AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute
   '/firma/$firmaId/iletisim': typeof AuthenticatedFirmaFirmaIdLayoutIletisimIndexRoute
+  '/firma/$firmaId/kiralanan-araclar': typeof AuthenticatedFirmaFirmaIdLayoutKiralananAraclarIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -316,9 +316,9 @@ export interface FileRoutesById {
   '/_authenticated/arac-filo/$aracFiloId/_layout/sigorta/': typeof AuthenticatedAracFiloAracFiloIdLayoutSigortaIndexRoute
   '/_authenticated/arac-filo/_form_layout/$aracFiloId/guncelle/': typeof AuthenticatedAracFiloForm_layoutAracFiloIdGuncelleIndexRoute
   '/_authenticated/firma/$firmaId/_layout/adres/': typeof AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute
-  '/_authenticated/firma/$firmaId/_layout/arac-kullanan/': typeof AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute
   '/_authenticated/firma/$firmaId/_layout/detay/': typeof AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute
   '/_authenticated/firma/$firmaId/_layout/iletisim/': typeof AuthenticatedFirmaFirmaIdLayoutIletisimIndexRoute
+  '/_authenticated/firma/$firmaId/_layout/kiralanan-araclar/': typeof AuthenticatedFirmaFirmaIdLayoutKiralananAraclarIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -347,9 +347,9 @@ export interface FileRouteTypes {
     | '/arac-filo/$aracFiloId/sigorta'
     | '/arac-filo/$aracFiloId/guncelle'
     | '/firma/$firmaId/adres'
-    | '/firma/$firmaId/arac-kullanan'
     | '/firma/$firmaId/detay'
     | '/firma/$firmaId/iletisim'
+    | '/firma/$firmaId/kiralanan-araclar'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/dashboard'
@@ -373,9 +373,9 @@ export interface FileRouteTypes {
     | '/arac-filo/$aracFiloId/sigorta'
     | '/arac-filo/$aracFiloId/guncelle'
     | '/firma/$firmaId/adres'
-    | '/firma/$firmaId/arac-kullanan'
     | '/firma/$firmaId/detay'
     | '/firma/$firmaId/iletisim'
+    | '/firma/$firmaId/kiralanan-araclar'
   id:
     | '__root__'
     | '/_authenticated'
@@ -407,9 +407,9 @@ export interface FileRouteTypes {
     | '/_authenticated/arac-filo/$aracFiloId/_layout/sigorta/'
     | '/_authenticated/arac-filo/_form_layout/$aracFiloId/guncelle/'
     | '/_authenticated/firma/$firmaId/_layout/adres/'
-    | '/_authenticated/firma/$firmaId/_layout/arac-kullanan/'
     | '/_authenticated/firma/$firmaId/_layout/detay/'
     | '/_authenticated/firma/$firmaId/_layout/iletisim/'
+    | '/_authenticated/firma/$firmaId/_layout/kiralanan-araclar/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -545,6 +545,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAracFiloForm_layoutOlusturIndexRouteImport
       parentRoute: typeof AuthenticatedAracFiloForm_layoutRoute
     }
+    '/_authenticated/firma/$firmaId/_layout/kiralanan-araclar/': {
+      id: '/_authenticated/firma/$firmaId/_layout/kiralanan-araclar/'
+      path: '/kiralanan-araclar'
+      fullPath: '/firma/$firmaId/kiralanan-araclar'
+      preLoaderRoute: typeof AuthenticatedFirmaFirmaIdLayoutKiralananAraclarIndexRouteImport
+      parentRoute: typeof AuthenticatedFirmaFirmaIdLayoutRoute
+    }
     '/_authenticated/firma/$firmaId/_layout/iletisim/': {
       id: '/_authenticated/firma/$firmaId/_layout/iletisim/'
       path: '/iletisim'
@@ -557,13 +564,6 @@ declare module '@tanstack/react-router' {
       path: '/detay'
       fullPath: '/firma/$firmaId/detay'
       preLoaderRoute: typeof AuthenticatedFirmaFirmaIdLayoutDetayIndexRouteImport
-      parentRoute: typeof AuthenticatedFirmaFirmaIdLayoutRoute
-    }
-    '/_authenticated/firma/$firmaId/_layout/arac-kullanan/': {
-      id: '/_authenticated/firma/$firmaId/_layout/arac-kullanan/'
-      path: '/arac-kullanan'
-      fullPath: '/firma/$firmaId/arac-kullanan'
-      preLoaderRoute: typeof AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRouteImport
       parentRoute: typeof AuthenticatedFirmaFirmaIdLayoutRoute
     }
     '/_authenticated/firma/$firmaId/_layout/adres/': {
@@ -743,9 +743,9 @@ const AuthenticatedAracFiloRouteWithChildren =
 interface AuthenticatedFirmaFirmaIdLayoutRouteChildren {
   AuthenticatedFirmaFirmaIdLayoutIndexRoute: typeof AuthenticatedFirmaFirmaIdLayoutIndexRoute
   AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute: typeof AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute
-  AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute: typeof AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute
   AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute: typeof AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute
   AuthenticatedFirmaFirmaIdLayoutIletisimIndexRoute: typeof AuthenticatedFirmaFirmaIdLayoutIletisimIndexRoute
+  AuthenticatedFirmaFirmaIdLayoutKiralananAraclarIndexRoute: typeof AuthenticatedFirmaFirmaIdLayoutKiralananAraclarIndexRoute
 }
 
 const AuthenticatedFirmaFirmaIdLayoutRouteChildren: AuthenticatedFirmaFirmaIdLayoutRouteChildren =
@@ -754,12 +754,12 @@ const AuthenticatedFirmaFirmaIdLayoutRouteChildren: AuthenticatedFirmaFirmaIdLay
       AuthenticatedFirmaFirmaIdLayoutIndexRoute,
     AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute:
       AuthenticatedFirmaFirmaIdLayoutAdresIndexRoute,
-    AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute:
-      AuthenticatedFirmaFirmaIdLayoutAracKullananIndexRoute,
     AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute:
       AuthenticatedFirmaFirmaIdLayoutDetayIndexRoute,
     AuthenticatedFirmaFirmaIdLayoutIletisimIndexRoute:
       AuthenticatedFirmaFirmaIdLayoutIletisimIndexRoute,
+    AuthenticatedFirmaFirmaIdLayoutKiralananAraclarIndexRoute:
+      AuthenticatedFirmaFirmaIdLayoutKiralananAraclarIndexRoute,
   }
 
 const AuthenticatedFirmaFirmaIdLayoutRouteWithChildren =

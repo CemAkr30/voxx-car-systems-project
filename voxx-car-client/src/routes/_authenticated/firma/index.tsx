@@ -22,10 +22,7 @@ import { formatDate } from "@/lib/utils";
 import FirmaDialog from "@/components/web/firma/firma-dialog";
 import FirmaSilDialog from "@/components/web/firma/firma-sil-dialog";
 import { getFirmalarQueryOptions } from "@/hooks/use-firma-hooks";
-import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
-import type { WebSocketMessage } from "@/types";
-import { useWebSocketTopic } from "@/hooks/use-webhook";
-import { toast } from "sonner";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 interface DialogState {
 	create: boolean;
@@ -41,24 +38,6 @@ export const Route = createFileRoute("/_authenticated/firma/")({
 });
 
 function RouteComponent() {
-	const queryClient = useQueryClient();
-
-	useWebSocketTopic<WebSocketMessage>({
-		topic: "/topic/firma",
-		onMessage: async ({ type }) => {
-			if (type === "CREATED") {
-				toast.success("Firma başarılı bir şekilde kayıt edildi");
-			}
-			if (type === "UPDATED") {
-				toast.success("Firma başarılı bir şekilde güncellendi");
-			}
-			if (type === "DELETED") {
-				toast.success("Firma başarılı bir şekilde silindi");
-			}
-			await queryClient.invalidateQueries(getFirmalarQueryOptions());
-		},
-	});
-
 	const [selectedItems, setSelectedItems] = useState<string[]>([]);
 	const [dialogState, setDialogState] = useState<DialogState>({
 		create: false,

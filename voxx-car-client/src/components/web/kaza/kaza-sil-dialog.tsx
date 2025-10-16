@@ -22,7 +22,10 @@ export default function KazaSilDialog({
 	close,
 	selectedKaza,
 }: KazaDialogDeleteProps) {
-	const deleteKazaMutation = useDeleteKazaMutation(close);
+	const deleteKazaMutation = useDeleteKazaMutation(
+		selectedKaza.aracFiloId,
+		close,
+	);
 
 	return (
 		<Dialog open={open} onOpenChange={close}>

@@ -22,7 +22,10 @@ export default function AlisFaturasiSilDialog({
 	close,
 	selectedAlisFaturasi,
 }: AlisFaturasiDialogDeleteProps) {
-	const deleteAlisFaturasiMutation = useDeleteAlisFaturasiMutation(close);
+	const deleteAlisFaturasiMutation = useDeleteAlisFaturasiMutation(
+		selectedAlisFaturasi.aracFiloId,
+		close,
+	);
 
 	return (
 		<Dialog open={open} onOpenChange={close}>

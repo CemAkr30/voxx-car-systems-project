@@ -10,7 +10,7 @@ export const getSigortaByAracFiloId = async (
 	const { data } = await axiosClient.get<Sigorta[]>(
 		`${urls.aracfilo}/${aracFiloId}/sigorta`,
 	);
-	return data.filter((d) => !d.isDeleted);
+	return data.filter((d) => !d.deleted);
 };
 
 export const createSigorta = async (

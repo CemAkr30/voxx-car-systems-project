@@ -151,4 +151,11 @@ public class AracFiloControllerAdapter {
                 aracFirmaDetayApplicationQueryPort.kiralanabilirAraclar()
         ));
     }
+
+    @PatchMapping("/{id}/tramer")
+    @Operation(summary = "Araç Tramer Bilgilerini Güncelle", description = "Belirtilen araç ID'sine göre sadece tramer bilgilerini günceller")
+    public ResponseEntity<Void> updateTramer(@PathVariable String id, @RequestBody AracFiloTramerRequest request) {
+        commandPort.updateTramer(new AracFiloId(id), request.isTramer(), request.getTramerTutari());
+        return ResponseEntity.noContent().build();
+    }
 }

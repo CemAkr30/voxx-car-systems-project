@@ -22,7 +22,10 @@ export default function SigortaSilDialog({
 	close,
 	selectedSigorta,
 }: SigortaDialogDeleteProps) {
-	const deleteSigortaMutation = useDeleteSigortaMutation(close);
+	const deleteSigortaMutation = useDeleteSigortaMutation(
+		selectedSigorta.aracFiloId,
+		close,
+	);
 
 	return (
 		<Dialog open={open} onOpenChange={close}>

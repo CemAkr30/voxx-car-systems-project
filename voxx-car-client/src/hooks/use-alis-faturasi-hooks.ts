@@ -8,9 +8,13 @@ import type {
 	AlisFaturasi,
 	CreateAlisFaturasiRequest,
 } from "@/schemas/alis-faturasi";
-import { queryOptions, useMutation } from "@tanstack/react-query";
+import {
+	queryOptions,
+	useMutation,
+	useQueryClient,
+} from "@tanstack/react-query";
 
-export function getAlisFaturasiByAracFiloIdQueryOptions(aracFiloId: string) {
+export function getAlisFaturalariByAracFiloIdQueryOptions(aracFiloId: string) {
 	return queryOptions({
 		queryKey: ["aracFilo", { aracFiloId }, "alisFaturasi"],
 		queryFn: () => getAlisFaturasiByAracFiloId(aracFiloId),
@@ -38,11 +42,18 @@ export const useUpdateAlisFaturasiMutation = (onSuccess?: () => void) => {
 	});
 };
 
-export const useDeleteAlisFaturasiMutation = (onSuccess?: () => void) => {
+export const useDeleteAlisFaturasiMutation = (
+	aracFiloId: string,
+	onSuccess?: () => void,
+) => {
+	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: async (id: string) => await deleteAlisFaturasi(id),
-		onSuccess() {
+		async onSuccess() {
 			onSuccess?.();
+			await queryClient.invalidateQueries(
+				getAlisFaturalariByAracFiloIdQueryOptions(aracFiloId),
+			);
 		},
 	});
 };

@@ -22,7 +22,10 @@ export default function IletisimSilDialog({
 	close,
 	selectedIletisim,
 }: IletisimDialogDeleteProps) {
-	const deleteIletisimMutation = useDeleteIletisimMutation(close);
+	const deleteIletisimMutation = useDeleteIletisimMutation(
+		selectedIletisim.firmaId,
+		close,
+	);
 
 	return (
 		<Dialog open={open} onOpenChange={close}>

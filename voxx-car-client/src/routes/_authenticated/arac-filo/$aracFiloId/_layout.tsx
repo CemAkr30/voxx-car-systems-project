@@ -1,7 +1,10 @@
+import { Button } from "@/components/ui/button";
+import AracKiralaDialog from "@/components/web/arac-kirala/arac-kirala-dialog";
 import { getAracFiloQueryOptions } from "@/hooks/use-arac-filo-hooks";
+import { getFirmalarQueryOptions } from "@/hooks/use-firma-hooks";
 import usePath from "@/hooks/use-path";
 import { cn } from "@/lib/utils";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQueries } from "@tanstack/react-query";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import {
 	AlertTriangle,
@@ -11,6 +14,11 @@ import {
 	Edit,
 	FileText,
 } from "lucide-react";
+import { useState } from "react";
+
+interface DialogState {
+	create: boolean;
+}
 
 export const Route = createFileRoute(
 	"/_authenticated/arac-filo/$aracFiloId/_layout",
@@ -107,9 +115,27 @@ function RouteComponent() {
 		},
 	];
 	const path = usePath();
-	const { data: aracFilo } = useSuspenseQuery(
-		getAracFiloQueryOptions(aracFiloId),
-	);
+	const [{ data: aracFilo }, { data: kiralanabilenFirmalar = [] }] =
+		useSuspenseQueries({
+			queries: [getAracFiloQueryOptions(aracFiloId), getFirmalarQueryOptions()],
+		});
+
+	const [dialogState, setDialogState] = useState<DialogState>({
+		create: false,
+	});
+
+	const openDialog = (type: keyof DialogState) => {
+		setDialogState({
+			create: type === "create",
+		});
+	};
+
+	const closeDialog = () => {
+		setDialogState({
+			create: false,
+		});
+	};
+
 	return (
 		<div className="space-y-3">
 			<div className="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-2xl shadow-xl">
@@ -118,22 +144,40 @@ function RouteComponent() {
 				<div className="absolute top-4 right-4 w-24 h-24 bg-white/10 rounded-full blur-xl" />
 
 				<div className="relative p-8">
-					<div className="flex items-center justify-between">
-						<div className="flex items-center gap-6">
-							<div className="flex items-center gap-4">
-								<div className="p-3 bg-white/20 rounded-2xl">
-									<Car className="h-8 w-8 text-white" />
-								</div>
-								<div>
-									<h1 className="text-3xl font-bold text-white">
-										Araç Detayları
-									</h1>
-									<p className="text-white/80 text-lg">
-										Plaka: {aracFilo.plaka} • Kiralayan Firma ID: #
-										{aracFilo.kiralayanFirmaId}
-									</p>
-								</div>
+					<div className="flex justify-between items-center gap-6">
+						<div className="flex items-center gap-4">
+							<div className="p-3 bg-white/20 rounded-2xl">
+								<Car className="h-8 w-8 text-white" />
 							</div>
+							<div>
+								<h1 className="text-3xl font-bold text-white">
+									Araç Detayları
+								</h1>
+								<p className="text-white/80 text-lg">
+									Plaka: {aracFilo.plaka}
+								</p>
+							</div>
+						</div>
+						<div>
+							<Button
+								className="bg-white/20 hover:bg-white/30 text-white border-white/30 backdrop-blur-sm transition-all duration-200 hover:scale-105"
+								onClick={() => openDialog("create")}
+							>
+								<svg
+									className="w-4 h-4 mr-2"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+								>
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth={2}
+										d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+									/>
+								</svg>
+								Yeni Arac Kirala
+							</Button>
 						</div>
 					</div>
 				</div>
@@ -188,6 +232,17 @@ function RouteComponent() {
 			<div className="bg-white dark:bg-slate-950 rounded-lg border p-6">
 				<Outlet />
 			</div>
+
+			{/* Dialogs */}
+			{dialogState.create && (
+				<AracKiralaDialog
+					mode="aracFilo"
+					open={dialogState.create}
+					close={closeDialog}
+					kiralanabilenFirmalar={kiralanabilenFirmalar}
+					initialValues={{ aracFiloId, firmaId: "" }}
+				/>
+			)}
 		</div>
 	);
 }

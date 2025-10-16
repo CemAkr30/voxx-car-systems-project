@@ -8,9 +8,13 @@ import type {
 	CreateFilodanCikisRequest,
 	FilodanCikis,
 } from "@/schemas/filodan-cikis";
-import { queryOptions, useMutation } from "@tanstack/react-query";
+import {
+	queryOptions,
+	useMutation,
+	useQueryClient,
+} from "@tanstack/react-query";
 
-export function getFilodanCikisByAracFiloIdQueryOptions(aracFiloId: string) {
+export function getFilodanCikislarByAracFiloIdQueryOptions(aracFiloId: string) {
 	return queryOptions({
 		queryKey: ["aracFilo", { aracFiloId }, "filodanCikis"],
 		queryFn: () => getFilodanCikisByAracFiloId(aracFiloId),
@@ -38,11 +42,18 @@ export const useUpdateFilodanCikisMutation = (onSuccess?: () => void) => {
 	});
 };
 
-export const useDeleteFilodanCikisMutation = (onSuccess?: () => void) => {
+export const useDeleteFilodanCikisMutation = (
+	aracFiloId: string,
+	onSuccess?: () => void,
+) => {
+	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: async (id: string) => await deleteFilodanCikis(id),
-		onSuccess() {
+		async onSuccess() {
 			onSuccess?.();
+			await queryClient.invalidateQueries(
+				getFilodanCikislarByAracFiloIdQueryOptions(aracFiloId),
+			);
 		},
 	});
 };

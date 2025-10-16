@@ -1,12 +1,12 @@
 import urls from "@/constants/apiUrls";
 import { axiosClient } from "@/lib/axios";
-import type { CreateFirmaRequest, Firma } from "@/schemas/firma";
+import type { CreateFirmaRequest, Firma, FirmaDokumanEkleRequest, FirmaDokuman } from "@/schemas/firma";
 import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
 export const getAllFirma = async (): Promise<Firma[]> => {
 	const { data } = await axiosClient.get<Firma[]>(`${urls.firma}`);
-	return data.filter((d) => !d.isDeleted);
+	return data.filter((d) => !d.deleted);
 };
 
 export const getFirma = async (id: string): Promise<Firma> => {
@@ -47,5 +47,31 @@ export const deleteFirma = async (id: string): Promise<void> => {
 			throw new Error(error.request?.response.code);
 		}
 		throw new Error("error creating firma");
+	}
+};
+
+export const firmaDokumanEkle = async (dokuman: FirmaDokumanEkleRequest): Promise<void> => {
+	try {
+		await axiosClient.post(`${urls.firma}/dokuman-ekle`, dokuman);
+		toast.success("Doküman başarıyla eklendi");
+	} catch (error: unknown) {
+		if (isAxiosError(error)) {
+			toast.error("Doküman eklerken sorun oluştu");
+			throw new Error(error.request?.response.code);
+		}
+		throw new Error("error adding document");
+	}
+};
+
+export const getFirmaDokumanlar = async (firmaId: string): Promise<FirmaDokuman[]> => {
+	try {
+		const { data } = await axiosClient.get<FirmaDokuman[]>(`${urls.firma}/${firmaId}/dokumanlar`);
+		return data.filter((d) => !d.isDeleted);
+	} catch (error: unknown) {
+		if (isAxiosError(error)) {
+			toast.error("Dokümanları getirirken sorun oluştu");
+			throw new Error(error.request?.response.code);
+		}
+		throw new Error("error getting documents");
 	}
 };

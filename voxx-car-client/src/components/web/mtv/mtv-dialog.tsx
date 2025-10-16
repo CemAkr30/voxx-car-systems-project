@@ -7,29 +7,33 @@ import {
 	DialogDescription,
 	DialogFooter,
 } from "@/components/ui/dialog";
-import { OdemeTipiListesi, OdemeTipiListesiLabel } from "@/enums";
+import {
+	OdemeYapanFirmaListesi,
+	OdemeYapanFirmaListesiLabel,
+	OdemeTipiListesi,
+	OdemeTipiListesiLabel,
+} from "@/enums";
 import { useAppForm } from "@/hooks/demo.form";
 import {
+	getMtvlerByAracFiloIdQueryOptions,
 	useCreateMtvMutation,
 	useUpdateMtvMutation,
 } from "@/hooks/use-mtv-hooks";
-import type { Firma } from "@/schemas/firma";
 import {
 	mtvCreateSchema,
 	mtvUpdateSchema,
 	type CreateMtvRequest,
 	type Mtv,
 } from "@/schemas/mtv";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { RefreshCw } from "lucide-react";
-import { useMemo } from "react";
 
 interface MtvDialogCreateProps {
 	mode: "create";
 	open: boolean;
 	close: () => void;
 	aracFiloId: string;
-	firmalar: Firma[];
 	initialValues: { aracFiloId: string };
 }
 
@@ -38,28 +42,24 @@ interface MtvDialogUpdateProps {
 	open: boolean;
 	close: () => void;
 	aracFiloId: string;
-	firmalar: Firma[];
 	initialValues: Mtv;
 }
 
 type MtvDialogProps = MtvDialogCreateProps | MtvDialogUpdateProps;
 
 export default function MtvDialog(props: MtvDialogProps) {
-	const { mode, open, close, firmalar, aracFiloId } = props;
+	const { mode, open, close, aracFiloId } = props;
+	const queryClient = useQueryClient();
 
 	const odemeTipiOptions = OdemeTipiListesi.map((tip) => ({
 		label: OdemeTipiListesiLabel[tip],
 		value: tip,
 	}));
 
-	const firmalarOptions = useMemo(
-		() =>
-			firmalar.map((firma: Firma) => ({
-				label: firma.unvan,
-				value: firma.id,
-			})),
-		[firmalar],
-	);
+	const mtvOdeyenOptions = OdemeYapanFirmaListesi.map((firma) => ({
+		label: OdemeYapanFirmaListesiLabel[firma],
+		value: firma,
+	}));
 
 	const createMtvMutation = useCreateMtvMutation(close);
 	const updateMtvMutation =
@@ -75,7 +75,7 @@ export default function MtvDialog(props: MtvDialogProps) {
 						makbuzNo: "",
 						miktar: 0,
 						odemeTipi: OdemeTipiListesi[9],
-						odeyenFirmaId: "",
+						mtvOdeyenFirma: OdemeYapanFirmaListesi[5],
 						odendi: false,
 						gecikmeCezasi: "",
 						aciklama: "",
@@ -94,6 +94,9 @@ export default function MtvDialog(props: MtvDialogProps) {
 				} else if (mode === "update") {
 					await updateMtvMutation!.mutateAsync(value as Mtv);
 				}
+				await queryClient.invalidateQueries(
+					getMtvlerByAracFiloIdQueryOptions(aracFiloId),
+				);
 				formApi.reset();
 			} catch (_error) {}
 		},
@@ -150,7 +153,7 @@ export default function MtvDialog(props: MtvDialogProps) {
 							onChange: ({ value }) => {
 								if (!value) {
 									form.setFieldValue("odemeTipi", "ODENMEDI");
-									form.setFieldValue("odeyenFirmaId", "");
+									form.setFieldValue("mtvOdeyenFirma", "DEFAULT");
 									form.setFieldValue("gecikmeCezasi", "");
 								}
 							},
@@ -173,11 +176,11 @@ export default function MtvDialog(props: MtvDialogProps) {
 										)}
 									</form.AppField>
 
-									<form.AppField name="odeyenFirmaId">
+									<form.AppField name="mtvOdeyenFirma">
 										{(field) => (
 											<field.Select
 												label="Ödeyen Firma"
-												values={firmalarOptions}
+												values={mtvOdeyenOptions}
 												disabled={!odendi}
 											/>
 										)}

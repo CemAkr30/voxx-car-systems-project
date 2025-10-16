@@ -22,10 +22,7 @@ import { getMarkalarQueryOptions } from "@/hooks/use-marka-hooks";
 import MarkaSilDialog from "@/components/web/marka/marka-sil-dialog";
 import type { Marka } from "@/schemas/marka";
 import { formatDate } from "@/lib/utils";
-import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
-import { useWebSocketTopic } from "@/hooks/use-webhook";
-import type { WebSocketMessage } from "@/types";
-import { toast } from "sonner";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 interface DialogState {
 	create: boolean;
@@ -41,24 +38,6 @@ export const Route = createFileRoute("/_authenticated/marka/")({
 });
 
 function RouteComponent() {
-	const queryClient = useQueryClient();
-
-	useWebSocketTopic<WebSocketMessage>({
-		topic: "/topic/marka",
-		onMessage: async ({ type }) => {
-			if (type === "CREATED") {
-				toast.success("Marka başarılı bir şekilde kayıt edildi");
-			}
-			if (type === "UPDATED") {
-				toast.success("Marka başarılı bir şekilde güncellendi");
-			}
-			if (type === "DELETED") {
-				toast.success("Marka başarılı bir şekilde silindi");
-			}
-			await queryClient.invalidateQueries(getMarkalarQueryOptions());
-		},
-	});
-
 	const [selectedItems, setSelectedItems] = useState<string[]>([]);
 	const [dialogState, setDialogState] = useState<DialogState>({
 		create: false,
@@ -218,14 +197,14 @@ function RouteComponent() {
 													>
 														Düzenle
 													</Button>
-													{/* <Button
+													<Button
 														variant="ghost"
 														size="sm"
 														className="justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
 														onClick={() => openDialog("delete", marka)}
 													>
 														Sil
-													</Button> */}
+													</Button>
 												</DropdownMenuContent>
 											</DropdownMenu>
 										</TableCell>

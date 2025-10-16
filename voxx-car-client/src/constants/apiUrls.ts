@@ -30,6 +30,7 @@ const endpoints = [
 	"mtv",
 	"muayene",
 	"sigorta",
+	"dashboard",
 ] as const;
 
 const urls = createUrls(currentVersion, endpoints);
