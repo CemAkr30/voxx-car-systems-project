@@ -24,10 +24,10 @@ public class FilodanCikisApplicationCommandUseCase implements FilodanCikisApplic
         entity.initIdGenerator();
         persistenceJpaPort.persist(entity);
 
-        // Araç çıkışı yapılınca filoDurum = 1 yap
-        aracFiloPersistenceJpaPort.updateFiloDurum(entity.getAracFiloId().getValue(), 1);
+        // Araç çıkışı yapılınca filoDurum = 0 yap (araç filodan çıktı)
+        aracFiloPersistenceJpaPort.updateFiloDurum(entity.getAracFiloId().getValue(), 0);
 
-        log.info("Persisted FilodanCikis entity: {} and updated AracFilo filoDurum to 1", entity);
+        log.info("Persisted FilodanCikis entity: {} and updated AracFilo filoDurum to 0", entity);
     }
 
     @Override
@@ -56,9 +56,9 @@ public class FilodanCikisApplicationCommandUseCase implements FilodanCikisApplic
         int aktifCikisSayisi = persistenceJpaPort.countByAracFiloIdAndIsDeletedFalse(aracFiloIdStr);
 
         if (aktifCikisSayisi == 0) {
-            // Aktif çıkış kalmadıysa filoDurum = 0 yap
-            aracFiloPersistenceJpaPort.updateFiloDurum(aracFiloIdStr, 0);
-            log.info("Updated AracFilo {} filoDurum to 0 as no active FilodanCikis remains", aracFiloId);
+            // Aktif çıkış kalmadıysa filoDurum = 1 yap (araç filoda)
+            aracFiloPersistenceJpaPort.updateFiloDurum(aracFiloIdStr, 1);
+            log.info("Updated AracFilo {} filoDurum to 1 as no active FilodanCikis remains", aracFiloId);
         }
     }
 }
