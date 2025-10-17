@@ -131,15 +131,13 @@ export default function MuayeneDialog(props: MuayeneDialogProps) {
 			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px]">
 				<DialogHeader>
 					<DialogTitle>
-						{mode === "create"
-							? "Yeni Muayene Ekle"
-							: "Seçili Muayeneyı Güncelle"}
-					</DialogTitle>
-					<DialogDescription>
-						{mode === "create"
-							? "Yeni muayene eklemek için formu eksiksiz doldurunuz"
-							: "Seçili Muayeneyı Güncelle"}
-					</DialogDescription>
+					{mode === "create" ? "Yeni Muayene Ekle" : "Seçili Muayeneyi Güncelle"}
+				</DialogTitle>
+				<DialogDescription>
+					{mode === "create"
+						? "Yeni muayene eklemek için formu eksiksiz doldurunuz"
+						: "Seçili muayeneyi güncellemek için formu eksiksiz doldurunuz"}
+				</DialogDescription>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {

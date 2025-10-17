@@ -283,8 +283,8 @@ export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 		>
 			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px]">
 				<DialogHeader>
-					<DialogTitle>{isUpdate ? "Araç Kiralama Güncelle" : "Yeni Araç Kirala"}</DialogTitle>
-					<DialogDescription>{isUpdate ? "Araç kiralama bilgilerini güncelle" : "Yeni araç kirala"}</DialogDescription>
+				<DialogTitle>{isUpdate ? "Araç Kiralama Güncelle" : "Yeni Araç Kirala"}</DialogTitle>
+				<DialogDescription>{isUpdate ? "Araç kiralama bilgilerini güncelle" : "Yeni araç kiralamak için formu eksiksiz doldurunuz"}</DialogDescription>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {

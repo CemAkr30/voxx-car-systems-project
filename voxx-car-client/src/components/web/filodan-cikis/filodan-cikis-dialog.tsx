@@ -195,15 +195,13 @@ export default function FilodanCikisDialog(props: FilodanCikisDialogProps) {
 			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px]">
 				<DialogHeader>
 					<DialogTitle>
-						{mode === "create"
-							? "Yeni FilodanCikis Ekle"
-							: "Seçili FilodanCikisi Güncelle"}
-					</DialogTitle>
-					<DialogDescription>
-						{mode === "create"
-							? "Yeni filodanCikis eklemek için formu eksiksiz doldurunuz"
-							: "Seçili FilodanCikisi Güncelle"}
-					</DialogDescription>
+					{mode === "create" ? "Yeni Filodan Çıkış Ekle" : "Seçili Filodan Çıkışı Güncelle"}
+				</DialogTitle>
+				<DialogDescription>
+					{mode === "create"
+						? "Yeni filodan çıkış eklemek için formu eksiksiz doldurunuz"
+						: "Seçili filodan çıkışı güncellemek için formu eksiksiz doldurunuz"}
+				</DialogDescription>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {

@@ -179,13 +179,13 @@ export default function BakimDialog(props: BakimDialogProps) {
 			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px]">
 				<DialogHeader>
 					<DialogTitle>
-						{mode === "create" ? "Yeni Bakim Ekle" : "Seçili Bakimi Güncelle"}
-					</DialogTitle>
-					<DialogDescription>
-						{mode === "create"
-							? "Yeni bakim eklemek için formu eksiksiz doldurunuz"
-							: "Seçili Bakimi Güncelle"}
-					</DialogDescription>
+					{mode === "create" ? "Yeni Bakım Ekle" : "Seçili Bakımı Güncelle"}
+				</DialogTitle>
+				<DialogDescription>
+					{mode === "create"
+						? "Yeni bakım eklemek için formu eksiksiz doldurunuz"
+						: "Seçili bakımı güncellemek için formu eksiksiz doldurunuz"}
+				</DialogDescription>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {

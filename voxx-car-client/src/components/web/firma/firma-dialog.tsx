@@ -82,13 +82,13 @@ export default function FirmaDialog(props: FirmaDialogProps) {
 			<DialogContent className="sm:max-w-[550px]">
 				<DialogHeader>
 					<DialogTitle>
-						{mode === "create" ? "Yeni Firma Ekle" : "Seçili Firmayı Güncelle"}
-					</DialogTitle>
-					<DialogDescription>
-						{mode === "create"
-							? "Yeni firma eklemek için formu eksiksiz doldurunuz"
-							: "Seçili Firmayı Güncelle"}
-					</DialogDescription>
+					{mode === "create" ? "Yeni Firma Ekle" : "Seçili Firmayı Güncelle"}
+				</DialogTitle>
+				<DialogDescription>
+					{mode === "create"
+						? "Yeni firma eklemek için formu eksiksiz doldurunuz"
+						: "Seçili firmayı güncellemek için formu eksiksiz doldurunuz"}
+				</DialogDescription>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {

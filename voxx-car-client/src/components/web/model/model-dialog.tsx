@@ -89,13 +89,13 @@ export default function ModelDialog(props: ModelDialogProps) {
 			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px]">
 				<DialogHeader>
 					<DialogTitle>
-						{mode === "create" ? "Yeni Model Ekle" : "Seçili Modeli Güncelle"}
-					</DialogTitle>
-					<DialogDescription>
-						{mode === "create"
-							? "Yeni model eklemek için formu eksiksiz doldurunuz"
-							: "Seçili Modeli Güncelle"}
-					</DialogDescription>
+					{mode === "create" ? "Yeni Model Ekle" : "Seçili Modeli Güncelle"}
+				</DialogTitle>
+				<DialogDescription>
+					{mode === "create"
+						? "Yeni model eklemek için formu eksiksiz doldurunuz"
+						: "Seçili modeli güncellemek için formu eksiksiz doldurunuz"}
+				</DialogDescription>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {

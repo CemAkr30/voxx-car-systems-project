@@ -197,15 +197,13 @@ export default function AlisFaturasiDialog(props: AlisFaturasiDialogProps) {
 			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px] xl:max-w-[1000px]">
 				<DialogHeader>
 					<DialogTitle>
-						{mode === "create"
-							? "Yeni Alış faturası Ekle"
-							: "Seçili Alış faturasını Güncelle"}
-					</DialogTitle>
-					<DialogDescription>
-						{mode === "create"
-							? "Yeni alış faturası eklemek için formu eksiksiz doldurunuz"
-							: "Seçili Alış faturasını Güncelle"}
-					</DialogDescription>
+					{mode === "create" ? "Yeni Alış Faturası Ekle" : "Seçili Alış Faturasını Güncelle"}
+				</DialogTitle>
+				<DialogDescription>
+					{mode === "create"
+						? "Yeni alış faturası eklemek için formu eksiksiz doldurunuz"
+						: "Seçili alış faturasını güncellemek için formu eksiksiz doldurunuz"}
+				</DialogDescription>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {

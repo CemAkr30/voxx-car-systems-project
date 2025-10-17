@@ -31,11 +31,11 @@ export default function KazaSilDialog({
 		<Dialog open={open} onOpenChange={close}>
 			<DialogContent className="sm:max-w-[400px]">
 				<DialogHeader>
-					<DialogTitle>Seçili Bakımı Sil</DialogTitle>
-					<DialogDescription>
-						Seçili bakım <i>{selectedKaza.kazaNedeni}</i> silmek istediğinizden
-						emin misiniz? Bu işlem geri alınamaz.
-					</DialogDescription>
+				<DialogTitle>Seçili Kazayı Sil</DialogTitle>
+				<DialogDescription>
+					Seçili kaza <i>{selectedKaza.kazaNedeni}</i> silmek istediğinizden
+					emin misiniz? Bu işlem geri alınamaz.
+				</DialogDescription>
 				</DialogHeader>
 				<DialogFooter>
 					<Button variant="outline" onClick={close}>

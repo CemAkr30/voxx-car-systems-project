@@ -79,13 +79,13 @@ export default function MarkaDialog(props: MarkaDialogProps) {
 			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px]">
 				<DialogHeader>
 					<DialogTitle>
-						{mode === "create" ? "Yeni Marka Ekle" : "Seçili Markayı Güncelle"}
-					</DialogTitle>
-					<DialogDescription>
-						{mode === "create"
-							? "Yeni marka eklemek için formu eksiksiz doldurunuz"
-							: "Seçili Markayı Güncelle"}
-					</DialogDescription>
+					{mode === "create" ? "Yeni Marka Ekle" : "Seçili Markayı Güncelle"}
+				</DialogTitle>
+				<DialogDescription>
+					{mode === "create"
+						? "Yeni marka eklemek için formu eksiksiz doldurunuz"
+						: "Seçili markayı güncellemek için formu eksiksiz doldurunuz"}
+				</DialogDescription>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {

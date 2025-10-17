@@ -28,10 +28,10 @@ export default function MtvSilDialog({
 		<Dialog open={open} onOpenChange={close}>
 			<DialogContent className="sm:max-w-[400px]">
 				<DialogHeader>
-					<DialogTitle>Seçili Mtvyı Sil</DialogTitle>
+					<DialogTitle>Seçili MTV'yi Sil</DialogTitle>
 					<DialogDescription>
-						Seçili mtv <i>{selectedMtv.makbuzNo}</i> silmek istediğinizden emin
-						misiniz? Bu işlem geri alınamaz.
+					Seçili MTV <i>{selectedMtv.makbuzNo}</i> silmek istediğinizden emin
+					misiniz? Bu işlem geri alınamaz.
 					</DialogDescription>
 				</DialogHeader>
 				<DialogFooter>

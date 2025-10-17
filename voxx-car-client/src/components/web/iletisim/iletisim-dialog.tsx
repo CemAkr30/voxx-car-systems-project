@@ -94,15 +94,13 @@ export default function IletisimDialog(props: IletisimDialogProps) {
 			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px]">
 				<DialogHeader>
 					<DialogTitle>
-						{mode === "create"
-							? "Yeni Iletisim Ekle"
-							: "Seçili Iletisimi Güncelle"}
-					</DialogTitle>
-					<DialogDescription>
-						{mode === "create"
-							? "Yeni iletisim eklemek için formu eksiksiz doldurunuz"
-							: "Seçili Iletisimi Güncelle"}
-					</DialogDescription>
+					{mode === "create" ? "Yeni İletişim Ekle" : "Seçili İletişimi Güncelle"}
+				</DialogTitle>
+				<DialogDescription>
+					{mode === "create"
+						? "Yeni iletişim eklemek için formu eksiksiz doldurunuz"
+						: "Seçili iletişimi güncellemek için formu eksiksiz doldurunuz"}
+				</DialogDescription>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {

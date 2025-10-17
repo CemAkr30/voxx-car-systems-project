@@ -181,15 +181,13 @@ export default function SigortaDialog(props: SigortaDialogProps) {
 			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px]">
 				<DialogHeader>
 					<DialogTitle>
-						{mode === "create"
-							? "Yeni Sigorta Ekle"
-							: "Seçili Sigortayı Güncelle"}
-					</DialogTitle>
-					<DialogDescription>
-						{mode === "create"
-							? "Yeni sigorta eklemek için formu eksiksiz doldurunuz"
-							: "Seçili Sigortayı Güncelle"}
-					</DialogDescription>
+					{mode === "create" ? "Yeni Sigorta Ekle" : "Seçili Sigortayı Güncelle"}
+				</DialogTitle>
+				<DialogDescription>
+					{mode === "create"
+						? "Yeni sigorta eklemek için formu eksiksiz doldurunuz"
+						: "Seçili sigortayı güncellemek için formu eksiksiz doldurunuz"}
+				</DialogDescription>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {

@@ -206,13 +206,13 @@ export default function KazaDialog(props: KazaDialogProps) {
 			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px]">
 				<DialogHeader>
 					<DialogTitle>
-						{mode === "create" ? "Yeni Kaza Ekle" : "Seçili Kazayı Güncelle"}
-					</DialogTitle>
-					<DialogDescription>
-						{mode === "create"
-							? "Yeni kaza eklemek için formu eksiksiz doldurunuz"
-							: "Seçili Kazayı Güncelle"}
-					</DialogDescription>
+					{mode === "create" ? "Yeni Kaza Ekle" : "Seçili Kazayı Güncelle"}
+				</DialogTitle>
+				<DialogDescription>
+					{mode === "create"
+						? "Yeni kaza eklemek için formu eksiksiz doldurunuz"
+						: "Seçili kazayı güncellemek için formu eksiksiz doldurunuz"}
+				</DialogDescription>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {
