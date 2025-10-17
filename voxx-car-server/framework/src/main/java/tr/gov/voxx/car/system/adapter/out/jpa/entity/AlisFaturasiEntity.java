@@ -1,5 +1,6 @@
 package tr.gov.voxx.car.system.adapter.out.jpa.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -20,7 +21,6 @@ import java.time.Instant;
 public class AlisFaturasiEntity extends AbstractEntity {
     private String aracFiloId;
     private Instant alisFaturasiTarihi;
-    private String alisFaturaNo;
     private String saticiFirmaId;
     private Double listeFiyati;
     private Integer ekGaranti;
@@ -37,7 +37,8 @@ public class AlisFaturasiEntity extends AbstractEntity {
     private String gecikmeCezasi;
     private Double kur;
     private Double faturaTry;
-    private String faturaYukle;//dosya yolu mu verilecek
+    @Column(columnDefinition = "TEXT")
+    private String faturaYukle;
     private String aciklama;
 }
 

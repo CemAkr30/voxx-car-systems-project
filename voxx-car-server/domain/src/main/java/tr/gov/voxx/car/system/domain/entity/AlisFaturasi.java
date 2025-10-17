@@ -17,7 +17,6 @@ public class AlisFaturasi extends AbstractAggregateModel<AlisFaturasiId> {
 
     private AracFiloId aracFiloId;
     private Instant alisFaturasiTarihi;
-    private String alisFaturaNo;
     private FirmaId saticiFirmaId;
     private Double listeFiyati;
     private Integer ekGaranti;
@@ -43,7 +42,6 @@ public class AlisFaturasi extends AbstractAggregateModel<AlisFaturasiId> {
     public void updateFrom(AlisFaturasi other) {
         this.aracFiloId = other.aracFiloId;
         this.alisFaturasiTarihi = other.alisFaturasiTarihi;
-        this.alisFaturaNo = other.alisFaturaNo;
         this.saticiFirmaId = other.saticiFirmaId;
         this.listeFiyati = other.listeFiyati;
         this.ekGaranti = other.ekGaranti;

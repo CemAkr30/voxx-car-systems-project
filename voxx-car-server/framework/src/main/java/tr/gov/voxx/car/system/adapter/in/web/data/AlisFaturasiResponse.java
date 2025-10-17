@@ -16,7 +16,6 @@ public class AlisFaturasiResponse {
     private String id;
     private String aracFiloId;
     private Instant alisFaturasiTarihi;
-    private String alisFaturaNo;
     private String saticiFirmaId;
     private Double listeFiyati;
     private Integer ekGaranti;
