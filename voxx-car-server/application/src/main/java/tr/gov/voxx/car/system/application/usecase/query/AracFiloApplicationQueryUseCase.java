@@ -29,4 +29,9 @@ public class AracFiloApplicationQueryUseCase implements AracFiloApplicationQuery
     public List<AracFilo> findByAktiflikDurumu(boolean isAktif) {
         return aracFiloPersistenceJpaPort.findByAktiflikDurumu(isAktif);
     }
+
+    @Override
+    public List<AracFilo> findKiralikOlmayanAraclar() {
+        return aracFiloPersistenceJpaPort.findKiralikOlmayanAraclar();
+    }
 }

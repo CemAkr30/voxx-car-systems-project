@@ -4,7 +4,6 @@ import { ParaBirimiTipiListesi } from "@/enums";
 export const alisFaturasiCreateSchema = z.object({
 	aracFiloId: z.string(),
 	alisFaturasiTarihi: z.date(),
-	alisFaturaNo: z.string().min(1, "Fatura no gereklidir"),
 	saticiFirmaId: z.string().min(1, "Firma gereklidir"),
 	listeFiyati: z.coerce.number(),
 	ekGaranti: z.coerce.number(),
@@ -20,7 +19,7 @@ export const alisFaturasiCreateSchema = z.object({
 	gecikmeCezasi: z.string(),
 	kur: z.coerce.number(),
 	faturaTry: z.coerce.number(),
-	faturaYukle: z.string(),
+	faturaYukle: z.string().optional(), // Base64 formatında fatura dosyası
 	aciklama: z.string(),
 });
 export type CreateAlisFaturasiRequest = z.infer<

@@ -327,11 +327,11 @@ export const OdemeYapanFirmaListesi = [
 ] as const;
 
 export const OdemeYapanFirmaListesiLabel = {
-	VOXX: "Voxx lojistik dış tic ltd şti",
-	FORS: "Fors lojistik taşıma hizmetleri makine sanayi ve ticaret limited şirketi",
-	EYLUL: "Eylül lojistik A.Ş",
-	MOTION: "Motion lojistik A.Ş",
-	HASA: "Has Aydınlar Motorlu Taşıtlar A.Ş",
+	VOXX: "Voxx Loj. Dış Tic. Ltd. Şti.",
+	FORS: "Fors Loj. Taş. Hizm. Mak. San. ve Tic. Ltd. Şti.",
+	EYLUL: "Eylül Loj. A.Ş.",
+	MOTION: "Motion Loj. A.Ş.",
+	HASA: "Has Aydınlar Mot. Taş. A.Ş.",
 	DEFAULT: "-",
 };
 

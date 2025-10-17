@@ -132,9 +132,6 @@ function RouteComponent() {
 								Firma
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Ödeyen Firma
-							</TableHead>
-							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 								Kaza Tarihi
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
@@ -145,6 +142,12 @@ function RouteComponent() {
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 								Onarım Durumu
+							</TableHead>
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
+								Ödeyen Firma
+							</TableHead>
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
+								Kaza Tutanağı
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300 text-right">
 								İşlemler
@@ -167,7 +170,27 @@ function RouteComponent() {
 										</span>
 									</TableCell>
 									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
+										<span className="text-slate-600 dark:text-slate-400 font-medium">
+											{formatDate(kaza.kazaTarihi.toString())}
+										</span>
+									</TableCell>
+									<TableCell>
+										<span className="text-slate-600 dark:text-slate-400 font-medium">
+											{kaza.kazaIli}
+										</span>
+									</TableCell>
+									<TableCell>
+										<span className="text-slate-600 dark:text-slate-400 font-medium">
+											{KazaNedeniListesiLabel[kaza.kazaNedeni]}
+										</span>
+									</TableCell>
+									<TableCell>
+										<span className="text-slate-600 dark:text-slate-400 font-medium">
+											{OnarimDurumuTipiListesiLabel[kaza.onarimDurumu]}
+										</span>
+									</TableCell>
+									<TableCell>
+										<span className="text-slate-700 dark:text-slate-300 font-medium">
 											{
 												firmalar.find(
 													(firma) => kaza.odeyenFirmaId === firma.id,
@@ -176,24 +199,25 @@ function RouteComponent() {
 										</span>
 									</TableCell>
 									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{formatDate(kaza.kazaTarihi.toString())}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{kaza.kazaIli}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{KazaNedeniListesiLabel[kaza.kazaNedeni]}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{OnarimDurumuTipiListesiLabel[kaza.onarimDurumu]}
-										</span>
+										{kaza.kazaTutanagi ? (
+											<Button
+												variant="outline"
+												size="sm"
+												onClick={() => {
+													const newWindow = window.open();
+													if (newWindow) {
+														newWindow.document.write(
+															`<iframe src="data:application/pdf;base64,${kaza.kazaTutanagi}" frameborder="0" style="width:100vw;height:100vh;"></iframe>`,
+														);
+													}
+												}}
+												className="flex items-center gap-1"
+											>
+												Göster
+											</Button>
+										) : (
+											<span className="text-gray-400 text-sm">Dosya yok</span>
+										)}
 									</TableCell>
 									<TableCell className="text-right">
 										<div className="flex items-center justify-end gap-2">

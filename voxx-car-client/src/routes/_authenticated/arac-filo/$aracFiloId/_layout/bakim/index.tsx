@@ -128,28 +128,37 @@ function RouteComponent() {
 					<TableHeader>
 						<TableRow className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/10 dark:to-purple-950/10 hover:from-indigo-100 hover:to-purple-100 dark:hover:from-indigo-950/20 dark:hover:to-purple-950/20">
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Bakım nedeni
+								Bakım Nedeni
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 								Parça
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Parça tutarı/ işçilik tutarı
+								Parça Adedi
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Toplam
+								Parça Tutarı
+							</TableHead>
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
+								İşçilik Tutarı
+							</TableHead>
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
+								Toplam Tutar
+							</TableHead>
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
+								Bakım Aralığı
+							</TableHead>
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
+								Araç Güncel KM
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 								Fatura
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Fatura no
+								Ödeyen Firma
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 								Açıklama
-							</TableHead>
-							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Firma
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300 text-right">
 								İşlemler
@@ -180,39 +189,67 @@ function RouteComponent() {
 										</div>
 									</TableCell>
 									<TableCell>
-										<div>
-											<p className="font-medium text-slate-900 dark:text-slate-100">
-												{bakim.parcaTutari}
-											</p>
-											<p className="text-sm text-slate-500 dark:text-slate-400">
-												{bakim.iscilikTutari}
-											</p>
-										</div>
-									</TableCell>
-									<TableCell>
-										<span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded-md text-sm font-mono text-slate-700 dark:text-slate-300">
-											{bakim.toplamTutar}
+										<span className="font-medium text-slate-900 dark:text-slate-100">
+											{bakim.parcaAdedi}
 										</span>
 									</TableCell>
 									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{bakim.fatura}
+										<span className="font-medium text-slate-900 dark:text-slate-100">
+											₺{bakim.parcaTutari?.toLocaleString('tr-TR')}
 										</span>
 									</TableCell>
 									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{bakim.faturaNo}
+										<span className="font-medium text-slate-900 dark:text-slate-100">
+											₺{bakim.iscilikTutari?.toLocaleString('tr-TR')}
 										</span>
 									</TableCell>
 									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{bakim.aciklama}
+										<span className="px-2 py-1 bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400 rounded-md text-sm font-semibold">
+											₺{((bakim.parcaAdedi * bakim.parcaTutari) + bakim.iscilikTutari)?.toLocaleString('tr-TR')}
 										</span>
 									</TableCell>
 									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
+										<span className="text-slate-600 dark:text-slate-400 font-medium">
+											{bakim.bakimAraligi} km
+										</span>
+									</TableCell>
+									<TableCell>
+										<span className="text-slate-600 dark:text-slate-400 font-medium">
+											{bakim.aracGuncelKm} km
+										</span>
+									</TableCell>
+									<TableCell>
+										{bakim.fatura ? (
+											<Button
+												variant="outline"
+												size="sm"
+												onClick={() => {
+													const newWindow = window.open();
+													if (newWindow) {
+														newWindow.document.write(
+															`<iframe src="data:application/pdf;base64,${bakim.fatura}" frameborder="0" style="width:100vw;height:100vh;"></iframe>`,
+														);
+													}
+												}}
+												className="flex items-center gap-1"
+											>
+												Göster
+											</Button>
+										) : (
+											<span className="text-gray-400 text-sm">Dosya yok</span>
+										)}
+									</TableCell>
+									<TableCell>
+										<span className="text-slate-700 dark:text-slate-300 font-medium">
 											{OdemeYapanFirmaListesiLabel[bakim.bakimOdeyenFirma]}
 										</span>
+									</TableCell>
+									<TableCell>
+										<div className="max-w-xs">
+											<span className="text-slate-600 dark:text-slate-400 text-sm truncate block">
+												{bakim.aciklama}
+											</span>
+										</div>
 									</TableCell>
 
 									<TableCell className="text-right">

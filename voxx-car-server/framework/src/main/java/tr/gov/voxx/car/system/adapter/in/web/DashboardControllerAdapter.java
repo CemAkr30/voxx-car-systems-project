@@ -40,13 +40,18 @@ public class DashboardControllerAdapter {
     private final FirmaApplicationQueryPort firmaApplicationQueryPort;
     private final AracFirmaDetayApplicationQueryPort aracFirmaDetayApplicationQueryPort;
 
-    @GetMapping("/mtvdurum")
-    @Operation(summary = "MTV Durumu", description = "Belirtilen kriterlere göre MTV durumunu getirir")
+    @GetMapping("/mtv")
+    @Operation(summary = "MTV Durumu", description = "Belirtilen status parametresine göre MTV durumunu getirir")
     public ResponseEntity<MTVDurumResponse> getMTVDurum(
-            @RequestParam String yil,
-            @RequestParam String taksit,
-            @RequestParam Boolean odendi) {
-        var mtvList = mtvApplicationQueryPort.findByYilAndTaksitAndOdendi(yil, taksit, odendi);
+            @RequestParam String status) {
+        // status parametresini Boolean'a çevir
+        Boolean odendi = "odenmis".equalsIgnoreCase(status);
+        
+        // Tüm MTV'leri al ve filtrele
+        var tumMtvler = mtvApplicationQueryPort.getAll();
+        var mtvList = tumMtvler.stream()
+                .filter(mtv -> odendi.equals(mtv.getOdendi()))
+                .toList();
 
         // Araç plakalarını almak için aracFiloId'leri topla
         var aracFiloIds = mtvList.stream()
@@ -65,6 +70,7 @@ public class DashboardControllerAdapter {
         var firmaIds = mtvList.stream()
                 .map(Mtv::getMtvOdeyenFirma)
                 .filter(Objects::nonNull)
+                .filter(id -> !id.isEmpty())
                 .distinct()
                 .toList();
 
@@ -78,9 +84,10 @@ public class DashboardControllerAdapter {
         return ResponseEntity.ok(MTVDurumMapper.toResponse(mtvList, aracFiloMap, firmaMap));
     }
 
-    @GetMapping("/muayenedurum")
-    @Operation(summary = "Muayene Durumu", description = "Belirtilen tarihe göre muayene bitişine 15 günden az kalan muayeneleri getirir")
-    public ResponseEntity<MuayeneDurumResponse> getMuayeneDurum() {
+    @GetMapping("/muayene")
+    @Operation(summary = "Muayene Durumu", description = "Belirtilen status parametresine göre muayene durumunu getirir")
+    public ResponseEntity<MuayeneDurumResponse> getMuayeneDurum(
+            @RequestParam String status) {
         // Şu anki tarihi kullan
         java.time.LocalDate kontrolTarihi = java.time.LocalDate.now();
 
@@ -89,13 +96,18 @@ public class DashboardControllerAdapter {
 
         var tumMuayeneler = muayeneApplicationQueryPort.findByBitisTarihiBefore(bitisTarihi);
 
-        // Sadece 15 günden az kalan muayeneleri filtrele
+        // Status parametresini Boolean'a çevir
+        Boolean odendi = "odenmis".equals(status);
+
+        // Sadece 15 günden az kalan muayeneleri filtrele ve ödeme durumuna göre filtrele
         var muayeneList = tumMuayeneler.stream()
                 .filter(muayene -> {
                     if (muayene.getBitisTarihi() == null) return false;
                     java.time.LocalDate bitisTarihiLocal = muayene.getBitisTarihi().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
                     long kalanGun = java.time.temporal.ChronoUnit.DAYS.between(kontrolTarihi, bitisTarihiLocal);
-                    return kalanGun <= 15 && kalanGun >= 0; // Sadece 15 günden az kalan ve henüz bitmemiş olanlar
+                    boolean kalanGunKontrolu = kalanGun <= 15 && kalanGun >= 0; // Sadece 15 günden az kalan ve henüz bitmemiş olanlar
+                    boolean odemeDurumuKontrolu = odendi.equals(muayene.getOdendi());
+                    return kalanGunKontrolu && odemeDurumuKontrolu;
                 })
                 .toList();
 
@@ -129,8 +141,8 @@ public class DashboardControllerAdapter {
         return ResponseEntity.ok(MuayeneDurumMapper.toResponse(muayeneList, aracFiloMap, firmaMap, kontrolTarihi));
     }
 
-    @GetMapping("/sigortadurum")
-    @Operation(summary = "Sigorta Durumu", description = "Belirtilen tarihe göre sigorta bitişine 15 günden az kalan sigortaları getirir")
+    @GetMapping("/sigorta")
+    @Operation(summary = "Sigorta Durumu", description = "Sigorta bitişine 15 günden az kalan sigortaları getirir")
     public ResponseEntity<SigortaDurumResponse> getSigortaDurum() {
         // Şu anki tarihi kullan
         java.time.LocalDate kontrolTarihi = java.time.LocalDate.now();
@@ -197,9 +209,26 @@ public class DashboardControllerAdapter {
     }
 
     @GetMapping("/kira")
-    @Operation(summary = "Kiralanan Araçlar", description = "Sözleşme bitiş tarihine göre sıralanmış kiralanan araçları getirir")
+    @Operation(summary = "Kiralanan Araçlar", description = "Sözleşme bitişine 15 günden az kalan kiralanan araçları getirir")
     public ResponseEntity<List<AracFirmaDetayResponse>> getKiralananAraclar() {
-        var detayList = aracFirmaDetayApplicationQueryPort.getKiralananAraclarSirali();
+        // Şu anki tarihi kullan
+        java.time.LocalDate kontrolTarihi = java.time.LocalDate.now();
+        
+        // 15 gün sonrasına kadar olan sözleşmeleri al
+        java.time.Instant bitisTarihi = kontrolTarihi.plusDays(15).atStartOfDay(java.time.ZoneId.systemDefault()).toInstant();
+        
+        var tumDetaylar = aracFirmaDetayApplicationQueryPort.getTumDetaylar();
+        
+        // Sadece 15 günden az kalan sözleşmeleri filtrele
+        var detayList = tumDetaylar.stream()
+                .filter(detay -> {
+                    if (detay.getSozlesmeBitisTarihi() == null) return false;
+                    java.time.LocalDate bitisTarihiLocal = detay.getSozlesmeBitisTarihi().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+                    long kalanGun = java.time.temporal.ChronoUnit.DAYS.between(kontrolTarihi, bitisTarihiLocal);
+                    return kalanGun <= 15 && kalanGun >= 0; // Sadece 15 günden az kalan ve henüz bitmemiş olanlar
+                })
+                .sorted((d1, d2) -> d1.getSozlesmeBitisTarihi().compareTo(d2.getSozlesmeBitisTarihi())) // Bitiş tarihine göre sırala
+                .toList();
 
         var response = AracFirmaDetayMapper.toResponseList(detayList);
 

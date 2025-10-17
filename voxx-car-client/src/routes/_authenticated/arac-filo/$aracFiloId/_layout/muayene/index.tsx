@@ -168,16 +168,25 @@ function RouteComponent() {
 								Miktar
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
+								Gecikme Cezası
+							</TableHead>
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 								Ödeme Tipi
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 								Muayene Yeri
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Geçerlilik
+								Başlangıç Tarihi
+							</TableHead>
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
+								Bitiş Tarihi
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 								Durum
+							</TableHead>
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
+								Ödeyen Firma
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300 text-right">
 								İşlemler
@@ -210,16 +219,18 @@ function RouteComponent() {
 										<p className="font-semibold text-slate-900 dark:text-slate-100">
 											{formatCurrency(muayene.miktar)}
 										</p>
-										{Number.parseFloat(muayene.gecikmeCezasi) > 0 && (
-											<p className="text-sm text-red-600 dark:text-red-400">
-												+
-												{formatCurrency(
-													Number.parseFloat(muayene.gecikmeCezasi),
-												)}{" "}
-												ceza
-											</p>
-										)}
 									</div>
+								</TableCell>
+								<TableCell>
+									{Number.parseFloat(muayene.gecikmeCezasi) > 0 ? (
+										<span className="text-red-600 dark:text-red-400 font-medium">
+											{formatCurrency(Number.parseFloat(muayene.gecikmeCezasi))}
+										</span>
+									) : (
+										<span className="text-green-600 dark:text-green-400">
+											Yok
+										</span>
+									)}
 								</TableCell>
 								<TableCell>
 									<Badge className={getPaymentTypeColor(muayene.odemeTipi)}>
@@ -235,39 +246,34 @@ function RouteComponent() {
 									</div>
 								</TableCell>
 								<TableCell>
-									<div className="space-y-1">
-										<div className="flex items-center gap-1">
-											<Calendar className="h-3 w-3 text-slate-400" />
-											<span className="text-xs text-slate-500 dark:text-slate-400">
-												{formatDate(new Date().toString())} -{" "}
-												{formatDate(new Date().toString())}
-											</span>
-										</div>
-										{isExpired(muayene.bitisTarihi) ? (
-											<Badge className="bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400 text-xs">
-												Süresi Dolmuş
-											</Badge>
-										) : isExpiringSoon(muayene.bitisTarihi) ? (
-											<Badge className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400 text-xs">
-												Yakında Dolacak
-											</Badge>
-										) : (
-											<Badge className="bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400 text-xs">
-												Geçerli
-											</Badge>
-										)}
-									</div>
+									<span className="text-sm text-slate-600 dark:text-slate-400">
+										{formatDate(muayene.baslangicTarihi.toString())}
+									</span>
+								</TableCell>
+								<TableCell>
+									<span className="text-sm text-slate-600 dark:text-slate-400">
+										{formatDate(muayene.bitisTarihi.toString())}
+									</span>
 								</TableCell>
 								<TableCell>
 									<Badge
 										className={
-											muayene.odendi
-												? "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400"
-												: "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400"
+											isExpired(muayene.bitisTarihi)
+												? "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400"
+												: "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400"
 										}
 									>
-										{muayene.odendi ? "Ödendi" : "Ödenmedi"}
+										{isExpired(muayene.bitisTarihi) ? "Muayenesi Yok" : "Muayenesi Var"}
 									</Badge>
+								</TableCell>
+								<TableCell>
+									{muayene.odendi && muayene.odeyenFirmaId ? (
+										<span className="text-slate-700 dark:text-slate-300 font-medium">
+											{firmalar.find(f => f.id === muayene.odeyenFirmaId)?.unvan || "Bilinmiyor"}
+										</span>
+									) : (
+										<span className="text-gray-400 text-sm">-</span>
+									)}
 								</TableCell>
 								<TableCell className="text-right">
 									<div className="flex items-center justify-end gap-2">

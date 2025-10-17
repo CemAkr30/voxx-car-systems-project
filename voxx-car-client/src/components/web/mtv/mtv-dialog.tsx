@@ -110,7 +110,7 @@ export default function MtvDialog(props: MtvDialogProps) {
 				form.reset();
 			}}
 		>
-			<DialogContent className="sm:max-w-[550px]">
+			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px]">
 				<DialogHeader>
 					<DialogTitle>
 						{mode === "create" ? "Yeni Mtv Ekle" : "Seçili Mtvyı Güncelle"}
@@ -129,7 +129,7 @@ export default function MtvDialog(props: MtvDialogProps) {
 					}}
 					className="space-y-6"
 				>
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+					<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
 						<form.AppField name="yil">
 							{(field) => <field.TextField label="Yıl" />}
 						</form.AppField>
@@ -165,7 +165,7 @@ export default function MtvDialog(props: MtvDialogProps) {
 					<form.Subscribe selector={(state) => state.values.odendi}>
 						{(odendi) => (
 							<>
-								<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+								<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
 									<form.AppField name="odemeTipi">
 										{(field) => (
 											<field.Select

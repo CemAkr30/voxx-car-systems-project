@@ -17,7 +17,6 @@ public class AlisFaturasiJpaMapper {
                 .id(new AlisFaturasiId(entity.getId()))
                 .aracFiloId(new AracFiloId(entity.getAracFiloId()))
                 .alisFaturasiTarihi(entity.getAlisFaturasiTarihi())
-                .alisFaturaNo(entity.getAlisFaturaNo())
                 .saticiFirmaId(new FirmaId(entity.getSaticiFirmaId()))
                 .listeFiyati(entity.getListeFiyati())
                 .ekGaranti(entity.getEkGaranti())
@@ -49,7 +48,6 @@ public class AlisFaturasiJpaMapper {
         entity.setId(alisFaturasi.getId().getValue());
         entity.setAracFiloId(alisFaturasi.getAracFiloId().getValue());
         entity.setAlisFaturasiTarihi(alisFaturasi.getAlisFaturasiTarihi());
-        entity.setAlisFaturaNo(alisFaturasi.getAlisFaturaNo());
         entity.setSaticiFirmaId(alisFaturasi.getSaticiFirmaId().getValue());
         entity.setListeFiyati(alisFaturasi.getListeFiyati());
         entity.setEkGaranti(alisFaturasi.getEkGaranti());
@@ -59,12 +57,13 @@ public class AlisFaturasiJpaMapper {
         entity.setOtvMatrah(alisFaturasi.getOtvMatrah());
         entity.setOtv(alisFaturasi.getOtv());
         entity.setOtvIndirimi(alisFaturasi.getOtvIndirimi());
-        entity.setKdv(alisFaturasi.getOtvIndirimi());
+        entity.setKdv(alisFaturasi.getKdv());
         entity.setFaturaToplam(alisFaturasi.getFaturaToplam());
         entity.setParaBirimi(alisFaturasi.getParaBirimi());
         entity.setGecikmeCezasi(alisFaturasi.getGecikmeCezasi());
         entity.setKur(alisFaturasi.getKur());
         entity.setFaturaTry(alisFaturasi.getFaturaTry());
+        entity.setFaturaYukle(alisFaturasi.getFaturaYukle());
         entity.setAciklama(alisFaturasi.getAciklama());
         return entity;
     }

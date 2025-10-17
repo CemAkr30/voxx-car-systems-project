@@ -7,18 +7,22 @@ import {
 	Table,
 } from "@/components/ui/table";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { MapPin, Download } from "lucide-react";
+import { MapPin, Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { getKiralananAracFilolarByFirmaIdQueryOptions } from "@/hooks/use-arac-kirala-hooks";
+import {
+	getKiralanabilirAracFilolarQueryOptions,
+	getKiralananAracFilolarByFirmaIdQueryOptions
+} from "@/hooks/use-arac-kirala-hooks";
 import { useSuspenseQueries } from "@tanstack/react-query";
 import { getFirmalarQueryOptions } from "@/hooks/use-firma-hooks";
 import { Button } from "@/components/ui/button";
-import AracKullananDialog from "@/components/web/arac-kirala/arac-kirala-dialog";
-import { formatCurrency, formatDate } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import { getAracFilolarQueryOptions } from "@/hooks/use-arac-filo-hooks";
 import { getMarkalarQueryOptions } from "@/hooks/use-marka-hooks";
 import { getModellerQueryOptions } from "@/hooks/use-model-hooks";
 import type { AracKirala } from "@/schemas/arac-kirala";
+import AracKiralaDialog from "@/components/web/arac-kirala/arac-kirala-dialog";
+import AracKiralaSilDialog from "@/components/web/arac-kirala/arac-kirala-sil-dialog";
 
 interface DialogState {
 	create: boolean;
@@ -49,7 +53,6 @@ function RouteComponent() {
 		update: false,
 		delete: false,
 	});
-	const [_, setOpenDropdowns] = useState<Set<string>>(new Set());
 
 	const [
 		{ data: aracFilolar = [] },
@@ -61,7 +64,7 @@ function RouteComponent() {
 		queries: [
 			getAracFilolarQueryOptions(),
 			getKiralananAracFilolarByFirmaIdQueryOptions(firmaId),
-			getAracFilolarQueryOptions(),
+			getKiralanabilirAracFilolarQueryOptions(),
 			getMarkalarQueryOptions(),
 			getModellerQueryOptions(),
 		],
@@ -82,53 +85,9 @@ function RouteComponent() {
 			update: false,
 			delete: false,
 		});
-		setOpenDropdowns(new Set());
 	};
 
-	// Dosya indirme fonksiyonu
-	const downloadFile = (base64String: string, fileName: string) => {
-		if (!base64String) return;
-		
-		// Base64 string'i binary'ye çevir
-		const binaryString = atob(base64String);
-		const bytes = new Uint8Array(binaryString.length);
-		for (let i = 0; i < binaryString.length; i++) {
-			bytes[i] = binaryString.charCodeAt(i);
-		}
-		
-		// Dosya tipini belirle (ilk birkaç byte'a bakarak)
-		let mimeType = 'application/octet-stream';
-		let fileExtension = 'bin';
-		
-		if (bytes[0] === 0x25 && bytes[1] === 0x50 && bytes[2] === 0x44 && bytes[3] === 0x46) {
-			// PDF
-			mimeType = 'application/pdf';
-			fileExtension = 'pdf';
-		} else if (bytes[0] === 0xFF && bytes[1] === 0xD8 && bytes[2] === 0xFF) {
-			// JPEG
-			mimeType = 'image/jpeg';
-			fileExtension = 'jpg';
-		} else if (bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4E && bytes[3] === 0x47) {
-			// PNG
-			mimeType = 'image/png';
-			fileExtension = 'png';
-		} else if (bytes[0] === 0xD0 && bytes[1] === 0xCF && bytes[2] === 0x11 && bytes[3] === 0xE0) {
-			// DOC/DOCX
-			mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-			fileExtension = 'docx';
-		}
-		
-		// Blob oluştur ve indir
-		const blob = new Blob([bytes], { type: mimeType });
-		const url = URL.createObjectURL(blob);
-		const link = document.createElement('a');
-		link.href = url;
-		link.download = `${fileName}.${fileExtension}`;
-		document.body.appendChild(link);
-		link.click();
-		document.body.removeChild(link);
-		URL.revokeObjectURL(url);
-	};
+
 
 	return (
 		<div className="space-y-8">
@@ -183,16 +142,12 @@ function RouteComponent() {
 						<TableRow>
 							<TableHead>Arac Plaka</TableHead>
 							<TableHead>Marka / Model</TableHead>
-							<TableHead>Kira Başlangıç</TableHead>
-							<TableHead>Kira Bitiş</TableHead>
 							<TableHead>Sözleşme Başlangıç</TableHead>
 							<TableHead>Sözleşme Bitiş</TableHead>
-							<TableHead>Aylık Fatura</TableHead>
-							<TableHead>Sözleşme Tutarı</TableHead>
-							<TableHead>Kapora</TableHead>
 							<TableHead>Ödeme Vadesi</TableHead>
 							<TableHead>Teslimat Tutanağı</TableHead>
 							<TableHead>Sözleşme</TableHead>
+							<TableHead className="w-12">İşlemler</TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
@@ -232,24 +187,11 @@ function RouteComponent() {
 									}
 								</TableCell>
 								<TableCell>
-									{formatDate(kiralananArac.baslangicTarihi.toString())}
-								</TableCell>
-								<TableCell>
-									{formatDate(kiralananArac.bitisTarihi.toString())}
-								</TableCell>
-								<TableCell>
 									{formatDate(kiralananArac.sozlesmeBaslangicTarihi.toString())}
 								</TableCell>
 								<TableCell>
 									{formatDate(kiralananArac.sozlesmeBitisTarihi.toString())}
 								</TableCell>
-								<TableCell>
-									{formatCurrency(kiralananArac.aylikFaturaTutari)}
-								</TableCell>
-								<TableCell>
-									{formatCurrency(kiralananArac.sozlesmeTutari)}
-								</TableCell>
-								<TableCell>{formatCurrency(kiralananArac.kapora)}</TableCell>
 								<TableCell>
 									{kiralananArac.odemeVadesi ? `${kiralananArac.odemeVadesi} gün` : '-'}
 								</TableCell>
@@ -258,14 +200,17 @@ function RouteComponent() {
 										<Button
 											variant="outline"
 											size="sm"
-											onClick={() => downloadFile(
-												kiralananArac.teslimatTutanagi!,
-												`teslimat-tutanagi-${kiralananArac.id}`
-											)}
+											onClick={() => {
+												const newWindow = window.open();
+												if (newWindow) {
+													newWindow.document.write(
+														`<iframe src="data:application/pdf;base64,${kiralananArac.teslimatTutanagi}" frameborder="0" style="width:100vw;height:100vh;"></iframe>`,
+													);
+												}
+											}}
 											className="flex items-center gap-1"
 										>
-											<Download className="h-4 w-4" />
-											İndir
+											Göster
 										</Button>
 									) : (
 										<span className="text-gray-400 text-sm">Dosya yok</span>
@@ -276,18 +221,41 @@ function RouteComponent() {
 										<Button
 											variant="outline"
 											size="sm"
-											onClick={() => downloadFile(
-												kiralananArac.sozlesme!,
-												`sozlesme-${kiralananArac.id}`
-											)}
+											onClick={() => {
+												const newWindow = window.open();
+												if (newWindow) {
+													newWindow.document.write(
+														`<iframe src="data:application/pdf;base64,${kiralananArac.sozlesme}" frameborder="0" style="width:100vw;height:100vh;"></iframe>`,
+													);
+												}
+											}}
 											className="flex items-center gap-1"
 										>
-											<Download className="h-4 w-4" />
-											İndir
+											Göster
 										</Button>
 									) : (
 										<span className="text-gray-400 text-sm">Dosya yok</span>
 									)}
+								</TableCell>
+								<TableCell className="text-right">
+									<div className="flex items-center justify-end gap-2">
+										<Button
+											onClick={() => openDialog("update", kiralananArac)}
+											variant="ghost"
+											type="button"
+											className="p-2 hover:bg-indigo-50 dark:hover:bg-indigo-950/20 rounded-lg transition-colors group"
+										>
+											<Edit className="h-4 w-4 text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400" />
+										</Button>
+										<Button
+											onClick={() => openDialog("delete", kiralananArac)}
+											variant="ghost"
+											type="button"
+											className="p-2 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-lg transition-colors group"
+										>
+											<Trash2 className="h-4 w-4 text-slate-400 group-hover:text-red-600 dark:group-hover:text-red-400" />
+										</Button>
+									</div>
 								</TableCell>
 							</TableRow>
 						))}
@@ -297,12 +265,26 @@ function RouteComponent() {
 
 			{/* Dialogs */}
 			{dialogState.create && (
-				<AracKullananDialog
+				<AracKiralaDialog
 					mode="firma"
 					open={dialogState.create}
 					close={closeDialog}
 					kiralanabilenAraclar={kiralanabilenAraclar}
 					initialValues={{ firmaId, aracFiloId: "" }}
+				/>
+			)}
+
+			{dialogState.update && dialogState.selectedAracKirala && (
+				<AracKiralaDialog
+					mode="firma"
+					open={dialogState.update}
+					close={closeDialog}
+					kiralanabilenAraclar={kiralanabilenAraclar}
+					initialValues={{ 
+						firmaId: dialogState.selectedAracKirala.firmaId, 
+						aracFiloId: dialogState.selectedAracKirala.aracFiloId 
+					}}
+					updateData={dialogState.selectedAracKirala}
 				/>
 			)}
 
@@ -320,13 +302,13 @@ function RouteComponent() {
         />
       )} */}
 
-			{/* {dialogState.delete && (
-        <AracKullananSilDialog
-          open={dialogState.delete}
-          close={closeDialog}
-          selectedAracKullanan={dialogState.selectedAracKullanan!}
-        />
-      )} */}
+			{dialogState.delete && dialogState.selectedAracKirala && (
+				<AracKiralaSilDialog
+					open={dialogState.delete}
+					close={closeDialog}
+					selectedAracKirala={dialogState.selectedAracKirala}
+				/>
+			)}
 		</div>
 	);
 }

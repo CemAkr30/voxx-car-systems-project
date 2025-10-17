@@ -145,6 +145,9 @@ function RouteComponent() {
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 								Bitiş Tarihi
 							</TableHead>
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
+								Sözleşme
+							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300 text-right">
 								İşlemler
 							</TableHead>
@@ -210,6 +213,27 @@ function RouteComponent() {
 												</span>
 											</div>
 										</div>
+									</TableCell>
+									<TableCell>
+										{sigorta.sozlesme ? (
+											<Button
+												variant="outline"
+												size="sm"
+												onClick={() => {
+													const newWindow = window.open();
+													if (newWindow) {
+														newWindow.document.write(
+															`<iframe src="data:application/pdf;base64,${sigorta.sozlesme}" frameborder="0" style="width:100vw;height:100vh;"></iframe>`,
+														);
+													}
+												}}
+												className="flex items-center gap-1"
+											>
+												Göster
+											</Button>
+										) : (
+											<span className="text-gray-400 text-sm">Dosya yok</span>
+										)}
 									</TableCell>
 									<TableCell className="text-right">
 										<div className="flex items-center justify-end gap-2">

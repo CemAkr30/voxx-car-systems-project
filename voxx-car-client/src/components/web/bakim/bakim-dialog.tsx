@@ -7,6 +7,8 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
 	BakimNedeniTipiListesi,
 	BakimNedeniTipiListesiLabel,
@@ -26,7 +28,8 @@ import {
 	type CreateBakimRequest,
 } from "@/schemas/bakim";
 import { useQueryClient } from "@tanstack/react-query";
-import { RefreshCw } from "lucide-react";
+import { RefreshCw, FileText, Eye } from "lucide-react";
+import { useState } from "react";
 
 interface BakimDialogCreateProps {
 	mode: "create";
@@ -49,6 +52,8 @@ type BakimDialogProps = BakimDialogCreateProps | BakimDialogUpdateProps;
 export default function BakimDialog(props: BakimDialogProps) {
 	const { mode, open, close, aracFiloId } = props;
 	const queryClient = useQueryClient();
+	const [selectedFile, setSelectedFile] = useState<File | null>(null);
+	const [fileName, setFileName] = useState<string>("");
 
 	const bakimNedeniTipiOptions = BakimNedeniTipiListesi.map((bakimNedeni) => ({
 		label: BakimNedeniTipiListesiLabel[bakimNedeni],
@@ -64,6 +69,43 @@ export default function BakimDialog(props: BakimDialogProps) {
 	const updateBakimMutation =
 		mode === "create" ? null : useUpdateBakimMutation(close);
 
+	// Edit modunda mevcut fatura varsa göster
+	const hasExistingFatura = mode === "update" && props.initialValues.fatura;
+
+	// Dosyayı base64'e çeviren fonksiyon
+	const convertFileToBase64 = (file: File): Promise<string> => {
+		return new Promise((resolve, reject) => {
+			const reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onload = () => {
+				const result = reader.result as string;
+				// "data:application/pdf;base64," kısmını kaldırıp sadece base64 string'i al
+				const base64 = result.split(',')[1];
+				resolve(base64);
+			};
+			reader.onerror = (error) => reject(error);
+		});
+	};
+
+	// Mevcut faturayı yeni sekmede göster
+	const showExistingFatura = () => {
+		if (hasExistingFatura) {
+			const newWindow = window.open();
+			if (newWindow) {
+				newWindow.document.write(`
+					<html>
+						<head><title>Fatura</title></head>
+						<body style="margin:0; padding:0;">
+							<iframe src="data:application/pdf;base64,${props.initialValues.fatura}" 
+									width="100%" height="100%" style="border:none;">
+							</iframe>
+						</body>
+					</html>
+				`);
+			}
+		}
+	};
+
 	const form = useAppForm({
 		defaultValues:
 			mode === "create"
@@ -76,7 +118,6 @@ export default function BakimDialog(props: BakimDialogProps) {
 						iscilikTutari: 0,
 						bakimAraligi: 0,
 						aracGuncelKm: 0,
-						faturaNo: "",
 						fatura: "",
 						aciklama: "",
 						bakimOdeyenFirma: OdemeYapanFirmaListesi[5],
@@ -90,10 +131,18 @@ export default function BakimDialog(props: BakimDialogProps) {
 		},
 		onSubmit: async ({ formApi, value }) => {
 			try {
+				let submitValue = { ...value };
+				
+				// Eğer dosya seçilmişse base64'e çevir
+				if (selectedFile) {
+					const base64String = await convertFileToBase64(selectedFile);
+					submitValue = { ...submitValue, fatura: base64String };
+				}
+
 				if (mode === "create") {
-					await createBakimMutation.mutateAsync(value as CreateBakimRequest);
+					await createBakimMutation.mutateAsync(submitValue as CreateBakimRequest);
 				} else if (mode === "update") {
-					await updateBakimMutation!.mutateAsync(value as Bakim);
+					await updateBakimMutation!.mutateAsync(submitValue as Bakim);
 				}
 				await queryClient.invalidateQueries(
 					getBakimlarByAracFiloIdQueryOptions(aracFiloId),
@@ -111,7 +160,7 @@ export default function BakimDialog(props: BakimDialogProps) {
 				form.reset();
 			}}
 		>
-			<DialogContent className="sm:max-w-[550px]">
+			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px]">
 				<DialogHeader>
 					<DialogTitle>
 						{mode === "create" ? "Yeni Bakim Ekle" : "Seçili Bakimi Güncelle"}
@@ -130,7 +179,7 @@ export default function BakimDialog(props: BakimDialogProps) {
 					}}
 					className="space-y-6"
 				>
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
 						<form.AppField name="bakimNedeni">
 							{(field) => (
 								<field.Select
@@ -155,10 +204,6 @@ export default function BakimDialog(props: BakimDialogProps) {
 						<form.AppField name="iscilikTutari">
 							{(field) => <field.TextField label="İşçilik tutarı" />}
 						</form.AppField>
-
-						<form.AppField name="faturaNo">
-							{(field) => <field.TextField label="Fatura numarası" />}
-						</form.AppField>
 					</div>
 
 					<form.AppField name="bakimAraligi">
@@ -169,9 +214,86 @@ export default function BakimDialog(props: BakimDialogProps) {
 						{(field) => <field.TextField label="Araç Güncel Kilometre" />}
 					</form.AppField>
 
-					<form.AppField name="fatura">
-						{(field) => <field.TextField label="Fatura" />}
-					</form.AppField>
+					{/* Fatura Dosyası Yükleme Alanı */}
+					<div className="space-y-2">
+						<Label htmlFor="fatura">Fatura Dosyası</Label>
+						
+						{/* Mevcut fatura varsa göster */}
+						{hasExistingFatura && !selectedFile && (
+							<div className="flex items-center justify-between p-3 bg-gray-50 rounded-md border">
+								<div className="flex items-center space-x-2">
+									<FileText className="h-4 w-4 text-blue-600" />
+									<span className="text-sm font-medium">Mevcut fatura dosyası mevcut</span>
+								</div>
+								<div className="flex items-center space-x-2">
+									<Button
+										type="button"
+										variant="outline"
+										size="sm"
+										onClick={showExistingFatura}
+									>
+										<Eye className="h-4 w-4 mr-1" />
+										Göster
+									</Button>
+									<Button
+										type="button"
+										variant="outline"
+										size="sm"
+										onClick={() => {
+											// Mevcut faturayı kaldır
+											form.setFieldValue('fatura', '');
+										}}
+									>
+										Kaldır
+									</Button>
+								</div>
+							</div>
+						)}
+						
+						<div className="flex items-center space-x-2">
+							<Input
+								id="fatura"
+								type="file"
+								accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+								onChange={(e) => {
+									const file = e.target.files?.[0];
+									if (file) {
+										setSelectedFile(file);
+										setFileName(file.name);
+									}
+								}}
+								className="flex-1"
+							/>
+							<Button
+								type="button"
+								variant="outline"
+								size="sm"
+								onClick={() => {
+									setSelectedFile(null);
+									setFileName("");
+									const fileInput = document.getElementById('fatura') as HTMLInputElement;
+									if (fileInput) {
+										fileInput.value = '';
+									}
+								}}
+								disabled={!selectedFile}
+							>
+								Temizle
+							</Button>
+						</div>
+						{selectedFile && (
+							<div className="flex items-center space-x-2 text-sm text-gray-600">
+								<FileText className="h-4 w-4" />
+								<span>{fileName}</span>
+								<span className="text-xs">
+									({(selectedFile.size / 1024 / 1024).toFixed(2)} MB)
+								</span>
+							</div>
+						)}
+						<p className="text-xs text-gray-500">
+							PDF, DOC, DOCX, JPG, JPEG, PNG formatları desteklenmektedir.
+						</p>
+					</div>
 
 					<form.AppField name="aciklama">
 						{(field) => <field.TextArea label="Açıklama" />}

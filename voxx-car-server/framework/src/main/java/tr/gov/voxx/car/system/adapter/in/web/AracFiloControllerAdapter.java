@@ -136,6 +136,22 @@ public class AracFiloControllerAdapter {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/kirala/{id}")
+    @Operation(summary = "Araç Kiralama Bilgilerini Güncelle", description = "Belirtilen ID ile araç kiralama bilgilerini günceller")
+    public ResponseEntity<Void> updateKirala(@PathVariable String id, @RequestBody AracFirmaDetayRequest request) {
+        AracFirmaDetay entity = AracFirmaDetayMapper.toAracFirmaDetay(request);
+        entity.setId(new tr.gov.voxx.car.system.domain.valueobject.AracFirmaDetayId(id));
+        aracFirmaDetayApplicationCommandPort.put(entity);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/kirala/{id}")
+    @Operation(summary = "Araç Kiralama Bilgisini Sil", description = "Belirtilen ID ile araç kiralama bilgisini siler")
+    public ResponseEntity<Void> deleteKirala(@PathVariable String id) {
+        aracFirmaDetayApplicationCommandPort.deleteById(new tr.gov.voxx.car.system.domain.valueobject.AracFirmaDetayId(id));
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/{id}/kiralayan-firmalar")
     @Operation(summary = "Araç Filo ID ye göre kiralayan araçları getir", description = "Belirtilen Araç Filo ID ye göre kiralayan araçları getir")
     public ResponseEntity<List<AracFirmaDetayResponse>> kiralayanFirmalar(@PathVariable("id") String aracFiloId) {
@@ -144,11 +160,11 @@ public class AracFiloControllerAdapter {
         ));
     }
 
-    @GetMapping("/{id}/kiralanabilir-araclar")
-    @Operation(summary = "Firma ID ye göre kiralanabilir araçları getir", description = "Belirtilen Firma ID ye göre kiralanabilir araçları getir")
-    public ResponseEntity<List<AracFirmaDetayResponse>> kiralanabilirAracFirmaDetay() {
-        return ResponseEntity.ok(AracFirmaDetayMapper.toResponseList(
-                aracFirmaDetayApplicationQueryPort.kiralanabilirAraclar()
+    @GetMapping("/kiralanabilir-araclar")
+    @Operation(summary = "Kiralanabilir Araçları Getir", description = "Hiç kiralanmamış veya sözleşmesi bitmiş araçları getirir")
+    public ResponseEntity<List<AracFiloResponse>> kiralanabilirAraclar() {
+        return ResponseEntity.ok(AracFiloMapper.toResponseList(
+                queryPort.findKiralikOlmayanAraclar()
         ));
     }
 

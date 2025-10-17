@@ -69,14 +69,14 @@ public class AracFirmaDetayPersistenceJpaAdapter implements AracFirmaDetayPersis
     @Override
     public List<AracFirmaDetay> kiralayanFirmalar(AracFiloId aracFiloId) {
         return AracFirmaDetayJpaMapper.toAracFirmaDetayList(
-                aracFirmaDetayJpaRepository.findByAracFiloId(aracFiloId.getValue())
+                aracFirmaDetayJpaRepository.findByAracFiloIdAndIsDeletedFalse(aracFiloId.getValue())
         );
     }
 
     @Override
     public List<AracFirmaDetay> kiralananAraclar(FirmaId firmaId) {
         return AracFirmaDetayJpaMapper.toAracFirmaDetayList(
-                aracFirmaDetayJpaRepository.findByFirmaId(firmaId.getValue())
+                aracFirmaDetayJpaRepository.findByFirmaIdAndIsDeletedFalse(firmaId.getValue())
         );
     }
 

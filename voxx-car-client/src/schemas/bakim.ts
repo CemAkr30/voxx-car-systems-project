@@ -10,8 +10,7 @@ export const bakimCreateSchema = z.object({
 	parcaTutari: z.coerce.number(),
 	parcaAdedi: z.coerce.number(),
 	iscilikTutari: z.coerce.number(),
-	faturaNo: z.string().min(1, "Fatura no gereklidir"),
-	fatura: z.string().min(1, "Fatura yüklemek gereklidir"),
+	fatura: z.string().optional(), // Base64 formatında fatura dosyası
 	aciklama: z.string(),
 	bakimOdeyenFirma: z.enum(OdemeYapanFirmaListesi, {
 		errorMap: () => ({ message: "Ödeme Yapan Firma gereklidir" }),

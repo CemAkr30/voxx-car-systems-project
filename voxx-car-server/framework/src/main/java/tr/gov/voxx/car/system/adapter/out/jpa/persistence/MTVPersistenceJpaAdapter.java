@@ -76,5 +76,12 @@ public class MTVPersistenceJpaAdapter implements MTVPersistenceJpaPort {
                 mtvJpaRepository.findByYilAndTaksitAndOdendiAndIsDeletedFalse(yil, taksit, odendi)
         );
     }
+
+    @Override
+    public List<Mtv> findByOdendi(Boolean odendi) {
+        return MTVJpaMapper.toMtvList(
+                mtvJpaRepository.findByOdendiAndIsDeletedFalse(odendi)
+        );
+    }
 }
 

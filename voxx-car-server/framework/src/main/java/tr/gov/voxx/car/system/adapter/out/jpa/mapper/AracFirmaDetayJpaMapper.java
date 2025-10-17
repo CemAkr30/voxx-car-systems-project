@@ -19,11 +19,6 @@ public class AracFirmaDetayJpaMapper {
                 .id(new AracFirmaDetayId(entity.getId()))
                 .aracFiloId(new AracFiloId(entity.getAracFiloId()))
                 .firmaId(new FirmaId(entity.getFirmaId()))
-                .baslangicTarihi(entity.getBaslangicTarihi())
-                .bitisTarihi(entity.getBitisTarihi())
-                .sozlesmeTutari(entity.getSozlesmeTutari())
-                .aylikFaturaTutari(entity.getAylikFaturaTutari())
-                .kapora(entity.getKapora())
                 .sozlesmeBaslangicTarihi(entity.getSozlesmeBaslangicTarihi())
                 .sozlesmeBitisTarihi(entity.getSozlesmeBitisTarihi())
                 .teslimatTutanagi(entity.getTeslimatTutanagi())
@@ -43,11 +38,6 @@ public class AracFirmaDetayJpaMapper {
         entity.setId(aracFirmaDetay.getId().getValue());
         entity.setAracFiloId(aracFirmaDetay.getAracFiloId().getValue());
         entity.setFirmaId(aracFirmaDetay.getFirmaId().getValue());
-        entity.setBaslangicTarihi(aracFirmaDetay.getBaslangicTarihi());
-        entity.setBitisTarihi(aracFirmaDetay.getBitisTarihi());
-        entity.setSozlesmeTutari(aracFirmaDetay.getSozlesmeTutari());
-        entity.setAylikFaturaTutari(aracFirmaDetay.getKapora());
-        entity.setKapora(aracFirmaDetay.getKapora());
         entity.setSozlesmeBaslangicTarihi(aracFirmaDetay.getSozlesmeBaslangicTarihi());
         entity.setSozlesmeBitisTarihi(aracFirmaDetay.getSozlesmeBitisTarihi());
         entity.setTeslimatTutanagi(aracFirmaDetay.getTeslimatTutanagi());

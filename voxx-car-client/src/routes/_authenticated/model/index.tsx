@@ -1,13 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import {
 	DropdownMenu,
 	DropdownMenuTrigger,
 	DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
 import { createFileRoute } from "@tanstack/react-router";
-import { Search, Filter, RefreshCw, MoreHorizontal } from "lucide-react";
+import { RefreshCw, MoreHorizontal } from "lucide-react";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -43,7 +42,6 @@ export const Route = createFileRoute("/_authenticated/model/")({
 
 function RouteComponent() {
 	const [selectedItems, setSelectedItems] = useState<string[]>([]);
-	const [searchTerm, setSearchTerm] = useState<string>("");
 	const [dialogState, setDialogState] = useState<DialogState>({
 		create: false,
 		update: false,
@@ -127,29 +125,9 @@ function RouteComponent() {
 					</div>
 				</CardHeader>
 				<CardContent>
-					{/* Filters and Search */}
-					<div className="flex items-center justify-between mb-6">
-						<div className="flex items-center space-x-4">
-							<div className="relative">
-								<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-								<Input
-									placeholder="Model ara..."
-									value={searchTerm}
-									onChange={(e) => setSearchTerm(e.target.value)}
-									className="pl-10 w-64"
-								/>
-							</div>
-							<Button variant="outline" size="sm">
-								<Filter className="h-4 w-4 mr-2" />
-								Filtreler
-							</Button>
-							<Button variant="outline" size="sm">
-								<RefreshCw className="h-4 w-4 mr-2" />
-								Yenile
-							</Button>
-						</div>
-
-						{selectedItems.length > 0 && (
+					{/* Bulk Actions */}
+					{selectedItems.length > 0 && (
+						<div className="flex items-center justify-end mb-6">
 							<div className="flex items-center space-x-2">
 								<Badge variant="secondary">
 									{selectedItems.length} öğe seçili
@@ -162,8 +140,8 @@ function RouteComponent() {
 									Seçilenleri Sil
 								</Button>
 							</div>
-						)}
-					</div>
+						</div>
+					)}
 
 					{/* Table */}
 					<div className="border rounded-lg">

@@ -48,11 +48,8 @@ import { useSuspenseQueries } from "@tanstack/react-query";
 import { getFirmalarQueryOptions } from "@/hooks/use-firma-hooks";
 
 export default function Dashboard() {
-	const [mtvFilters, setMtvFilters] = useState({
-		yil: "2024",
-		taksit: "1",
-		odendi: false,
-	});
+	const [mtvStatus, setMtvStatus] = useState<"odenmis" | "odenmemis">("odenmemis");
+	const [muayeneStatus, setMuayeneStatus] = useState<"odenmis" | "odenmemis">("odenmemis");
 
 	const [
 		{ data: mtvDurum },
@@ -67,8 +64,8 @@ export default function Dashboard() {
 		{data: firmalar=[]}
 	] = useSuspenseQueries({
 		queries: [
-			getMTVDurumQueryOptions(mtvFilters.yil, mtvFilters.taksit, mtvFilters.odendi),
-			getMuayeneDurumQueryOptions(),
+			getMTVDurumQueryOptions(mtvStatus),
+			getMuayeneDurumQueryOptions(muayeneStatus),
 			getSigortaDurumQueryOptions(),
 			getFiloDurumQueryOptions("aktif"),
 			getFiloDurumQueryOptions("pasif"),
@@ -122,89 +119,94 @@ export default function Dashboard() {
 			</div>
 
 			{/* Overview Cards */}
-			<div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+			<div className="grid grid-cols-2 md:grid-cols-5 gap-3">
 				<Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/20 dark:to-blue-900/20 border-blue-200 dark:border-blue-800">
-					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-						<CardTitle className="text-sm font-medium text-blue-600 dark:text-blue-400">
-							Aktif Araçlar
-						</CardTitle>
-						<div className="p-2 bg-blue-500 rounded-lg">
-							<Car className="h-4 w-4 text-white" />
+					<CardContent className="p-4">
+						<div className="flex items-center justify-between">
+							<div>
+								<p className="text-xs font-medium text-blue-600 dark:text-blue-400 mb-1">
+									Aktif Araçlar
+								</p>
+								<p className="text-lg font-bold text-blue-900 dark:text-blue-100">
+									{aktifFilo?.length || 0}
+								</p>
+							</div>
+							<div className="p-2 bg-blue-500 rounded-lg">
+								<Car className="h-4 w-4 text-white" />
+							</div>
 						</div>
-					</CardHeader>
-					<CardContent>
-						<div className="text-2xl font-bold text-blue-900 dark:text-blue-100">
-							{aktifFilo?.length || 0}
-						</div>
-						<p className="text-xs text-blue-500 dark:text-blue-400">araç</p>
 					</CardContent>
 				</Card>
 
 				<Card className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-950/20 dark:to-gray-900/20 border-gray-200 dark:border-gray-800">
-					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-						<CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
-							Pasif Araçlar
-						</CardTitle>
-						<div className="p-2 bg-gray-500 rounded-lg">
-							<Car className="h-4 w-4 text-white" />
+					<CardContent className="p-4">
+						<div className="flex items-center justify-between">
+							<div>
+								<p className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">
+									Pasif Araçlar
+								</p>
+								<p className="text-lg font-bold text-gray-900 dark:text-gray-100">
+									{pasifFilo?.length || 0}
+								</p>
+							</div>
+							<div className="p-2 bg-gray-500 rounded-lg">
+								<Car className="h-4 w-4 text-white" />
+							</div>
 						</div>
-					</CardHeader>
-					<CardContent>
-						<div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-							{pasifFilo?.length || 0}
-						</div>
-						<p className="text-xs text-gray-500 dark:text-gray-400">araç</p>
 					</CardContent>
 				</Card>
 
 				<Card className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950/20 dark:to-green-900/20 border-green-200 dark:border-green-800">
-					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-						<CardTitle className="text-sm font-medium text-green-600 dark:text-green-400">
-							Kiralanan Araçlar
-						</CardTitle>
-						<div className="p-2 bg-green-500 rounded-lg">
-							<Building className="h-4 w-4 text-white" />
+					<CardContent className="p-4">
+						<div className="flex items-center justify-between">
+							<div>
+								<p className="text-xs font-medium text-green-600 dark:text-green-400 mb-1">
+									Kiralanan Araçlar
+								</p>
+								<p className="text-lg font-bold text-green-900 dark:text-green-100">
+									{kiralananAraclar?.length || 0}
+								</p>
+							</div>
+							<div className="p-2 bg-green-500 rounded-lg">
+								<Building className="h-4 w-4 text-white" />
+							</div>
 						</div>
-					</CardHeader>
-					<CardContent>
-						<div className="text-2xl font-bold text-green-900 dark:text-green-100">
-							{kiralananAraclar?.length || 0}
-						</div>
-						<p className="text-xs text-green-500 dark:text-green-400">araç</p>
 					</CardContent>
 				</Card>
 
 				<Card className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-950/20 dark:to-orange-900/20 border-orange-200 dark:border-orange-800">
-					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-						<CardTitle className="text-sm font-medium text-orange-600 dark:text-orange-400">
-							Muayene Uyarısı
-						</CardTitle>
-						<div className="p-2 bg-orange-500 rounded-lg">
-							<Calendar className="h-4 w-4 text-white" />
+					<CardContent className="p-4">
+						<div className="flex items-center justify-between">
+							<div>
+								<p className="text-xs font-medium text-orange-600 dark:text-orange-400 mb-1">
+									Muayene Uyarısı
+								</p>
+								<p className="text-lg font-bold text-orange-900 dark:text-orange-100">
+									{muayeneDurum?.muayeneler?.length || 0}
+								</p>
+							</div>
+							<div className="p-2 bg-orange-500 rounded-lg">
+								<Calendar className="h-4 w-4 text-white" />
+							</div>
 						</div>
-					</CardHeader>
-					<CardContent>
-						<div className="text-2xl font-bold text-orange-900 dark:text-orange-100">
-							{muayeneDurum?.muayeneList?.length || 0}
-						</div>
-						<p className="text-xs text-orange-500 dark:text-orange-400">araç</p>
 					</CardContent>
 				</Card>
 
 				<Card className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-950/20 dark:to-red-900/20 border-red-200 dark:border-red-800">
-					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-						<CardTitle className="text-sm font-medium text-red-600 dark:text-red-400">
-							Sigorta Uyarısı
-						</CardTitle>
-						<div className="p-2 bg-red-500 rounded-lg">
-							<Shield className="h-4 w-4 text-white" />
+					<CardContent className="p-4">
+						<div className="flex items-center justify-between">
+							<div>
+								<p className="text-xs font-medium text-red-600 dark:text-red-400 mb-1">
+									Sigorta Uyarısı
+								</p>
+								<p className="text-lg font-bold text-red-900 dark:text-red-100">
+									{sigortaDurum?.sigortalar?.length || 0}
+								</p>
+							</div>
+							<div className="p-2 bg-red-500 rounded-lg">
+								<Shield className="h-4 w-4 text-white" />
+							</div>
 						</div>
-					</CardHeader>
-					<CardContent>
-						<div className="text-2xl font-bold text-red-900 dark:text-red-100">
-							{sigortaDurum?.sigortaList?.length || 0}
-						</div>
-						<p className="text-xs text-red-500 dark:text-red-400">araç</p>
 					</CardContent>
 				</Card>
 			</div>
@@ -221,45 +223,32 @@ export default function Dashboard() {
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
-					<div className="flex gap-4 mb-4">
+					<div className="flex gap-4 mb-4 items-center justify-between">
 						<Select
-							value={mtvFilters.yil}
-							onValueChange={(value) => setMtvFilters(prev => ({ ...prev, yil: value }))}
-						>
-							<SelectTrigger className="w-32">
-								<SelectValue placeholder="Yıl" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectItem value="2024">2024</SelectItem>
-								<SelectItem value="2023">2023</SelectItem>
-							</SelectContent>
-						</Select>
-
-						<Select
-							value={mtvFilters.taksit}
-							onValueChange={(value) => setMtvFilters(prev => ({ ...prev, taksit: value }))}
-						>
-							<SelectTrigger className="w-32">
-								<SelectValue placeholder="Taksit" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectItem value="1">1. Taksit</SelectItem>
-								<SelectItem value="2">2. Taksit</SelectItem>
-							</SelectContent>
-						</Select>
-
-						<Select
-							value={mtvFilters.odendi ? "odendi" : "odenmedi"}
-							onValueChange={(value) => setMtvFilters(prev => ({ ...prev, odendi: value === "odendi" }))}
+							value={mtvStatus}
+							onValueChange={(value: "odenmis" | "odenmemis") => setMtvStatus(value)}
 						>
 							<SelectTrigger className="w-40">
 								<SelectValue placeholder="Durum" />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectItem value="odendi">Ödenen</SelectItem>
-								<SelectItem value="odenmedi">Ödenmemiş</SelectItem>
+								<SelectItem value="odenmis">Ödenen</SelectItem>
+								<SelectItem value="odenmemis">Ödenmemiş</SelectItem>
 							</SelectContent>
 						</Select>
+						
+						{mtvDurum && (
+							<div className="flex gap-6 text-sm">
+								<div className="text-center">
+									<div className="font-semibold text-blue-600">{mtvDurum.toplamKayit}</div>
+									<div className="text-gray-500">Toplam Kayıt</div>
+								</div>
+								<div className="text-center">
+									<div className="font-semibold text-green-600">{formatCurrency(mtvDurum.toplamTutar)}</div>
+									<div className="text-gray-500">Toplam Tutar</div>
+								</div>
+							</div>
+						)}
 					</div>
 
 					<div className="overflow-x-auto">
@@ -275,15 +264,11 @@ export default function Dashboard() {
 								</TableRow>
 							</TableHeader>
 							<TableBody>
-								{mtvDurum?.mtvList?.map((mtv) => (
-									<TableRow key={mtv.id}>
+								{mtvDurum?.mtvler?.map((mtv, index) => (
+									<TableRow key={`${mtv.plaka}-${mtv.yil}-${mtv.taksit}-${index}`}>
 										<TableCell className="font-medium">{mtv.makbuzNo}</TableCell>
-										<TableCell>
-											{mtvDurum.aracFiloMap[mtv.aracFiloId]?.plaka || "Bilinmiyor"}
-										</TableCell>
-										<TableCell>
-											{mtvDurum.firmaMap[mtv.mtvOdeyenFirma]?.unvan || "Bilinmiyor"}
-										</TableCell>
+										<TableCell className="font-medium">{mtv.plaka}</TableCell>
+										<TableCell>{mtv.odeyenFirmaUnvani}</TableCell>
 										<TableCell>{formatCurrency(mtv.miktar)}</TableCell>
 										<TableCell>
 											{Number.parseFloat(mtv.gecikmeCezasi) > 0 ? (
@@ -322,47 +307,89 @@ export default function Dashboard() {
 					</CardTitle>
 					<CardDescription>
 						Muayene süresi 15 gün içinde biten araçlar
+						{muayeneDurum && (
+							<span className="ml-2 text-sm text-gray-500">
+								• {muayeneDurum.toplamKayit} kayıt • {formatCurrency(muayeneDurum.toplamTutar)} toplam
+							</span>
+						)}
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
+					<div className="flex gap-4 mb-4 items-center justify-between">
+						<Select
+							value={muayeneStatus}
+							onValueChange={(value: "odenmis" | "odenmemis") => setMuayeneStatus(value)}
+						>
+							<SelectTrigger className="w-40">
+								<SelectValue placeholder="Durum" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="odenmis">Ödenen</SelectItem>
+								<SelectItem value="odenmemis">Ödenmemiş</SelectItem>
+							</SelectContent>
+						</Select>
+						
+						{muayeneDurum && (
+							<div className="flex gap-6 text-sm">
+								<div className="text-center">
+									<div className="font-semibold text-blue-600">{muayeneDurum.toplamKayit}</div>
+									<div className="text-gray-500">Toplam Kayıt</div>
+								</div>
+								<div className="text-center">
+									<div className="font-semibold text-green-600">{formatCurrency(muayeneDurum.toplamTutar)}</div>
+									<div className="text-gray-500">Toplam Tutar</div>
+								</div>
+							</div>
+						)}
+					</div>
+
 					<div className="overflow-x-auto">
 						<Table>
 							<TableHeader>
 								<TableRow>
 									<TableHead>Araç Plaka</TableHead>
-									<TableHead>Firma</TableHead>
+									<TableHead>Muayene Tipi</TableHead>
+									<TableHead>Makbuz No</TableHead>
+									<TableHead>Yer</TableHead>
 									<TableHead>Bitiş Tarihi</TableHead>
 									<TableHead>Kalan Gün</TableHead>
+									<TableHead>Durum</TableHead>
 								</TableRow>
 							</TableHeader>
 							<TableBody>
-								{muayeneDurum?.muayeneList?.map((muayene) => {
-									const bitisTarihi = new Date(muayene.bitisTarihi);
-									const kalanGun = Math.ceil((bitisTarihi.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
-									
-									return (
-										<TableRow key={muayene.id}>
-											<TableCell className="font-medium">
-												{muayeneDurum.aracFiloMap[muayene.aracFiloId]?.plaka || "Bilinmiyor"}
-											</TableCell>
-											<TableCell>
-												{muayeneDurum.firmaMap[muayene.odeyenFirmaId]?.unvan || "Bilinmiyor"}
-											</TableCell>
-											<TableCell>{formatDate(muayene.bitisTarihi)}</TableCell>
-											<TableCell>
-												<Badge
-													className={
-														kalanGun <= 7
-															? "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400"
-															: "bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400"
-													}
-												>
-													{kalanGun} gün
-												</Badge>
-											</TableCell>
-										</TableRow>
-									);
-								})}
+								{muayeneDurum?.muayeneler?.map((muayene, index) => (
+									<TableRow key={`${muayene.plaka}-${muayene.makbuzNo}-${index}`}>
+										<TableCell className="font-medium">{muayene.plaka}</TableCell>
+										<TableCell>
+											<Badge variant="outline">{muayene.muayeneTipi}</Badge>
+										</TableCell>
+										<TableCell>{muayene.makbuzNo}</TableCell>
+										<TableCell>{muayene.yeri}</TableCell>
+										<TableCell>{formatDate(muayene.bitisTarihi)}</TableCell>
+										<TableCell>
+											<Badge
+												className={
+													muayene.kalanGun <= 7
+														? "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400"
+														: "bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400"
+												}
+											>
+												{muayene.kalanGun} gün
+											</Badge>
+										</TableCell>
+										<TableCell>
+											<Badge
+												className={
+													muayene.odendi
+														? "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400"
+														: "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400"
+												}
+											>
+												{muayene.odendi ? "Ödendi" : "Ödenmedi"}
+											</Badge>
+										</TableCell>
+									</TableRow>
+								))}
 							</TableBody>
 						</Table>
 					</div>
@@ -378,6 +405,11 @@ export default function Dashboard() {
 					</CardTitle>
 					<CardDescription>
 						Sigorta süresi 15 gün içinde biten araçlar
+						{sigortaDurum && (
+							<span className="ml-2 text-sm text-gray-500">
+								• {sigortaDurum.toplamKayit} kayıt
+							</span>
+						)}
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
@@ -386,6 +418,7 @@ export default function Dashboard() {
 							<TableHeader>
 								<TableRow>
 									<TableHead>Araç Plaka</TableHead>
+									<TableHead>Sigorta Tipi</TableHead>
 									<TableHead>Sigorta Şirketi</TableHead>
 									<TableHead>Poliçe No</TableHead>
 									<TableHead>Bitiş Tarihi</TableHead>
@@ -393,32 +426,37 @@ export default function Dashboard() {
 								</TableRow>
 							</TableHeader>
 							<TableBody>
-								{sigortaDurum?.sigortaList?.map((sigorta) => {
-									const bitisTarihi = new Date(sigorta.bitisTarihi);
-									const kalanGun = Math.ceil((bitisTarihi.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
-									
-									return (
-										<TableRow key={sigorta.id}>
-											<TableCell className="font-medium">
-												{sigortaDurum.aracFiloMap[sigorta.aracFiloId]?.plaka || "Bilinmiyor"}
-											</TableCell>
-											<TableCell>{sigorta.sigortaSirketi}</TableCell>
-											<TableCell>{sigorta.policeNo}</TableCell>
-											<TableCell>{formatDate(sigorta.bitisTarihi)}</TableCell>
-											<TableCell>
-												<Badge
-													className={
-														kalanGun <= 7
-															? "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400"
-															: "bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400"
-													}
-												>
-													{kalanGun} gün
-												</Badge>
-											</TableCell>
-										</TableRow>
-									);
-								})}
+								{sigortaDurum?.sigortalar?.map((sigorta, index) => (
+									<TableRow key={`${sigorta.plaka}-${sigorta.policeNo}-${index}`}>
+										<TableCell className="font-medium">{sigorta.plaka}</TableCell>
+										<TableCell>
+											<Badge 
+												variant="outline"
+												className={
+													sigorta.tip === 'KASKO' 
+														? "border-blue-500 text-blue-600" 
+														: "border-green-500 text-green-600"
+												}
+											>
+												{sigorta.tip}
+											</Badge>
+										</TableCell>
+										<TableCell>{sigorta.sigortaSirketi}</TableCell>
+										<TableCell>{sigorta.policeNo}</TableCell>
+										<TableCell>{formatDate(sigorta.bitisTarihi)}</TableCell>
+										<TableCell>
+											<Badge
+												className={
+													sigorta.kalanGun <= 7
+														? "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400"
+														: "bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400"
+												}
+											>
+												{sigorta.kalanGun} gün
+											</Badge>
+										</TableCell>
+									</TableRow>
+								))}
 							</TableBody>
 						</Table>
 					</div>
@@ -470,23 +508,45 @@ export default function Dashboard() {
 								<TableRow>
 									<TableHead>Araç Plaka</TableHead>
 									<TableHead>Firma</TableHead>
+									<TableHead>Sözleşme Başlangıç</TableHead>
 									<TableHead>Sözleşme Bitiş</TableHead>
-									<TableHead>Aylık Fatura</TableHead>
-									<TableHead>Sözleşme Tutarı</TableHead>
-									<TableHead>Kapora</TableHead>
+									<TableHead>Ödeme Vadesi</TableHead>
+									<TableHead>Durum</TableHead>
 								</TableRow>
 							</TableHeader>
 							<TableBody>
-								{kiralananAraclar?.map((arac) => (
-									<TableRow key={arac.id}>
-										<TableCell className="font-medium">{aktifFilo.find(a => a.id === arac.aracFiloId).plaka}</TableCell>
-										<TableCell>{firmalar.find(f => f.id === arac.firmaId)?.unvan}</TableCell>
-										<TableCell>{formatDate(arac.sozlesmeBitisTarihi)}</TableCell>
-										<TableCell>{formatCurrency(arac.aylikFaturaTutari)}</TableCell>
-										<TableCell>{formatCurrency(arac.sozlesmeTutari)}</TableCell>
-										<TableCell>{formatCurrency(arac.kapora)}</TableCell>
-									</TableRow>
-								))}
+								{kiralananAraclar?.map((arac) => {
+									const aracBilgisi = aktifFilo?.find(a => a.id === arac.aracFiloId);
+									const firmaBilgisi = firmalar?.find(f => f.id === arac.firmaId);
+									const sozlesmeBitisTarihi = new Date(arac.sozlesmeBitisTarihi);
+									const bugun = new Date();
+									const kalanGun = Math.ceil((sozlesmeBitisTarihi.getTime() - bugun.getTime()) / (1000 * 60 * 60 * 24));
+									
+									return (
+										<TableRow key={arac.id}>
+											<TableCell className="font-medium">
+												{aracBilgisi?.plaka || "Bilinmiyor"}
+											</TableCell>
+											<TableCell>{firmaBilgisi?.unvan || "Bilinmiyor"}</TableCell>
+											<TableCell>{formatDate(arac.sozlesmeBaslangicTarihi)}</TableCell>
+											<TableCell>{formatDate(arac.sozlesmeBitisTarihi)}</TableCell>
+											<TableCell>{arac.odemeVadesi ? `${arac.odemeVadesi} gün` : "Belirtilmemiş"}</TableCell>
+											<TableCell>
+												<Badge
+													className={
+														kalanGun <= 30
+															? "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400"
+															: kalanGun <= 90
+															? "bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400"
+															: "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400"
+													}
+												>
+													{kalanGun > 0 ? `${kalanGun} gün kaldı` : "Süresi doldu"}
+												</Badge>
+											</TableCell>
+										</TableRow>
+									);
+								})}
 							</TableBody>
 						</Table>
 					</div>

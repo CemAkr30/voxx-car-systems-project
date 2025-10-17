@@ -65,7 +65,7 @@ public class IletisimPersistenceJpaAdapter implements IletisimPersistenceJpaPort
     @Override
     public List<Iletisim> findFirmaIdGetAll(String firmaId) {
         return IletisimJpaMapper.toIletisimList(
-                iletisimJpaRepository.findByFirmaId(firmaId)
+                iletisimJpaRepository.findByFirmaIdAndIsDeletedFalse(firmaId)
         );
     }
 }

@@ -86,7 +86,7 @@ export default function ModelDialog(props: ModelDialogProps) {
 				form.reset();
 			}}
 		>
-			<DialogContent className="sm:max-w-[550px]">
+			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px]">
 				<DialogHeader>
 					<DialogTitle>
 						{mode === "create" ? "Yeni Model Ekle" : "Seçili Modeli Güncelle"}

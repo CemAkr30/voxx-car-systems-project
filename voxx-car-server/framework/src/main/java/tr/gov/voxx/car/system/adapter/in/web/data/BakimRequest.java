@@ -16,7 +16,6 @@ public class BakimRequest {
     private Double parcaTutari;
     private Double iscilikTutari;
     private Double toplamTutar;
-    private String faturaNo;
     private String fatura;
     private String aciklama;
     private String bakimOdeyenFirma;
