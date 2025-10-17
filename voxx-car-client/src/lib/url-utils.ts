@@ -23,10 +23,13 @@ export function getApiBaseUrl(): string {
     try {
         console.log("getApiBaseUrl", env.VITE_API_BASE_URL);
         if (env.VITE_API_BASE_URL) {
-            return env.VITE_API_BASE_URL.replace(/^http:\/\//, "https://");
+            // Ensure HTTPS in production
+            return ensureHttps(env.VITE_API_BASE_URL);
         }
+        // Fallback for production
         return "https://voxxcarsystems.online/api/";
     } catch (_e) {
-        return "";
+        // Fallback for production
+        return "https://voxxcarsystems.online/api/";
     }
 }

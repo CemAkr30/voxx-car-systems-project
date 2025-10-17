@@ -8,7 +8,7 @@ interface ApiError {
 }
 
 export const axiosClient = axios.create({
-    baseURL: getApiBaseUrl() ? getApiBaseUrl() : "http://localhost:9090",
+    baseURL: getApiBaseUrl(),
     timeout: 10000,
 });
 
