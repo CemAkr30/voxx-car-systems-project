@@ -10,6 +10,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { MapPin, Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
 import {
+	getKiralanabilirAracFilolarQueryOptions,
 	getKiralananAracFilolarByFirmaIdQueryOptions
 } from "@/hooks/use-arac-kirala-hooks";
 import { useSuspenseQueries } from "@tanstack/react-query";
@@ -63,7 +64,7 @@ function RouteComponent() {
 		queries: [
 			getAracFilolarQueryOptions(),
 			getKiralananAracFilolarByFirmaIdQueryOptions(firmaId),
-			getAracFilolarQueryOptions(),
+			getKiralanabilirAracFilolarQueryOptions(),
 			getMarkalarQueryOptions(),
 			getModellerQueryOptions(),
 		],

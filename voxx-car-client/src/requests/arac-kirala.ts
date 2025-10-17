@@ -1,11 +1,17 @@
 import urls from "@/constants/apiUrls";
 import { axiosClient } from "@/lib/axios";
+import type { AracFilo } from "@/schemas/arac-filo";
 import type {
 	AracKirala,
 	CreateAracKiralaRequest,
 } from "@/schemas/arac-kirala";
 import { isAxiosError } from "axios";
 import { toast } from "sonner";
+
+export const getKiralanabilirAracFilolar = async (): Promise<AracFilo[]> => {
+	const { data } = await axiosClient.get<AracFilo[]>(`${urls.aracfilo}/kiralanabilir-araclar`);
+	return data.filter((d) => !d.deleted);
+};
 
 export const getKiralikAracFilolarByFirmaId = async (
 	firmaId: string,

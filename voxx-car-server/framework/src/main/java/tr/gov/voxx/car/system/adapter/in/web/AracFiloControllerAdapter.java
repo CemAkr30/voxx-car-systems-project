@@ -160,11 +160,11 @@ public class AracFiloControllerAdapter {
         ));
     }
 
-    @GetMapping("/{id}/kiralanabilir-araclar")
-    @Operation(summary = "Firma ID ye göre kiralanabilir araçları getir", description = "Belirtilen Firma ID ye göre kiralanabilir araçları getir")
-    public ResponseEntity<List<AracFirmaDetayResponse>> kiralanabilirAracFirmaDetay() {
-        return ResponseEntity.ok(AracFirmaDetayMapper.toResponseList(
-                aracFirmaDetayApplicationQueryPort.kiralanabilirAraclar()
+    @GetMapping("/kiralanabilir-araclar")
+    @Operation(summary = "Kiralanabilir Araçları Getir", description = "Hiç kiralanmamış veya sözleşmesi bitmiş araçları getirir")
+    public ResponseEntity<List<AracFiloResponse>> kiralanabilirAraclar() {
+        return ResponseEntity.ok(AracFiloMapper.toResponseList(
+                queryPort.findKiralikOlmayanAraclar()
         ));
     }
 

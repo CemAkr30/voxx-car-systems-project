@@ -7,11 +7,15 @@ import org.springframework.transaction.annotation.Transactional;
 import tr.gov.voxx.car.system.adapter.out.jpa.entity.AracFiloEntity;
 import tr.gov.voxx.car.system.adapter.out.jpa.mapper.AracFiloJpaMapper;
 import tr.gov.voxx.car.system.adapter.out.jpa.repository.AracFiloJpaRepository;
+import tr.gov.voxx.car.system.adapter.out.jpa.repository.AracFirmaDetayJpaRepository;
 import tr.gov.voxx.car.system.application.port.out.AracFiloPersistenceJpaPort;
 import tr.gov.voxx.car.system.domain.entity.AracFilo;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 
+import java.time.Instant;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.Optional;
 
 @Component
@@ -19,6 +23,7 @@ import java.util.Optional;
 public class AracFiloPersistenceJpaAdapter implements AracFiloPersistenceJpaPort {
 
     private final AracFiloJpaRepository aracFiloJpaRepository;
+    private final AracFirmaDetayJpaRepository aracFirmaDetayJpaRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -82,5 +87,23 @@ public class AracFiloPersistenceJpaAdapter implements AracFiloPersistenceJpaPort
         } else {
             throw new EntityNotFoundException("AracFilo not found with id: " + aracFiloId);
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AracFilo> findKiralikOlmayanAraclar() {
+        // Aktif kiralama sözleşmesi olan araç ID'lerini al
+        Instant now = Instant.now();
+        Set<String> aktifKiralananAracIds = aracFirmaDetayJpaRepository.findAktifKiralananAracIds(now)
+                .stream()
+                .collect(Collectors.toSet());
+        
+        // Tüm araçları al ve kiralık olmayanları filtrele
+        List<AracFiloEntity> tumAraclar = aracFiloJpaRepository.findByIsDeletedFalse();
+        List<AracFiloEntity> kiralikOlmayanAraclar = tumAraclar.stream()
+                .filter(arac -> !aktifKiralananAracIds.contains(arac.getId()))
+                .collect(Collectors.toList());
+        
+        return AracFiloJpaMapper.toAracFiloList(kiralikOlmayanAraclar);
     }
 }

@@ -10,4 +10,6 @@ public interface AracFiloPersistenceJpaPort extends PersistenceJpaExecutor<AracF
     List<AracFilo> findByAktiflikDurumu(boolean isAktif);
 
     void updateFiloDurum(String aracFiloId, Integer durum);
+    
+    List<AracFilo> findKiralikOlmayanAraclar();
 }

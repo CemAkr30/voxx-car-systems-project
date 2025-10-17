@@ -1,12 +1,20 @@
 import {
 	createAracKirala,
 	deleteAracKirala,
+	getKiralanabilirAracFilolar,
 	getKiralayanFirmalarByAracFiloId,
 	getKiralikAracFilolarByFirmaId,
 	updateAracKirala,
 } from "@/requests/arac-kirala";
 import type { CreateAracKiralaRequest } from "@/schemas/arac-kirala";
 import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query";
+
+export function getKiralanabilirAracFilolarQueryOptions() {
+	return queryOptions({
+		queryKey: ["arac-filo", "kiralanabilir"],
+		queryFn: () => getKiralanabilirAracFilolar(),
+	});
+}
 
 export function getKiralananAracFilolarByFirmaIdQueryOptions(firmaId: string) {
 	return queryOptions({

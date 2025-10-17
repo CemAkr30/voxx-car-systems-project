@@ -19,6 +19,10 @@ public interface AracFirmaDetayJpaRepository extends JpaRepository<AracFirmaDeta
     @Query("SELECT a FROM AracFirmaDetayEntity a " +
             "WHERE :today NOT BETWEEN a.sozlesmeBaslangicTarihi AND a.sozlesmeBitisTarihi AND a.isDeleted = false")
     List<AracFirmaDetayEntity> findAllKiralanabilirAraclar(@Param("today") Instant today);
+    
+    @Query("SELECT DISTINCT a.aracFiloId FROM AracFirmaDetayEntity a " +
+            "WHERE :today >= a.sozlesmeBaslangicTarihi AND :today <= a.sozlesmeBitisTarihi AND a.isDeleted = false")
+    List<String> findAktifKiralananAracIds(@Param("today") Instant today);
 
     List<AracFirmaDetayEntity> findByIsDeletedFalse();
 
