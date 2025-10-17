@@ -24,6 +24,9 @@ public class AracFirmaDetayJpaMapper {
                 .teslimatTutanagi(entity.getTeslimatTutanagi())
                 .sozlesme(entity.getSozlesme())
                 .odemeVadesi(entity.getOdemeVadesi())
+                .aylikFatura(entity.getAylikFatura())
+                .kapora(entity.getKapora())
+                .sozlesmeTutari(entity.getSozlesmeTutari())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .isDeleted(entity.isDeleted())
@@ -43,6 +46,9 @@ public class AracFirmaDetayJpaMapper {
         entity.setTeslimatTutanagi(aracFirmaDetay.getTeslimatTutanagi());
         entity.setSozlesme(aracFirmaDetay.getSozlesme());
         entity.setOdemeVadesi(aracFirmaDetay.getOdemeVadesi());
+        entity.setAylikFatura(aracFirmaDetay.getAylikFatura());
+        entity.setKapora(aracFirmaDetay.getKapora());
+        entity.setSozlesmeTutari(aracFirmaDetay.getSozlesmeTutari());
         return entity;
     }
 

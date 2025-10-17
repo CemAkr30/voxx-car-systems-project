@@ -113,13 +113,13 @@ export default function MtvDialog(props: MtvDialogProps) {
 			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px]">
 				<DialogHeader>
 					<DialogTitle>
-						{mode === "create" ? "Yeni Mtv Ekle" : "Seçili Mtvyı Güncelle"}
-					</DialogTitle>
-					<DialogDescription>
-						{mode === "create"
-							? "Yeni mtv eklemek için formu eksiksiz doldurunuz"
-							: "Seçili Mtvyı Güncelle"}
-					</DialogDescription>
+					{mode === "create" ? "Yeni MTV Ekle" : "Seçili MTV'yi Güncelle"}
+				</DialogTitle>
+				<DialogDescription>
+					{mode === "create"
+						? "Yeni MTV eklemek için formu eksiksiz doldurunuz"
+						: "Seçili MTV'yi güncellemek için formu eksiksiz doldurunuz"}
+				</DialogDescription>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {

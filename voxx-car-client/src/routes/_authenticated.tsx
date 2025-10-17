@@ -28,20 +28,38 @@ export const Route = createFileRoute("/_authenticated")({
 });
 
 const getTitle = (path: string) => {
-	switch (path) {
-		case "/dashboard":
-			return "Dashboard";
-		case "/marka":
-			return "Marka";
-		case "/model":
-			return "Model";
-		case "/firma":
-			return "Firma";
-		case "/adres":
-			return "Adres";
-		default:
-			return "Dashboard";
-	}
+	// Ana sayfalar
+	if (path === "/dashboard") return "Yönetim Paneli";
+	if (path === "/marka") return "Marka";
+	if (path === "/model") return "Model";
+	if (path === "/firma") return "Firma";
+	if (path === "/arac-filo") return "Araç Filosu";
+	
+	// Firma detay sayfaları
+	if (path.startsWith("/firma/") && path.endsWith("/detay")) return "Firma Detayları";
+	if (path.startsWith("/firma/") && path.endsWith("/adres")) return "Firma Adresleri";
+	if (path.startsWith("/firma/") && path.endsWith("/iletisim")) return "Firma İletişim";
+	if (path.startsWith("/firma/") && path.endsWith("/kiralanan-araclar")) return "Kiralanan Araçlar";
+	if (path.startsWith("/firma/") && path.includes("/")) return "Firma";
+	
+	// Araç filo detay sayfaları
+	if (path.startsWith("/arac-filo/") && path.endsWith("/detay")) return "Araç Detayları";
+	if (path.startsWith("/arac-filo/") && path.endsWith("/sigorta")) return "Sigorta Bilgileri";
+	if (path.startsWith("/arac-filo/") && path.endsWith("/mtv")) return "MTV Bilgileri";
+	if (path.startsWith("/arac-filo/") && path.endsWith("/muayene")) return "Muayene Bilgileri";
+	if (path.startsWith("/arac-filo/") && path.endsWith("/bakim")) return "Bakım Bilgileri";
+	if (path.startsWith("/arac-filo/") && path.endsWith("/hasar")) return "Hasar Bilgileri";
+	if (path.startsWith("/arac-filo/") && path.endsWith("/kaza")) return "Kaza Bilgileri";
+	if (path.startsWith("/arac-filo/") && path.endsWith("/alis-faturasi")) return "Alış Faturası";
+	if (path.startsWith("/arac-filo/") && path.endsWith("/filodan-cikis")) return "Filodan Çıkış";
+	if (path.startsWith("/arac-filo/") && path.includes("/")) return "Araç Filosu";
+	
+	// Form sayfaları
+	if (path.includes("/arac-filo/olustur")) return "Yeni Araç Ekle";
+	if (path.includes("/arac-filo/") && path.includes("/guncelle")) return "Araç Güncelle";
+	
+	// Varsayılan
+	return "Dashboard";
 };
 
 function RouteComponent() {

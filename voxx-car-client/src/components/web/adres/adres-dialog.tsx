@@ -90,13 +90,13 @@ export default function AdresDialog(props: AdresDialogProps) {
 			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px]">
 				<DialogHeader>
 					<DialogTitle>
-						{mode === "create" ? "Yeni Adres Ekle" : "Seçili Adresi Güncelle"}
-					</DialogTitle>
-					<DialogDescription>
-						{mode === "create"
-							? "Yeni adres eklemek için formu eksiksiz doldurunuz"
-							: "Seçili Adresi Güncelle"}
-					</DialogDescription>
+					{mode === "create" ? "Yeni Adres Ekle" : "Seçili Adresi Güncelle"}
+				</DialogTitle>
+				<DialogDescription>
+					{mode === "create"
+						? "Yeni adres eklemek için formu eksiksiz doldurunuz"
+						: "Seçili adresi güncellemek için formu eksiksiz doldurunuz"}
+				</DialogDescription>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {

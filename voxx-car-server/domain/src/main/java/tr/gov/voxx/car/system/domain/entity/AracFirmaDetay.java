@@ -20,6 +20,9 @@ public class AracFirmaDetay extends AbstractAggregateModel<AracFirmaDetayId> {
     private String teslimatTutanagi;
     private String sozlesme;
     private Integer odemeVadesi;
+    private Double aylikFatura;
+    private Double kapora;
+    private Double sozlesmeTutari;
 
     public void initIdGenerator() {
         this.setId(new AracFirmaDetayId(IdFactory.create()));
@@ -33,5 +36,8 @@ public class AracFirmaDetay extends AbstractAggregateModel<AracFirmaDetayId> {
         this.teslimatTutanagi = other.getTeslimatTutanagi();
         this.sozlesme = other.getSozlesme();
         this.odemeVadesi = other.getOdemeVadesi();
+        this.aylikFatura = other.getAylikFatura();
+        this.kapora = other.getKapora();
+        this.sozlesmeTutari = other.getSozlesmeTutari();
     }
 }

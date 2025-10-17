@@ -31,7 +31,7 @@ export default function AlisFaturasiSilDialog({
 		<Dialog open={open} onOpenChange={close}>
 			<DialogContent className="sm:max-w-[400px]">
 				<DialogHeader>
-					<DialogTitle>Seçili Alış faturasını Sil</DialogTitle>
+					<DialogTitle>Seçili Alış Faturasını Sil</DialogTitle>
 					<DialogDescription>
 						Seçili alış faturası <i>{selectedAlisFaturasi.alisFaturaNo}</i>{" "}
 						silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.

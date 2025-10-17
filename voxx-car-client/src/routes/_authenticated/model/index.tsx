@@ -5,9 +5,10 @@ import {
 	DropdownMenuTrigger,
 	DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import { createFileRoute } from "@tanstack/react-router";
-import { RefreshCw, MoreHorizontal } from "lucide-react";
-import { useState } from "react";
+import { MoreHorizontal, Search } from "lucide-react";
+import { useState, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import {
 	Table,
@@ -42,6 +43,7 @@ export const Route = createFileRoute("/_authenticated/model/")({
 
 function RouteComponent() {
 	const [selectedItems, setSelectedItems] = useState<string[]>([]);
+	const [searchTerm, setSearchTerm] = useState("");
 	const [dialogState, setDialogState] = useState<DialogState>({
 		create: false,
 		update: false,
@@ -51,6 +53,19 @@ function RouteComponent() {
 
 	const { data: modeller = [] } = useSuspenseQuery(getModellerQueryOptions());
 	const { data: markalar = [] } = useSuspenseQuery(getMarkalarQueryOptions());
+
+	// Filtrelenmiş modeller
+	const filteredModeller = useMemo(() => {
+		if (!searchTerm) return modeller;
+		
+		return modeller.filter((model) => {
+			const markaAdi = markalar.find((marka) => model.markaId === marka.id)?.adi || "";
+			return (
+				model.adi.toLowerCase().includes(searchTerm.toLowerCase()) ||
+				markaAdi.toLowerCase().includes(searchTerm.toLowerCase())
+			);
+		});
+	}, [modeller, markalar, searchTerm]);
 
 	const openDialog = (type: keyof DialogState, model?: Model) => {
 		setDialogState({
@@ -123,8 +138,30 @@ function RouteComponent() {
 							</DropdownMenu> */}
 						</div>
 					</div>
+					{/* Search Input */}
+					<div className="mt-4">
+						<div className="relative">
+							<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+							<Input
+								placeholder="Model adı veya marka adı ile ara..."
+								value={searchTerm}
+								onChange={(e) => setSearchTerm(e.target.value)}
+								className="pl-10"
+							/>
+						</div>
+					</div>
 				</CardHeader>
 				<CardContent>
+					{/* Search Results Info */}
+					{searchTerm && (
+						<div className="mb-4">
+							<Badge variant="outline" className="text-sm">
+								{filteredModeller.length} sonuç bulundu
+								{searchTerm && ` "${searchTerm}" için`}
+							</Badge>
+						</div>
+					)}
+
 					{/* Bulk Actions */}
 					{selectedItems.length > 0 && (
 						<div className="flex items-center justify-end mb-6">
@@ -156,7 +193,7 @@ function RouteComponent() {
 								</TableRow>
 							</TableHeader>
 							<TableBody>
-								{modeller.map((model: Model) => (
+								{filteredModeller.map((model: Model) => (
 									<TableRow key={model.id}>
 										<TableCell>
 											{

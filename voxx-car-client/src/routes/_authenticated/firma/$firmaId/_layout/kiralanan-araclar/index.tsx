@@ -13,7 +13,8 @@ import {
 	getKiralanabilirAracFilolarQueryOptions,
 	getKiralananAracFilolarByFirmaIdQueryOptions
 } from "@/hooks/use-arac-kirala-hooks";
-import { useSuspenseQueries } from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
+import LoadingOverlay from "@/components/ui/loading-overlay";
 import { getFirmalarQueryOptions } from "@/hooks/use-firma-hooks";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
@@ -54,13 +55,7 @@ function RouteComponent() {
 		delete: false,
 	});
 
-	const [
-		{ data: aracFilolar = [] },
-		{ data: kiralananAraclar = [] },
-		{ data: kiralanabilenAraclar = [] },
-		{ data: markalar = [] },
-		{ data: modeller = [] },
-	] = useSuspenseQueries({
+	const queryResults = useQueries({
 		queries: [
 			getAracFilolarQueryOptions(),
 			getKiralananAracFilolarByFirmaIdQueryOptions(firmaId),
@@ -69,6 +64,18 @@ function RouteComponent() {
 			getModellerQueryOptions(),
 		],
 	});
+
+	const [
+		{ data: aracFilolar = [], isLoading: aracFilolarLoading },
+		{ data: kiralananAraclar = [], isLoading: kiralananAraclarLoading },
+		{ data: kiralanabilenAraclar = [], isLoading: kiralanabilenAraclarLoading },
+		{ data: markalar = [], isLoading: markalarLoading },
+		{ data: modeller = [], isLoading: modellerLoading },
+	] = queryResults;
+
+	// Genel loading durumu
+	const isLoading = aracFilolarLoading || kiralananAraclarLoading || 
+		kiralanabilenAraclarLoading || markalarLoading || modellerLoading;
 
 	const openDialog = (type: keyof DialogState, kiralananArac?: AracKirala) => {
 		setDialogState({
@@ -87,10 +94,26 @@ function RouteComponent() {
 		});
 	};
 
+	// Para formatı için yardımcı fonksiyon
+	const formatCurrency = (amount: number | null | undefined): string => {
+		if (amount === null || amount === undefined) return '-';
+		return new Intl.NumberFormat('tr-TR', {
+			style: 'currency',
+			currency: 'TRY',
+			minimumFractionDigits: 2,
+		}).format(amount);
+	};
+
 
 
 	return (
 		<div className="space-y-8">
+			<LoadingOverlay 
+				isLoading={isLoading} 
+				message="Kiralanan Araçlar Yükleniyor"
+				subMessage="Araç bilgileri ve sözleşme detayları hazırlanıyor..."
+			/>
+			
 			<div className="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-2xl shadow-xl">
 				<div className="absolute inset-0 bg-black/10" />
 				<div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent" />
@@ -145,6 +168,9 @@ function RouteComponent() {
 							<TableHead>Sözleşme Başlangıç</TableHead>
 							<TableHead>Sözleşme Bitiş</TableHead>
 							<TableHead>Ödeme Vadesi</TableHead>
+							<TableHead>Aylık Fatura</TableHead>
+							<TableHead>Kapora</TableHead>
+							<TableHead>Sözleşme Tutarı</TableHead>
 							<TableHead>Teslimat Tutanağı</TableHead>
 							<TableHead>Sözleşme</TableHead>
 							<TableHead className="w-12">İşlemler</TableHead>
@@ -194,6 +220,21 @@ function RouteComponent() {
 								</TableCell>
 								<TableCell>
 									{kiralananArac.odemeVadesi ? `${kiralananArac.odemeVadesi} gün` : '-'}
+								</TableCell>
+								<TableCell>
+									<span className="font-medium text-green-600 dark:text-green-400">
+										{formatCurrency(kiralananArac.aylikFatura)}
+									</span>
+								</TableCell>
+								<TableCell>
+									<span className="font-medium text-blue-600 dark:text-blue-400">
+										{formatCurrency(kiralananArac.kapora)}
+									</span>
+								</TableCell>
+								<TableCell>
+									<span className="font-medium text-purple-600 dark:text-purple-400">
+										{formatCurrency(kiralananArac.sozlesmeTutari)}
+									</span>
 								</TableCell>
 								<TableCell>
 									{kiralananArac.teslimatTutanagi ? (
@@ -279,7 +320,11 @@ function RouteComponent() {
 					mode="firma"
 					open={dialogState.update}
 					close={closeDialog}
-					kiralanabilenAraclar={kiralanabilenAraclar}
+					kiralanabilenAraclar={[
+						...kiralanabilenAraclar,
+						// Güncelleme modunda mevcut kiralanan araç filoyu da ekle
+						aracFilolar.find(a => a.id === dialogState.selectedAracKirala!.aracFiloId)!
+					]}
 					initialValues={{ 
 						firmaId: dialogState.selectedAracKirala.firmaId, 
 						aracFiloId: dialogState.selectedAracKirala.aracFiloId 
@@ -287,20 +332,6 @@ function RouteComponent() {
 					updateData={dialogState.selectedAracKirala}
 				/>
 			)}
-
-			{/* {dialogState.update && dialogState.selectedAracKullanan && (
-        <AracKullananDialog
-          mode="update"
-          open={dialogState.update}
-          close={closeDialog}
-          initialValues={{
-            ...dialogState.selectedAracKullanan,
-            ehliyetBitisTarihi: new Date(
-              dialogState.selectedAracKullanan.ehliyetBitisTarihi
-            ),
-          }}
-        />
-      )} */}
 
 			{dialogState.delete && dialogState.selectedAracKirala && (
 				<AracKiralaSilDialog

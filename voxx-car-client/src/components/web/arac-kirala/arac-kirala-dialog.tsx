@@ -25,8 +25,10 @@ import {
 } from "@/schemas/arac-kirala";
 import type { Firma } from "@/schemas/firma";
 import { useQueryClient, useSuspenseQueries } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
-import { FileText } from "lucide-react";
+import { useMemo, useState, useEffect } from "react";
+import { FileText, Eye } from "lucide-react";
+import { toast } from "sonner";
+import { validateFileType, getFileTypeErrorMessage } from "@/lib/utils";
 
 interface FirmayaAracKiralaDialogCreateProps {
 	mode: "firma";
@@ -66,15 +68,17 @@ export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 		mode === "firma"
 			? useMemo(
 					() =>
-						props.kiralanabilenAraclar.map((kiralanabilenArac) => ({
-							label: `${kiralanabilenArac.plaka} - (${
-								markalar.find((m) => m.id === kiralanabilenArac.markaId)!.adi
-							} / ${
-								modeller.find((m) => m.id === kiralanabilenArac.modelId)!.adi
-							})`,
-							value: kiralanabilenArac.id,
-						})),
-					[props.kiralanabilenAraclar],
+						props.kiralanabilenAraclar
+							.filter((kiralanabilenArac) => kiralanabilenArac && kiralanabilenArac.plaka)
+							.map((kiralanabilenArac) => ({
+								label: `${kiralanabilenArac.plaka} - (${
+									markalar.find((m) => m.id === kiralanabilenArac.markaId)?.adi || "Bilinmeyen Marka"
+								} / ${
+									modeller.find((m) => m.id === kiralanabilenArac.modelId)?.adi || "Bilinmeyen Model"
+								})`,
+								value: kiralanabilenArac.id,
+							})),
+					[props.kiralanabilenAraclar, markalar, modeller],
 				)
 			: [];
 
@@ -92,6 +96,113 @@ export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 
 	const createAracKiralaMutation = useCreateAracKiralaMutation(close);
 	const updateAracKiralaMutation = useUpdateAracKiralaMutation(close);
+
+	// Edit modunda mevcut dosyalar varsa göster
+	const hasExistingTeslimat = isUpdate && 'updateData' in props && props.updateData?.teslimatTutanagi;
+	const hasExistingSozlesme = isUpdate && 'updateData' in props && props.updateData?.sozlesme;
+
+	// Mevcut teslimat tutanağı dosyasını indir
+	const showExistingTeslimat = () => {
+		if (hasExistingTeslimat && 'updateData' in props && props.updateData?.teslimatTutanagi) {
+			// Base64 string'i binary'ye çevir
+			const binaryString = atob(props.updateData.teslimatTutanagi);
+			const bytes = new Uint8Array(binaryString.length);
+			for (let i = 0; i < binaryString.length; i++) {
+				bytes[i] = binaryString.charCodeAt(i);
+			}
+			
+			// Dosya tipini belirle (ilk birkaç byte'a bakarak)
+			let mimeType = 'application/octet-stream';
+			let fileExtension = 'bin';
+			
+			if (bytes[0] === 0x25 && bytes[1] === 0x50 && bytes[2] === 0x44 && bytes[3] === 0x46) {
+				// PDF
+				mimeType = 'application/pdf';
+				fileExtension = 'pdf';
+			} else if (bytes[0] === 0xFF && bytes[1] === 0xD8 && bytes[2] === 0xFF) {
+				// JPEG
+				mimeType = 'image/jpeg';
+				fileExtension = 'jpg';
+			} else if (bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4E && bytes[3] === 0x47) {
+				// PNG
+				mimeType = 'image/png';
+				fileExtension = 'png';
+			}
+			
+			// Blob oluştur ve indir
+			const blob = new Blob([bytes], { type: mimeType });
+			const url = URL.createObjectURL(blob);
+			const link = document.createElement('a');
+			link.href = url;
+			link.download = `teslimat-tutanagi.${fileExtension}`;
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+			URL.revokeObjectURL(url);
+		}
+	};
+
+	// Mevcut sözleşme dosyasını indir
+	const showExistingSozlesme = () => {
+		if (hasExistingSozlesme && 'updateData' in props && props.updateData?.sozlesme) {
+			// Base64 string'i binary'ye çevir
+			const binaryString = atob(props.updateData.sozlesme);
+			const bytes = new Uint8Array(binaryString.length);
+			for (let i = 0; i < binaryString.length; i++) {
+				bytes[i] = binaryString.charCodeAt(i);
+			}
+			
+			// Dosya tipini belirle (ilk birkaç byte'a bakarak)
+			let mimeType = 'application/octet-stream';
+			let fileExtension = 'bin';
+			
+			if (bytes[0] === 0x25 && bytes[1] === 0x50 && bytes[2] === 0x44 && bytes[3] === 0x46) {
+				// PDF
+				mimeType = 'application/pdf';
+				fileExtension = 'pdf';
+			} else if (bytes[0] === 0xFF && bytes[1] === 0xD8 && bytes[2] === 0xFF) {
+				// JPEG
+				mimeType = 'image/jpeg';
+				fileExtension = 'jpg';
+			} else if (bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4E && bytes[3] === 0x47) {
+				// PNG
+				mimeType = 'image/png';
+				fileExtension = 'png';
+			}
+			
+			// Blob oluştur ve indir
+			const blob = new Blob([bytes], { type: mimeType });
+			const url = URL.createObjectURL(blob);
+			const link = document.createElement('a');
+			link.href = url;
+			link.download = `sozlesme.${fileExtension}`;
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+			URL.revokeObjectURL(url);
+		}
+	};
+
+	// Dialog açıldığında dosya state'lerini ayarla
+	useEffect(() => {
+		if (open) {
+			if (isUpdate && 'updateData' in props && props.updateData) {
+				// Güncelleme modunda: önceki dosya bilgilerini göster
+				if (props.updateData.teslimatTutanagi) {
+					setTeslimatFileName("Teslimat Tutanağı (Mevcut)");
+				}
+				if (props.updateData.sozlesme) {
+					setSozlesmeFileName("Sözleşme (Mevcut)");
+				}
+			} else {
+				// Yeni oluşturma modunda: state'leri sıfırla
+				setSelectedTeslimatFile(null);
+				setSelectedSozlesmeFile(null);
+				setTeslimatFileName("");
+				setSozlesmeFileName("");
+			}
+		}
+	}, [open, isUpdate, props]);
 
 	// Dosyayı base64'e çeviren fonksiyon
 	const convertFileToBase64 = (file: File): Promise<string> => {
@@ -116,6 +227,9 @@ export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 			teslimatTutanagi: isUpdate ? props.updateData!.teslimatTutanagi || "" : "",
 			sozlesme: isUpdate ? props.updateData!.sozlesme || "" : "",
 			odemeVadesi: isUpdate ? props.updateData!.odemeVadesi || 0 : 0,
+			aylikFatura: isUpdate ? props.updateData!.aylikFatura || 0 : 0,
+			kapora: isUpdate ? props.updateData!.kapora || 0 : 0,
+			sozlesmeTutari: isUpdate ? props.updateData!.sozlesmeTutari || 0 : 0,
 		},
 		validators: {
 			// @ts-expect-error
@@ -174,8 +288,8 @@ export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 		>
 			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px]">
 				<DialogHeader>
-					<DialogTitle>{isUpdate ? "Araç Kiralama Güncelle" : "Yeni Araç Kirala"}</DialogTitle>
-					<DialogDescription>{isUpdate ? "Araç kiralama bilgilerini güncelle" : "Yeni araç kirala"}</DialogDescription>
+				<DialogTitle>{isUpdate ? "Araç Kiralama Güncelle" : "Yeni Araç Kirala"}</DialogTitle>
+				<DialogDescription>{isUpdate ? "Araç kiralama bilgilerini güncelle" : "Yeni araç kiralamak için formu eksiksiz doldurunuz"}</DialogDescription>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {
@@ -223,17 +337,71 @@ export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 						{(field) => <field.TextField type="number" label="Ödeme Vadesi (Gün)" />}
 					</form.AppField>
 
+					{/* Finansal Bilgiler - 3'lü Grid */}
+					<div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+						<form.AppField name="aylikFatura">
+							{(field) => <field.TextField type="number" step="0.01" label="Aylık Fatura (₺)" />}
+						</form.AppField>
+
+						<form.AppField name="kapora">
+							{(field) => <field.TextField type="number" step="0.01" label="Kapora (₺)" />}
+						</form.AppField>
+
+						<form.AppField name="sozlesmeTutari">
+							{(field) => <field.TextField type="number" step="0.01" label="Sözleşme Tutarı (₺)" />}
+						</form.AppField>
+					</div>
+
 					{/* Teslimat Tutanağı Dosyası Yükleme Alanı */}
 					<div className="space-y-2">
 						<Label htmlFor="teslimatTutanagi">Teslimat Tutanağı</Label>
+						
+						{/* Mevcut teslimat tutanağı varsa göster */}
+						{hasExistingTeslimat && !selectedTeslimatFile && (
+							<div className="flex items-center justify-between p-3 bg-gray-50 rounded-md border">
+								<div className="flex items-center space-x-2">
+									<FileText className="h-4 w-4 text-blue-600" />
+									<span className="text-sm font-medium">Mevcut teslimat tutanağı mevcut</span>
+								</div>
+								<div className="flex items-center space-x-2">
+									<Button
+										type="button"
+										variant="outline"
+										size="sm"
+										onClick={showExistingTeslimat}
+									>
+										<Eye className="h-4 w-4 mr-1" />
+										Göster
+									</Button>
+									<Button
+										type="button"
+										variant="outline"
+										size="sm"
+										onClick={() => {
+											// Mevcut teslimat tutanağını kaldır
+											form.setFieldValue('teslimatTutanagi', '');
+											setTeslimatFileName("");
+										}}
+									>
+										Kaldır
+									</Button>
+								</div>
+							</div>
+						)}
+						
 						<div className="flex items-center space-x-2">
 							<Input
 								id="teslimatTutanagi"
 								type="file"
-								accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+								accept=".pdf,.jpg,.jpeg,.png"
 								onChange={(e) => {
 									const file = e.target.files?.[0];
 									if (file) {
+										if (!validateFileType(file)) {
+											toast.error(getFileTypeErrorMessage());
+											e.target.value = '';
+											return;
+										}
 										setSelectedTeslimatFile(file);
 										setTeslimatFileName(file.name);
 									}
@@ -252,36 +420,77 @@ export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 										fileInput.value = '';
 									}
 								}}
-								disabled={!selectedTeslimatFile}
+								disabled={!selectedTeslimatFile && !teslimatFileName}
 							>
 								Temizle
 							</Button>
 						</div>
-						{selectedTeslimatFile && (
+						{(selectedTeslimatFile || teslimatFileName) && (
 							<div className="flex items-center space-x-2 text-sm text-gray-600">
 								<FileText className="h-4 w-4" />
 								<span>{teslimatFileName}</span>
-								<span className="text-xs">
-									({(selectedTeslimatFile.size / 1024 / 1024).toFixed(2)} MB)
-								</span>
+								{selectedTeslimatFile && (
+									<span className="text-xs">
+										({(selectedTeslimatFile.size / 1024 / 1024).toFixed(2)} MB)
+									</span>
+								)}
 							</div>
 						)}
-						<p className="text-xs text-gray-500">
-							PDF, DOC, DOCX, JPG, JPEG, PNG formatları desteklenmektedir.
-						</p>
+								<p className="text-xs text-gray-500">
+									Sadece PDF ve görsel (JPG, JPEG, PNG) dosyaları yüklenebilir.
+								</p>
 					</div>
 
 					{/* Sözleşme Dosyası Yükleme Alanı */}
 					<div className="space-y-2">
 						<Label htmlFor="sozlesme">Sözleşme</Label>
+						
+						{/* Mevcut sözleşme varsa göster */}
+						{hasExistingSozlesme && !selectedSozlesmeFile && (
+							<div className="flex items-center justify-between p-3 bg-gray-50 rounded-md border">
+								<div className="flex items-center space-x-2">
+									<FileText className="h-4 w-4 text-blue-600" />
+									<span className="text-sm font-medium">Mevcut sözleşme mevcut</span>
+								</div>
+								<div className="flex items-center space-x-2">
+									<Button
+										type="button"
+										variant="outline"
+										size="sm"
+										onClick={showExistingSozlesme}
+									>
+										<Eye className="h-4 w-4 mr-1" />
+										Göster
+									</Button>
+									<Button
+										type="button"
+										variant="outline"
+										size="sm"
+										onClick={() => {
+											// Mevcut sözleşmeyi kaldır
+											form.setFieldValue('sozlesme', '');
+											setSozlesmeFileName("");
+										}}
+									>
+										Kaldır
+									</Button>
+								</div>
+							</div>
+						)}
+						
 						<div className="flex items-center space-x-2">
 							<Input
 								id="sozlesme"
 								type="file"
-								accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+								accept=".pdf,.jpg,.jpeg,.png"
 								onChange={(e) => {
 									const file = e.target.files?.[0];
 									if (file) {
+										if (!validateFileType(file)) {
+											toast.error(getFileTypeErrorMessage());
+											e.target.value = '';
+											return;
+										}
 										setSelectedSozlesmeFile(file);
 										setSozlesmeFileName(file.name);
 									}
@@ -300,23 +509,25 @@ export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 										fileInput.value = '';
 									}
 								}}
-								disabled={!selectedSozlesmeFile}
+								disabled={!selectedSozlesmeFile && !sozlesmeFileName}
 							>
 								Temizle
 							</Button>
 						</div>
-						{selectedSozlesmeFile && (
+						{(selectedSozlesmeFile || sozlesmeFileName) && (
 							<div className="flex items-center space-x-2 text-sm text-gray-600">
 								<FileText className="h-4 w-4" />
 								<span>{sozlesmeFileName}</span>
-								<span className="text-xs">
-									({(selectedSozlesmeFile.size / 1024 / 1024).toFixed(2)} MB)
-								</span>
+								{selectedSozlesmeFile && (
+									<span className="text-xs">
+										({(selectedSozlesmeFile.size / 1024 / 1024).toFixed(2)} MB)
+									</span>
+								)}
 							</div>
 						)}
-						<p className="text-xs text-gray-500">
-							PDF, DOC, DOCX, JPG, JPEG, PNG formatları desteklenmektedir.
-						</p>
+								<p className="text-xs text-gray-500">
+									Sadece PDF ve görsel (JPG, JPEG, PNG) dosyaları yüklenebilir.
+								</p>
 					</div>
 
 					<DialogFooter>

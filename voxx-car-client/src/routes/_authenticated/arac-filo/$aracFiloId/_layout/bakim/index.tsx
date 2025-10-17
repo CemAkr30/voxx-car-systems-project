@@ -224,11 +224,51 @@ function RouteComponent() {
 												variant="outline"
 												size="sm"
 												onClick={() => {
-													const newWindow = window.open();
-													if (newWindow) {
-														newWindow.document.write(
-															`<iframe src="data:application/pdf;base64,${bakim.fatura}" frameborder="0" style="width:100vw;height:100vh;"></iframe>`,
-														);
+													// Dosya tipini kontrol et ve ona göre göster
+													const base64Data = bakim.fatura;
+													
+													if (!base64Data) return;
+													
+													// PDF dosyası için
+													if (base64Data.startsWith('JVBERi0') || base64Data.includes('PDF')) {
+														const newWindow = window.open();
+														if (newWindow) {
+															newWindow.document.write(`
+																<!DOCTYPE html>
+																<html>
+																<head>
+																	<title>Bakım Faturası</title>
+																	<style>
+																		body { margin: 0; padding: 0; }
+																		iframe { width: 100vw; height: 100vh; border: none; }
+																	</style>
+																</head>
+																<body>
+																	<iframe src="data:application/pdf;base64,${base64Data}"></iframe>
+																</body>
+																</html>
+															`);
+														}
+													} else {
+														// Resim dosyası için
+														const newWindow = window.open();
+														if (newWindow) {
+															newWindow.document.write(`
+																<!DOCTYPE html>
+																<html>
+																<head>
+																	<title>Bakım Faturası</title>
+																	<style>
+																		body { margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #f5f5f5; }
+																		img { max-width: 100%; max-height: 100vh; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+																	</style>
+																</head>
+																<body>
+																	<img src="data:image/jpeg;base64,${base64Data}" alt="Bakım Faturası" />
+																</body>
+																</html>
+															`);
+														}
 													}
 												}}
 												className="flex items-center gap-1"

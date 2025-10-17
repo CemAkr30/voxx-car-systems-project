@@ -33,8 +33,8 @@ export default function BakimSilDialog({
 				<DialogHeader>
 					<DialogTitle>Seçili Bakımı Sil</DialogTitle>
 					<DialogDescription>
-						Seçili bakım <i>{selectedBakim.fatura}</i> silmek istediğinizden
-						emin misiniz? Bu işlem geri alınamaz.
+						Seçili bakım <i>{selectedBakim.bakimNedeni}</i> silmek istediğinizden emin
+						misiniz? Bu işlem geri alınamaz.
 					</DialogDescription>
 				</DialogHeader>
 				<DialogFooter>

@@ -8,6 +8,9 @@ export const aracKiralaCreateSchema = z.object({
 	teslimatTutanagi: z.string().optional(), // Base64 formatında teslimat tutanağı dosyası
 	sozlesme: z.string().optional(), // Base64 formatında sözleşme dosyası
 	odemeVadesi: z.coerce.number().optional(), // Ödeme vadesi (gün)
+	aylikFatura: z.coerce.number().optional(), // Aylık fatura tutarı
+	kapora: z.coerce.number().optional(), // Kapora tutarı
+	sozlesmeTutari: z.coerce.number().optional(), // Sözleşme tutarı
 });
 export type CreateAracKiralaRequest = z.infer<typeof aracKiralaCreateSchema>;
 

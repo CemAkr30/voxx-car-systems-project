@@ -7,31 +7,32 @@ import {
 	DialogDescription,
 	DialogFooter,
 } from "@/components/ui/dialog";
-import { useDeleteMtvMutation } from "@/hooks/use-mtv-hooks";
-import type { Mtv } from "@/schemas/mtv";
+import { useFirmaDokumanSilMutation } from "@/hooks/use-firma-hooks";
+import type { FirmaDokuman } from "@/schemas/firma";
 import { RefreshCw } from "lucide-react";
 
-interface MtvDialogDeleteProps {
+interface FirmaDokumanSilDialogProps {
 	open: boolean;
 	close: () => void;
-	selectedMtv: Mtv;
+	selectedDokuman: FirmaDokuman;
+	firmaId: string;
 }
 
-export default function MtvSilDialog({
+export default function FirmaDokumanSilDialog({
 	open,
 	close,
-	selectedMtv,
-}: MtvDialogDeleteProps) {
-	const deleteMtvMutation = useDeleteMtvMutation(selectedMtv.aracFiloId, close);
+	selectedDokuman,
+	firmaId,
+}: FirmaDokumanSilDialogProps) {
+	const deleteDokumanMutation = useFirmaDokumanSilMutation(firmaId, close);
 
 	return (
 		<Dialog open={open} onOpenChange={close}>
 			<DialogContent className="sm:max-w-[400px]">
 				<DialogHeader>
-					<DialogTitle>Seçili MTV'yi Sil</DialogTitle>
+					<DialogTitle>Seçili Dokümanı Sil</DialogTitle>
 					<DialogDescription>
-					Seçili MTV <i>{selectedMtv.makbuzNo}</i> silmek istediğinizden emin
-					misiniz? Bu işlem geri alınamaz.
+						Bu dokümanı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.
 					</DialogDescription>
 				</DialogHeader>
 				<DialogFooter>
@@ -40,10 +41,10 @@ export default function MtvSilDialog({
 					</Button>
 					<Button
 						variant="destructive"
-						onClick={() => deleteMtvMutation.mutateAsync(selectedMtv.id)}
-						disabled={deleteMtvMutation.isPending}
+						onClick={() => deleteDokumanMutation.mutateAsync(selectedDokuman.id)}
+						disabled={deleteDokumanMutation.isPending}
 					>
-						{deleteMtvMutation.isPending ? (
+						{deleteDokumanMutation.isPending ? (
 							<RefreshCw className="h-4 w-4 mr-2 animate-spin" />
 						) : null}
 						Sil

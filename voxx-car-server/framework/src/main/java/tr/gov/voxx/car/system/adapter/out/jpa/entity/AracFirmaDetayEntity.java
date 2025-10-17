@@ -26,4 +26,7 @@ public class AracFirmaDetayEntity extends AbstractEntity {
     @Column(columnDefinition = "TEXT")
     private String sozlesme;
     private Integer odemeVadesi;
+    private Double aylikFatura;
+    private Double kapora;
+    private Double sozlesmeTutari;
 }
