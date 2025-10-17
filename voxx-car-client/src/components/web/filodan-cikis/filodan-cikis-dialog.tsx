@@ -190,7 +190,7 @@ export default function FilodanCikisDialog(props: FilodanCikisDialogProps) {
 				setFileName("");
 			}}
 		>
-			<DialogContent className="sm:max-w-[550px]">
+			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px]">
 				<DialogHeader>
 					<DialogTitle>
 						{mode === "create"
@@ -313,7 +313,7 @@ export default function FilodanCikisDialog(props: FilodanCikisDialogProps) {
 						</p>
 					</div>
 
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+					<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
 						<form.AppField name="anahtarTeslimFiyati">
 							{(field) => (
 								<field.TextField type="number" label="Anahtar Teslim Fiyatı" />

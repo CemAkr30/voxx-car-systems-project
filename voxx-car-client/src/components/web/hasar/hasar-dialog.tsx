@@ -147,7 +147,7 @@ export default function HasarDialog(props: HasarDialogProps) {
 				}
 			}}
 		>
-			<DialogContent className="sm:max-w-[550px]">
+			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px]">
 				<DialogHeader>
 					<DialogTitle>
 						{`${

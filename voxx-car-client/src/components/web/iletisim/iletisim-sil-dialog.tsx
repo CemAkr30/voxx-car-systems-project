@@ -29,7 +29,7 @@ export default function IletisimSilDialog({
 
 	return (
 		<Dialog open={open} onOpenChange={close}>
-			<DialogContent className="sm:max-w-[550px]">
+			<DialogContent className="sm:max-w-[400px]">
 				<DialogHeader>
 					<DialogTitle>Seçili Iletisimi Sil</DialogTitle>
 					<DialogDescription>

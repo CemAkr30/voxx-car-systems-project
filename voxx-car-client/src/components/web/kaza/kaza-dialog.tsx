@@ -201,7 +201,7 @@ export default function KazaDialog(props: KazaDialogProps) {
 				setFileName("");
 			}}
 		>
-			<DialogContent className="sm:max-w-[550px]">
+			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px]">
 				<DialogHeader>
 					<DialogTitle>
 						{mode === "create" ? "Yeni Kaza Ekle" : "Seçili Kazayı Güncelle"}

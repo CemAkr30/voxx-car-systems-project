@@ -26,7 +26,7 @@ export default function MtvSilDialog({
 
 	return (
 		<Dialog open={open} onOpenChange={close}>
-			<DialogContent className="sm:max-w-[550px]">
+			<DialogContent className="sm:max-w-[400px]">
 				<DialogHeader>
 					<DialogTitle>Seçili Mtvyı Sil</DialogTitle>
 					<DialogDescription>

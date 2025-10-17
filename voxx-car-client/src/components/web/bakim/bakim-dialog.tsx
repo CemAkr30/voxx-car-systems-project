@@ -160,7 +160,7 @@ export default function BakimDialog(props: BakimDialogProps) {
 				form.reset();
 			}}
 		>
-			<DialogContent className="sm:max-w-[550px]">
+			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px]">
 				<DialogHeader>
 					<DialogTitle>
 						{mode === "create" ? "Yeni Bakim Ekle" : "Seçili Bakimi Güncelle"}
@@ -179,7 +179,7 @@ export default function BakimDialog(props: BakimDialogProps) {
 					}}
 					className="space-y-6"
 				>
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
 						<form.AppField name="bakimNedeni">
 							{(field) => (
 								<field.Select

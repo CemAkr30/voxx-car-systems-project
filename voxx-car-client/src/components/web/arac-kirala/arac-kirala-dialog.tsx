@@ -172,7 +172,7 @@ export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 				setSozlesmeFileName("");
 			}}
 		>
-			<DialogContent className="sm:max-w-[550px]">
+			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px]">
 				<DialogHeader>
 					<DialogTitle>{isUpdate ? "Araç Kiralama Güncelle" : "Yeni Araç Kirala"}</DialogTitle>
 					<DialogDescription>{isUpdate ? "Araç kiralama bilgilerini güncelle" : "Yeni araç kirala"}</DialogDescription>
@@ -208,7 +208,7 @@ export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 					)}
 
 
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+					<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
 						<form.AppField name="sozlesmeBaslangicTarihi">
 							{(field) => <field.DatePicker label="Sözleşme Başlangıç Tarihi" />}
 						</form.AppField>

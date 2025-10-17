@@ -178,7 +178,7 @@ export default function AlisFaturasiDialog(props: AlisFaturasiDialogProps) {
 				form.reset();
 			}}
 		>
-			<DialogContent className="sm:max-w-[550px]">
+			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px] xl:max-w-[1000px]">
 				<DialogHeader>
 					<DialogTitle>
 						{mode === "create"
@@ -199,7 +199,7 @@ export default function AlisFaturasiDialog(props: AlisFaturasiDialogProps) {
 					}}
 					className="space-y-6"
 				>
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
 						<form.AppField name="alisFaturasiTarihi">
 							{(field) => <field.DatePicker label="Alış faturası tarihi" />}
 						</form.AppField>
@@ -271,7 +271,7 @@ export default function AlisFaturasiDialog(props: AlisFaturasiDialogProps) {
 							{(field) => <field.TextField label="Fatura TRY" />}
 						</form.AppField>
 
-						<div className="col-span-2">
+						<div className="col-span-1 sm:col-span-2 lg:col-span-3 xl:col-span-4">
 							<form.AppField name="aciklama">
 								{(field) => <field.TextArea label="Açıklama" />}
 							</form.AppField>

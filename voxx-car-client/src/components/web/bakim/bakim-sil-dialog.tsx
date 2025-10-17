@@ -29,7 +29,7 @@ export default function BakimSilDialog({
 
 	return (
 		<Dialog open={open} onOpenChange={close}>
-			<DialogContent className="sm:max-w-[550px]">
+			<DialogContent className="sm:max-w-[400px]">
 				<DialogHeader>
 					<DialogTitle>Seçili Bakımı Sil</DialogTitle>
 					<DialogDescription>
