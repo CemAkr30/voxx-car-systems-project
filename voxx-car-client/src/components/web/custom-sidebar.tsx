@@ -106,7 +106,7 @@ export default function CustomSidebar({ user }: { user: TUser }) {
 				<SidebarMenu>
 					<SidebarMenuItem>
 						<SidebarMenuButton size="lg" asChild>
-							<a href="/">
+							<Link to="/dashboard" viewTransition>
 								<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
 									<Car className="h-5 w-5 text-white" />
 								</div>
@@ -116,7 +116,7 @@ export default function CustomSidebar({ user }: { user: TUser }) {
 										Workspace
 									</span>
 								</div>
-							</a>
+							</Link>
 						</SidebarMenuButton>
 					</SidebarMenuItem>
 				</SidebarMenu>

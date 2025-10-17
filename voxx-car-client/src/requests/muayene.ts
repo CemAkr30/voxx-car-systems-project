@@ -13,40 +13,43 @@ export const getMuayeneByAracFiloId = async (
 	return data.filter((d) => !d.deleted);
 };
 
-export const createMuayene = async (
-	muayene: CreateMuayeneRequest,
-): Promise<void> => {
-	try {
-		await axiosClient.post<Muayene>(`${urls.muayene}`, muayene);
-	} catch (error: unknown) {
-		if (isAxiosError(error)) {
-			toast.error("Muayeneyı kayıt ederken sorun oluştu");
-			throw new Error(error.request?.response.code);
+	export const createMuayene = async (
+		muayene: CreateMuayeneRequest,
+	): Promise<void> => {
+		try {
+			await axiosClient.post<Muayene>(`${urls.muayene}`, muayene);
+			toast.success("Muayene başarıyla oluşturuldu");
+		} catch (error: unknown) {
+			if (isAxiosError(error)) {
+				toast.error("Muayeneyı kayıt ederken sorun oluştu");
+				throw new Error(error.request?.response.code);
+			}
+			throw new Error("error creating muayene");
 		}
-		throw new Error("error creating muayene");
-	}
-};
+	};
 
-export const updateMuayene = async (muayene: Muayene): Promise<void> => {
-	try {
-		await axiosClient.put<Muayene>(`${urls.muayene}/${muayene.id}`, muayene);
-	} catch (error) {
-		if (isAxiosError(error)) {
-			toast.error("Muayeneyı güncellerken sorun oluştu");
-			throw new Error(error.request?.response.code);
+	export const updateMuayene = async (muayene: Muayene): Promise<void> => {
+		try {
+			await axiosClient.put<Muayene>(`${urls.muayene}/${muayene.id}`, muayene);
+			toast.success("Muayene başarıyla güncellendi");
+		} catch (error) {
+			if (isAxiosError(error)) {
+				toast.error("Muayeneyı güncellerken sorun oluştu");
+				throw new Error(error.request?.response.code);
+			}
+			throw new Error("error creating muayene");
 		}
-		throw new Error("error creating muayene");
-	}
-};
+	};
 
-export const deleteMuayene = async (id: string): Promise<void> => {
-	try {
-		await axiosClient.delete(`${urls.muayene}/${id}`);
-	} catch (error) {
-		if (isAxiosError(error)) {
-			toast.error("Muayeneyı silerken sorun oluştu");
-			throw new Error(error.request?.response.code);
+	export const deleteMuayene = async (id: string): Promise<void> => {
+		try {
+			await axiosClient.delete(`${urls.muayene}/${id}`);
+			toast.success("Muayene başarıyla silindi");
+		} catch (error) {
+			if (isAxiosError(error)) {
+				toast.error("Muayeneyı silerken sorun oluştu");
+				throw new Error(error.request?.response.code);
+			}
+			throw new Error("error creating muayene");
 		}
-		throw new Error("error creating muayene");
-	}
-};
+	};

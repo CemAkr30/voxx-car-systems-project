@@ -31,43 +31,46 @@ export const getKiralayanFirmalarByAracFiloId = async (
 	return data.filter((d) => !d.deleted);
 };
 
-export const createAracKirala = async (
-	aracKira: CreateAracKiralaRequest,
-): Promise<void> => {
-	try {
-		await axiosClient.post<AracKirala>(`${urls.aracfilo}/kirala`, aracKira);
-	} catch (error: unknown) {
-		if (isAxiosError(error)) {
-			toast.error("Araç kira kayıt ederken sorun oluştu");
-			throw new Error(error.request?.response.code);
+	export const createAracKirala = async (
+		aracKira: CreateAracKiralaRequest,
+	): Promise<void> => {
+		try {
+			await axiosClient.post<AracKirala>(`${urls.aracfilo}/kirala`, aracKira);
+			toast.success("Araç kiralama başarıyla oluşturuldu");
+		} catch (error: unknown) {
+			if (isAxiosError(error)) {
+				toast.error("Araç kira kayıt ederken sorun oluştu");
+				throw new Error(error.request?.response.code);
+			}
+			throw new Error("error creating aracKira");
 		}
-		throw new Error("error creating aracKira");
-	}
-};
+	};
 
-export const updateAracKirala = async (
-	id: string,
-	aracKira: CreateAracKiralaRequest,
-): Promise<void> => {
-	try {
-		await axiosClient.put<AracKirala>(`${urls.aracfilo}/kirala/${id}`, aracKira);
-	} catch (error: unknown) {
-		if (isAxiosError(error)) {
-			toast.error("Araç kira güncellerken sorun oluştu");
-			throw new Error(error.request?.response.code);
+	export const updateAracKirala = async (
+		id: string,
+		aracKira: CreateAracKiralaRequest,
+	): Promise<void> => {
+		try {
+			await axiosClient.put<AracKirala>(`${urls.aracfilo}/kirala/${id}`, aracKira);
+			toast.success("Araç kiralama başarıyla güncellendi");
+		} catch (error: unknown) {
+			if (isAxiosError(error)) {
+				toast.error("Araç kira güncellerken sorun oluştu");
+				throw new Error(error.request?.response.code);
+			}
+			throw new Error("error updating aracKira");
 		}
-		throw new Error("error updating aracKira");
-	}
-};
+	};
 
-export const deleteAracKirala = async (id: string): Promise<void> => {
-	try {
-		await axiosClient.delete(`${urls.aracfilo}/kirala/${id}`);
-	} catch (error: unknown) {
-		if (isAxiosError(error)) {
-			toast.error("Araç kira silerken sorun oluştu");
-			throw new Error(error.request?.response.code);
+	export const deleteAracKirala = async (id: string): Promise<void> => {
+		try {
+			await axiosClient.delete(`${urls.aracfilo}/kirala/${id}`);
+			toast.success("Araç kiralama başarıyla silindi");
+		} catch (error: unknown) {
+			if (isAxiosError(error)) {
+				toast.error("Araç kira silerken sorun oluştu");
+				throw new Error(error.request?.response.code);
+			}
+			throw new Error("error deleting aracKira");
 		}
-		throw new Error("error deleting aracKira");
-	}
-};
+	};
