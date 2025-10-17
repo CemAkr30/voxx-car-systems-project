@@ -68,15 +68,17 @@ export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 		mode === "firma"
 			? useMemo(
 					() =>
-						props.kiralanabilenAraclar.map((kiralanabilenArac) => ({
-							label: `${kiralanabilenArac.plaka} - (${
-								markalar.find((m) => m.id === kiralanabilenArac.markaId)!.adi
-							} / ${
-								modeller.find((m) => m.id === kiralanabilenArac.modelId)!.adi
-							})`,
-							value: kiralanabilenArac.id,
-						})),
-					[props.kiralanabilenAraclar],
+						props.kiralanabilenAraclar
+							.filter((kiralanabilenArac) => kiralanabilenArac && kiralanabilenArac.plaka)
+							.map((kiralanabilenArac) => ({
+								label: `${kiralanabilenArac.plaka} - (${
+									markalar.find((m) => m.id === kiralanabilenArac.markaId)?.adi || "Bilinmeyen Marka"
+								} / ${
+									modeller.find((m) => m.id === kiralanabilenArac.modelId)?.adi || "Bilinmeyen Model"
+								})`,
+								value: kiralanabilenArac.id,
+							})),
+					[props.kiralanabilenAraclar, markalar, modeller],
 				)
 			: [];
 
@@ -225,6 +227,9 @@ export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 			teslimatTutanagi: isUpdate ? props.updateData!.teslimatTutanagi || "" : "",
 			sozlesme: isUpdate ? props.updateData!.sozlesme || "" : "",
 			odemeVadesi: isUpdate ? props.updateData!.odemeVadesi || 0 : 0,
+			aylikFatura: isUpdate ? props.updateData!.aylikFatura || 0 : 0,
+			kapora: isUpdate ? props.updateData!.kapora || 0 : 0,
+			sozlesmeTutari: isUpdate ? props.updateData!.sozlesmeTutari || 0 : 0,
 		},
 		validators: {
 			// @ts-expect-error
@@ -331,6 +336,21 @@ export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 					<form.AppField name="odemeVadesi">
 						{(field) => <field.TextField type="number" label="Ödeme Vadesi (Gün)" />}
 					</form.AppField>
+
+					{/* Finansal Bilgiler - 3'lü Grid */}
+					<div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+						<form.AppField name="aylikFatura">
+							{(field) => <field.TextField type="number" step="0.01" label="Aylık Fatura (₺)" />}
+						</form.AppField>
+
+						<form.AppField name="kapora">
+							{(field) => <field.TextField type="number" step="0.01" label="Kapora (₺)" />}
+						</form.AppField>
+
+						<form.AppField name="sozlesmeTutari">
+							{(field) => <field.TextField type="number" step="0.01" label="Sözleşme Tutarı (₺)" />}
+						</form.AppField>
+					</div>
 
 					{/* Teslimat Tutanağı Dosyası Yükleme Alanı */}
 					<div className="space-y-2">

@@ -19,4 +19,7 @@ public class AracFirmaDetayRequest {
     private String teslimatTutanagi;
     private String sozlesme;
     private Integer odemeVadesi;
+    private Double aylikFatura;
+    private Double kapora;
+    private Double sozlesmeTutari;
 }

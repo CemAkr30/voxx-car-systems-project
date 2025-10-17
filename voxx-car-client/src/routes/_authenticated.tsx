@@ -29,7 +29,7 @@ export const Route = createFileRoute("/_authenticated")({
 
 const getTitle = (path: string) => {
 	// Ana sayfalar
-	if (path === "/dashboard") return "Dashboard";
+	if (path === "/dashboard") return "Yönetim Paneli";
 	if (path === "/marka") return "Marka";
 	if (path === "/model") return "Model";
 	if (path === "/firma") return "Firma";

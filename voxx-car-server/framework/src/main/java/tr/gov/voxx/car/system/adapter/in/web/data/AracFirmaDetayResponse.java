@@ -20,6 +20,9 @@ public class AracFirmaDetayResponse {
     private String teslimatTutanagi;
     private String sozlesme;
     private Integer odemeVadesi;
+    private Double aylikFatura;
+    private Double kapora;
+    private Double sozlesmeTutari;
     private Instant createdAt;
     private Instant updatedAt;
     private boolean isDeleted;

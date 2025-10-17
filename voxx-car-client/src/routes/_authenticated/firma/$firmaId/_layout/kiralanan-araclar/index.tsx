@@ -94,6 +94,16 @@ function RouteComponent() {
 		});
 	};
 
+	// Para formatı için yardımcı fonksiyon
+	const formatCurrency = (amount: number | null | undefined): string => {
+		if (amount === null || amount === undefined) return '-';
+		return new Intl.NumberFormat('tr-TR', {
+			style: 'currency',
+			currency: 'TRY',
+			minimumFractionDigits: 2,
+		}).format(amount);
+	};
+
 
 
 	return (
@@ -158,6 +168,9 @@ function RouteComponent() {
 							<TableHead>Sözleşme Başlangıç</TableHead>
 							<TableHead>Sözleşme Bitiş</TableHead>
 							<TableHead>Ödeme Vadesi</TableHead>
+							<TableHead>Aylık Fatura</TableHead>
+							<TableHead>Kapora</TableHead>
+							<TableHead>Sözleşme Tutarı</TableHead>
 							<TableHead>Teslimat Tutanağı</TableHead>
 							<TableHead>Sözleşme</TableHead>
 							<TableHead className="w-12">İşlemler</TableHead>
@@ -207,6 +220,21 @@ function RouteComponent() {
 								</TableCell>
 								<TableCell>
 									{kiralananArac.odemeVadesi ? `${kiralananArac.odemeVadesi} gün` : '-'}
+								</TableCell>
+								<TableCell>
+									<span className="font-medium text-green-600 dark:text-green-400">
+										{formatCurrency(kiralananArac.aylikFatura)}
+									</span>
+								</TableCell>
+								<TableCell>
+									<span className="font-medium text-blue-600 dark:text-blue-400">
+										{formatCurrency(kiralananArac.kapora)}
+									</span>
+								</TableCell>
+								<TableCell>
+									<span className="font-medium text-purple-600 dark:text-purple-400">
+										{formatCurrency(kiralananArac.sozlesmeTutari)}
+									</span>
 								</TableCell>
 								<TableCell>
 									{kiralananArac.teslimatTutanagi ? (

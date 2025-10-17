@@ -22,8 +22,12 @@ public class AracFirmaDetayMapper {
                 .teslimatTutanagi(aracFirmaDetay.getTeslimatTutanagi())
                 .sozlesme(aracFirmaDetay.getSozlesme())
                 .odemeVadesi(aracFirmaDetay.getOdemeVadesi())
+                .aylikFatura(aracFirmaDetay.getAylikFatura())
+                .kapora(aracFirmaDetay.getKapora())
+                .sozlesmeTutari(aracFirmaDetay.getSozlesmeTutari())
                 .createdAt(aracFirmaDetay.getCreatedAt())
                 .updatedAt(aracFirmaDetay.getUpdatedAt())
+                .isDeleted(aracFirmaDetay.isDeleted())
                 .build();
     }
 
@@ -36,6 +40,9 @@ public class AracFirmaDetayMapper {
                 .teslimatTutanagi(request.getTeslimatTutanagi())
                 .sozlesme(request.getSozlesme())
                 .odemeVadesi(request.getOdemeVadesi())
+                .aylikFatura(request.getAylikFatura())
+                .kapora(request.getKapora())
+                .sozlesmeTutari(request.getSozlesmeTutari())
                 .build();
     }
 
