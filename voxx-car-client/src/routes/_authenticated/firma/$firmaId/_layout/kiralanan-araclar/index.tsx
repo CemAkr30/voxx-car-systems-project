@@ -279,7 +279,11 @@ function RouteComponent() {
 					mode="firma"
 					open={dialogState.update}
 					close={closeDialog}
-					kiralanabilenAraclar={kiralanabilenAraclar}
+					kiralanabilenAraclar={[
+						...kiralanabilenAraclar,
+						// Güncelleme modunda mevcut kiralanan araç filoyu da ekle
+						aracFilolar.find(a => a.id === dialogState.selectedAracKirala!.aracFiloId)!
+					]}
 					initialValues={{ 
 						firmaId: dialogState.selectedAracKirala.firmaId, 
 						aracFiloId: dialogState.selectedAracKirala.aracFiloId 
@@ -287,20 +291,6 @@ function RouteComponent() {
 					updateData={dialogState.selectedAracKirala}
 				/>
 			)}
-
-			{/* {dialogState.update && dialogState.selectedAracKullanan && (
-        <AracKullananDialog
-          mode="update"
-          open={dialogState.update}
-          close={closeDialog}
-          initialValues={{
-            ...dialogState.selectedAracKullanan,
-            ehliyetBitisTarihi: new Date(
-              dialogState.selectedAracKullanan.ehliyetBitisTarihi
-            ),
-          }}
-        />
-      )} */}
 
 			{dialogState.delete && dialogState.selectedAracKirala && (
 				<AracKiralaSilDialog
