@@ -10,83 +10,60 @@ import { toast } from "sonner";
 
 // Dashboard API response types
 export interface MTVDurumResponse {
-	mtvList: Array<{
-		id: string;
-		aracFiloId: string;
+	toplamKayit: number;
+	toplamTutar: number;
+	mtvler: Array<{
+		plaka: string;
 		yil: string;
 		taksit: string;
+		makbuzNo: string;
 		miktar: number;
 		odemeTipi: string;
+		odeyenFirmaUnvani: string;
+		aciklama: string;
 		gecikmeCezasi: string;
 		odendi: boolean;
-		makbuzNo: string;
-		aciklama: string;
-		mtvOdeyenFirma: string;
-	}>;
-	aracFiloMap: Record<string, {
-		id: string;
-		plaka: string;
-		markaId: string;
-		modelId: string;
-	}>;
-	firmaMap: Record<string, {
-		id: string;
-		unvan: string;
 	}>;
 }
 
 export interface MuayeneDurumResponse {
-	muayeneList: Array<{
-		id: string;
-		aracFiloId: string;
+	toplamKayit: number;
+	toplamTutar: number;
+	muayeneler: Array<{
+		plaka: string;
+		muayeneTipi: string;
+		makbuzNo: string;
+		odeyenFirmaUnvani: string | null;
 		baslangicTarihi: string;
 		bitisTarihi: string;
-		muayeneYapanFirma: string;
-		odeyenFirmaId: string;
+		gecikmeCezasi: string;
+		aciklama: string;
+		yeri: string;
+		miktar: number;
+		odemeTipi: string;
+		odendi: boolean;
+		kalanGun: number;
 	}>;
-	aracFiloMap: Record<string, {
-		id: string;
-		plaka: string;
-		markaId: string;
-		modelId: string;
-	}>;
-	firmaMap: Record<string, {
-		id: string;
-		unvan: string;
-	}>;
-	kontrolTarihi: string;
 }
 
 export interface SigortaDurumResponse {
-	sigortaList: Array<{
-		id: string;
-		aracFiloId: string;
+	toplamKayit: number;
+	sigortalar: Array<{
+		plaka: string;
 		tip: string;
 		sigortaSirketi: string;
 		acente: string;
 		policeNo: string;
 		baslangicTarihi: string;
 		bitisTarihi: string;
-		sozlesme?: string;
+		kalanGun: number;
 	}>;
-	aracFiloMap: Record<string, {
-		id: string;
-		plaka: string;
-		markaId: string;
-		modelId: string;
-	}>;
-	kontrolTarihi: string;
 }
 
 export interface AracFirmaDetayResponse {
 	id: string;
 	aracFiloId: string;
 	firmaId: string;
-	baslangicTarihi: string;
-	bitisTarihi: string;
-	sozlesmeTutari: number;
-	aylikFaturaTutari: number;
-	kapora: number;
 	sozlesmeBaslangicTarihi: string;
 	sozlesmeBitisTarihi: string;
 	teslimatTutanagi?: string;
@@ -99,15 +76,13 @@ export interface AracFirmaDetayResponse {
 
 // API functions
 export const getMTVDurum = async (
-	yil: string,
-	taksit: string,
-	odendi: boolean
+	status: "odenmis" | "odenmemis"
 ): Promise<MTVDurumResponse> => {
 	try {
 		const { data } = await axiosClient.get<MTVDurumResponse>(
-			`${urls.dashboard}/mtvdurum`,
+			`${urls.dashboard}/mtv`,
 			{
-				params: { yil, taksit, odendi }
+				params: { status }
 			}
 		);
 		return data;
@@ -120,10 +95,15 @@ export const getMTVDurum = async (
 	}
 };
 
-export const getMuayeneDurum = async (): Promise<MuayeneDurumResponse> => {
+export const getMuayeneDurum = async (
+	status: "odenmis" | "odenmemis"
+): Promise<MuayeneDurumResponse> => {
 	try {
 		const { data } = await axiosClient.get<MuayeneDurumResponse>(
-			`${urls.dashboard}/muayenedurum`
+			`${urls.dashboard}/muayene`,
+			{
+				params: { status }
+			}
 		);
 		return data;
 	} catch (error: unknown) {
@@ -138,7 +118,7 @@ export const getMuayeneDurum = async (): Promise<MuayeneDurumResponse> => {
 export const getSigortaDurum = async (): Promise<SigortaDurumResponse> => {
 	try {
 		const { data } = await axiosClient.get<SigortaDurumResponse>(
-			`${urls.dashboard}/sigortadurum`
+			`${urls.dashboard}/sigorta`
 		);
 		return data;
 	} catch (error: unknown) {

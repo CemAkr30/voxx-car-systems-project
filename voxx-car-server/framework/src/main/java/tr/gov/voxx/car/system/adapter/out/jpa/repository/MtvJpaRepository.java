@@ -12,5 +12,7 @@ public interface MtvJpaRepository extends JpaRepository<MTVEntity, String> {
     
     List<MTVEntity> findByYilAndTaksitAndOdendiAndIsDeletedFalse(String yil, String taksit, Boolean odendi);
     
+    List<MTVEntity> findByOdendiAndIsDeletedFalse(Boolean odendi);
+    
     List<MTVEntity> findByIsDeletedFalse();
 }

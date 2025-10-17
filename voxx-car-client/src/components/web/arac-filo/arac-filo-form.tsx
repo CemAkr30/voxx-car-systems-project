@@ -90,7 +90,7 @@ export default function AracFiloForm(props: AracFiloFormProps) {
 						tramerTutari: 0,
 						sonKmTarihi: new Date(),
 						sonKm: "",
-						filoDurum: 0,
+						filoDurum: 1,
 					}
 				: {
 						...props.initialValues,

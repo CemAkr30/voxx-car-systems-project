@@ -14,22 +14,22 @@ import { queryOptions } from "@tanstack/react-query";
 
 // MTV Durum Query Options
 export function getMTVDurumQueryOptions(
-	yil: string,
-	taksit: string,
-	odendi: boolean
+	status: "odenmis" | "odenmemis"
 ) {
 	return queryOptions({
-		queryKey: ["dashboard", "mtv", { yil, taksit, odendi }],
-		queryFn: () => getMTVDurum(yil, taksit, odendi),
+		queryKey: ["dashboard", "mtv", { status }],
+		queryFn: () => getMTVDurum(status),
 		staleTime: 5 * 60 * 1000, // 5 dakika
 	});
 }
 
 // Muayene Durum Query Options
-export function getMuayeneDurumQueryOptions() {
+export function getMuayeneDurumQueryOptions(
+	status: "odenmis" | "odenmemis"
+) {
 	return queryOptions({
-		queryKey: ["dashboard", "muayene"],
-		queryFn: () => getMuayeneDurum(),
+		queryKey: ["dashboard", "muayene", { status }],
+		queryFn: () => getMuayeneDurum(status),
 		staleTime: 5 * 60 * 1000, // 5 dakika
 	});
 }
