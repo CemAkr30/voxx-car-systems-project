@@ -13,7 +13,8 @@ import {
 	getKiralanabilirAracFilolarQueryOptions,
 	getKiralananAracFilolarByFirmaIdQueryOptions
 } from "@/hooks/use-arac-kirala-hooks";
-import { useSuspenseQueries } from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
+import LoadingOverlay from "@/components/ui/loading-overlay";
 import { getFirmalarQueryOptions } from "@/hooks/use-firma-hooks";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
@@ -54,13 +55,7 @@ function RouteComponent() {
 		delete: false,
 	});
 
-	const [
-		{ data: aracFilolar = [] },
-		{ data: kiralananAraclar = [] },
-		{ data: kiralanabilenAraclar = [] },
-		{ data: markalar = [] },
-		{ data: modeller = [] },
-	] = useSuspenseQueries({
+	const queryResults = useQueries({
 		queries: [
 			getAracFilolarQueryOptions(),
 			getKiralananAracFilolarByFirmaIdQueryOptions(firmaId),
@@ -69,6 +64,18 @@ function RouteComponent() {
 			getModellerQueryOptions(),
 		],
 	});
+
+	const [
+		{ data: aracFilolar = [], isLoading: aracFilolarLoading },
+		{ data: kiralananAraclar = [], isLoading: kiralananAraclarLoading },
+		{ data: kiralanabilenAraclar = [], isLoading: kiralanabilenAraclarLoading },
+		{ data: markalar = [], isLoading: markalarLoading },
+		{ data: modeller = [], isLoading: modellerLoading },
+	] = queryResults;
+
+	// Genel loading durumu
+	const isLoading = aracFilolarLoading || kiralananAraclarLoading || 
+		kiralanabilenAraclarLoading || markalarLoading || modellerLoading;
 
 	const openDialog = (type: keyof DialogState, kiralananArac?: AracKirala) => {
 		setDialogState({
@@ -91,6 +98,12 @@ function RouteComponent() {
 
 	return (
 		<div className="space-y-8">
+			<LoadingOverlay 
+				isLoading={isLoading} 
+				message="Kiralanan Araçlar Yükleniyor"
+				subMessage="Araç bilgileri ve sözleşme detayları hazırlanıyor..."
+			/>
+			
 			<div className="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-2xl shadow-xl">
 				<div className="absolute inset-0 bg-black/10" />
 				<div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent" />
