@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import LoadingOverlay from "@/components/ui/loading-overlay";
 import AracKiralaDialog from "@/components/web/arac-kirala/arac-kirala-dialog";
 import { getAracFiloQueryOptions } from "@/hooks/use-arac-filo-hooks";
 import { getFirmalarQueryOptions } from "@/hooks/use-firma-hooks";
@@ -14,7 +15,7 @@ import {
 	Edit,
 	FileText,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 
 interface DialogState {
 	create: boolean;
@@ -27,6 +28,13 @@ export const Route = createFileRoute(
 		queryClient.ensureQueryData(getAracFiloQueryOptions(aracFiloId));
 	},
 	component: RouteComponent,
+	pendingComponent: () => (
+		<LoadingOverlay 
+			isLoading={true} 
+			message="Araç Detayları Yükleniyor" 
+			subMessage="Araç bilgileri getiriliyor..." 
+		/>
+	),
 });
 
 function RouteComponent() {
@@ -230,7 +238,16 @@ function RouteComponent() {
 				</div>
 			</div>
 			<div className="bg-white dark:bg-slate-950 rounded-lg border p-6">
-				<Outlet />
+				<Suspense fallback={
+					<div className="flex items-center justify-center py-12">
+						<div className="text-center">
+							<div className="w-8 h-8 border-4 border-blue-200 dark:border-blue-800 rounded-full animate-spin border-t-blue-600 dark:border-t-blue-400 mx-auto mb-4"></div>
+							<p className="text-sm text-gray-600 dark:text-gray-400">Modül yükleniyor...</p>
+						</div>
+					</div>
+				}>
+					<Outlet />
+				</Suspense>
 			</div>
 
 			{/* Dialogs */}

@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import LoadingOverlay from "@/components/ui/loading-overlay";
 import FirmaDialog from "@/components/web/firma/firma-dialog";
 import { getAdreslerByFirmaIdQueryOptions } from "@/hooks/use-adres-hooks";
 import { getKiralananAracFilolarByFirmaIdQueryOptions } from "@/hooks/use-arac-kirala-hooks";
@@ -7,7 +8,7 @@ import { cn, relativeDate } from "@/lib/utils";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { ArrowUpRight, Building2, Car, MapPin, Phone } from "lucide-react";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 
 export const Route = createFileRoute("/_authenticated/firma/$firmaId/_layout")({
 	loader: ({ context: { queryClient }, params: { firmaId } }) => {
@@ -18,6 +19,13 @@ export const Route = createFileRoute("/_authenticated/firma/$firmaId/_layout")({
 		);
 	},
 	component: RouteComponent,
+	pendingComponent: () => (
+		<LoadingOverlay 
+			isLoading={true} 
+			message="Firma Detayları Yükleniyor" 
+			subMessage="Firma bilgileri getiriliyor..." 
+		/>
+	),
 });
 
 function RouteComponent() {
@@ -271,7 +279,16 @@ function RouteComponent() {
 				</Link>
 			</div>
 			<div className="bg-white dark:bg-slate-950 rounded-lg border p-6">
-				<Outlet />
+				<Suspense fallback={
+					<div className="flex items-center justify-center py-12">
+						<div className="text-center">
+							<div className="w-8 h-8 border-4 border-blue-200 dark:border-blue-800 rounded-full animate-spin border-t-blue-600 dark:border-t-blue-400 mx-auto mb-4"></div>
+							<p className="text-sm text-gray-600 dark:text-gray-400">Modül yükleniyor...</p>
+						</div>
+					</div>
+				}>
+					<Outlet />
+				</Suspense>
 			</div>
 
 			<FirmaDialog
