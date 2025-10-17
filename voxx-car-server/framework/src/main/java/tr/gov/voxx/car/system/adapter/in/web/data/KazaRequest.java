@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import tr.gov.voxx.car.system.domain.enumeration.KazaNedeni;
 
 import java.time.Instant;
 
@@ -14,10 +15,9 @@ import java.time.Instant;
 public class KazaRequest {
     private String aracFiloId;
     private String firmaId;
-    private String musteriId;
     private Instant kazaTarihi;
     private String kazaIli;
-    private String kazaNedeni;
+    private KazaNedeni kazaNedeni;
     private String kazaTutanagi;
     private String onarimDurumu;
     private String odeyenFirmaId;

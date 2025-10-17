@@ -21,6 +21,7 @@ public class SigortaKasko extends AbstractAggregateModel<SigortaId> {
     private String policeNo;
     private Instant baslangicTarihi;
     private Instant bitisTarihi;
+    private String sozlesme;
 
     public void initIdGenerator() {
         super.setId(new SigortaId(IdFactory.create()));
@@ -34,5 +35,6 @@ public class SigortaKasko extends AbstractAggregateModel<SigortaId> {
         this.policeNo = other.policeNo;
         this.baslangicTarihi = other.baslangicTarihi;
         this.bitisTarihi = other.bitisTarihi;
+        this.sozlesme = other.getSozlesme();
     }
 }

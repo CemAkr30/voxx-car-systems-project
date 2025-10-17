@@ -19,10 +19,12 @@ public class BakimResponse {
     private Double parcaTutari;
     private Double iscilikTutari;
     private Double toplamTutar;
-    private String faturaNo;
     private String fatura;
     private String aciklama;
-    private String odeyenFirmaId;
+    private String bakimOdeyenFirma;
+    private String aracGuncelKm;
+    private String bakimAraligi;
+    private String parcaAdedi;
     private Instant createdAt;
     private Instant updatedAt;
     private boolean isDeleted;

@@ -22,6 +22,7 @@ public class SigortaKaskoResponse {
     private String policeNo;
     private Instant baslangicTarihi;
     private Instant bitisTarihi;
+    private String sozlesme;
     private Instant createdAt;
     private Instant updatedAt;
     private boolean isDeleted;

@@ -1,4 +1,4 @@
-package tr.gov.voxx.car.system.config;
+/*package tr.gov.voxx.car.system.config;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -33,4 +33,4 @@ public class KafkaProducerConfig {
     public KafkaTemplate<String, Object> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
-}
+}*/

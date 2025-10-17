@@ -3,8 +3,6 @@ package tr.gov.voxx.car.system.adapter.out.jpa.mapper;
 import lombok.experimental.UtilityClass;
 import tr.gov.voxx.car.system.adapter.out.jpa.entity.AracFiloEntity;
 import tr.gov.voxx.car.system.domain.entity.AracFilo;
-import tr.gov.voxx.car.system.domain.event.AracFiloCreatedEvent;
-import tr.gov.voxx.car.system.domain.event.AracFiloUpdatedEvent;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 import tr.gov.voxx.car.system.domain.valueobject.MarkaId;
@@ -27,7 +25,6 @@ public class AracFiloJpaMapper {
                 .markaId(new MarkaId(entity.getMarkaId()))
                 .modelId(new ModelId(entity.getModelId()))
                 .modelYili(entity.getModelYili())
-                .aracTipi(entity.getAracTipi())
                 .segment(entity.getSegment())
                 .motorNo(entity.getMotorNo())
                 .sasiNo(entity.getSasiNo())
@@ -39,7 +36,7 @@ public class AracFiloJpaMapper {
                 .tescilTarihi(entity.getTescilTarihi())
                 .trafigeCikisTarihi(entity.getTrafigeCikisTarihi())
                 .garantisiVarMi(entity.isGarantisiVarMi())
-                .garantiBitisTarihi(entity.getGarantiBitisTarihi())
+                .garantiBaslangicTarihi(entity.getGarantiBaslangicTarihi())
                 .garantiSuresiYil(entity.getGarantiSuresiYil())
                 .garantiKm(entity.getGarantiKm())
                 .tramer(entity.isTramer())
@@ -47,12 +44,8 @@ public class AracFiloJpaMapper {
                 .sonKmTarihi(entity.getSonKmTarihi())
                 .sonKm(entity.getSonKm())
                 .sonYakitMiktari(entity.getSonYakitMiktari())
-                .kiralandiMi(entity.isKiralandiMi())
-                .kiralandigiTarih(entity.getKiralandigiTarih())
-                .kontratSuresi(entity.getKontratSuresi())
-                .kiralikBitisTarihi(entity.getKiralikBitisTarihi())
-                .kiralayanFirmaId(new FirmaId(entity.getKiralayanFirmaId()))
                 .filoDurum(entity.getFiloDurum())
+                .muayeneBitisTarihi(entity.getMuayeneBitisTarihi())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .isDeleted(entity.isDeleted())
@@ -70,7 +63,6 @@ public class AracFiloJpaMapper {
         entity.setMarkaId(aracFilo.getMarkaId().getValue());
         entity.setModelId(aracFilo.getModelId().getValue());
         entity.setModelYili(aracFilo.getModelYili());
-        entity.setAracTipi(aracFilo.getAracTipi());
         entity.setSegment(aracFilo.getSegment());
         entity.setMotorNo(aracFilo.getMotorNo());
         entity.setSasiNo(aracFilo.getSasiNo());
@@ -82,7 +74,7 @@ public class AracFiloJpaMapper {
         entity.setTescilTarihi(aracFilo.getTescilTarihi());
         entity.setTrafigeCikisTarihi(aracFilo.getTrafigeCikisTarihi());
         entity.setGarantisiVarMi(aracFilo.isGarantisiVarMi());
-        entity.setGarantiBitisTarihi(aracFilo.getGarantiBitisTarihi());
+        entity.setGarantiBaslangicTarihi(aracFilo.getGarantiBaslangicTarihi());
         entity.setGarantiSuresiYil(aracFilo.getGarantiSuresiYil());
         entity.setGarantiKm(aracFilo.getGarantiKm());
         entity.setTramer(aracFilo.isTramer());
@@ -90,12 +82,8 @@ public class AracFiloJpaMapper {
         entity.setSonKmTarihi(aracFilo.getSonKmTarihi());
         entity.setSonKm(aracFilo.getSonKm());
         entity.setSonYakitMiktari(aracFilo.getSonYakitMiktari());
-        entity.setKiralandiMi(aracFilo.isKiralandiMi());
-        entity.setKiralandigiTarih(aracFilo.getKiralandigiTarih());
-        entity.setKontratSuresi(aracFilo.getKontratSuresi());
-        entity.setKiralikBitisTarihi(aracFilo.getKiralikBitisTarihi());
-        entity.setKiralayanFirmaId(aracFilo.getKiralayanFirmaId().getValue());
         entity.setFiloDurum(aracFilo.getFiloDurum());
+        entity.setMuayeneBitisTarihi(aracFilo.getMuayeneBitisTarihi());
         return entity;
     }
 
@@ -108,14 +96,13 @@ public class AracFiloJpaMapper {
                 .collect(Collectors.toList());
     }
 
-    public static AracFilo toAracFiloFromAracFiloCreatedEvent(AracFiloCreatedEvent event) {
+    /*public static AracFilo toAracFiloFromAracFiloCreatedEvent(AracFiloCreatedEvent event) {
         return AracFilo.builder()
                 .id(event.id())
                 .plaka(event.plaka())
                 .markaId(event.markaId())
                 .modelId(event.modelId())
                 .modelYili(event.modelYili())
-                .aracTipi(event.aracTipi())
                 .segment(event.segment())
                 .motorNo(event.motorNo())
                 .sasiNo(event.sasiNo())
@@ -127,7 +114,7 @@ public class AracFiloJpaMapper {
                 .tescilTarihi(event.tescilTarihi())
                 .trafigeCikisTarihi(event.trafigeCikisTarihi())
                 .garantisiVarMi(event.garantisiVarMi())
-                .garantiBitisTarihi(event.garantiBitisTarihi())
+                .garantiBaslangicTarihi(event.garantiBaslangicTarihi())
                 .garantiSuresiYil(event.garantiSuresiYil())
                 .garantiKm(event.garantiKm())
                 .tramer(event.tramer())
@@ -151,7 +138,6 @@ public class AracFiloJpaMapper {
                 .markaId(event.markaId())
                 .modelId(event.modelId())
                 .modelYili(event.modelYili())
-                .aracTipi(event.aracTipi())
                 .segment(event.segment())
                 .motorNo(event.motorNo())
                 .sasiNo(event.sasiNo())
@@ -163,7 +149,7 @@ public class AracFiloJpaMapper {
                 .tescilTarihi(event.tescilTarihi())
                 .trafigeCikisTarihi(event.trafigeCikisTarihi())
                 .garantisiVarMi(event.garantisiVarMi())
-                .garantiBitisTarihi(event.garantiBitisTarihi())
+                .garantiBaslangicTarihi(event.garantiBaslangicTarihi())
                 .garantiSuresiYil(event.garantiSuresiYil())
                 .garantiKm(event.garantiKm())
                 .tramer(event.tramer())
@@ -178,5 +164,5 @@ public class AracFiloJpaMapper {
                 .kiralayanFirmaId(event.kiralayanFirmaId())
                 .filoDurum(event.filoDurum())
                 .build();
-    }
+    }*/
 }

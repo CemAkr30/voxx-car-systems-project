@@ -15,7 +15,6 @@ import java.time.Instant;
 public class AlisFaturasiRequest {
     private String aracFiloId;
     private Instant alisFaturasiTarihi;
-    private String alisFaturaNo;
     private String saticiFirmaId;
     private Double listeFiyati;
     private Integer ekGaranti;

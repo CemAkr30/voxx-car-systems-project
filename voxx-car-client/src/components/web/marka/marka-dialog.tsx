@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { useAppForm } from "@/hooks/demo.form";
 import {
+	getMarkalarQueryOptions,
 	useCreateMarkaMutation,
 	useUpdateMarkaMutation,
 } from "@/hooks/use-marka-hooks";
@@ -18,6 +19,7 @@ import {
 	type CreateMarkaRequest,
 	type Marka,
 } from "@/schemas/marka";
+import { useQueryClient } from "@tanstack/react-query";
 import { RefreshCw } from "lucide-react";
 
 interface MarkaDialogCreateProps {
@@ -37,6 +39,7 @@ type MarkaDialogProps = MarkaDialogCreateProps | MarkaDialogUpdateProps;
 
 export default function MarkaDialog(props: MarkaDialogProps) {
 	const { mode, open, close } = props;
+	const queryClient = useQueryClient();
 
 	const createMarkaMutation = useCreateMarkaMutation(close);
 	const updateMarkaMutation =
@@ -59,6 +62,7 @@ export default function MarkaDialog(props: MarkaDialogProps) {
 				} else if (mode === "update") {
 					await updateMarkaMutation!.mutateAsync(value as Marka);
 				}
+				await queryClient.invalidateQueries(getMarkalarQueryOptions());
 				formApi.reset();
 			} catch (_error) {}
 		},
@@ -72,16 +76,16 @@ export default function MarkaDialog(props: MarkaDialogProps) {
 				form.reset();
 			}}
 		>
-			<DialogContent className="sm:max-w-[550px]">
+			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px]">
 				<DialogHeader>
 					<DialogTitle>
-						{mode === "create" ? "Yeni Marka Ekle" : "Seçili Markayı Güncelle"}
-					</DialogTitle>
-					<DialogDescription>
-						{mode === "create"
-							? "Yeni marka eklemek için formu eksiksiz doldurunuz"
-							: "Seçili Markayı Güncelle"}
-					</DialogDescription>
+					{mode === "create" ? "Yeni Marka Ekle" : "Seçili Markayı Güncelle"}
+				</DialogTitle>
+				<DialogDescription>
+					{mode === "create"
+						? "Yeni marka eklemek için formu eksiksiz doldurunuz"
+						: "Seçili markayı güncellemek için formu eksiksiz doldurunuz"}
+				</DialogDescription>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {

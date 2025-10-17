@@ -5,7 +5,6 @@ import tr.gov.voxx.car.system.adapter.in.web.data.BakimRequest;
 import tr.gov.voxx.car.system.adapter.in.web.data.BakimResponse;
 import tr.gov.voxx.car.system.domain.entity.Bakim;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
-import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,10 +21,12 @@ public class BakimMapper {
                 .parcaTutari(entity.getParcaTutari())
                 .iscilikTutari(entity.getIscilikTutari())
                 .toplamTutar(entity.getToplamTutar())
-                .faturaNo(entity.getFaturaNo())
                 .fatura(entity.getFatura())
                 .aciklama(entity.getAciklama())
-                .odeyenFirmaId(entity.getOdeyenFirmaId().getValue())
+                .aracGuncelKm(entity.getAracGuncelKm())
+                .bakimAraligi(entity.getBakimAraligi())
+                .parcaAdedi(entity.getParcaAdedi())
+                .bakimOdeyenFirma(entity.getBakimOdeyenFirma())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .build();
@@ -43,10 +44,12 @@ public class BakimMapper {
                 .parcaTutari(request.getParcaTutari())
                 .iscilikTutari(request.getIscilikTutari())
                 .toplamTutar(request.getToplamTutar())
-                .faturaNo(request.getFaturaNo())
+                .aracGuncelKm(request.getAracGuncelKm())
+                .bakimAraligi(request.getBakimAraligi())
+                .parcaAdedi(request.getParcaAdedi())
                 .fatura(request.getFatura())
                 .aciklama(request.getAciklama())
-                .odeyenFirmaId(new FirmaId(request.getOdeyenFirmaId()))
+                .bakimOdeyenFirma(request.getBakimOdeyenFirma())
                 .build();
     }
 }

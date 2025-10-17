@@ -1,7 +1,6 @@
 package tr.gov.voxx.car.system.application.usecase.query;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import tr.gov.voxx.car.system.application.port.in.MuayeneApplicationQueryPort;
 import tr.gov.voxx.car.system.application.port.out.MuayenePersistenceJpaPort;
@@ -17,7 +16,6 @@ public class MuayeneApplicationQueryUseCase implements MuayeneApplicationQueryPo
     private final MuayenePersistenceJpaPort persistenceJpaPort;
 
     @Override
-    @Cacheable(value = "muayene", key = "#muayeneId")
     public Muayene get(MuayeneId muayeneId) {
         return persistenceJpaPort.findById(muayeneId);
     }

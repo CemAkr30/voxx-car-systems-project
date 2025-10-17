@@ -22,17 +22,20 @@ export default function FilodanCikisSilDialog({
 	close,
 	selectedFilodanCikis,
 }: FilodanCikisDialogDeleteProps) {
-	const deleteFilodanCikisMutation = useDeleteFilodanCikisMutation(close);
+	const deleteFilodanCikisMutation = useDeleteFilodanCikisMutation(
+		selectedFilodanCikis.aracFiloId,
+		close,
+	);
 
 	return (
 		<Dialog open={open} onOpenChange={close}>
-			<DialogContent className="sm:max-w-[550px]">
+			<DialogContent className="sm:max-w-[400px]">
 				<DialogHeader>
-					<DialogTitle>Seçili Bakımı Sil</DialogTitle>
-					<DialogDescription>
-						Seçili bakım <i>{selectedFilodanCikis.alici}</i> silmek
-						istediğinizden emin misiniz? Bu işlem geri alınamaz.
-					</DialogDescription>
+				<DialogTitle>Seçili Filodan Çıkışı Sil</DialogTitle>
+				<DialogDescription>
+					Seçili filodan çıkış <i>{selectedFilodanCikis.alici}</i> silmek
+					istediğinizden emin misiniz? Bu işlem geri alınamaz.
+				</DialogDescription>
 				</DialogHeader>
 				<DialogFooter>
 					<Button variant="outline" onClick={close}>

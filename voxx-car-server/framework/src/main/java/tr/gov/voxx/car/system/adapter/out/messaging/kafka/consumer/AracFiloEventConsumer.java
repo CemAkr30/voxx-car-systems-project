@@ -1,4 +1,4 @@
-package tr.gov.voxx.car.system.adapter.out.messaging.kafka.consumer;
+/*package tr.gov.voxx.car.system.adapter.out.messaging.kafka.consumer;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,4 +46,4 @@ public class AracFiloEventConsumer {
         aracFiloPersistenceJpaPort.deleteById(event.id());
         aracFiloWebSocketNotifier.notifyAracFiloDeleted(event);
     }
-}
+}*/

@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface AracFiloJpaRepository extends JpaRepository<AracFiloEntity, String> {
     List<AracFiloEntity> findByIsDeletedFalse();
+
+    List<AracFiloEntity> findByIsDeletedFalseAndFiloDurum(Integer filoDurum);
 }

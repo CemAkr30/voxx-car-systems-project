@@ -8,24 +8,23 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 
-import { getBakimByAracFiloIdQueryOptions } from "@/hooks/use-bakim-hooks";
+import { getBakimlarByAracFiloIdQueryOptions } from "@/hooks/use-bakim-hooks";
 import type { Bakim } from "@/schemas/bakim";
-import { useQueryClient, useSuspenseQueries } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
 import BakimDialog from "@/components/web/bakim/bakim-dialog.tsx";
 import BakimSilDialog from "@/components/web/bakim/bakim-sil-dialog.tsx";
-import { getFirmalarQueryOptions } from "@/hooks/use-firma-hooks.ts";
-import type { WebSocketMessage } from "@/types";
-import { useWebSocketTopic } from "@/hooks/use-webhook";
-import { toast } from "sonner";
+import { OdemeYapanFirmaListesiLabel } from "@/enums";
 
 export const Route = createFileRoute(
 	"/_authenticated/arac-filo/$aracFiloId/_layout/bakim/",
 )({
 	loader: ({ context: { queryClient }, params: { aracFiloId } }) => {
-		queryClient.ensureQueryData(getBakimByAracFiloIdQueryOptions(aracFiloId));
+		queryClient.ensureQueryData(
+			getBakimlarByAracFiloIdQueryOptions(aracFiloId),
+		);
 	},
 	component: RouteComponent,
 });
@@ -39,25 +38,6 @@ interface DialogState {
 
 function RouteComponent() {
 	const { aracFiloId } = Route.useParams();
-	const queryClient = useQueryClient();
-
-	useWebSocketTopic<WebSocketMessage>({
-		topic: "/topic/bakim",
-		onMessage: async ({ type }) => {
-			if (type === "CREATED") {
-				toast.success("Bakım başarılı bir şekilde kayıt edildi");
-			}
-			if (type === "UPDATED") {
-				toast.success("Bakım başarılı bir şekilde güncellendi");
-			}
-			if (type === "DELETED") {
-				toast.success("Bakım başarılı bir şekilde silindi");
-			}
-			await queryClient.invalidateQueries(
-				getBakimByAracFiloIdQueryOptions(aracFiloId),
-			);
-		},
-	});
 
 	const [dialogState, setDialogState] = useState<DialogState>({
 		create: false,
@@ -65,12 +45,9 @@ function RouteComponent() {
 		delete: false,
 	});
 
-	const [{ data: bakim = [] }, { data: firmalar }] = useSuspenseQueries({
-		queries: [
-			getBakimByAracFiloIdQueryOptions(aracFiloId),
-			getFirmalarQueryOptions(),
-		],
-	});
+	const { data: bakim = [] } = useSuspenseQuery(
+		getBakimlarByAracFiloIdQueryOptions(aracFiloId),
+	);
 
 	const openDialog = (type: keyof DialogState, bakim?: Bakim) => {
 		setDialogState({
@@ -151,28 +128,37 @@ function RouteComponent() {
 					<TableHeader>
 						<TableRow className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/10 dark:to-purple-950/10 hover:from-indigo-100 hover:to-purple-100 dark:hover:from-indigo-950/20 dark:hover:to-purple-950/20">
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Bakım nedeni
+								Bakım Nedeni
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 								Parça
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Parça tutarı/ işçilik tutarı
+								Parça Adedi
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Toplam
+								Parça Tutarı
+							</TableHead>
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
+								İşçilik Tutarı
+							</TableHead>
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
+								Toplam Tutar
+							</TableHead>
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
+								Bakım Aralığı
+							</TableHead>
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
+								Araç Güncel KM
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 								Fatura
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Fatura no
+								Ödeyen Firma
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 								Açıklama
-							</TableHead>
-							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Firma
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300 text-right">
 								İşlemler
@@ -203,43 +189,107 @@ function RouteComponent() {
 										</div>
 									</TableCell>
 									<TableCell>
-										<div>
-											<p className="font-medium text-slate-900 dark:text-slate-100">
-												{bakim.parcaTutari}
-											</p>
-											<p className="text-sm text-slate-500 dark:text-slate-400">
-												{bakim.iscilikTutari}
-											</p>
+										<span className="font-medium text-slate-900 dark:text-slate-100">
+											{bakim.parcaAdedi}
+										</span>
+									</TableCell>
+									<TableCell>
+										<span className="font-medium text-slate-900 dark:text-slate-100">
+											₺{bakim.parcaTutari?.toLocaleString('tr-TR')}
+										</span>
+									</TableCell>
+									<TableCell>
+										<span className="font-medium text-slate-900 dark:text-slate-100">
+											₺{bakim.iscilikTutari?.toLocaleString('tr-TR')}
+										</span>
+									</TableCell>
+									<TableCell>
+										<span className="px-2 py-1 bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400 rounded-md text-sm font-semibold">
+											₺{((bakim.parcaAdedi * bakim.parcaTutari) + bakim.iscilikTutari)?.toLocaleString('tr-TR')}
+										</span>
+									</TableCell>
+									<TableCell>
+										<span className="text-slate-600 dark:text-slate-400 font-medium">
+											{bakim.bakimAraligi} km
+										</span>
+									</TableCell>
+									<TableCell>
+										<span className="text-slate-600 dark:text-slate-400 font-medium">
+											{bakim.aracGuncelKm} km
+										</span>
+									</TableCell>
+									<TableCell>
+										{bakim.fatura ? (
+											<Button
+												variant="outline"
+												size="sm"
+												onClick={() => {
+													// Dosya tipini kontrol et ve ona göre göster
+													const base64Data = bakim.fatura;
+													
+													if (!base64Data) return;
+													
+													// PDF dosyası için
+													if (base64Data.startsWith('JVBERi0') || base64Data.includes('PDF')) {
+														const newWindow = window.open();
+														if (newWindow) {
+															newWindow.document.write(`
+																<!DOCTYPE html>
+																<html>
+																<head>
+																	<title>Bakım Faturası</title>
+																	<style>
+																		body { margin: 0; padding: 0; }
+																		iframe { width: 100vw; height: 100vh; border: none; }
+																	</style>
+																</head>
+																<body>
+																	<iframe src="data:application/pdf;base64,${base64Data}"></iframe>
+																</body>
+																</html>
+															`);
+														}
+													} else {
+														// Resim dosyası için
+														const newWindow = window.open();
+														if (newWindow) {
+															newWindow.document.write(`
+																<!DOCTYPE html>
+																<html>
+																<head>
+																	<title>Bakım Faturası</title>
+																	<style>
+																		body { margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #f5f5f5; }
+																		img { max-width: 100%; max-height: 100vh; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+																	</style>
+																</head>
+																<body>
+																	<img src="data:image/jpeg;base64,${base64Data}" alt="Bakım Faturası" />
+																</body>
+																</html>
+															`);
+														}
+													}
+												}}
+												className="flex items-center gap-1"
+											>
+												Göster
+											</Button>
+										) : (
+											<span className="text-gray-400 text-sm">Dosya yok</span>
+										)}
+									</TableCell>
+									<TableCell>
+										<span className="text-slate-700 dark:text-slate-300 font-medium">
+											{OdemeYapanFirmaListesiLabel[bakim.bakimOdeyenFirma]}
+										</span>
+									</TableCell>
+									<TableCell>
+										<div className="max-w-xs">
+											<span className="text-slate-600 dark:text-slate-400 text-sm truncate block">
+												{bakim.aciklama}
+											</span>
 										</div>
-									</TableCell>
-									<TableCell>
-										<span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded-md text-sm font-mono text-slate-700 dark:text-slate-300">
-											{bakim.toplamTutar}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{bakim.fatura}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{bakim.faturaNo}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{bakim.aciklama}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{
-												firmalar.find(
-													(firma) => bakim.odeyenFirmaId === firma.id,
-												)?.unvan
-											}
-										</span>
 									</TableCell>
 
 									<TableCell className="text-right">
@@ -276,7 +326,6 @@ function RouteComponent() {
 					open={dialogState.create}
 					close={closeDialog}
 					initialValues={{ aracFiloId }}
-					firmalar={firmalar}
 				/>
 			)}
 
@@ -287,7 +336,6 @@ function RouteComponent() {
 					open={dialogState.update}
 					close={closeDialog}
 					initialValues={dialogState.selectedBakim}
-					firmalar={firmalar}
 				/>
 			)}
 

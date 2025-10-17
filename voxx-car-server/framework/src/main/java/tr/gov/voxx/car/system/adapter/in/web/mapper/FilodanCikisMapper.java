@@ -21,6 +21,7 @@ public class FilodanCikisMapper {
                 .aracDevirGiderleri(filodanCikis.getAracDevirGiderleri())
                 .faturaYukle(filodanCikis.getFaturaYukle())
                 .aciklama(filodanCikis.getAciklama())
+                .sozlesme(filodanCikis.getSozlesme())
                 .createdAt(filodanCikis.getCreatedAt())
                 .updatedAt(filodanCikis.getUpdatedAt())
                 .build();
@@ -36,6 +37,7 @@ public class FilodanCikisMapper {
                 .aracDevirGiderleri(request.getAracDevirGiderleri())
                 .faturaYukle(request.getFaturaYukle())
                 .aciklama(request.getAciklama())
+                .sozlesme(request.getSozlesme())
                 .build();
     }
 

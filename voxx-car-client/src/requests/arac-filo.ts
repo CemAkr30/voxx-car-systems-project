@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 export const getAllAracFilo = async (): Promise<AracFilo[]> => {
 	const { data } = await axiosClient.get<AracFilo[]>(`${urls.aracfilo}`);
-	return data.filter((d) => !d.isDeleted);
+	return data.filter((d) => !d.deleted);
 };
 
 export const getAracFilo = async (id: string): Promise<AracFilo> => {
@@ -14,43 +14,61 @@ export const getAracFilo = async (id: string): Promise<AracFilo> => {
 	return data;
 };
 
-export const createAracFilo = async (
-	aracFilo: CreateAracFiloRequest,
-): Promise<void> => {
-	try {
-		await axiosClient.post<AracFilo>(`${urls.aracfilo}`, aracFilo);
-	} catch (error: unknown) {
-		if (isAxiosError(error)) {
-			toast.error("AracFiloyı kayıt ederken sorun oluştu");
-			throw new Error(error.request?.response.code);
+	export const createAracFilo = async (
+		aracFilo: CreateAracFiloRequest,
+	): Promise<void> => {
+		try {
+			await axiosClient.post<AracFilo>(`${urls.aracfilo}`, aracFilo);
+			toast.success("Araç filo başarıyla oluşturuldu");
+		} catch (error: unknown) {
+			if (isAxiosError(error)) {
+				toast.error("AracFiloyı kayıt ederken sorun oluştu");
+				throw new Error(error.request?.response.code);
+			}
+			throw new Error("error creating aracFilo");
 		}
-		throw new Error("error creating aracFilo");
-	}
-};
+	};
 
-export const updateAracFilo = async (aracFilo: AracFilo): Promise<void> => {
+	export const updateAracFilo = async (aracFilo: AracFilo): Promise<void> => {
+		try {
+			await axiosClient.put<AracFilo>(
+				`${urls.aracfilo}/${aracFilo.id}`,
+				aracFilo,
+			);
+			toast.success("Araç filo başarıyla güncellendi");
+		} catch (error) {
+			if (isAxiosError(error)) {
+				toast.error("AracFiloyı güncellerken sorun oluştu");
+				throw new Error(error.request?.response.code);
+			}
+			throw new Error("error creating aracFilo");
+		}
+	};
+
+export const updateAracFiloTramer = async (aracFiloId: string, tramer: boolean, tramerTutari: number): Promise<void> => {
 	try {
-		await axiosClient.put<AracFilo>(
-			`${urls.aracfilo}/${aracFilo.id}`,
-			aracFilo,
+		await axiosClient.patch(
+			`${urls.aracfilo}/${aracFiloId}/tramer`,
+			{ tramer, tramerTutari },
 		);
 	} catch (error) {
 		if (isAxiosError(error)) {
-			toast.error("AracFiloyı güncellerken sorun oluştu");
+			toast.error("AracFiloyı tramer güncellerken sorun oluştu");
 			throw new Error(error.request?.response.code);
 		}
-		throw new Error("error creating aracFilo");
+		throw new Error("error updating aracFilo tramer");
 	}
 };
 
-export const deleteAracFilo = async (id: string): Promise<void> => {
-	try {
-		await axiosClient.delete(`${urls.aracfilo}/${id}`);
-	} catch (error) {
-		if (isAxiosError(error)) {
-			toast.error("AracFiloyı silerken sorun oluştu");
-			throw new Error(error.request?.response.code);
+	export const deleteAracFilo = async (id: string): Promise<void> => {
+		try {
+			await axiosClient.delete(`${urls.aracfilo}/${id}`);
+			toast.success("Araç filo başarıyla silindi");
+		} catch (error) {
+			if (isAxiosError(error)) {
+				toast.error("AracFiloyı silerken sorun oluştu");
+				throw new Error(error.request?.response.code);
+			}
+			throw new Error("error creating aracFilo");
 		}
-		throw new Error("error creating aracFilo");
-	}
-};
+	};

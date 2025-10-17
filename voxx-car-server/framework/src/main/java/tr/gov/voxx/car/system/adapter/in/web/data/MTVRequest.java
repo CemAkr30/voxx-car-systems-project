@@ -17,7 +17,7 @@ public class MTVRequest {
     private String makbuzNo;
     private Double miktar;
     private OdemeTipi odemeTipi;
-    private String odeyenFirmaId;
+    private String mtvOdeyenFirma;
     private String aciklama;
     private String gecikmeCezasi;
     private Boolean odendi;

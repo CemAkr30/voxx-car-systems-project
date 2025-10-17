@@ -1,7 +1,6 @@
 package tr.gov.voxx.car.system.application.usecase.query;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import tr.gov.voxx.car.system.application.port.in.BakimApplicationQueryPort;
 import tr.gov.voxx.car.system.application.port.out.BakimPersistenceJpaPort;
@@ -17,7 +16,6 @@ public class BakimApplicationQueryUseCase implements BakimApplicationQueryPort {
     private final BakimPersistenceJpaPort persistencePort;
 
     @Override
-    @Cacheable(value = "bakim", key = "#bakimId")
     public Bakim get(BakimId bakimId) {
         return persistencePort.findById(bakimId);
     }

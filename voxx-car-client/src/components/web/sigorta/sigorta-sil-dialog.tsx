@@ -22,11 +22,14 @@ export default function SigortaSilDialog({
 	close,
 	selectedSigorta,
 }: SigortaDialogDeleteProps) {
-	const deleteSigortaMutation = useDeleteSigortaMutation(close);
+	const deleteSigortaMutation = useDeleteSigortaMutation(
+		selectedSigorta.aracFiloId,
+		close,
+	);
 
 	return (
 		<Dialog open={open} onOpenChange={close}>
-			<DialogContent className="sm:max-w-[550px]">
+			<DialogContent className="sm:max-w-[400px]">
 				<DialogHeader>
 					<DialogTitle>Seçili Sigortayı Sil</DialogTitle>
 					<DialogDescription>

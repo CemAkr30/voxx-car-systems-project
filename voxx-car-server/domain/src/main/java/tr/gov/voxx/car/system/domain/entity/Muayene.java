@@ -25,7 +25,7 @@ public class Muayene extends AbstractAggregateModel<MuayeneId> {
     private String gecikmeCezasi;
     private String aciklama;
     private String yeri;
-    private Double miktar;//yeni eklendi
+    private Double miktar;
     private OdemeTipi odemeTipi;
     private Boolean odendi;
 
@@ -45,7 +45,7 @@ public class Muayene extends AbstractAggregateModel<MuayeneId> {
         this.yeri = other.yeri;
         this.gecikmeCezasi = other.gecikmeCezasi;
         this.miktar = other.miktar;
-        this.odemeTipi = other.odemeTipi;//yeni eklendi
+        this.odemeTipi = other.odemeTipi;
         this.odendi = other.odendi;
     }
 }

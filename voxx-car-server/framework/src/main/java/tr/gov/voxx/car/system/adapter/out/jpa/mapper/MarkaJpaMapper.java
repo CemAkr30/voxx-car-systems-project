@@ -3,8 +3,6 @@ package tr.gov.voxx.car.system.adapter.out.jpa.mapper;
 import lombok.experimental.UtilityClass;
 import tr.gov.voxx.car.system.adapter.out.jpa.entity.MarkaEntity;
 import tr.gov.voxx.car.system.domain.entity.Marka;
-import tr.gov.voxx.car.system.domain.event.MarkaCreatedEvent;
-import tr.gov.voxx.car.system.domain.event.MarkaUpdatedEvent;
 import tr.gov.voxx.car.system.domain.valueobject.MarkaId;
 
 import java.util.List;
@@ -42,7 +40,7 @@ public class MarkaJpaMapper {
     }
 
 
-    public static Marka toMarkaFromMarkaCreatedEvent(MarkaCreatedEvent markaCreatedEvent) {
+    /*public static Marka toMarkaFromMarkaCreatedEvent(MarkaCreatedEvent markaCreatedEvent) {
         return Marka.builder()
                 .id(markaCreatedEvent.id())
                 .adi(markaCreatedEvent.adi())
@@ -54,5 +52,5 @@ public class MarkaJpaMapper {
                 .id(markaUpdatedEvent.id())
                 .adi(markaUpdatedEvent.adi())
                 .build();
-    }
+    }*/
 }

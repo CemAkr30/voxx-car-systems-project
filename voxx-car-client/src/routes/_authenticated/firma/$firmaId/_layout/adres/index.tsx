@@ -25,14 +25,11 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { getAdreslerByFirmaIdQueryOptions } from "@/hooks/use-adres-hooks";
-import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { AdresTipiListesiLabel, type AdresTipi } from "@/enums";
 import { Button } from "@/components/ui/button";
 import AdresDialog from "@/components/web/adres/adres-dialog";
 import AdresSilDialog from "@/components/web/adres/adres-sil-dialog";
-import type { WebSocketMessage } from "@/types";
-import { useWebSocketTopic } from "@/hooks/use-webhook";
-import { toast } from "sonner";
 
 interface DialogState {
 	create: boolean;
@@ -123,25 +120,6 @@ const getAddressTypeInfo = (type: AdresTipi) => {
 
 function RouteComponent() {
 	const { firmaId } = Route.useParams();
-	const queryClient = useQueryClient();
-
-	useWebSocketTopic<WebSocketMessage>({
-		topic: "/topic/adres",
-		onMessage: async ({ type }) => {
-			if (type === "CREATED") {
-				toast.success("Adres başarılı bir şekilde kayıt edildi");
-			}
-			if (type === "UPDATED") {
-				toast.success("Adres başarılı bir şekilde güncellendi");
-			}
-			if (type === "DELETED") {
-				toast.success("Adres başarılı bir şekilde silindi");
-			}
-			await queryClient.invalidateQueries(
-				getAdreslerByFirmaIdQueryOptions(firmaId),
-			);
-		},
-	});
 
 	const [dialogState, setDialogState] = useState<DialogState>({
 		create: false,
@@ -241,7 +219,9 @@ function RouteComponent() {
 									<TableCell>
 										<div className="flex items-center gap-3">
 											<div
-												className={`p-2 rounded-lg ${getAddressTypeInfo(adres.tip)} shadow-sm`}
+												className={`p-2 rounded-lg ${getAddressTypeInfo(
+													adres.tip,
+												)} shadow-sm`}
 											>
 												<adresTip.icon className="h-4 w-4" />
 											</div>

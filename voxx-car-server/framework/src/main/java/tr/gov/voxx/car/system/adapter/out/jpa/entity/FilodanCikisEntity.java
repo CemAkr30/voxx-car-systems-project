@@ -1,9 +1,6 @@
 package tr.gov.voxx.car.system.adapter.out.jpa.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import tr.gov.voxx.car.system.common.framework.persistence.AbstractEntity;
 import tr.gov.voxx.car.system.domain.enumeration.FilodanCikisNedeni;
@@ -25,7 +22,10 @@ public class FilodanCikisEntity extends AbstractEntity {
     private String alici;
     private Double anahtarTeslimFiyati;
     private Double aracDevirGiderleri;
+    @Column(columnDefinition = "TEXT")
     private String faturaYukle;
     private String aciklama;
+    @Column(columnDefinition = "TEXT")
+    private String sozlesme;
 }
 

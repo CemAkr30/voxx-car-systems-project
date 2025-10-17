@@ -1,4 +1,4 @@
-package tr.gov.voxx.car.system.config;
+/*package tr.gov.voxx.car.system.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -50,4 +50,4 @@ public class CouchbaseCacheConfig extends AbstractCouchbaseConfiguration {
     public String getBucketName() {
         return bucketName;
     }
-}
+}*/

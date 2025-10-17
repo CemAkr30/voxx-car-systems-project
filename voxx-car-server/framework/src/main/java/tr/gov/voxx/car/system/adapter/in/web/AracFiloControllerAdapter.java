@@ -10,6 +10,7 @@ import tr.gov.voxx.car.system.adapter.in.web.mapper.*;
 import tr.gov.voxx.car.system.application.port.in.*;
 import tr.gov.voxx.car.system.domain.entity.*;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
+import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ import static tr.gov.voxx.car.system.constants.EndpointPath.ARAC_FILO_ENDPOINT_V
 public class AracFiloControllerAdapter {
 
     private final AracFiloApplicationCommandPort commandPort;
+    private final AracFirmaDetayApplicationCommandPort aracFirmaDetayApplicationCommandPort;
     private final AracFiloApplicationQueryPort queryPort;
 
     private final SigortaKaskoApplicationQueryPort sigortaKaskoApplicationQueryPort;
@@ -32,6 +34,7 @@ public class AracFiloControllerAdapter {
     private final KazaApplicationQueryPort kazaApplicationQueryPort;
     private final AlisFaturasiApplicationQueryPort alisFaturasiApplicationQueryPort;
     private final FilodanCikisApplicationQueryPort filodanCikisApplicationQueryPort;
+    private final AracFirmaDetayApplicationQueryPort aracFirmaDetayApplicationQueryPort;
 
 
     @GetMapping("/{id}")
@@ -124,5 +127,51 @@ public class AracFiloControllerAdapter {
     public ResponseEntity<List<FilodanCikisResponse>> findAracFiloIdGetFilodanCikis(@PathVariable("id") String aracFiloId) {
         List<FilodanCikis> filodanCikisList = filodanCikisApplicationQueryPort.findAracFiloIdGetAll(aracFiloId);
         return ResponseEntity.ok(FilodanCikisMapper.toResponseList(filodanCikisList));
+    }
+
+    @PostMapping("/kirala")
+    @Operation(summary = "Araç Firma Detay Bilgisine Göre Ekler", description = "Araç Firma Detay Bilgisine Göre Ekler")
+    public ResponseEntity<Void> kirala(@RequestBody AracFirmaDetayRequest aracFirmaDetayRequest) {
+        aracFirmaDetayApplicationCommandPort.post(AracFirmaDetayMapper.toAracFirmaDetay(aracFirmaDetayRequest));
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/kirala/{id}")
+    @Operation(summary = "Araç Kiralama Bilgilerini Güncelle", description = "Belirtilen ID ile araç kiralama bilgilerini günceller")
+    public ResponseEntity<Void> updateKirala(@PathVariable String id, @RequestBody AracFirmaDetayRequest request) {
+        AracFirmaDetay entity = AracFirmaDetayMapper.toAracFirmaDetay(request);
+        entity.setId(new tr.gov.voxx.car.system.domain.valueobject.AracFirmaDetayId(id));
+        aracFirmaDetayApplicationCommandPort.put(entity);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/kirala/{id}")
+    @Operation(summary = "Araç Kiralama Bilgisini Sil", description = "Belirtilen ID ile araç kiralama bilgisini siler")
+    public ResponseEntity<Void> deleteKirala(@PathVariable String id) {
+        aracFirmaDetayApplicationCommandPort.deleteById(new tr.gov.voxx.car.system.domain.valueobject.AracFirmaDetayId(id));
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/kiralayan-firmalar")
+    @Operation(summary = "Araç Filo ID ye göre kiralayan araçları getir", description = "Belirtilen Araç Filo ID ye göre kiralayan araçları getir")
+    public ResponseEntity<List<AracFirmaDetayResponse>> kiralayanFirmalar(@PathVariable("id") String aracFiloId) {
+        return ResponseEntity.ok(AracFirmaDetayMapper.toResponseList(
+                aracFirmaDetayApplicationQueryPort.kiralayanFirmalar(new AracFiloId(aracFiloId))
+        ));
+    }
+
+    @GetMapping("/kiralanabilir-araclar")
+    @Operation(summary = "Kiralanabilir Araçları Getir", description = "Hiç kiralanmamış veya sözleşmesi bitmiş araçları getirir")
+    public ResponseEntity<List<AracFiloResponse>> kiralanabilirAraclar() {
+        return ResponseEntity.ok(AracFiloMapper.toResponseList(
+                queryPort.findKiralikOlmayanAraclar()
+        ));
+    }
+
+    @PatchMapping("/{id}/tramer")
+    @Operation(summary = "Araç Tramer Bilgilerini Güncelle", description = "Belirtilen araç ID'sine göre sadece tramer bilgilerini günceller")
+    public ResponseEntity<Void> updateTramer(@PathVariable String id, @RequestBody AracFiloTramerRequest request) {
+        commandPort.updateTramer(new AracFiloId(id), request.isTramer(), request.getTramerTutari());
+        return ResponseEntity.noContent().build();
     }
 }

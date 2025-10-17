@@ -1,0 +1,32 @@
+package tr.gov.voxx.car.system.adapter.out.jpa.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+import tr.gov.voxx.car.system.adapter.out.jpa.entity.AracFirmaDetayEntity;
+
+import java.time.Instant;
+import java.util.List;
+
+@Repository
+public interface AracFirmaDetayJpaRepository extends JpaRepository<AracFirmaDetayEntity, String> {
+
+    List<AracFirmaDetayEntity> findByAracFiloIdAndIsDeletedFalse(String aracFiloId);
+
+    List<AracFirmaDetayEntity> findByFirmaIdAndIsDeletedFalse(String firmaId);
+
+    @Query("SELECT a FROM AracFirmaDetayEntity a " +
+            "WHERE :today NOT BETWEEN a.sozlesmeBaslangicTarihi AND a.sozlesmeBitisTarihi AND a.isDeleted = false")
+    List<AracFirmaDetayEntity> findAllKiralanabilirAraclar(@Param("today") Instant today);
+    
+    @Query("SELECT DISTINCT a.aracFiloId FROM AracFirmaDetayEntity a " +
+            "WHERE :today >= a.sozlesmeBaslangicTarihi AND :today <= a.sozlesmeBitisTarihi AND a.isDeleted = false")
+    List<String> findAktifKiralananAracIds(@Param("today") Instant today);
+
+    List<AracFirmaDetayEntity> findByIsDeletedFalse();
+
+    List<AracFirmaDetayEntity> findByIsDeletedFalseOrderBySozlesmeBitisTarihiAsc();
+
+    List<AracFirmaDetayEntity> findAllByIsDeletedFalse();
+}

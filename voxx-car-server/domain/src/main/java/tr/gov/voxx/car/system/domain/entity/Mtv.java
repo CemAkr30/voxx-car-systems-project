@@ -6,7 +6,6 @@ import tr.gov.voxx.car.system.common.domain.core.IdFactory;
 import tr.gov.voxx.car.system.common.domain.entity.AbstractAggregateModel;
 import tr.gov.voxx.car.system.domain.enumeration.OdemeTipi;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
-import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 import tr.gov.voxx.car.system.domain.valueobject.MtvId;
 
 @Getter
@@ -19,7 +18,7 @@ public class Mtv extends AbstractAggregateModel<MtvId> {
     private String makbuzNo;
     private Double miktar;
     private OdemeTipi odemeTipi;
-    private FirmaId odeyenFirmaId;
+    private String mtvOdeyenFirma;
     private String aciklama;
     private String gecikmeCezasi;
     private Boolean odendi;
@@ -36,7 +35,7 @@ public class Mtv extends AbstractAggregateModel<MtvId> {
         this.makbuzNo = other.makbuzNo;
         this.miktar = other.miktar;
         this.odemeTipi = other.odemeTipi;
-        this.odeyenFirmaId = other.odeyenFirmaId;
+        this.mtvOdeyenFirma = other.mtvOdeyenFirma;
         this.aciklama = other.aciklama;
         this.gecikmeCezasi = other.gecikmeCezasi;
         this.odendi = other.odendi;

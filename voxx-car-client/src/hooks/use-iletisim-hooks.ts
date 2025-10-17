@@ -5,7 +5,11 @@ import {
 	updateIletisim,
 } from "@/requests/iletisim";
 import type { CreateIletisimRequest, Iletisim } from "@/schemas/iletisim";
-import { queryOptions, useMutation } from "@tanstack/react-query";
+import {
+	queryOptions,
+	useMutation,
+	useQueryClient,
+} from "@tanstack/react-query";
 
 export function getIletisimlerByFirmaIdQueryOptions(firmaId: string) {
 	return queryOptions({
@@ -33,11 +37,18 @@ export const useUpdateIletisimMutation = (onSuccess?: () => void) => {
 	});
 };
 
-export const useDeleteIletisimMutation = (onSuccess?: () => void) => {
+export const useDeleteIletisimMutation = (
+	firmaId: string,
+	onSuccess?: () => void,
+) => {
+	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: async (id: string) => await deleteIletisim(id),
-		onSuccess() {
+		async onSuccess() {
 			onSuccess?.();
+			await queryClient.invalidateQueries(
+				getIletisimlerByFirmaIdQueryOptions(firmaId),
+			);
 		},
 	});
 };

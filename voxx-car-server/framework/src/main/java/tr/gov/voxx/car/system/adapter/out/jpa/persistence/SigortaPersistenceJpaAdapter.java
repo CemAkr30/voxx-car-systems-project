@@ -66,14 +66,14 @@ public class SigortaPersistenceJpaAdapter implements SigortaKaskoPersistenceJpaP
     @Override
     public List<SigortaKasko> findAracFiloIdGetAll(String aracFiloId) {
         return SigortaKaskoJpaMapper.toSigortaList(
-                sigortaJpaRepository.findByAracFiloId(aracFiloId)
+                sigortaJpaRepository.findByAracFiloIdAndIsDeletedFalse(aracFiloId)
         );
     }
 
     @Override
     public List<SigortaKasko> findByBitisTarihiBefore(java.time.Instant bitis) {
         return SigortaKaskoJpaMapper.toSigortaList(
-                sigortaJpaRepository.findByBitisTarihiBefore(bitis)
+                sigortaJpaRepository.findByBitisTarihiBeforeAndIsDeletedFalse(bitis)
         );
     }
 }

@@ -17,15 +17,21 @@ function Calendar({
 	buttonVariant = "ghost",
 	formatters,
 	components,
+	toYear,
+	fromYear,
 	...props
 }: React.ComponentProps<typeof DayPicker> & {
 	buttonVariant?: React.ComponentProps<typeof Button>["variant"];
+	toYear?: number;
+	fromYear?: number;
 }) {
 	const defaultClassNames = getDefaultClassNames();
 
 	return (
 		<DayPicker
 			showOutsideDays={showOutsideDays}
+			toYear={toYear || new Date().getFullYear() + 100}
+			fromYear={fromYear || new Date().getFullYear() - 100}
 			className={cn(
 				"bg-background group/calendar p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
 				String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,

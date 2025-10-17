@@ -3,11 +3,8 @@ package tr.gov.voxx.car.system.adapter.out.jpa.mapper;
 import lombok.experimental.UtilityClass;
 import tr.gov.voxx.car.system.adapter.out.jpa.entity.BakimEntity;
 import tr.gov.voxx.car.system.domain.entity.Bakim;
-import tr.gov.voxx.car.system.domain.event.BakimCreatedEvent;
-import tr.gov.voxx.car.system.domain.event.BakimUpdatedEvent;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.BakimId;
-import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,10 +23,12 @@ public class BakimJpaMapper {
                 .parcaTutari(entity.getParcaTutari())
                 .iscilikTutari(entity.getIscilikTutari())
                 .toplamTutar(entity.getToplamTutar())
-                .faturaNo(entity.getFaturaNo())
                 .fatura(entity.getFatura())
                 .aciklama(entity.getAciklama())
-                .odeyenFirmaId(new FirmaId(entity.getOdeyenFirmaId()))
+                .bakimOdeyenFirma(entity.getBakimOdeyenFirma())
+                .aracGuncelKm(entity.getAracGuncelKm())
+                .bakimAraligi(entity.getBakimAraligi())
+                .parcaAdedi(entity.getParcaAdedi())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .isDeleted(entity.isDeleted())
@@ -47,10 +46,12 @@ public class BakimJpaMapper {
         entity.setParcaTutari(bakim.getParcaTutari());
         entity.setIscilikTutari(bakim.getIscilikTutari());
         entity.setToplamTutar(bakim.getToplamTutar());
-        entity.setFaturaNo(bakim.getFaturaNo());
         entity.setFatura(bakim.getFatura());
         entity.setAciklama(bakim.getAciklama());
-        entity.setOdeyenFirmaId(bakim.getOdeyenFirmaId().getValue());
+        entity.setBakimOdeyenFirma(bakim.getBakimOdeyenFirma());
+        entity.setAracGuncelKm(bakim.getAracGuncelKm());
+        entity.setBakimAraligi(bakim.getBakimAraligi());
+        entity.setParcaAdedi(bakim.getParcaAdedi());
         return entity;
     }
 
@@ -59,7 +60,7 @@ public class BakimJpaMapper {
         return entities.stream().map(BakimJpaMapper::toBakim).collect(Collectors.toList());
     }
 
-    public static Bakim toBakimFromBakimCreatedEvent(BakimCreatedEvent event) {
+    /*public static Bakim toBakimFromBakimCreatedEvent(BakimCreatedEvent event) {
         return Bakim.builder()
                 .id(event.id())
                 .aracFiloId(event.aracFiloId())
@@ -89,5 +90,5 @@ public class BakimJpaMapper {
                 .aciklama(event.aciklama())
                 .odeyenFirmaId(event.odeyenFirmaId())
                 .build();
-    }
+    }*/
 }

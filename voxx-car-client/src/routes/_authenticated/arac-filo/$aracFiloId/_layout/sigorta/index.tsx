@@ -10,15 +10,12 @@ import {
 import SigortaDialog from "@/components/web/sigorta/sigorta-dialog";
 import SigortaSilDialog from "@/components/web/sigorta/sigorta-sil-dialog";
 import { getSigortalarByAracFiloIdQueryOptions } from "@/hooks/use-sigorta-hooks";
-import { useWebSocketTopic } from "@/hooks/use-webhook";
 import { formatDate } from "@/lib/utils";
 import type { Sigorta } from "@/schemas/sigorta";
-import type { WebSocketMessage } from "@/types";
-import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { toast } from "sonner";
 
 export const Route = createFileRoute(
 	"/_authenticated/arac-filo/$aracFiloId/_layout/sigorta/",
@@ -40,25 +37,6 @@ interface DialogState {
 
 function RouteComponent() {
 	const { aracFiloId } = Route.useParams();
-	const queryClient = useQueryClient();
-
-	useWebSocketTopic<WebSocketMessage>({
-		topic: "/topic/sigorta",
-		onMessage: async ({ type }) => {
-			if (type === "CREATED") {
-				toast.success("Sigorta başarılı bir şekilde kayıt edildi");
-			}
-			if (type === "UPDATED") {
-				toast.success("Sigorta başarılı bir şekilde güncellendi");
-			}
-			if (type === "DELETED") {
-				toast.success("Sigorta başarılı bir şekilde silindi");
-			}
-			await queryClient.invalidateQueries(
-				getSigortalarByAracFiloIdQueryOptions(aracFiloId),
-			);
-		},
-	});
 
 	const [dialogState, setDialogState] = useState<DialogState>({
 		create: false,
@@ -167,6 +145,9 @@ function RouteComponent() {
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 								Bitiş Tarihi
 							</TableHead>
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
+								Sözleşme
+							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300 text-right">
 								İşlemler
 							</TableHead>
@@ -232,6 +213,67 @@ function RouteComponent() {
 												</span>
 											</div>
 										</div>
+									</TableCell>
+									<TableCell>
+										{sigorta.sozlesme ? (
+											<Button
+												variant="outline"
+												size="sm"
+												onClick={() => {
+													// Dosya tipini kontrol et ve ona göre göster
+													const base64Data = sigorta.sozlesme;
+													
+													if (!base64Data) return;
+													
+													// PDF dosyası için
+													if (base64Data.startsWith('JVBERi0') || base64Data.includes('PDF')) {
+														const newWindow = window.open();
+														if (newWindow) {
+															newWindow.document.write(`
+																<!DOCTYPE html>
+																<html>
+																<head>
+																	<title>Sigorta Sözleşmesi</title>
+																	<style>
+																		body { margin: 0; padding: 0; }
+																		iframe { width: 100vw; height: 100vh; border: none; }
+																	</style>
+																</head>
+																<body>
+																	<iframe src="data:application/pdf;base64,${base64Data}"></iframe>
+																</body>
+																</html>
+															`);
+														}
+													} else {
+														// Resim dosyası için
+														const newWindow = window.open();
+														if (newWindow) {
+															newWindow.document.write(`
+																<!DOCTYPE html>
+																<html>
+																<head>
+																	<title>Sigorta Sözleşmesi</title>
+																	<style>
+																		body { margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #f5f5f5; }
+																		img { max-width: 100%; max-height: 100vh; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+																	</style>
+																</head>
+																<body>
+																	<img src="data:image/jpeg;base64,${base64Data}" alt="Sigorta Sözleşmesi" />
+																</body>
+																</html>
+															`);
+														}
+													}
+												}}
+												className="flex items-center gap-1"
+											>
+												Göster
+											</Button>
+										) : (
+											<span className="text-gray-400 text-sm">Dosya yok</span>
+										)}
 									</TableCell>
 									<TableCell className="text-right">
 										<div className="flex items-center justify-end gap-2">

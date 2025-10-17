@@ -15,6 +15,7 @@ import {
 } from "@/enums";
 import { useAppForm } from "@/hooks/demo.form";
 import {
+	getMuayenelerByAracFiloIdQueryOptions,
 	useCreateMuayeneMutation,
 	useUpdateMuayeneMutation,
 } from "@/hooks/use-muayene-hooks";
@@ -25,6 +26,7 @@ import {
 	type CreateMuayeneRequest,
 	type Muayene,
 } from "@/schemas/muayene";
+import { useQueryClient } from "@tanstack/react-query";
 import { RefreshCw } from "lucide-react";
 import React, { useMemo } from "react";
 
@@ -50,6 +52,7 @@ type MuayeneDialogProps = MuayeneDialogCreateProps | MuayeneDialogUpdateProps;
 
 export default function MuayeneDialog(props: MuayeneDialogProps) {
 	const { mode, open, close, firmalar, aracFiloId } = props;
+	const queryClient = useQueryClient();
 
 	const odemeTipiOptions = OdemeTipiListesi.map((tip) => ({
 		label: OdemeTipiListesiLabel[tip],
@@ -109,6 +112,9 @@ export default function MuayeneDialog(props: MuayeneDialogProps) {
 				} else if (mode === "update") {
 					await updateMuayeneMutation!.mutateAsync(value as Muayene);
 				}
+				await queryClient.invalidateQueries(
+					getMuayenelerByAracFiloIdQueryOptions(aracFiloId),
+				);
 				formApi.reset();
 			} catch (_error) {}
 		},
@@ -122,18 +128,16 @@ export default function MuayeneDialog(props: MuayeneDialogProps) {
 				form.reset();
 			}}
 		>
-			<DialogContent className="sm:max-w-[550px]">
+			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px]">
 				<DialogHeader>
 					<DialogTitle>
-						{mode === "create"
-							? "Yeni Muayene Ekle"
-							: "Seçili Muayeneyı Güncelle"}
-					</DialogTitle>
-					<DialogDescription>
-						{mode === "create"
-							? "Yeni muayene eklemek için formu eksiksiz doldurunuz"
-							: "Seçili Muayeneyı Güncelle"}
-					</DialogDescription>
+					{mode === "create" ? "Yeni Muayene Ekle" : "Seçili Muayeneyi Güncelle"}
+				</DialogTitle>
+				<DialogDescription>
+					{mode === "create"
+						? "Yeni muayene eklemek için formu eksiksiz doldurunuz"
+						: "Seçili muayeneyi güncellemek için formu eksiksiz doldurunuz"}
+				</DialogDescription>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {
@@ -143,7 +147,7 @@ export default function MuayeneDialog(props: MuayeneDialogProps) {
 					}}
 					className="space-y-6"
 				>
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+					<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
 						<form.AppField name="makbuzNo">
 							{(field) => <field.TextField label="Makbuz no" />}
 						</form.AppField>
@@ -177,7 +181,7 @@ export default function MuayeneDialog(props: MuayeneDialogProps) {
 					<form.Subscribe selector={(state) => state.values.odendi}>
 						{(odendi) => (
 							<React.Fragment>
-								<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+								<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
 									<form.AppField name="odemeTipi">
 										{(field) => (
 											<field.Select
@@ -219,7 +223,7 @@ export default function MuayeneDialog(props: MuayeneDialogProps) {
 						{(field) => <field.TextField label="Yeri" />}
 					</form.AppField>
 
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+					<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
 						<form.AppField name="baslangicTarihi">
 							{(field) => <field.DatePicker label="Başlangıç Tarihi" />}
 						</form.AppField>

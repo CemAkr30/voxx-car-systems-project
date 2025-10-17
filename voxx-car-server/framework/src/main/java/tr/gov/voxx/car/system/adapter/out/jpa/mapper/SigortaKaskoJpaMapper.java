@@ -3,8 +3,6 @@ package tr.gov.voxx.car.system.adapter.out.jpa.mapper;
 import lombok.experimental.UtilityClass;
 import tr.gov.voxx.car.system.adapter.out.jpa.entity.SigortaKaskoEntity;
 import tr.gov.voxx.car.system.domain.entity.SigortaKasko;
-import tr.gov.voxx.car.system.domain.event.SigortaCreatedEvent;
-import tr.gov.voxx.car.system.domain.event.SigortaUpdatedEvent;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.SigortaId;
 
@@ -23,6 +21,7 @@ public class SigortaKaskoJpaMapper {
                 .policeNo(entity.getPoliceNo())
                 .baslangicTarihi(entity.getBaslangicTarihi())
                 .bitisTarihi(entity.getBitisTarihi())
+                .sozlesme(entity.getSozlesme())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .isDeleted(entity.isDeleted())
@@ -42,6 +41,7 @@ public class SigortaKaskoJpaMapper {
         entity.setPoliceNo(sigortaKasko.getPoliceNo());
         entity.setBaslangicTarihi(sigortaKasko.getBaslangicTarihi());
         entity.setBitisTarihi(sigortaKasko.getBitisTarihi());
+        entity.setSozlesme(sigortaKasko.getSozlesme());
         return entity;
     }
 
@@ -55,7 +55,7 @@ public class SigortaKaskoJpaMapper {
     }
 
 
-    public static SigortaKasko toSigortaFromSigortaCreatedEvent(SigortaCreatedEvent sigortaCreatedEvent) {
+    /*public static SigortaKasko toSigortaFromSigortaCreatedEvent(SigortaCreatedEvent sigortaCreatedEvent) {
         return SigortaKasko.builder()
                 .id(sigortaCreatedEvent.id())
                 .aracFiloId(sigortaCreatedEvent.aracFiloId())
@@ -79,5 +79,5 @@ public class SigortaKaskoJpaMapper {
                 .baslangicTarihi(sigortaUpdatedEvent.baslangicTarihi())
                 .bitisTarihi(sigortaUpdatedEvent.bitisTarihi())
                 .build();
-    }
+    }*/
 }

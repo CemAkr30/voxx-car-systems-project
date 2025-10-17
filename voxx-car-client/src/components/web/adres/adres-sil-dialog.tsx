@@ -22,11 +22,14 @@ export default function AdresSilDialog({
 	close,
 	selectedAdres,
 }: AdresDialogDeleteProps) {
-	const deleteAdresMutation = useDeleteAdresMutation(close);
+	const deleteAdresMutation = useDeleteAdresMutation(
+		selectedAdres.firmaId,
+		close,
+	);
 
 	return (
 		<Dialog open={open} onOpenChange={close}>
-			<DialogContent className="sm:max-w-[550px]">
+			<DialogContent className="sm:max-w-[400px]">
 				<DialogHeader>
 					<DialogTitle>Seçili Adresi Sil</DialogTitle>
 					<DialogDescription>

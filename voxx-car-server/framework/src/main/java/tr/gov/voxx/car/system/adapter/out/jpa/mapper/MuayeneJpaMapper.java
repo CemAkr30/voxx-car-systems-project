@@ -3,8 +3,6 @@ package tr.gov.voxx.car.system.adapter.out.jpa.mapper;
 import lombok.experimental.UtilityClass;
 import tr.gov.voxx.car.system.adapter.out.jpa.entity.MuayeneEntity;
 import tr.gov.voxx.car.system.domain.entity.Muayene;
-import tr.gov.voxx.car.system.domain.event.MuayeneCreatedEvent;
-import tr.gov.voxx.car.system.domain.event.MuayeneUpdatedEvent;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 import tr.gov.voxx.car.system.domain.valueobject.MuayeneId;
@@ -66,7 +64,7 @@ public class MuayeneJpaMapper {
     }
 
 
-    public static Muayene toMuayeneFromMuayeneCreatedEvent(MuayeneCreatedEvent muayeneCreatedEvent) {
+    /*public static Muayene toMuayeneFromMuayeneCreatedEvent(MuayeneCreatedEvent muayeneCreatedEvent) {
         return Muayene.builder()
                 .id(muayeneCreatedEvent.id())
                 .aracFiloId(muayeneCreatedEvent.aracFiloId())
@@ -100,7 +98,7 @@ public class MuayeneJpaMapper {
                 .baslangicTarihi(muayeneUpdatedEvent.baslangicTarihi())
                 .bitisTarihi(muayeneUpdatedEvent.bitisTarihi())
                 .build();
-    }
+    }*/
 }
 
 

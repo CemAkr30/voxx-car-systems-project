@@ -3,8 +3,6 @@ package tr.gov.voxx.car.system.adapter.out.jpa.mapper;
 import lombok.experimental.UtilityClass;
 import tr.gov.voxx.car.system.adapter.out.jpa.entity.KazaEntity;
 import tr.gov.voxx.car.system.domain.entity.Kaza;
-import tr.gov.voxx.car.system.domain.event.KazaCreatedEvent;
-import tr.gov.voxx.car.system.domain.event.KazaUpdatedEvent;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 import tr.gov.voxx.car.system.domain.valueobject.KazaId;
@@ -22,7 +20,6 @@ public class KazaJpaMapper {
                 .id(new KazaId(entity.getId()))
                 .aracFiloId(new AracFiloId(entity.getAracFiloId()))
                 .firmaId(new FirmaId(entity.getFirmaId()))
-                .musteriId(entity.getMusteriId())
                 .kazaTarihi(entity.getKazaTarihi())
                 .kazaIli(entity.getKazaIli())
                 .kazaNedeni(entity.getKazaNedeni())
@@ -42,7 +39,6 @@ public class KazaJpaMapper {
         entity.setId(kaza.getId().getValue());
         entity.setAracFiloId(kaza.getAracFiloId().getValue());
         entity.setFirmaId(kaza.getFirmaId().getValue());
-        entity.setMusteriId(kaza.getMusteriId());
         entity.setKazaTarihi(kaza.getKazaTarihi());
         entity.setKazaIli(kaza.getKazaIli());
         entity.setKazaNedeni(kaza.getKazaNedeni());
@@ -57,7 +53,7 @@ public class KazaJpaMapper {
         return entities.stream().map(KazaJpaMapper::toKaza).collect(Collectors.toList());
     }
 
-    public static Kaza toKazaFromKazaCreatedEvent(KazaCreatedEvent event) {
+    /*public static Kaza toKazaFromKazaCreatedEvent(KazaCreatedEvent event) {
         return Kaza.builder()
                 .id(event.id())
                 .aracFiloId(event.aracId())
@@ -85,5 +81,5 @@ public class KazaJpaMapper {
                 .onarimDurumu(event.onarimDurumu())
                 .odeyenFirmaId(event.odeyenFirmaId())
                 .build();
-    }
+    }*/
 }

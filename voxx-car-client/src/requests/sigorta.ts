@@ -10,43 +10,46 @@ export const getSigortaByAracFiloId = async (
 	const { data } = await axiosClient.get<Sigorta[]>(
 		`${urls.aracfilo}/${aracFiloId}/sigorta`,
 	);
-	return data.filter((d) => !d.isDeleted);
+	return data.filter((d) => !d.deleted);
 };
 
-export const createSigorta = async (
-	sigorta: CreateSigortaRequest,
-): Promise<void> => {
-	try {
-		await axiosClient.post<Sigorta>(`${urls.sigorta}`, sigorta);
-	} catch (error: unknown) {
-		if (isAxiosError(error)) {
-			toast.error("Sigortayı kayıt ederken sorun oluştu");
-			throw new Error(error.request?.response.code);
+	export const createSigorta = async (
+		sigorta: CreateSigortaRequest,
+	): Promise<void> => {
+		try {
+			await axiosClient.post<Sigorta>(`${urls.sigorta}`, sigorta);
+			toast.success("Sigorta başarıyla oluşturuldu");
+		} catch (error: unknown) {
+			if (isAxiosError(error)) {
+				toast.error("Sigortayı kayıt ederken sorun oluştu");
+				throw new Error(error.request?.response.code);
+			}
+			throw new Error("error creating sigorta");
 		}
-		throw new Error("error creating sigorta");
-	}
-};
+	};
 
-export const updateSigorta = async (sigorta: Sigorta): Promise<void> => {
-	try {
-		await axiosClient.put<Sigorta>(`${urls.sigorta}/${sigorta.id}`, sigorta);
-	} catch (error) {
-		if (isAxiosError(error)) {
-			toast.error("Sigortayı güncellerken sorun oluştu");
-			throw new Error(error.request?.response.code);
+	export const updateSigorta = async (sigorta: Sigorta): Promise<void> => {
+		try {
+			await axiosClient.put<Sigorta>(`${urls.sigorta}/${sigorta.id}`, sigorta);
+			toast.success("Sigorta başarıyla güncellendi");
+		} catch (error) {
+			if (isAxiosError(error)) {
+				toast.error("Sigortayı güncellerken sorun oluştu");
+				throw new Error(error.request?.response.code);
+			}
+			throw new Error("error creating sigorta");
 		}
-		throw new Error("error creating sigorta");
-	}
-};
+	};
 
-export const deleteSigorta = async (id: string): Promise<void> => {
-	try {
-		await axiosClient.delete(`${urls.sigorta}/${id}`);
-	} catch (error) {
-		if (isAxiosError(error)) {
-			toast.error("Sigortayı silerken sorun oluştu");
-			throw new Error(error.request?.response.code);
+	export const deleteSigorta = async (id: string): Promise<void> => {
+		try {
+			await axiosClient.delete(`${urls.sigorta}/${id}`);
+			toast.success("Sigorta başarıyla silindi");
+		} catch (error) {
+			if (isAxiosError(error)) {
+				toast.error("Sigortayı silerken sorun oluştu");
+				throw new Error(error.request?.response.code);
+			}
+			throw new Error("error creating sigorta");
 		}
-		throw new Error("error creating sigorta");
-	}
-};
+	};

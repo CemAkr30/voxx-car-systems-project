@@ -1,28 +1,26 @@
 package tr.gov.voxx.car.system.application.usecase.command;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tr.gov.voxx.car.system.application.port.in.MTVApplicationCommandPort;
 import tr.gov.voxx.car.system.application.port.out.MTVPersistenceJpaPort;
-import tr.gov.voxx.car.system.common.application.port.out.event.DomainEventPublisher;
 import tr.gov.voxx.car.system.domain.entity.Mtv;
-import tr.gov.voxx.car.system.domain.event.MTVCreatedEvent;
-import tr.gov.voxx.car.system.domain.event.MTVDeletedEvent;
-import tr.gov.voxx.car.system.domain.event.MTVUpdatedEvent;
 import tr.gov.voxx.car.system.domain.exception.NotFoundException;
 import tr.gov.voxx.car.system.domain.valueobject.MtvId;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MTVApplicationCommandUseCase implements MTVApplicationCommandPort {
 
     private final MTVPersistenceJpaPort persistenceJpaPort;
-    private final DomainEventPublisher domainEventPublisher;
+    //private final DomainEventPublisher domainEventPublisher;
 
     @Override
     public void post(Mtv entity) {
         entity.initIdGenerator();
-        domainEventPublisher.publish("mtv-created-topic", MTVCreatedEvent.builder()
+        /*domainEventPublisher.publish("mtv-created-topic", MTVCreatedEvent.builder()
                 .id(entity.getId())
                 .aracFiloId(entity.getAracFiloId())
                 .yil(entity.getYil())
@@ -34,7 +32,9 @@ public class MTVApplicationCommandUseCase implements MTVApplicationCommandPort {
                 .aciklama(entity.getAciklama())
                 .gecikmeCezasi(entity.getGecikmeCezasi())
                 .odendi(entity.getOdendi())
-                .build());
+                .build());*/
+        persistenceJpaPort.persist(entity);
+        log.info("Persisted entity: {}", entity);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class MTVApplicationCommandUseCase implements MTVApplicationCommandPort {
             throw new NotFoundException("Mtv not found with id: " + entity.getId());
         }
         existing.updateFrom(entity);
-        domainEventPublisher.publish("mtv-updated-topic", MTVUpdatedEvent.builder()
+        /*domainEventPublisher.publish("mtv-updated-topic", MTVUpdatedEvent.builder()
                 .id(entity.getId())
                 .aracFiloId(entity.getAracFiloId())
                 .yil(entity.getYil())
@@ -56,7 +56,9 @@ public class MTVApplicationCommandUseCase implements MTVApplicationCommandPort {
                 .aciklama(entity.getAciklama())
                 .gecikmeCezasi(entity.getGecikmeCezasi())
                 .odendi(entity.getOdendi())
-                .build());
+                .build());*/
+        persistenceJpaPort.merge(existing);
+        log.info("Merged entity: {}", entity);
     }
 
     @Override
@@ -66,10 +68,13 @@ public class MTVApplicationCommandUseCase implements MTVApplicationCommandPort {
             throw new NotFoundException("Mtv not found with id: " + mtvId);
         }
         
-        domainEventPublisher.publish("mtv-deleted-topic", MTVDeletedEvent.builder()
+        /*domainEventPublisher.publish("mtv-deleted-topic", MTVDeletedEvent.builder()
                 .id(mtvId)
                 .aracFiloId(existing.getAracFiloId())
-                .build());
+                .build());*/
+
+        persistenceJpaPort.deleteById(existing.getId());
+        log.info("Deleted entity: {}", existing);
     }
 }
 

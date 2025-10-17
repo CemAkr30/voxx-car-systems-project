@@ -1,4 +1,4 @@
-package tr.gov.voxx.car.system.config;
+/*package tr.gov.voxx.car.system.config;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.errors.SerializationException;
@@ -74,5 +74,5 @@ public class KafkaConsumerConfig {
 
         return factory;
     }
-}
+}*/
 

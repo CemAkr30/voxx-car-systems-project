@@ -3,8 +3,6 @@ package tr.gov.voxx.car.system.adapter.out.jpa.mapper;
 import lombok.experimental.UtilityClass;
 import tr.gov.voxx.car.system.adapter.out.jpa.entity.AdresEntity;
 import tr.gov.voxx.car.system.domain.entity.Adres;
-import tr.gov.voxx.car.system.domain.event.AdresCreatedEvent;
-import tr.gov.voxx.car.system.domain.event.AdresUpdatedEvent;
 import tr.gov.voxx.car.system.domain.valueobject.AdresId;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
@@ -49,7 +47,7 @@ public class AdresJpaMapper {
     }
 
 
-    public static Adres toAdresFromAdresCreatedEvent(AdresCreatedEvent adresCreatedEvent) {
+    /*public static Adres toAdresFromAdresCreatedEvent(AdresCreatedEvent adresCreatedEvent) {
         return Adres.builder()
                 .id(adresCreatedEvent.id())
                 .firmaId(adresCreatedEvent.firmaId())
@@ -65,5 +63,5 @@ public class AdresJpaMapper {
                 .aciklama(adresUpdatedEvent.aciklama())
                 .tip(adresUpdatedEvent.tip())
                 .build();
-    }
+    }*/
 }

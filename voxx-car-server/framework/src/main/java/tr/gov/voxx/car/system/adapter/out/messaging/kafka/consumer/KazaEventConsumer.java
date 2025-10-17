@@ -1,4 +1,4 @@
-package tr.gov.voxx.car.system.adapter.out.messaging.kafka.consumer;
+/*package tr.gov.voxx.car.system.adapter.out.messaging.kafka.consumer;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,4 +43,4 @@ public class KazaEventConsumer {
         persistencePort.deleteById(event.id());
         kazaWebSocketNotifier.notifyKazaDeleted(event);
     }
-}
+}*/

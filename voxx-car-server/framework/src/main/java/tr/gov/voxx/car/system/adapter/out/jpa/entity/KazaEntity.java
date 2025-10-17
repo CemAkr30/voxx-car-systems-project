@@ -1,9 +1,9 @@
 package tr.gov.voxx.car.system.adapter.out.jpa.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import tr.gov.voxx.car.system.common.framework.persistence.AbstractEntity;
+import tr.gov.voxx.car.system.domain.enumeration.KazaNedeni;
 
 import java.time.Instant;
 
@@ -17,10 +17,11 @@ import java.time.Instant;
 public class KazaEntity extends AbstractEntity {
     private String aracFiloId;
     private String firmaId;
-    private String musteriId;
     private Instant kazaTarihi;
     private String kazaIli;
-    private String kazaNedeni;
+    @Enumerated(EnumType.STRING)
+    private KazaNedeni kazaNedeni;
+    @Column(columnDefinition = "TEXT")
     private String kazaTutanagi;
     private String onarimDurumu;
     private String odeyenFirmaId;

@@ -6,7 +6,11 @@ import {
 	updateModel,
 } from "@/requests/model";
 import type { CreateModelRequest, Model } from "@/schemas/model";
-import { queryOptions, useMutation } from "@tanstack/react-query";
+import {
+	queryOptions,
+	useMutation,
+	useQueryClient,
+} from "@tanstack/react-query";
 
 export function getModellerQueryOptions() {
 	return queryOptions({
@@ -43,10 +47,13 @@ export const useUpdateModelMutation = (onSuccess?: () => void) => {
 };
 
 export const useDeleteModelMutation = (onSuccess?: () => void) => {
+	const queryClient = useQueryClient();
+
 	return useMutation({
 		mutationFn: async (id: string) => await deleteModel(id),
-		onSuccess() {
+		async onSuccess() {
 			onSuccess?.();
+			await queryClient.invalidateQueries(getModellerQueryOptions());
 		},
 	});
 };

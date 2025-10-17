@@ -22,16 +22,19 @@ export default function BakimSilDialog({
 	close,
 	selectedBakim,
 }: BakimDialogDeleteProps) {
-	const deleteBakimMutation = useDeleteBakimMutation(close);
+	const deleteBakimMutation = useDeleteBakimMutation(
+		selectedBakim.aracFiloId,
+		close,
+	);
 
 	return (
 		<Dialog open={open} onOpenChange={close}>
-			<DialogContent className="sm:max-w-[550px]">
+			<DialogContent className="sm:max-w-[400px]">
 				<DialogHeader>
 					<DialogTitle>Seçili Bakımı Sil</DialogTitle>
 					<DialogDescription>
-						Seçili bakım <i>{selectedBakim.fatura}</i> silmek istediğinizden
-						emin misiniz? Bu işlem geri alınamaz.
+						Seçili bakım <i>{selectedBakim.bakimNedeni}</i> silmek istediğinizden emin
+						misiniz? Bu işlem geri alınamaz.
 					</DialogDescription>
 				</DialogHeader>
 				<DialogFooter>

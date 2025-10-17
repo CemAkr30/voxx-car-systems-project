@@ -4,9 +4,14 @@ import {
 	getAllAracFilo,
 	getAracFilo,
 	updateAracFilo,
+	updateAracFiloTramer,
 } from "@/requests/arac-filo";
 import type { CreateAracFiloRequest, AracFilo } from "@/schemas/arac-filo";
-import { queryOptions, useMutation } from "@tanstack/react-query";
+import {
+	queryOptions,
+	useMutation,
+	useQueryClient,
+} from "@tanstack/react-query";
 
 export function getAracFilolarQueryOptions() {
 	return queryOptions({
@@ -41,11 +46,22 @@ export const useUpdateAracFiloMutation = (onSuccess?: () => void) => {
 	});
 };
 
-export const useDeleteAracFiloMutation = (onSuccess?: () => void) => {
+export const useUpdateAracFiloTramerMutation = (onSuccess?: () => void) => {
 	return useMutation({
-		mutationFn: async (id: string) => await deleteAracFilo(id),
+		mutationFn: async ({ aracFiloId, tramer, tramerTutari }: { aracFiloId: string, tramer: boolean, tramerTutari: number }) => await updateAracFiloTramer(aracFiloId, tramer, tramerTutari),
 		onSuccess() {
 			onSuccess?.();
+		},
+	});
+};
+
+export const useDeleteAracFiloMutation = (onSuccess?: () => void) => {
+	const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: async (id: string) => await deleteAracFilo(id),
+		async onSuccess() {
+			onSuccess?.();
+			queryClient.invalidateQueries(getAracFilolarQueryOptions());
 		},
 	});
 };

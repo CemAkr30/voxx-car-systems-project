@@ -8,9 +8,9 @@ import java.util.List;
 
 @Repository
 public interface MuayeneJpaRepository extends JpaRepository<MuayeneEntity, String> {
-    List<MuayeneEntity> findByAracFiloId(String aracFiloId);
+    List<MuayeneEntity> findByAracFiloIdAndIsDeletedFalse(String aracFiloId);
     
-    List<MuayeneEntity> findByBitisTarihiBefore(java.time.Instant bitis);
+    List<MuayeneEntity> findByBitisTarihiBeforeAndIsDeletedFalse(java.time.Instant bitis);
     
     List<MuayeneEntity> findByIsDeletedFalse();
 }

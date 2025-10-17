@@ -10,18 +10,15 @@ import {
 } from "@/components/ui/table";
 import MtvDialog from "@/components/web/mtv/mtv-dialog";
 import MtvSilDialog from "@/components/web/mtv/mtv-sil-dialog";
-import { OdemeTipiListesiLabel } from "@/enums";
+import { OdemeTipiListesiLabel, OdemeYapanFirmaListesiLabel } from "@/enums";
 import { getFirmalarQueryOptions } from "@/hooks/use-firma-hooks";
 import { getMtvlerByAracFiloIdQueryOptions } from "@/hooks/use-mtv-hooks";
-import { useWebSocketTopic } from "@/hooks/use-webhook";
 import { formatCurrency, getPaymentTypeColor } from "@/lib/utils";
 import type { Mtv } from "@/schemas/mtv";
-import type { WebSocketMessage } from "@/types";
-import { useQueryClient, useSuspenseQueries } from "@tanstack/react-query";
+import { useSuspenseQueries } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { toast } from "sonner";
 
 export const Route = createFileRoute(
 	"/_authenticated/arac-filo/$aracFiloId/_layout/mtv/",
@@ -42,25 +39,6 @@ interface DialogState {
 
 function RouteComponent() {
 	const { aracFiloId } = Route.useParams();
-	const queryClient = useQueryClient();
-
-	useWebSocketTopic<WebSocketMessage>({
-		topic: "/topic/mtv",
-		onMessage: async ({ type }) => {
-			if (type === "CREATED") {
-				toast.success("MTV başarılı bir şekilde kayıt edildi");
-			}
-			if (type === "UPDATED") {
-				toast.success("MTV başarılı bir şekilde güncellendi");
-			}
-			if (type === "DELETED") {
-				toast.success("MTV başarılı bir şekilde silindi");
-			}
-			await queryClient.invalidateQueries(
-				getMtvlerByAracFiloIdQueryOptions(aracFiloId),
-			);
-		},
-	});
 
 	const [dialogState, setDialogState] = useState<DialogState>({
 		create: false,
@@ -162,13 +140,16 @@ function RouteComponent() {
 								Miktar
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Ödeme Tipi
-							</TableHead>
-							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 								Gecikme Cezası
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
+								Ödeme Tipi
+							</TableHead>
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 								Durum
+							</TableHead>
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
+								Ödeyen Firma
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300 text-right">
 								İşlemler
@@ -206,18 +187,7 @@ function RouteComponent() {
 										<p className="font-semibold text-slate-900 dark:text-slate-100">
 											{formatCurrency(mtv.miktar)}
 										</p>
-										{Number.parseFloat(mtv.gecikmeCezasi) > 0 && (
-											<p className="text-sm text-red-600 dark:text-red-400">
-												+{formatCurrency(Number.parseFloat(mtv.gecikmeCezasi))}{" "}
-												ceza
-											</p>
-										)}
 									</div>
-								</TableCell>
-								<TableCell>
-									<Badge className={getPaymentTypeColor(mtv.odemeTipi)}>
-										{OdemeTipiListesiLabel[mtv.odemeTipi]}
-									</Badge>
 								</TableCell>
 								<TableCell>
 									{Number.parseFloat(mtv.gecikmeCezasi) > 0 ? (
@@ -230,7 +200,31 @@ function RouteComponent() {
 										</span>
 									)}
 								</TableCell>
-								<TableCell>durum</TableCell>
+								<TableCell>
+									<Badge className={getPaymentTypeColor(mtv.odemeTipi)}>
+										{OdemeTipiListesiLabel[mtv.odemeTipi]}
+									</Badge>
+								</TableCell>
+								<TableCell>
+									<Badge
+										className={
+											mtv.odendi
+												? "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400"
+												: "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400"
+										}
+									>
+										{mtv.odendi ? "Ödendi" : "Ödenmedi"}
+									</Badge>
+								</TableCell>
+								<TableCell>
+									{mtv.odendi && mtv.mtvOdeyenFirma ? (
+										<span className="text-slate-700 dark:text-slate-300 font-medium">
+											{OdemeYapanFirmaListesiLabel[mtv.mtvOdeyenFirma]}
+										</span>
+									) : (
+										<span className="text-gray-400 text-sm">-</span>
+									)}
+								</TableCell>
 								<TableCell className="text-right">
 									<div className="flex items-center justify-end gap-2">
 										<Button
@@ -276,7 +270,6 @@ function RouteComponent() {
 					open={dialogState.create}
 					close={closeDialog}
 					initialValues={{ aracFiloId }}
-					firmalar={firmalar}
 				/>
 			)}
 
@@ -287,7 +280,6 @@ function RouteComponent() {
 					open={dialogState.update}
 					close={closeDialog}
 					initialValues={dialogState.selectedMtv}
-					firmalar={firmalar}
 				/>
 			)}
 

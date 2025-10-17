@@ -23,7 +23,7 @@ public class MTVEntity extends AbstractEntity {
     private Double miktar;
     @Enumerated(EnumType.STRING)
     private OdemeTipi odemeTipi;
-    private String odeyenFirmaId;
+    private String mtvOdeyenFirma;
     private String aciklama;
     private String gecikmeCezasi;
     private Boolean odendi;

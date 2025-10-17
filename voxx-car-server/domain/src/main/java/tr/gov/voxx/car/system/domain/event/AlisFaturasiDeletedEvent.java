@@ -1,4 +1,4 @@
-package tr.gov.voxx.car.system.domain.event;
+/*package tr.gov.voxx.car.system.domain.event;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -22,4 +22,4 @@ public record AlisFaturasiDeletedEvent(AlisFaturasiId id, AracFiloId aracFiloId)
         this.id = id;
         this.aracFiloId = aracFiloId;
     }
-}
+}*/

@@ -13,6 +13,7 @@ import {
 	type HasarliParca,
 } from "@/enums";
 import { useAppForm } from "@/hooks/demo.form";
+import { cn } from "@/lib/utils";
 import {
 	hasarCreateSchema,
 	hasarUpdateSchema,
@@ -71,7 +72,11 @@ export default function HasarDialog(props: HasarDialogProps) {
 				? {
 						aracFiloId,
 						hasarliParca,
-						hasarTipi: HasarTipiListesi[4],
+						hasarTipi:
+							hasarliParca === "GENEL"
+								? HasarTipiListesi[0]
+								: HasarTipiListesi[4],
+						aciklama: "",
 					}
 				: props.initialValues,
 		validators: {
@@ -81,26 +86,31 @@ export default function HasarDialog(props: HasarDialogProps) {
 		onSubmit: async ({ formApi, value }) => {
 			try {
 				if (mode === "create") {
+					const newPart = {
+						id: `new-id-${new Date().getTime()}`,
+						aracFiloId,
+						aciklama: value.aciklama,
+						hasarliParca: value.hasarliParca,
+						hasarTipi: value.hasarTipi,
+						deleted: false,
+						createdAt: new Date().toISOString(),
+						updatedAt: new Date().toISOString(),
+					};
+					
 					setSelectedParts((prevState) => [
 						...prevState,
-						{
-							id: `new-id-${new Date().getTime()}`,
-							aracFiloId,
-							hasarliParca: value.hasarliParca,
-							hasarTipi: value.hasarTipi,
-							isDeleted: false,
-						},
+						newPart,
 					]);
 				} else if (mode === "update") {
 					setSelectedParts((prevState) =>
 						prevState.map((part) => {
 							if (part.hasarliParca === value.hasarliParca) {
-								if (
-									!(
-										JSON.stringify(props.initialValues) ===
-										JSON.stringify(value)
-									)
-								) {
+								// Değişiklik var mı kontrol et
+								const hasChanges = 
+									part.hasarTipi !== value.hasarTipi ||
+									part.aciklama !== value.aciklama;
+								
+								if (hasChanges) {
 									setUpdatedParts((prev) =>
 										prev.includes(part.id) ? prev : [...prev, part.id],
 									);
@@ -109,31 +119,40 @@ export default function HasarDialog(props: HasarDialogProps) {
 								return {
 									...part,
 									hasarTipi: value.hasarTipi,
-									updatedAt: new Date().toISOString(), // better format than toDateString
+									aciklama: value.aciklama,
+									updatedAt: new Date().toISOString(),
 								};
 							}
 							return part;
 						}),
 					);
 				}
-				setSelectedPart(null);
+				
+				// Dialog'u kapat ve form'u reset et
+				close();
 				formApi.reset();
-			} catch (_error) {}
+			} catch (_error) {
+				console.error("Form submission error:", _error);
+			}
 		},
 	});
 
 	return (
 		<Dialog
 			open={open}
-			onOpenChange={() => {
-				close();
-				form.reset();
+			onOpenChange={(isOpen) => {
+				if (!isOpen) {
+					close();
+					form.reset();
+				}
 			}}
 		>
-			<DialogContent className="sm:max-w-[550px]">
+			<DialogContent className="sm:max-w-[600px] lg:max-w-[800px]">
 				<DialogHeader>
 					<DialogTitle>
-						{`${mode === "create" ? "Yeni Hasar Ekle" : "Seçili Hasarı Güncelle"} - ${HasarliParcaListesiLabel[hasarliParca]}`}
+						{`${
+							mode === "create" ? "Yeni Hasar Ekle" : "Seçili Hasarı Güncelle"
+						} - ${HasarliParcaListesiLabel[hasarliParca]}`}
 					</DialogTitle>
 				</DialogHeader>
 				<form
@@ -144,10 +163,16 @@ export default function HasarDialog(props: HasarDialogProps) {
 					}}
 					className="space-y-6"
 				>
-					<form.AppField name="hasarTipi">
-						{(field) => (
-							<field.Select label="Hasar Tipi" values={hasarTipiOptions} />
-						)}
+					<div className={cn(hasarliParca === "GENEL" && "hidden")}>
+						<form.AppField name="hasarTipi">
+							{(field) => (
+								<field.Select label="Hasar Tipi" values={hasarTipiOptions} />
+							)}
+						</form.AppField>
+					</div>
+
+					<form.AppField name="aciklama">
+						{(field) => <field.TextArea label="Açıklama / Not" />}
 					</form.AppField>
 
 					<DialogFooter>
@@ -168,8 +193,8 @@ export default function HasarDialog(props: HasarDialogProps) {
 								<RefreshCw className="h-4 w-4 mr-2 animate-spin" />
 							) : null} */}
 							{mode === "create"
-								? "Yeni Hasar Ekle"
-								: "Seçili Hasaryı Güncelle"}
+								? hasarliParca === "GENEL" ? "Yeni Not Ekle" : "Yeni Hasar Ekle"
+								: hasarliParca === "GENEL" ? "Seçili Notu Güncelle" : "Seçili Hasarı Güncelle"}
 						</Button>
 					</DialogFooter>
 				</form>

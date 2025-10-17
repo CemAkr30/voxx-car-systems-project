@@ -3,8 +3,6 @@ package tr.gov.voxx.car.system.adapter.out.jpa.mapper;
 import lombok.experimental.UtilityClass;
 import tr.gov.voxx.car.system.adapter.out.jpa.entity.FirmaEntity;
 import tr.gov.voxx.car.system.domain.entity.Firma;
-import tr.gov.voxx.car.system.domain.event.FirmaCreatedEvent;
-import tr.gov.voxx.car.system.domain.event.FirmaUpdatedEvent;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
 import java.util.List;
@@ -46,7 +44,7 @@ public class FirmaJpaMapper {
     }
 
 
-    public static Firma toFirmaFromFirmaCreatedEvent(FirmaCreatedEvent firmaCreatedEvent) {
+    /*public static Firma toFirmaFromFirmaCreatedEvent(FirmaCreatedEvent firmaCreatedEvent) {
         return Firma.builder()
                 .id(firmaCreatedEvent.id())
                 .email(firmaCreatedEvent.email())
@@ -62,5 +60,5 @@ public class FirmaJpaMapper {
                 .unvan(firmaUpdatedEvent.unvan())
                 .vergiNo(firmaUpdatedEvent.vergiNo())
                 .build();
-    }
+    }*/
 }

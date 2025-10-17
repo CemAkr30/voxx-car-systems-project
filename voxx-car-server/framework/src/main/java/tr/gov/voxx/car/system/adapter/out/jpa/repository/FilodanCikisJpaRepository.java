@@ -8,6 +8,8 @@ import java.util.List;
 
 @Repository
 public interface FilodanCikisJpaRepository extends JpaRepository<FilodanCikisEntity, String> {
-    List<FilodanCikisEntity> findByAracFiloId(String aracFiloId);
+    List<FilodanCikisEntity> findByAracFiloIdAndIsDeletedFalse(String aracFiloId);
     List<FilodanCikisEntity> findByIsDeletedFalse();
+    int countByAracFiloIdAndIsDeletedFalse(String aracFiloId);
+
 }

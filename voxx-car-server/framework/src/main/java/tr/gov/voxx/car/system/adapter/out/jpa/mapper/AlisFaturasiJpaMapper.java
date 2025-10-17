@@ -3,8 +3,6 @@ package tr.gov.voxx.car.system.adapter.out.jpa.mapper;
 import lombok.experimental.UtilityClass;
 import tr.gov.voxx.car.system.adapter.out.jpa.entity.AlisFaturasiEntity;
 import tr.gov.voxx.car.system.domain.entity.AlisFaturasi;
-import tr.gov.voxx.car.system.domain.event.AlisFaturasiCreatedEvent;
-import tr.gov.voxx.car.system.domain.event.AlisFaturasiUpdatedEvent;
 import tr.gov.voxx.car.system.domain.valueobject.AlisFaturasiId;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
@@ -19,7 +17,6 @@ public class AlisFaturasiJpaMapper {
                 .id(new AlisFaturasiId(entity.getId()))
                 .aracFiloId(new AracFiloId(entity.getAracFiloId()))
                 .alisFaturasiTarihi(entity.getAlisFaturasiTarihi())
-                .alisFaturaNo(entity.getAlisFaturaNo())
                 .saticiFirmaId(new FirmaId(entity.getSaticiFirmaId()))
                 .listeFiyati(entity.getListeFiyati())
                 .ekGaranti(entity.getEkGaranti())
@@ -51,7 +48,6 @@ public class AlisFaturasiJpaMapper {
         entity.setId(alisFaturasi.getId().getValue());
         entity.setAracFiloId(alisFaturasi.getAracFiloId().getValue());
         entity.setAlisFaturasiTarihi(alisFaturasi.getAlisFaturasiTarihi());
-        entity.setAlisFaturaNo(alisFaturasi.getAlisFaturaNo());
         entity.setSaticiFirmaId(alisFaturasi.getSaticiFirmaId().getValue());
         entity.setListeFiyati(alisFaturasi.getListeFiyati());
         entity.setEkGaranti(alisFaturasi.getEkGaranti());
@@ -61,12 +57,13 @@ public class AlisFaturasiJpaMapper {
         entity.setOtvMatrah(alisFaturasi.getOtvMatrah());
         entity.setOtv(alisFaturasi.getOtv());
         entity.setOtvIndirimi(alisFaturasi.getOtvIndirimi());
-        entity.setKdv(alisFaturasi.getOtvIndirimi());
+        entity.setKdv(alisFaturasi.getKdv());
         entity.setFaturaToplam(alisFaturasi.getFaturaToplam());
         entity.setParaBirimi(alisFaturasi.getParaBirimi());
         entity.setGecikmeCezasi(alisFaturasi.getGecikmeCezasi());
         entity.setKur(alisFaturasi.getKur());
         entity.setFaturaTry(alisFaturasi.getFaturaTry());
+        entity.setFaturaYukle(alisFaturasi.getFaturaYukle());
         entity.setAciklama(alisFaturasi.getAciklama());
         return entity;
     }
@@ -81,7 +78,7 @@ public class AlisFaturasiJpaMapper {
     }
 
 
-    public static AlisFaturasi toAlisFaturasiFromAlisFaturasiCreatedEvent(AlisFaturasiCreatedEvent alisFaturasiCreatedEvent) {
+    /*public static AlisFaturasi toAlisFaturasiFromAlisFaturasiCreatedEvent(AlisFaturasiCreatedEvent alisFaturasiCreatedEvent) {
         return AlisFaturasi.builder()
                 .id(alisFaturasiCreatedEvent.id())
                 .aracFiloId(alisFaturasiCreatedEvent.aracFiloId())
@@ -131,7 +128,7 @@ public class AlisFaturasiJpaMapper {
                 .faturaYukle(alisFaturasiUpdatedEvent.faturaYukle())
                 .aciklama(alisFaturasiUpdatedEvent.aciklama())
                 .build();
-    }
+    }*/
 }
 
 

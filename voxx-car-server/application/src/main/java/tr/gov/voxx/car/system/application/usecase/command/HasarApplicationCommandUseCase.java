@@ -1,34 +1,35 @@
 package tr.gov.voxx.car.system.application.usecase.command;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tr.gov.voxx.car.system.application.port.in.HasarApplicationCommandPort;
 import tr.gov.voxx.car.system.application.port.out.HasarPersistenceJpaPort;
-import tr.gov.voxx.car.system.common.application.port.out.event.DomainEventPublisher;
 import tr.gov.voxx.car.system.domain.entity.Hasar;
-import tr.gov.voxx.car.system.domain.event.HasarCreatedEvent;
-import tr.gov.voxx.car.system.domain.event.HasarDeletedEvent;
-import tr.gov.voxx.car.system.domain.event.HasarUpdatedEvent;
 import tr.gov.voxx.car.system.domain.exception.NotFoundException;
 import tr.gov.voxx.car.system.domain.valueobject.HasarId;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class HasarApplicationCommandUseCase implements HasarApplicationCommandPort {
 
     private final HasarPersistenceJpaPort persistenceJpaPort;
-    private final DomainEventPublisher domainEventPublisher;
+    //private final DomainEventPublisher domainEventPublisher;
 
     @Override
     public void post(Hasar entity) {
         entity.initIdGenerator();
 
-        domainEventPublisher.publish("hasar-created-topic", HasarCreatedEvent.builder()
+        /*domainEventPublisher.publish("hasar-created-topic", HasarCreatedEvent.builder()
                 .id(entity.getId())
                 .aracFiloId(entity.getAracFiloId())
                 .hasarliParca(entity.getHasarliParca())
                 .hasarTipi(entity.getHasarTipi())
-                .build());
+                .build());*/
+
+        persistenceJpaPort.persist(entity);
+        log.info("Persisted entity: {}", entity);
     }
 
     @Override
@@ -39,12 +40,15 @@ public class HasarApplicationCommandUseCase implements HasarApplicationCommandPo
         }
         existing.updateFrom(entity);
 
-        domainEventPublisher.publish("hasar-updated-topic", HasarUpdatedEvent.builder()
+        /*domainEventPublisher.publish("hasar-updated-topic", HasarUpdatedEvent.builder()
                 .id(entity.getId())
                 .aracFiloId(entity.getAracFiloId())
                 .hasarliParca(entity.getHasarliParca())
                 .hasarTipi(entity.getHasarTipi())
-                .build());
+                .build());*/
+
+        persistenceJpaPort.merge(existing);
+        log.info("Updated entity: {}", entity);
     }
 
     @Override
@@ -54,10 +58,13 @@ public class HasarApplicationCommandUseCase implements HasarApplicationCommandPo
             throw new NotFoundException("Hasar not found with id: " + hasarId);
         }
         
-        domainEventPublisher.publish("hasar-deleted-topic", HasarDeletedEvent.builder()
+        /*domainEventPublisher.publish("hasar-deleted-topic", HasarDeletedEvent.builder()
                 .id(hasarId)
                 .aracFiloId(existing.getAracFiloId())
-                .build());
+                .build());*/
+
+        persistenceJpaPort.deleteById(hasarId);
+        log.info("Deleted entity: {}", existing);
     }
 }
 

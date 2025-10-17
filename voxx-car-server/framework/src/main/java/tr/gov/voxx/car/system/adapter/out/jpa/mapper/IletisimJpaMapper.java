@@ -3,8 +3,6 @@ package tr.gov.voxx.car.system.adapter.out.jpa.mapper;
 import lombok.experimental.UtilityClass;
 import tr.gov.voxx.car.system.adapter.out.jpa.entity.IletisimEntity;
 import tr.gov.voxx.car.system.domain.entity.Iletisim;
-import tr.gov.voxx.car.system.domain.event.IletisimCreatedEvent;
-import tr.gov.voxx.car.system.domain.event.IletisimUpdatedEvent;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 import tr.gov.voxx.car.system.domain.valueobject.IletisimId;
 
@@ -49,7 +47,7 @@ public class IletisimJpaMapper {
     }
 
 
-    public static Iletisim toIletisimFromIletisimCreatedEvent(IletisimCreatedEvent iletisimCreatedEvent) {
+    /*public static Iletisim toIletisimFromIletisimCreatedEvent(IletisimCreatedEvent iletisimCreatedEvent) {
         return Iletisim.builder()
                 .id(iletisimCreatedEvent.id())
                 .firmaId(iletisimCreatedEvent.firmaId())
@@ -65,5 +63,5 @@ public class IletisimJpaMapper {
                 .numara(iletisimUpdatedEvent.numara())
                 .tip(iletisimUpdatedEvent.tip())
                 .build();
-    }
+    }*/
 }

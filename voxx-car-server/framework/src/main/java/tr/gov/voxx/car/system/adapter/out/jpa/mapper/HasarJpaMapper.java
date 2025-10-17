@@ -3,8 +3,6 @@ package tr.gov.voxx.car.system.adapter.out.jpa.mapper;
 import lombok.experimental.UtilityClass;
 import tr.gov.voxx.car.system.adapter.out.jpa.entity.HasarEntity;
 import tr.gov.voxx.car.system.domain.entity.Hasar;
-import tr.gov.voxx.car.system.domain.event.HasarCreatedEvent;
-import tr.gov.voxx.car.system.domain.event.HasarUpdatedEvent;
 import tr.gov.voxx.car.system.domain.valueobject.AracFiloId;
 import tr.gov.voxx.car.system.domain.valueobject.HasarId;
 
@@ -19,6 +17,7 @@ public class HasarJpaMapper {
                 .aracFiloId(new AracFiloId(entity.getAracFiloId()))
                 .hasarliParca(entity.getHasarliParca())
                 .hasarTipi(entity.getHasarTipi())
+                .aciklama(entity.getAciklama())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .isDeleted(entity.isDeleted())
@@ -34,6 +33,7 @@ public class HasarJpaMapper {
         entity.setAracFiloId(hasar.getAracFiloId().getValue());
         entity.setHasarliParca(hasar.getHasarliParca());
         entity.setHasarTipi(hasar.getHasarTipi());
+        entity.setAciklama(hasar.getAciklama());
 
         return entity;
     }
@@ -48,7 +48,7 @@ public class HasarJpaMapper {
     }
 
 
-    public static Hasar toHasarFromHasarCreatedEvent(HasarCreatedEvent hasarCreatedEvent) {
+    /*public static Hasar toHasarFromHasarCreatedEvent(HasarCreatedEvent hasarCreatedEvent) {
         return Hasar.builder()
                 .id(hasarCreatedEvent.id())
                 .aracFiloId(hasarCreatedEvent.aracFiloId())
@@ -64,7 +64,7 @@ public class HasarJpaMapper {
                 .hasarliParca(hasarUpdatedEvent.hasarliParca())
                 .hasarTipi(hasarUpdatedEvent.hasarTipi())
                 .build();
-    }
+    }*/
 }
 
 

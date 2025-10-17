@@ -1,7 +1,6 @@
 package tr.gov.voxx.car.system.application.usecase.query;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import tr.gov.voxx.car.system.application.port.in.KazaApplicationQueryPort;
 import tr.gov.voxx.car.system.application.port.out.KazaPersistenceJpaPort;
@@ -17,7 +16,6 @@ public class KazaApplicationQueryUseCase implements KazaApplicationQueryPort {
     private final KazaPersistenceJpaPort persistencePort;
 
     @Override
-    @Cacheable(value = "kaza", key = "#kazaId")
     public Kaza get(KazaId kazaId) {
         return persistencePort.findById(kazaId);
     }

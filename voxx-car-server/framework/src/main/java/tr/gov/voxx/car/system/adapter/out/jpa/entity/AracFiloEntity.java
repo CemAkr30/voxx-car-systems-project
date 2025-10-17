@@ -1,9 +1,13 @@
 package tr.gov.voxx.car.system.adapter.out.jpa.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import lombok.*;
 import tr.gov.voxx.car.system.common.framework.persistence.AbstractEntity;
+import tr.gov.voxx.car.system.domain.enumeration.AracSegmentTipi;
+import tr.gov.voxx.car.system.domain.enumeration.KasaTipi;
 
 import java.time.Instant;
 
@@ -19,19 +23,20 @@ public class AracFiloEntity extends AbstractEntity {
     private String markaId;
     private String modelId;
     private String modelYili;
-    private String aracTipi;
-    private String segment;
+    @Enumerated(EnumType.STRING)
+    private AracSegmentTipi segment;
     private String motorNo;
     private String sasiNo;
     private String renk;
-    private String kasaTipi;
+    @Enumerated(EnumType.STRING)
+    private KasaTipi kasaTipi;
     private String lastikTipi;
     private Instant filoyaGirisTarihi;
     private String filoyaGirisKm;
     private Instant tescilTarihi;
     private Instant trafigeCikisTarihi;
     private boolean garantisiVarMi;
-    private Instant garantiBitisTarihi;
+    private Instant garantiBaslangicTarihi;
     private String garantiSuresiYil;
     private String garantiKm;
     private boolean tramer;
@@ -39,10 +44,6 @@ public class AracFiloEntity extends AbstractEntity {
     private Instant sonKmTarihi;
     private String sonKm;
     private String sonYakitMiktari;
-    private boolean kiralandiMi;
-    private Instant kiralandigiTarih;
-    private String kontratSuresi;
-    private Instant kiralikBitisTarihi;
-    private String kiralayanFirmaId;
     private Integer filoDurum;
+    private Instant muayeneBitisTarihi;
 }

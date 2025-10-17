@@ -1,7 +1,6 @@
 package tr.gov.voxx.car.system.application.usecase.query;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import tr.gov.voxx.car.system.application.port.in.AdresApplicationQueryPort;
 import tr.gov.voxx.car.system.application.port.out.AdresPersistenceJpaPort;
@@ -17,7 +16,6 @@ public class AdresApplicationQueryUseCase implements AdresApplicationQueryPort {
     private final AdresPersistenceJpaPort adresPersistenceJpaPort;
 
     @Override
-    @Cacheable(value = "adres", key = "#adresId")
     public Adres get(AdresId adresId) {
         return adresPersistenceJpaPort.findById(adresId);
     }

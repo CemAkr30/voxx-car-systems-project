@@ -7,25 +7,22 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { getAlisFaturasiByAracFiloIdQueryOptions } from "@/hooks/use-alis-faturasi-hooks";
+import { getAlisFaturalariByAracFiloIdQueryOptions } from "@/hooks/use-alis-faturasi-hooks";
 import type { AlisFaturasi } from "@/schemas/alis-faturasi";
-import { useQueryClient, useSuspenseQueries } from "@tanstack/react-query";
+import { useSuspenseQueries } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
 import AlisFaturasiDialog from "@/components/web/alis-faturasi/alis-faturasi-dialog.tsx";
 import AlisFaturasiSilDialog from "@/components/web/alis-faturasi/alis-faturasi-sil-dialog.tsx";
 import { getFirmalarQueryOptions } from "@/hooks/use-firma-hooks.ts";
-import { useWebSocketTopic } from "@/hooks/use-webhook";
-import type { WebSocketMessage } from "@/types";
-import { toast } from "sonner";
 
 export const Route = createFileRoute(
 	"/_authenticated/arac-filo/$aracFiloId/_layout/alis-faturasi/",
 )({
 	loader: ({ context: { queryClient }, params: { aracFiloId } }) => {
 		queryClient.ensureQueryData(
-			getAlisFaturasiByAracFiloIdQueryOptions(aracFiloId),
+			getAlisFaturalariByAracFiloIdQueryOptions(aracFiloId),
 		);
 	},
 	component: RouteComponent,
@@ -40,25 +37,6 @@ interface DialogState {
 
 function RouteComponent() {
 	const { aracFiloId } = Route.useParams();
-	const queryClient = useQueryClient();
-
-	useWebSocketTopic<WebSocketMessage>({
-		topic: "/topic/alisFaturasi",
-		onMessage: async ({ type }) => {
-			if (type === "CREATED") {
-				toast.success("Alış Faturası başarılı bir şekilde kayıt edildi");
-			}
-			if (type === "UPDATED") {
-				toast.success("Alış Faturası başarılı bir şekilde güncellendi");
-			}
-			if (type === "DELETED") {
-				toast.success("Alış Faturası başarılı bir şekilde silindi");
-			}
-			await queryClient.invalidateQueries(
-				getAlisFaturasiByAracFiloIdQueryOptions(aracFiloId),
-			);
-		},
-	});
 
 	const [dialogState, setDialogState] = useState<DialogState>({
 		create: false,
@@ -68,7 +46,7 @@ function RouteComponent() {
 
 	const [{ data: alisFaturasi = [] }, { data: firmalar }] = useSuspenseQueries({
 		queries: [
-			getAlisFaturasiByAracFiloIdQueryOptions(aracFiloId),
+			getAlisFaturalariByAracFiloIdQueryOptions(aracFiloId),
 			getFirmalarQueryOptions(),
 		],
 	});
@@ -153,63 +131,59 @@ function RouteComponent() {
 					<TableHeader>
 						<TableRow className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/10 dark:to-purple-950/10 hover:from-indigo-100 hover:to-purple-100 dark:hover:from-indigo-950/20 dark:hover:to-purple-950/20">
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Alış faturası tarihi
-							</TableHead>
-							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Alış faturası numarası
+								Tarih
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 								Satıcı Firma
 							</TableHead>
-							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300 hidden lg:table-cell">
 								Liste Fiyatı
 							</TableHead>
-							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Ek garanti
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300 hidden xl:table-cell">
+								Ek Garanti
 							</TableHead>
-							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Mal değeri
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300 hidden xl:table-cell">
+								Mal Değeri
 							</TableHead>
-							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300 hidden lg:table-cell">
 								İskonto
 							</TableHead>
-							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Nakliye bedeli
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300 hidden xl:table-cell">
+								Nakliye
 							</TableHead>
-							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								OTV matrahı
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300 hidden xl:table-cell">
+								OTV Matrahı
 							</TableHead>
-							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300 hidden lg:table-cell">
 								OTV
 							</TableHead>
-							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								OTV indirimi
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300 hidden xl:table-cell">
+								OTV İndirimi
 							</TableHead>
-							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300 hidden lg:table-cell">
 								KDV
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Fatura toplamı
+								Toplam
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Para birimi
+								Para Birimi
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Gecikme cezası
+								Gecikme Cezası
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 								Kur
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Fatura try
+								Fatura TRY
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Fatura yukle
+								Fatura
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 								Açıklama
 							</TableHead>
-
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300 text-right">
 								İşlemler
 							</TableHead>
@@ -223,24 +197,12 @@ function RouteComponent() {
 									className="hover:bg-gradient-to-r hover:from-indigo-50/50 hover:to-purple-50/50 dark:hover:from-indigo-950/10 dark:hover:to-purple-950/10 transition-all duration-200"
 								>
 									<TableCell>
-										<div className="max-w-xs">
-											<p className="font-medium text-slate-900 dark:text-slate-100 truncate">
-												{new Date(
-													alisFaturasi.alisFaturasiTarihi,
-												).toLocaleDateString("tr-TR")}
-											</p>
-										</div>
+										<span className="text-slate-600 dark:text-slate-400 font-medium">
+											{new Date(alisFaturasi.alisFaturasiTarihi).toLocaleDateString("tr-TR")}
+										</span>
 									</TableCell>
 									<TableCell>
-										<div className="max-w-xs">
-											<p className="font-medium text-slate-900 dark:text-slate-100 truncate">
-												{alisFaturasi.alisFaturaNo}
-											</p>
-										</div>
-									</TableCell>
-
-									<TableCell>
-										<span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded-md text-sm font-mono text-slate-700 dark:text-slate-300">
+										<span className="font-medium text-slate-900 dark:text-slate-100">
 											{
 												firmalar.find(
 													(firma) => alisFaturasi.saticiFirmaId === firma.id,
@@ -248,85 +210,143 @@ function RouteComponent() {
 											}
 										</span>
 									</TableCell>
-									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{alisFaturasi.listeFiyati}
+									<TableCell className="hidden lg:table-cell">
+										<span className="font-medium text-slate-900 dark:text-slate-100">
+											₺{alisFaturasi.listeFiyati?.toLocaleString('tr-TR')}
+										</span>
+									</TableCell>
+									<TableCell className="hidden xl:table-cell">
+										<span className="text-slate-600 dark:text-slate-400 font-medium">
+											{alisFaturasi.ekGaranti} ay
+										</span>
+									</TableCell>
+									<TableCell className="hidden xl:table-cell">
+										<span className="font-medium text-slate-900 dark:text-slate-100">
+											₺{alisFaturasi.malDegeri?.toLocaleString('tr-TR')}
+										</span>
+									</TableCell>
+									<TableCell className="hidden lg:table-cell">
+										<span className="text-slate-600 dark:text-slate-400 font-medium">
+											₺{alisFaturasi.iskonto?.toLocaleString('tr-TR')}
+										</span>
+									</TableCell>
+									<TableCell className="hidden xl:table-cell">
+										<span className="text-slate-600 dark:text-slate-400 font-medium">
+											₺{alisFaturasi.nakliyeBedeli?.toLocaleString('tr-TR')}
+										</span>
+									</TableCell>
+									<TableCell className="hidden xl:table-cell">
+										<span className="text-slate-600 dark:text-slate-400 font-medium">
+											₺{alisFaturasi.otvMatrah?.toLocaleString('tr-TR')}
+										</span>
+									</TableCell>
+									<TableCell className="hidden lg:table-cell">
+										<span className="text-slate-600 dark:text-slate-400 font-medium">
+											₺{alisFaturasi.otv?.toLocaleString('tr-TR')}
+										</span>
+									</TableCell>
+									<TableCell className="hidden xl:table-cell">
+										<span className="text-slate-600 dark:text-slate-400 font-medium">
+											₺{alisFaturasi.otvIndirimi?.toLocaleString('tr-TR')}
+										</span>
+									</TableCell>
+									<TableCell className="hidden lg:table-cell">
+										<span className="text-slate-600 dark:text-slate-400 font-medium">
+											₺{alisFaturasi.kdv?.toLocaleString('tr-TR')}
 										</span>
 									</TableCell>
 									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{alisFaturasi.ekGaranti}
+										<span className="px-2 py-1 bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400 rounded-md text-sm font-semibold">
+											₺{alisFaturasi.faturaToplam?.toLocaleString('tr-TR')}
 										</span>
 									</TableCell>
 									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{alisFaturasi.malDegeri}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{alisFaturasi.iskonto}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{alisFaturasi.nakliyeBedeli}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{alisFaturasi.otvMatrah}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{alisFaturasi.otv}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{alisFaturasi.otvIndirimi}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{alisFaturasi.kdv}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{alisFaturasi.faturaToplam}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
+										<span className="text-slate-600 dark:text-slate-400 font-medium">
 											{alisFaturasi.paraBirimi}
 										</span>
 									</TableCell>
 									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{alisFaturasi.gecikmeCezasi}
+										<span className="text-slate-600 dark:text-slate-400 font-medium">
+											₺{alisFaturasi.gecikmeCezasi}
 										</span>
 									</TableCell>
 									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
+										<span className="text-slate-600 dark:text-slate-400 font-medium">
 											{alisFaturasi.kur}
 										</span>
 									</TableCell>
 									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{alisFaturasi.faturaTry}
+										<span className="font-medium text-slate-900 dark:text-slate-100">
+											₺{alisFaturasi.faturaTry?.toLocaleString('tr-TR')}
 										</span>
 									</TableCell>
 									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{alisFaturasi.faturaYukle}
-										</span>
+										{alisFaturasi.faturaYukle ? (
+											<Button
+												variant="outline"
+												size="sm"
+												onClick={() => {
+													// Dosya tipini kontrol et ve ona göre göster
+													const base64Data = alisFaturasi.faturaYukle;
+													
+													if (!base64Data) return;
+													
+													// PDF dosyası için
+													if (base64Data.startsWith('JVBERi0') || base64Data.includes('PDF')) {
+														const newWindow = window.open();
+														if (newWindow) {
+															newWindow.document.write(`
+																<!DOCTYPE html>
+																<html>
+																<head>
+																	<title>Alış Faturası</title>
+																	<style>
+																		body { margin: 0; padding: 0; }
+																		iframe { width: 100vw; height: 100vh; border: none; }
+																	</style>
+																</head>
+																<body>
+																	<iframe src="data:application/pdf;base64,${base64Data}"></iframe>
+																</body>
+																</html>
+															`);
+														}
+													} else {
+														// Resim dosyası için
+														const newWindow = window.open();
+														if (newWindow) {
+															newWindow.document.write(`
+																<!DOCTYPE html>
+																<html>
+																<head>
+																	<title>Alış Faturası</title>
+																	<style>
+																		body { margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #f5f5f5; }
+																		img { max-width: 100%; max-height: 100vh; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+																	</style>
+																</head>
+																<body>
+																	<img src="data:image/jpeg;base64,${base64Data}" alt="Alış Faturası" />
+																</body>
+																</html>
+															`);
+														}
+													}
+												}}
+												className="flex items-center gap-1"
+											>
+												Göster
+											</Button>
+										) : (
+											<span className="text-gray-400 text-sm">Dosya yok</span>
+										)}
 									</TableCell>
 									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{alisFaturasi.aciklama}
-										</span>
+										<div className="max-w-xs">
+											<span className="text-slate-600 dark:text-slate-400 text-sm truncate block">
+												{alisFaturasi.aciklama}
+											</span>
+										</div>
 									</TableCell>
 
 									<TableCell className="text-right">

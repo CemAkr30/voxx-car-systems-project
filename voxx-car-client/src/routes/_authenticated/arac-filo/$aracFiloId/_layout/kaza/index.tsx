@@ -8,9 +8,9 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 
-import { getKazaByAracFiloIdQueryOptions } from "@/hooks/use-kaza-hooks";
+import { getKazalarByAracFiloIdQueryOptions } from "@/hooks/use-kaza-hooks";
 import type { Kaza } from "@/schemas/kaza";
-import { useQueryClient, useSuspenseQueries } from "@tanstack/react-query";
+import { useSuspenseQueries } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
@@ -18,19 +18,14 @@ import { getFirmalarQueryOptions } from "@/hooks/use-firma-hooks.ts";
 import KazaDialog from "@/components/web/kaza/kaza-dialog";
 import KazaSilDialog from "@/components/web/kaza/kaza-sil-dialog";
 import { formatDate } from "@/lib/utils";
-import { OnarimDurumuTipiListesiLabel } from "@/enums";
-import { useWebSocketTopic } from "@/hooks/use-webhook";
-import type { WebSocketMessage } from "@/types";
-import { toast } from "sonner";
-import { getAracKullananlarQueryOptions } from "@/hooks/use-arac-kullanan-hooks";
+import { KazaNedeniListesiLabel, OnarimDurumuTipiListesiLabel } from "@/enums";
 
 export const Route = createFileRoute(
 	"/_authenticated/arac-filo/$aracFiloId/_layout/kaza/",
 )({
 	loader: ({ context: { queryClient }, params: { aracFiloId } }) => {
-		queryClient.ensureQueryData(getKazaByAracFiloIdQueryOptions(aracFiloId));
+		queryClient.ensureQueryData(getKazalarByAracFiloIdQueryOptions(aracFiloId));
 		queryClient.ensureQueryData(getFirmalarQueryOptions());
-		queryClient.ensureQueryData(getAracKullananlarQueryOptions());
 	},
 	component: RouteComponent,
 });
@@ -44,25 +39,6 @@ interface DialogState {
 
 function RouteComponent() {
 	const { aracFiloId } = Route.useParams();
-	const queryClient = useQueryClient();
-
-	useWebSocketTopic<WebSocketMessage>({
-		topic: "/topic/kaza",
-		onMessage: async ({ type }) => {
-			if (type === "CREATED") {
-				toast.success("Kaza başarılı bir şekilde kayıt edildi");
-			}
-			if (type === "UPDATED") {
-				toast.success("Kaza başarılı bir şekilde güncellendi");
-			}
-			if (type === "DELETED") {
-				toast.success("Kaza başarılı bir şekilde silindi");
-			}
-			await queryClient.invalidateQueries(
-				getKazaByAracFiloIdQueryOptions(aracFiloId),
-			);
-		},
-	});
 
 	const [dialogState, setDialogState] = useState<DialogState>({
 		create: false,
@@ -70,14 +46,12 @@ function RouteComponent() {
 		delete: false,
 	});
 
-	const [{ data: kaza = [] }, { data: firmalar }, { data: musteriler }] =
-		useSuspenseQueries({
-			queries: [
-				getKazaByAracFiloIdQueryOptions(aracFiloId),
-				getFirmalarQueryOptions(),
-				getAracKullananlarQueryOptions(),
-			],
-		});
+	const [{ data: kaza = [] }, { data: firmalar }] = useSuspenseQueries({
+		queries: [
+			getKazalarByAracFiloIdQueryOptions(aracFiloId),
+			getFirmalarQueryOptions(),
+		],
+	});
 
 	const openDialog = (type: keyof DialogState, kaza?: Kaza) => {
 		setDialogState({
@@ -158,12 +132,6 @@ function RouteComponent() {
 								Firma
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Ödeyen Firma
-							</TableHead>
-							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
-								Müşteri
-							</TableHead>
-							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 								Kaza Tarihi
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
@@ -174,6 +142,12 @@ function RouteComponent() {
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 								Onarım Durumu
+							</TableHead>
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
+								Ödeyen Firma
+							</TableHead>
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
+								Kaza Tutanağı
 							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300 text-right">
 								İşlemler
@@ -196,7 +170,27 @@ function RouteComponent() {
 										</span>
 									</TableCell>
 									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
+										<span className="text-slate-600 dark:text-slate-400 font-medium">
+											{formatDate(kaza.kazaTarihi.toString())}
+										</span>
+									</TableCell>
+									<TableCell>
+										<span className="text-slate-600 dark:text-slate-400 font-medium">
+											{kaza.kazaIli}
+										</span>
+									</TableCell>
+									<TableCell>
+										<span className="text-slate-600 dark:text-slate-400 font-medium">
+											{KazaNedeniListesiLabel[kaza.kazaNedeni]}
+										</span>
+									</TableCell>
+									<TableCell>
+										<span className="text-slate-600 dark:text-slate-400 font-medium">
+											{OnarimDurumuTipiListesiLabel[kaza.onarimDurumu]}
+										</span>
+									</TableCell>
+									<TableCell>
+										<span className="text-slate-700 dark:text-slate-300 font-medium">
 											{
 												firmalar.find(
 													(firma) => kaza.odeyenFirmaId === firma.id,
@@ -205,29 +199,65 @@ function RouteComponent() {
 										</span>
 									</TableCell>
 									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{`${musteriler.find((musteri) => kaza.musteriId === musteri.id)?.ad} ${musteriler.find((musteri) => kaza.musteriId === musteri.id)?.soyad}`}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{formatDate(kaza.kazaTarihi.toString())}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{kaza.kazaIli}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{kaza.kazaNedeni}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
-											{OnarimDurumuTipiListesiLabel[kaza.onarimDurumu]}
-										</span>
+										{kaza.kazaTutanagi ? (
+											<Button
+												variant="outline"
+												size="sm"
+												onClick={() => {
+													// Dosya tipini kontrol et ve ona göre göster
+													const base64Data = kaza.kazaTutanagi;
+													
+													if (!base64Data) return;
+													
+													// PDF dosyası için
+													if (base64Data.startsWith('JVBERi0') || base64Data.includes('PDF')) {
+														const newWindow = window.open();
+														if (newWindow) {
+															newWindow.document.write(`
+																<!DOCTYPE html>
+																<html>
+																<head>
+																	<title>Kaza Tutanağı</title>
+																	<style>
+																		body { margin: 0; padding: 0; }
+																		iframe { width: 100vw; height: 100vh; border: none; }
+																	</style>
+																</head>
+																<body>
+																	<iframe src="data:application/pdf;base64,${base64Data}"></iframe>
+																</body>
+																</html>
+															`);
+														}
+													} else {
+														// Resim dosyası için
+														const newWindow = window.open();
+														if (newWindow) {
+															newWindow.document.write(`
+																<!DOCTYPE html>
+																<html>
+																<head>
+																	<title>Kaza Tutanağı</title>
+																	<style>
+																		body { margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #f5f5f5; }
+																		img { max-width: 100%; max-height: 100vh; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+																	</style>
+																</head>
+																<body>
+																	<img src="data:image/jpeg;base64,${base64Data}" alt="Kaza Tutanağı" />
+																</body>
+																</html>
+															`);
+														}
+													}
+												}}
+												className="flex items-center gap-1"
+											>
+												Göster
+											</Button>
+										) : (
+											<span className="text-gray-400 text-sm">Dosya yok</span>
+										)}
 									</TableCell>
 									<TableCell className="text-right">
 										<div className="flex items-center justify-end gap-2">

@@ -74,11 +74,19 @@ export const getPaymentTypeColor = (type: string) => {
 		IKRAM: "bg-pink-100 text-pink-800 dark:bg-pink-900/20 dark:text-pink-400",
 		VOUCHER:
 			"bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400",
-		ODENMEDI:
-			"bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400",
+		DEFAULT: "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400",
 	};
 	return (
 		colors[type as keyof typeof colors] ||
 		"bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400"
 	);
+};
+
+export const validateFileType = (file: File): boolean => {
+	const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+	return allowedTypes.includes(file.type);
+};
+
+export const getFileTypeErrorMessage = (): string => {
+	return "Sadece PDF ve görsel (JPG, JPEG, PNG) dosyaları yüklenebilir.";
 };

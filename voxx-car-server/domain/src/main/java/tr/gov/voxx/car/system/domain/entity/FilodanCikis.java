@@ -22,6 +22,7 @@ public class FilodanCikis extends AbstractAggregateModel<FilodanCikisId> {
     private Double aracDevirGiderleri;
     private String faturaYukle;
     private String aciklama;
+    private String sozlesme;
 
     public void initIdGenerator() {
         super.setId(new FilodanCikisId(IdFactory.create()));
@@ -36,6 +37,6 @@ public class FilodanCikis extends AbstractAggregateModel<FilodanCikisId> {
         this.aracDevirGiderleri = other.aracDevirGiderleri;
         this.faturaYukle = other.faturaYukle;
         this.aciklama = other.aciklama;
-
+        this.sozlesme = other.sozlesme;
     }
 }
