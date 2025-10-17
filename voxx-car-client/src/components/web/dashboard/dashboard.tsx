@@ -44,25 +44,16 @@ import {
 } from "@/hooks/use-dashboard-hooks";
 import { getMarkalarQueryOptions } from "@/hooks/use-marka-hooks";
 import { getModellerQueryOptions } from "@/hooks/use-model-hooks";
-import { useSuspenseQueries } from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
 import { getFirmalarQueryOptions } from "@/hooks/use-firma-hooks";
+import LoadingOverlay from "@/components/ui/loading-overlay";
 
 export default function Dashboard() {
 	const [mtvStatus, setMtvStatus] = useState<"odenmis" | "odenmemis">("odenmemis");
 	const [muayeneStatus, setMuayeneStatus] = useState<"odenmis" | "odenmemis">("odenmemis");
+	const [isRefreshing, setIsRefreshing] = useState(false);
 
-	const [
-		{ data: mtvDurum },
-		{ data: muayeneDurum },
-		{ data: sigortaDurum },
-		{ data: aktifFilo },
-		{ data: pasifFilo },
-		{ data: firmaAracSayisi },
-		{ data: kiralananAraclar },
-		{ data: markalar = [] },
-		{ data: modeller = [] },
-		{data: firmalar=[]}
-	] = useSuspenseQueries({
+	const queryResults = useQueries({
 		queries: [
 			getMTVDurumQueryOptions(mtvStatus),
 			getMuayeneDurumQueryOptions(muayeneStatus),
@@ -77,13 +68,42 @@ export default function Dashboard() {
 		],
 	});
 
-	const refreshData = () => {
-		// Query'ler otomatik olarak yenilenecek
-		window.location.reload();
+	const [
+		{ data: mtvDurum, isLoading: mtvLoading },
+		{ data: muayeneDurum, isLoading: muayeneLoading },
+		{ data: sigortaDurum, isLoading: sigortaLoading },
+		{ data: aktifFilo, isLoading: aktifFiloLoading },
+		{ data: pasifFilo, isLoading: pasifFiloLoading },
+		{ data: firmaAracSayisi, isLoading: firmaAracSayisiLoading },
+		{ data: kiralananAraclar, isLoading: kiralananAraclarLoading },
+		{ data: markalar = [], isLoading: markalarLoading },
+		{ data: modeller = [], isLoading: modellerLoading },
+		{data: firmalar=[], isLoading: firmalarLoading}
+	] = queryResults;
+
+	// Genel loading durumu
+	const isLoading = mtvLoading || muayeneLoading || sigortaLoading || aktifFiloLoading || 
+		pasifFiloLoading || firmaAracSayisiLoading || kiralananAraclarLoading || 
+		markalarLoading || modellerLoading || firmalarLoading;
+
+	const refreshData = async () => {
+		setIsRefreshing(true);
+		try {
+			// Tüm query'leri yenile
+			await Promise.all(queryResults.map(result => result.refetch()));
+		} finally {
+			setIsRefreshing(false);
+		}
 	};
 
 	return (
 		<div className="min-h-screen p-6 space-y-6">
+			<LoadingOverlay 
+				isLoading={isLoading} 
+				message="Dashboard Verileri Yükleniyor"
+				subMessage="Tüm veriler hazırlanıyor..."
+			/>
+			
 			{/* Header */}
 			<div className="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-2xl p-8 text-white">
 				<div className="absolute inset-0 bg-black/10" />
@@ -107,11 +127,12 @@ export default function Dashboard() {
 						<div className="flex items-center gap-4">
 							<Button
 								onClick={refreshData}
+								disabled={isRefreshing}
 								variant="outline"
-								className="bg-white/20 hover:bg-white/30 text-white border-white/30 backdrop-blur-sm"
+								className="bg-white/20 hover:bg-white/30 text-white border-white/30 backdrop-blur-sm disabled:opacity-50"
 							>
-								<RefreshCw className="w-4 h-4 mr-2" />
-								Yenile
+								<RefreshCw className={`w-4 h-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
+								{isRefreshing ? 'Yenileniyor...' : 'Yenile'}
 							</Button>
 						</div>
 					</div>
