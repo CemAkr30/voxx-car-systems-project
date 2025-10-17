@@ -164,8 +164,10 @@ function RouteComponent() {
 							<TableHeader>
 								<TableRow>
 									<TableHead>Firma Adı</TableHead>
-									<TableHead>Oluşturulma Tarihi</TableHead>
-									<TableHead>Güncellenme Tarihi</TableHead>
+									<TableHead className="hidden sm:table-cell">Vergi Numarası</TableHead>
+									<TableHead className="hidden md:table-cell">E-posta</TableHead>
+									<TableHead className="hidden lg:table-cell">Oluşturulma Tarihi</TableHead>
+									<TableHead className="hidden xl:table-cell">Güncellenme Tarihi</TableHead>
 									<TableHead className="w-12">İşlemler</TableHead>
 								</TableRow>
 							</TableHeader>
@@ -177,11 +179,41 @@ function RouteComponent() {
 												to="/firma/$firmaId/detay"
 												params={{ firmaId: firma.id }}
 											>
-												{firma.unvan}
+												<div>
+													<div className="font-medium text-slate-900 dark:text-slate-100">
+														{firma.unvan}
+													</div>
+													<div className="sm:hidden text-xs text-slate-500 dark:text-slate-400 mt-1">
+														{firma.vergiNo && (
+															<div>Vergi No: {firma.vergiNo}</div>
+														)}
+														{firma.email && (
+															<div>E-posta: {firma.email}</div>
+														)}
+													</div>
+												</div>
 											</Link>
 										</TableCell>
-										<TableCell>{formatDate(firma.createdAt)}</TableCell>
-										<TableCell>{formatDate(firma.updatedAt)}</TableCell>
+										<TableCell className="hidden sm:table-cell">
+											<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
+												{firma.vergiNo || "-"}
+											</span>
+										</TableCell>
+										<TableCell className="hidden md:table-cell">
+											<span className="text-slate-600 dark:text-slate-400 text-sm">
+												{firma.email || "-"}
+											</span>
+										</TableCell>
+										<TableCell className="hidden lg:table-cell">
+											<span className="text-slate-600 dark:text-slate-400 text-sm">
+												{formatDate(firma.createdAt)}
+											</span>
+										</TableCell>
+										<TableCell className="hidden xl:table-cell">
+											<span className="text-slate-600 dark:text-slate-400 text-sm">
+												{formatDate(firma.updatedAt)}
+											</span>
+										</TableCell>
 										<TableCell>
 											<DropdownMenu
 												open={openDropdowns.has(firma.id)}
