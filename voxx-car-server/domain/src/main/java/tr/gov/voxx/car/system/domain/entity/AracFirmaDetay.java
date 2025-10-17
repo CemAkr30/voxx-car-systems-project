@@ -15,11 +15,6 @@ import java.time.Instant;
 public class AracFirmaDetay extends AbstractAggregateModel<AracFirmaDetayId> {
     private AracFiloId aracFiloId;
     private FirmaId firmaId;
-    private Instant baslangicTarihi;
-    private Instant bitisTarihi;
-    private Double sozlesmeTutari;
-    private Double aylikFaturaTutari;
-    private Double kapora;
     private Instant sozlesmeBaslangicTarihi;
     private Instant sozlesmeBitisTarihi;
     private String teslimatTutanagi;
@@ -33,11 +28,6 @@ public class AracFirmaDetay extends AbstractAggregateModel<AracFirmaDetayId> {
     public void updateFrom(AracFirmaDetay other) {
         this.aracFiloId = other.getAracFiloId();
         this.firmaId = other.getFirmaId();
-        this.baslangicTarihi = other.getBaslangicTarihi();
-        this.bitisTarihi = other.getBitisTarihi();
-        this.sozlesmeTutari = other.getSozlesmeTutari();
-        this.aylikFaturaTutari = other.getAylikFaturaTutari();
-        this.kapora = other.getKapora();
         this.sozlesmeBaslangicTarihi = other.getSozlesmeBaslangicTarihi();
         this.sozlesmeBitisTarihi = other.getSozlesmeBitisTarihi();
         this.teslimatTutanagi = other.getTeslimatTutanagi();

@@ -15,11 +15,6 @@ public class AracFirmaDetayResponse {
     private String id;
     private String aracFiloId;
     private String firmaId;
-    private Instant baslangicTarihi;
-    private Instant bitisTarihi;
-    private Double sozlesmeTutari;
-    private Double aylikFaturaTutari;
-    private Double kapora;
     private Instant sozlesmeBaslangicTarihi;
     private Instant sozlesmeBitisTarihi;
     private String teslimatTutanagi;

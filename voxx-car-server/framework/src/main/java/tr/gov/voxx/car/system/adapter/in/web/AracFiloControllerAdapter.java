@@ -136,6 +136,22 @@ public class AracFiloControllerAdapter {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/kirala/{id}")
+    @Operation(summary = "Araç Kiralama Bilgilerini Güncelle", description = "Belirtilen ID ile araç kiralama bilgilerini günceller")
+    public ResponseEntity<Void> updateKirala(@PathVariable String id, @RequestBody AracFirmaDetayRequest request) {
+        AracFirmaDetay entity = AracFirmaDetayMapper.toAracFirmaDetay(request);
+        entity.setId(new tr.gov.voxx.car.system.domain.valueobject.AracFirmaDetayId(id));
+        aracFirmaDetayApplicationCommandPort.put(entity);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/kirala/{id}")
+    @Operation(summary = "Araç Kiralama Bilgisini Sil", description = "Belirtilen ID ile araç kiralama bilgisini siler")
+    public ResponseEntity<Void> deleteKirala(@PathVariable String id) {
+        aracFirmaDetayApplicationCommandPort.deleteById(new tr.gov.voxx.car.system.domain.valueobject.AracFirmaDetayId(id));
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/{id}/kiralayan-firmalar")
     @Operation(summary = "Araç Filo ID ye göre kiralayan araçları getir", description = "Belirtilen Araç Filo ID ye göre kiralayan araçları getir")
     public ResponseEntity<List<AracFirmaDetayResponse>> kiralayanFirmalar(@PathVariable("id") String aracFiloId) {

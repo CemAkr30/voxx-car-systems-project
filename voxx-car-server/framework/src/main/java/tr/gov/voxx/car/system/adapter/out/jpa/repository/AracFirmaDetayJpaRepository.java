@@ -12,12 +12,12 @@ import java.util.List;
 @Repository
 public interface AracFirmaDetayJpaRepository extends JpaRepository<AracFirmaDetayEntity, String> {
 
-    List<AracFirmaDetayEntity> findByAracFiloId(String aracFiloId);
+    List<AracFirmaDetayEntity> findByAracFiloIdAndIsDeletedFalse(String aracFiloId);
 
-    List<AracFirmaDetayEntity> findByFirmaId(String firmaId);
+    List<AracFirmaDetayEntity> findByFirmaIdAndIsDeletedFalse(String firmaId);
 
     @Query("SELECT a FROM AracFirmaDetayEntity a " +
-            "WHERE :today NOT BETWEEN a.baslangicTarihi AND a.bitisTarihi")
+            "WHERE :today NOT BETWEEN a.sozlesmeBaslangicTarihi AND a.sozlesmeBitisTarihi AND a.isDeleted = false")
     List<AracFirmaDetayEntity> findAllKiralanabilirAraclar(@Param("today") Instant today);
 
     List<AracFirmaDetayEntity> findByIsDeletedFalse();

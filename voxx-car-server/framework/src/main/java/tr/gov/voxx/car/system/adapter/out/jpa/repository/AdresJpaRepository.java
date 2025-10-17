@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface AdresJpaRepository extends JpaRepository<AdresEntity, String> {
     
-    List<AdresEntity> findByFirmaId(String firmaId);
+    List<AdresEntity> findByFirmaIdAndIsDeletedFalse(String firmaId);
     
     List<AdresEntity> findByIsDeletedFalse();
 }

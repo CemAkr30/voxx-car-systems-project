@@ -13,6 +13,7 @@ import { useAppForm } from "@/hooks/demo.form";
 import {
 	getKiralananAracFilolarByFirmaIdQueryOptions,
 	useCreateAracKiralaMutation,
+	useUpdateAracKiralaMutation,
 } from "@/hooks/use-arac-kirala-hooks";
 import { getMarkalarQueryOptions } from "@/hooks/use-marka-hooks";
 import { getModellerQueryOptions } from "@/hooks/use-model-hooks";
@@ -20,6 +21,7 @@ import type { AracFilo } from "@/schemas/arac-filo";
 import {
 	aracKiralaCreateSchema,
 	type CreateAracKiralaRequest,
+	type AracKirala,
 } from "@/schemas/arac-kirala";
 import type { Firma } from "@/schemas/firma";
 import { useQueryClient, useSuspenseQueries } from "@tanstack/react-query";
@@ -32,6 +34,7 @@ interface FirmayaAracKiralaDialogCreateProps {
 	close: () => void;
 	kiralanabilenAraclar: AracFilo[];
 	initialValues: { firmaId: string; aracFiloId: string };
+	updateData?: AracKirala;
 }
 
 interface AracıFirmayaKiralaDialogUpdateProps {
@@ -48,6 +51,7 @@ type AracKiralaDialogProps =
 
 export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 	const { mode, open, close, initialValues } = props;
+	const isUpdate = 'updateData' in props && props.updateData;
 	const queryClient = useQueryClient();
 	const [selectedTeslimatFile, setSelectedTeslimatFile] = useState<File | null>(null);
 	const [selectedSozlesmeFile, setSelectedSozlesmeFile] = useState<File | null>(null);
@@ -87,6 +91,7 @@ export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 			: [];
 
 	const createAracKiralaMutation = useCreateAracKiralaMutation(close);
+	const updateAracKiralaMutation = useUpdateAracKiralaMutation(close);
 
 	// Dosyayı base64'e çeviren fonksiyon
 	const convertFileToBase64 = (file: File): Promise<string> => {
@@ -106,16 +111,11 @@ export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 	const form = useAppForm({
 		defaultValues: {
 			...initialValues,
-			aylikFaturaTutari: 0,
-			sozlesmeTutari: 0,
-			kapora: 0,
-			baslangicTarihi: new Date(),
-			bitisTarihi: new Date(),
-			sozlesmeBaslangicTarihi: new Date(),
-			sozlesmeBitisTarihi: new Date(),
-			teslimatTutanagi: "",
-			sozlesme: "",
-			odemeVadesi: 0,
+			sozlesmeBaslangicTarihi: isUpdate ? new Date(props.updateData!.sozlesmeBaslangicTarihi) : new Date(),
+			sozlesmeBitisTarihi: isUpdate ? new Date(props.updateData!.sozlesmeBitisTarihi) : new Date(),
+			teslimatTutanagi: isUpdate ? props.updateData!.teslimatTutanagi || "" : "",
+			sozlesme: isUpdate ? props.updateData!.sozlesme || "" : "",
+			odemeVadesi: isUpdate ? props.updateData!.odemeVadesi || 0 : 0,
 		},
 		validators: {
 			// @ts-expect-error
@@ -137,9 +137,16 @@ export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 					submitValue = { ...submitValue, sozlesme: base64String };
 				}
 
-				await createAracKiralaMutation.mutateAsync(
-					submitValue as CreateAracKiralaRequest,
-				);
+				if (isUpdate) {
+					await updateAracKiralaMutation.mutateAsync({
+						id: props.updateData!.id,
+						data: submitValue as CreateAracKiralaRequest,
+					});
+				} else {
+					await createAracKiralaMutation.mutateAsync(
+						submitValue as CreateAracKiralaRequest,
+					);
+				}
 
 				queryClient.invalidateQueries(
 					getKiralananAracFilolarByFirmaIdQueryOptions(initialValues.firmaId),
@@ -167,8 +174,8 @@ export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 		>
 			<DialogContent className="sm:max-w-[550px]">
 				<DialogHeader>
-					<DialogTitle>Yeni Araç Kirala</DialogTitle>
-					<DialogDescription>Yeni araç kirala</DialogDescription>
+					<DialogTitle>{isUpdate ? "Araç Kiralama Güncelle" : "Yeni Araç Kirala"}</DialogTitle>
+					<DialogDescription>{isUpdate ? "Araç kiralama bilgilerini güncelle" : "Yeni araç kirala"}</DialogDescription>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {
@@ -200,15 +207,6 @@ export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 						</form.AppField>
 					)}
 
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-						<form.AppField name="baslangicTarihi">
-							{(field) => <field.DatePicker label="Kira Başlangıç Tarihi" />}
-						</form.AppField>
-
-						<form.AppField name="bitisTarihi">
-							{(field) => <field.DatePicker label="Kira Bitiş Tarihi" />}
-						</form.AppField>
-					</div>
 
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
 						<form.AppField name="sozlesmeBaslangicTarihi">
@@ -220,17 +218,6 @@ export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 						</form.AppField>
 					</div>
 
-					<form.AppField name="aylikFaturaTutari">
-						{(field) => <field.TextField label="Aylık Fatura Tutarı" />}
-					</form.AppField>
-
-					<form.AppField name="sozlesmeTutari">
-						{(field) => <field.TextField label="Sözleşme Tutarı" />}
-					</form.AppField>
-
-					<form.AppField name="kapora">
-						{(field) => <field.TextField type="number" label="Kapora" />}
-					</form.AppField>
 
 					<form.AppField name="odemeVadesi">
 						{(field) => <field.TextField type="number" label="Ödeme Vadesi (Gün)" />}
@@ -336,9 +323,8 @@ export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 						<Button variant="outline" onClick={close}>
 							İptal
 						</Button>
-						<Button type="submit" disabled={createAracKiralaMutation.isPending}>
-							{createAracKiralaMutation.isPending}
-							Aracı Kirala
+						<Button type="submit" disabled={createAracKiralaMutation.isPending || updateAracKiralaMutation.isPending}>
+							{createAracKiralaMutation.isPending || updateAracKiralaMutation.isPending ? "Kaydediliyor..." : (isUpdate ? "Güncelle" : "Aracı Kirala")}
 						</Button>
 					</DialogFooter>
 				</form>

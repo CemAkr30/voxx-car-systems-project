@@ -38,3 +38,30 @@ export const createAracKirala = async (
 		throw new Error("error creating aracKira");
 	}
 };
+
+export const updateAracKirala = async (
+	id: string,
+	aracKira: CreateAracKiralaRequest,
+): Promise<void> => {
+	try {
+		await axiosClient.put<AracKirala>(`${urls.aracfilo}/kirala/${id}`, aracKira);
+	} catch (error: unknown) {
+		if (isAxiosError(error)) {
+			toast.error("Araç kira güncellerken sorun oluştu");
+			throw new Error(error.request?.response.code);
+		}
+		throw new Error("error updating aracKira");
+	}
+};
+
+export const deleteAracKirala = async (id: string): Promise<void> => {
+	try {
+		await axiosClient.delete(`${urls.aracfilo}/kirala/${id}`);
+	} catch (error: unknown) {
+		if (isAxiosError(error)) {
+			toast.error("Araç kira silerken sorun oluştu");
+			throw new Error(error.request?.response.code);
+		}
+		throw new Error("error deleting aracKira");
+	}
+};
