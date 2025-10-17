@@ -104,10 +104,16 @@ function RouteComponent() {
 		}
 	}, [selectedParts, selectedPart]);
 
-	const canSave = () =>
-		selectedParts.some((part) => !isUUID(part.id)) ||
-		updatedParts.length > 0 ||
-		deletedParts.length > 0;
+	const canSave = () => {
+		// Yeni eklenen parçalar var mı?
+		const hasNewParts = selectedParts.some((part) => part.id?.startsWith("new-id"));
+		// Güncellenmiş parçalar var mı?
+		const hasUpdatedParts = updatedParts.length > 0;
+		// Silinmiş parçalar var mı?
+		const hasDeletedParts = deletedParts.length > 0;
+		
+		return hasNewParts || hasUpdatedParts || hasDeletedParts;
+	};
 
 	const { proceed, reset, status } = useBlocker({
 		shouldBlockFn: () => canSave(),
@@ -117,28 +123,28 @@ function RouteComponent() {
 
 	const handleHasarParcaSubmit = async () => {
 		try {
+			// Yeni parçaları kaydet
 			for (const part of selectedParts) {
 				if (part.id?.startsWith("new-id")) {
-					await createHasarMutation.mutate(part);
-					setSelectedParts((prevState) =>
-						prevState.filter((old) => old.id !== part.id),
-					);
-				} else {
-					if (updatedParts.includes(part.id)) {
-						await updateHasarMutation.mutate(part);
-						setUpdatedParts((prevState) =>
-							prevState.filter((oldId) => oldId !== part.id),
-						);
-					}
+					await createHasarMutation.mutateAsync(part);
 				}
 			}
 
-			for (const id of deletedParts) {
-				await deleteHasarMutation.mutate(id);
-				setDeletedParts((prevState) =>
-					prevState.filter((oldId) => oldId !== id),
-				);
+			// Güncellenmiş parçaları kaydet
+			for (const part of selectedParts) {
+				if (updatedParts.includes(part.id)) {
+					await updateHasarMutation.mutateAsync(part);
+				}
 			}
+
+			// Silinmiş parçaları kaydet
+			for (const id of deletedParts) {
+				await deleteHasarMutation.mutateAsync(id);
+			}
+
+			// State'leri temizle
+			setUpdatedParts([]);
+			setDeletedParts([]);
 
 			// Cache'i invalidate et ve en güncel veriyi al
 			await queryClient.invalidateQueries(
@@ -150,7 +156,6 @@ function RouteComponent() {
 			);
 
 			if (data) {
-				console.log({ data });
 				setSelectedParts(data);
 			}
 		} catch (error) {

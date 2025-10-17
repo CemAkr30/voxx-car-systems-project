@@ -86,27 +86,31 @@ export default function HasarDialog(props: HasarDialogProps) {
 		onSubmit: async ({ formApi, value }) => {
 			try {
 				if (mode === "create") {
+					const newPart = {
+						id: `new-id-${new Date().getTime()}`,
+						aracFiloId,
+						aciklama: value.aciklama,
+						hasarliParca: value.hasarliParca,
+						hasarTipi: value.hasarTipi,
+						deleted: false,
+						createdAt: new Date().toISOString(),
+						updatedAt: new Date().toISOString(),
+					};
+					
 					setSelectedParts((prevState) => [
 						...prevState,
-						{
-							id: `new-id-${new Date().getTime()}`,
-							aracFiloId,
-							aciklama: value.aciklama,
-							hasarliParca: value.hasarliParca,
-							hasarTipi: value.hasarTipi,
-							deleted: false,
-						},
+						newPart,
 					]);
 				} else if (mode === "update") {
 					setSelectedParts((prevState) =>
 						prevState.map((part) => {
 							if (part.hasarliParca === value.hasarliParca) {
-								if (
-									!(
-										JSON.stringify(props.initialValues) ===
-										JSON.stringify(value)
-									)
-								) {
+								// Değişiklik var mı kontrol et
+								const hasChanges = 
+									part.hasarTipi !== value.hasarTipi ||
+									part.aciklama !== value.aciklama;
+								
+								if (hasChanges) {
 									setUpdatedParts((prev) =>
 										prev.includes(part.id) ? prev : [...prev, part.id],
 									);
@@ -116,25 +120,31 @@ export default function HasarDialog(props: HasarDialogProps) {
 									...part,
 									hasarTipi: value.hasarTipi,
 									aciklama: value.aciklama,
-									updatedAt: new Date().toISOString(), // better format than toDateString
+									updatedAt: new Date().toISOString(),
 								};
 							}
 							return part;
 						}),
 					);
 				}
-				setSelectedPart(null);
+				
+				// Dialog'u kapat ve form'u reset et
+				close();
 				formApi.reset();
-			} catch (_error) {}
+			} catch (_error) {
+				console.error("Form submission error:", _error);
+			}
 		},
 	});
 
 	return (
 		<Dialog
 			open={open}
-			onOpenChange={() => {
-				close();
-				form.reset();
+			onOpenChange={(isOpen) => {
+				if (!isOpen) {
+					close();
+					form.reset();
+				}
 			}}
 		>
 			<DialogContent className="sm:max-w-[550px]">
