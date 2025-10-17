@@ -1,4 +1,5 @@
 import axios, {AxiosError, type AxiosResponse, type InternalAxiosRequestConfig,} from "axios";
+import {getApiBaseUrl} from "./url-utils";
 
 interface ApiError {
     message: string;
@@ -7,7 +8,7 @@ interface ApiError {
 }
 
 export const axiosClient = axios.create({
-    baseURL: "https://voxxcarsystems.online/api/",
+    baseURL: getApiBaseUrl() ? getApiBaseUrl() : "http://localhost:9090",
     timeout: 10000,
 });
 
