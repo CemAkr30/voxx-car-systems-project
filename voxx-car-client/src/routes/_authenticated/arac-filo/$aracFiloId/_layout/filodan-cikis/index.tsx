@@ -147,6 +147,9 @@ function RouteComponent() {
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
 								Açıklama
 							</TableHead>
+							<TableHead className="font-semibold text-slate-700 dark:text-slate-300">
+								Dosya
+							</TableHead>
 							<TableHead className="font-semibold text-slate-700 dark:text-slate-300 text-right">
 								İşlemler
 							</TableHead>
@@ -173,29 +176,90 @@ function RouteComponent() {
 										</div>
 									</TableCell>
 									<TableCell>
-										<span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded-md text-sm font-mono text-slate-700 dark:text-slate-300">
+										<span className="text-slate-600 dark:text-slate-400 font-medium">
 											{formatDate(filodanCikis.filodanCikisTarihi.toString())}
 										</span>
 									</TableCell>
 									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
+										<span className="text-slate-600 dark:text-slate-400 font-medium text-sm">
 											{filodanCikis.alici}
 										</span>
 									</TableCell>
 									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
+										<span className="text-slate-600 dark:text-slate-400 font-medium text-sm">
 											{filodanCikis.anahtarTeslimFiyati}
 										</span>
 									</TableCell>
 									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
+										<span className="text-slate-600 dark:text-slate-400 font-medium text-sm">
 											{filodanCikis.aracDevirGiderleri}
 										</span>
 									</TableCell>
 									<TableCell>
-										<span className="text-slate-600 dark:text-slate-400 font-mono text-sm">
+										<span className="text-slate-600 dark:text-slate-400 font-medium text-sm">
 											{filodanCikis.aciklama}
 										</span>
+									</TableCell>
+									<TableCell>
+										{filodanCikis.faturaYukle ? (
+											<Button
+												variant="outline"
+												size="sm"
+												onClick={() => {
+													// Dosya tipini kontrol et ve ona göre göster
+													const base64Data = filodanCikis.faturaYukle;
+													
+													if (!base64Data) return;
+													
+													// PDF dosyası için
+													if (base64Data.startsWith('JVBERi0') || base64Data.includes('PDF')) {
+														const newWindow = window.open();
+														if (newWindow) {
+															newWindow.document.write(`
+																<!DOCTYPE html>
+																<html>
+																<head>
+																	<title>Fatura</title>
+																	<style>
+																		body { margin: 0; padding: 0; }
+																		iframe { width: 100vw; height: 100vh; border: none; }
+																	</style>
+																</head>
+																<body>
+																	<iframe src="data:application/pdf;base64,${base64Data}"></iframe>
+																</body>
+																</html>
+															`);
+														}
+													} else {
+														// Resim dosyası için
+														const newWindow = window.open();
+														if (newWindow) {
+															newWindow.document.write(`
+																<!DOCTYPE html>
+																<html>
+																<head>
+																	<title>Fatura</title>
+																	<style>
+																		body { margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #f5f5f5; }
+																		img { max-width: 100%; max-height: 100vh; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+																	</style>
+																</head>
+																<body>
+																	<img src="data:image/jpeg;base64,${base64Data}" alt="Fatura" />
+																</body>
+																</html>
+															`);
+														}
+													}
+												}}
+												className="flex items-center gap-1"
+											>
+												Göster
+											</Button>
+										) : (
+											<span className="text-gray-400 text-sm">Dosya yok</span>
+										)}
 									</TableCell>
 
 									<TableCell className="text-right">
