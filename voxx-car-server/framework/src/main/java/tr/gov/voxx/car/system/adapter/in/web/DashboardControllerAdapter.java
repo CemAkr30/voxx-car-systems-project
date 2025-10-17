@@ -209,9 +209,26 @@ public class DashboardControllerAdapter {
     }
 
     @GetMapping("/kira")
-    @Operation(summary = "Kiralanan Araçlar", description = "Sözleşme bitiş tarihine göre sıralanmış kiralanan araçları getirir")
+    @Operation(summary = "Kiralanan Araçlar", description = "Sözleşme bitişine 15 günden az kalan kiralanan araçları getirir")
     public ResponseEntity<List<AracFirmaDetayResponse>> getKiralananAraclar() {
-        var detayList = aracFirmaDetayApplicationQueryPort.getKiralananAraclarSirali();
+        // Şu anki tarihi kullan
+        java.time.LocalDate kontrolTarihi = java.time.LocalDate.now();
+        
+        // 15 gün sonrasına kadar olan sözleşmeleri al
+        java.time.Instant bitisTarihi = kontrolTarihi.plusDays(15).atStartOfDay(java.time.ZoneId.systemDefault()).toInstant();
+        
+        var tumDetaylar = aracFirmaDetayApplicationQueryPort.getTumDetaylar();
+        
+        // Sadece 15 günden az kalan sözleşmeleri filtrele
+        var detayList = tumDetaylar.stream()
+                .filter(detay -> {
+                    if (detay.getSozlesmeBitisTarihi() == null) return false;
+                    java.time.LocalDate bitisTarihiLocal = detay.getSozlesmeBitisTarihi().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+                    long kalanGun = java.time.temporal.ChronoUnit.DAYS.between(kontrolTarihi, bitisTarihiLocal);
+                    return kalanGun <= 15 && kalanGun >= 0; // Sadece 15 günden az kalan ve henüz bitmemiş olanlar
+                })
+                .sorted((d1, d2) -> d1.getSozlesmeBitisTarihi().compareTo(d2.getSozlesmeBitisTarihi())) // Bitiş tarihine göre sırala
+                .toList();
 
         var response = AracFirmaDetayMapper.toResponseList(detayList);
 

@@ -98,20 +98,23 @@ INSERT INTO tb_sigorta (id, arac_filo_id, tip, sigorta_sirketi, acente, police_n
 ('sigorta-016', 'arac-008', 'TRAFIK', 'Ziraat Sigorta', 'Ziraat İzmir Şubesi', 'ZIR2024004', '2024-01-01 00:00:00+00', '2025-12-31 23:59:59+00', 'Trafik sigortası sözleşmesi - 2024', false, NOW(), NOW());
 
 -- 8. ARAÇ FİRMA DETAY TABLOSUNA ÖRNEK KAYITLAR (KİRALAMA BİLGİLERİ)
+-- Dashboard'da görünecek kayıtlar: 15 gün içinde sözleşmesi bitecek kiralama sözleşmeleri
 INSERT INTO tb_arac_firma_detay (id, arac_filo_id, firma_id, sozlesme_baslangic_tarihi, sozlesme_bitis_tarihi, teslimat_tutanagi, sozlesme, odeme_vadesi, is_deleted, created_at, updated_at) VALUES
-                                                                                                                                                                                                  ('detay-001', 'arac-001', 'firma-001', '2024-01-01 00:00:00+00', '2024-12-31 23:59:59+00', 'Araç teslim tutanağı - 34ABC123', 'Kira sözleşmesi - 2024 yılı', 30, false, NOW(), NOW()),
-                                                                                                                                                                                                  ('detay-002', 'arac-002', 'firma-002', '2024-03-01 00:00:00+00', '2025-02-28 23:59:59+00', 'Araç teslim tutanağı - 34DEF456', 'Kira sözleşmesi - 2024-2025 yılı', 30, false, NOW(), NOW()),
-                                                                                                                                                                                                  ('detay-003', 'arac-003', 'firma-003', '2024-01-01 00:00:00+00', '2024-12-31 23:59:59+00', 'Araç teslim tutanağı - 34GHI789', 'Kira sözleşmesi - 2024 yılı', 15, false, NOW(), NOW()),
-                                                                                                                                                                                                  ('detay-004', 'arac-004', 'firma-004', '2024-02-01 00:00:00+00', '2025-01-31 23:59:59+00', 'Araç teslim tutanağı - 34JKL012', 'Kira sözleşmesi - 2024-2025 yılı', 30, false, NOW(), NOW()),
-                                                                                                                                                                                                  ('detay-005', 'arac-005', 'firma-005', '2024-01-01 00:00:00+00', '2025-12-31 23:59:59+00', 'Araç teslim tutanağı - 34MNO345', 'Kira sözleşmesi - 2024-2025 yılı', 30, false, NOW(), NOW()),
-                                                                                                                                                                                                  ('detay-006', 'arac-006', 'firma-001', '2023-01-01 00:00:00+00', '2023-12-31 23:59:59+00', 'Araç teslim tutanağı - 34PQR678', 'Kira sözleşmesi - 2023 yılı', 30, false, NOW(), NOW()),
-                                                                                                                                                                                                  ('detay-007', 'arac-007', 'firma-002', '2024-01-01 00:00:00+00', '2024-12-31 23:59:59+00', 'Araç teslim tutanağı - 34STU901', 'Kira sözleşmesi - 2024 yılı', 15, false, NOW(), NOW()),
-                                                                                                                                                                                                  ('detay-008', 'arac-008', 'firma-003', '2023-01-01 00:00:00+00', '2023-12-31 23:59:59+00', 'Araç teslim tutanağı - 34VWX234', 'Kira sözleşmesi - 2023 yılı', 30, false, NOW(), NOW());
+-- 15 gün içinde bitecek kiralama sözleşmeleri (Dashboard'da görünecek)
+('detay-001', 'arac-001', 'firma-001', '2024-01-01 00:00:00+00', (CURRENT_DATE + INTERVAL '8 days')::timestamp, 'Araç teslim tutanağı - 34ABC123', 'Kira sözleşmesi - 2024 yılı', 30, false, NOW(), NOW()),
+('detay-002', 'arac-002', 'firma-002', '2024-03-01 00:00:00+00', (CURRENT_DATE + INTERVAL '12 days')::timestamp, 'Araç teslim tutanağı - 34DEF456', 'Kira sözleşmesi - 2024 yılı', 30, false, NOW(), NOW()),
+('detay-003', 'arac-003', 'firma-003', '2024-01-01 00:00:00+00', (CURRENT_DATE + INTERVAL '3 days')::timestamp, 'Araç teslim tutanağı - 34GHI789', 'Kira sözleşmesi - 2024 yılı', 15, false, NOW(), NOW()),
+('detay-004', 'arac-004', 'firma-004', '2024-02-01 00:00:00+00', (CURRENT_DATE + INTERVAL '15 days')::timestamp, 'Araç teslim tutanağı - 34JKL012', 'Kira sözleşmesi - 2024 yılı', 30, false, NOW(), NOW()),
+('detay-005', 'arac-005', 'firma-005', '2024-01-01 00:00:00+00', (CURRENT_DATE + INTERVAL '6 days')::timestamp, 'Araç teslim tutanağı - 34MNO345', 'Kira sözleşmesi - 2024 yılı', 30, false, NOW(), NOW()),
+-- Uzun vadeli kiralama sözleşmeleri (Dashboard'da görünmeyecek)
+('detay-006', 'arac-006', 'firma-001', '2024-01-01 00:00:00+00', '2025-12-31 23:59:59+00', 'Araç teslim tutanağı - 34PQR678', 'Kira sözleşmesi - 2024-2025 yılı', 30, false, NOW(), NOW()),
+('detay-007', 'arac-007', 'firma-002', '2024-01-01 00:00:00+00', '2025-06-30 23:59:59+00', 'Araç teslim tutanağı - 34STU901', 'Kira sözleşmesi - 2024-2025 yılı', 15, false, NOW(), NOW()),
+('detay-008', 'arac-008', 'firma-003', '2024-01-01 00:00:00+00', '2025-01-31 23:59:59+00', 'Araç teslim tutanağı - 34VWX234', 'Kira sözleşmesi - 2024-2025 yılı', 30, false, NOW(), NOW());
 
 -- NOT: Bu örnek kayıtlar dashboard tablolarında görüntülenecek verileri içerir:
 -- - MTV tablosunda ödenen ve ödenmemiş kayıtlar
--- - Muayene tablosunda 15 gün içinde bitecek kayıtlar
+-- - Muayene tablosunda 15 gün içinde bitecek kayıtlar (ödenen/ödenmemiş)
 -- - Sigorta tablosunda 15 gün içinde bitecek kayıtlar
 -- - Araç Filo tablosunda aktif ve pasif araçlar
 -- - Firma tablosunda kiralama yapan firmalar
--- - Araç Firma Detay tablosunda kiralama bilgileri
+-- - Araç Firma Detay tablosunda 15 gün içinde sözleşmesi bitecek kiralama bilgileri
