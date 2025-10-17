@@ -23,7 +23,6 @@ public class BakimJpaMapper {
                 .parcaTutari(entity.getParcaTutari())
                 .iscilikTutari(entity.getIscilikTutari())
                 .toplamTutar(entity.getToplamTutar())
-                .faturaNo(entity.getFaturaNo())
                 .fatura(entity.getFatura())
                 .aciklama(entity.getAciklama())
                 .bakimOdeyenFirma(entity.getBakimOdeyenFirma())
@@ -47,7 +46,6 @@ public class BakimJpaMapper {
         entity.setParcaTutari(bakim.getParcaTutari());
         entity.setIscilikTutari(bakim.getIscilikTutari());
         entity.setToplamTutar(bakim.getToplamTutar());
-        entity.setFaturaNo(bakim.getFaturaNo());
         entity.setFatura(bakim.getFatura());
         entity.setAciklama(bakim.getAciklama());
         entity.setBakimOdeyenFirma(bakim.getBakimOdeyenFirma());

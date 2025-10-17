@@ -17,7 +17,6 @@ public class Bakim extends AbstractAggregateModel<BakimId> {
     private Double parcaTutari;
     private Double iscilikTutari;
     private Double toplamTutar;
-    private String faturaNo;
     private String fatura;
     private String aciklama;
     private String bakimOdeyenFirma;
@@ -36,7 +35,6 @@ public class Bakim extends AbstractAggregateModel<BakimId> {
         this.parcaTutari = other.parcaTutari;
         this.iscilikTutari = other.iscilikTutari;
         this.toplamTutar = other.toplamTutar;
-        this.faturaNo = other.faturaNo;
         this.fatura = other.fatura;
         this.aciklama = other.aciklama;
         this.bakimOdeyenFirma = other.bakimOdeyenFirma;
