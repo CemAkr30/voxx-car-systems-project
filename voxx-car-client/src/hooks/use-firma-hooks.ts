@@ -2,12 +2,13 @@ import {
 	createFirma,
 	deleteFirma,
 	firmaDokumanEkle,
+	firmaDokumanSil,
 	getAllFirma,
 	getFirma,
 	getFirmaDokumanlar,
 	updateFirma,
 } from "@/requests/firma";
-import type { CreateFirmaRequest, Firma, FirmaDokumanEkleRequest, FirmaDokuman } from "@/schemas/firma";
+import type { CreateFirmaRequest, Firma, FirmaDokumanEkleRequest } from "@/schemas/firma";
 import {
 	queryOptions,
 	useMutation,
@@ -74,3 +75,14 @@ export function getFirmaDokumanlarQueryOptions(firmaId: string) {
 		queryFn: () => getFirmaDokumanlar(firmaId),
 	});
 }
+
+export const useFirmaDokumanSilMutation = (firmaId: string, onSuccess?: () => void) => {
+	const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: async (dokumanId: string) => await firmaDokumanSil(firmaId, dokumanId),
+		async onSuccess() {
+			onSuccess?.();
+			await queryClient.invalidateQueries(getFirmaDokumanlarQueryOptions(firmaId));
+		},
+	});
+};

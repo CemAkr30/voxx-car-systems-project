@@ -30,6 +30,8 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { RefreshCw, FileText, Eye } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
+import { validateFileType, getFileTypeErrorMessage } from "@/lib/utils";
 
 interface BakimDialogCreateProps {
 	mode: "create";
@@ -89,19 +91,33 @@ export default function BakimDialog(props: BakimDialogProps) {
 
 	// Mevcut faturayı yeni sekmede göster
 	const showExistingFatura = () => {
-		if (hasExistingFatura) {
-			const newWindow = window.open();
-			if (newWindow) {
-				newWindow.document.write(`
-					<html>
-						<head><title>Fatura</title></head>
-						<body style="margin:0; padding:0;">
-							<iframe src="data:application/pdf;base64,${props.initialValues.fatura}" 
-									width="100%" height="100%" style="border:none;">
-							</iframe>
-						</body>
-					</html>
-				`);
+		if (hasExistingFatura && props.initialValues.fatura) {
+			try {
+				// Base64 string'i binary'ye çevir
+				const binaryString = atob(props.initialValues.fatura);
+				const bytes = new Uint8Array(binaryString.length);
+				for (let i = 0; i < binaryString.length; i++) {
+					bytes[i] = binaryString.charCodeAt(i);
+				}
+				
+				// Dosya türünü kontrol et ve uyarı ver
+				const isValidFileType = validateFileType(new File([bytes], 'file', { type: 'application/octet-stream' }));
+				if (!isValidFileType) {
+					toast.error(getFileTypeErrorMessage());
+					return;
+				}
+				
+				// Blob oluştur ve yeni sekmede aç
+				const blob = new Blob([bytes], { type: 'application/pdf' }); // PDF varsayılan
+				const url = URL.createObjectURL(blob);
+				window.open(url, '_blank');
+				
+				// URL'i temizle
+				setTimeout(() => {
+					URL.revokeObjectURL(url);
+				}, 1000);
+			} catch (error) {
+				console.error("Dosya görüntüleme hatası:", error);
 			}
 		}
 	};
@@ -254,14 +270,19 @@ export default function BakimDialog(props: BakimDialogProps) {
 							<Input
 								id="fatura"
 								type="file"
-								accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-								onChange={(e) => {
-									const file = e.target.files?.[0];
-									if (file) {
-										setSelectedFile(file);
-										setFileName(file.name);
-									}
-								}}
+								accept=".pdf,.jpg,.jpeg,.png"
+									onChange={(e) => {
+										const file = e.target.files?.[0];
+										if (file) {
+											if (!validateFileType(file)) {
+												toast.error(getFileTypeErrorMessage());
+												e.target.value = '';
+												return;
+											}
+											setSelectedFile(file);
+											setFileName(file.name);
+										}
+									}}
 								className="flex-1"
 							/>
 							<Button
@@ -290,9 +311,9 @@ export default function BakimDialog(props: BakimDialogProps) {
 								</span>
 							</div>
 						)}
-						<p className="text-xs text-gray-500">
-							PDF, DOC, DOCX, JPG, JPEG, PNG formatları desteklenmektedir.
-						</p>
+								<p className="text-xs text-gray-500">
+									Sadece PDF ve görsel (JPG, JPEG, PNG) dosyaları yüklenebilir.
+								</p>
 					</div>
 
 					<form.AppField name="aciklama">

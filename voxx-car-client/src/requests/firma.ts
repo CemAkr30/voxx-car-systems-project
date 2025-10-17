@@ -75,3 +75,16 @@ export const getFirmaDokumanlar = async (firmaId: string): Promise<FirmaDokuman[
 		throw new Error("error getting documents");
 	}
 };
+
+export const firmaDokumanSil = async (firmaId: string, dokumanId: string): Promise<void> => {
+	try {
+		await axiosClient.delete(`${urls.firma}/${firmaId}/dokuman-sil/${dokumanId}`);
+		toast.success("Doküman başarıyla silindi");
+	} catch (error: unknown) {
+		if (isAxiosError(error)) {
+			toast.error("Doküman silerken sorun oluştu");
+			throw new Error(error.request?.response.code);
+		}
+		throw new Error("error deleting document");
+	}
+};

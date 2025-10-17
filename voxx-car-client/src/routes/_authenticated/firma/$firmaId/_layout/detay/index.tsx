@@ -13,8 +13,12 @@ import {
 	FileText,
 	Upload,
 	X,
+	Trash2,
 } from "lucide-react";
 import { useState, useRef } from "react";
+import { toast } from "sonner";
+import { validateFileType, getFileTypeErrorMessage } from "@/lib/utils";
+import FirmaDokumanSilDialog from "@/components/web/firma/firma-dokuman-sil-dialog";
 
 export const Route = createFileRoute(
 	"/_authenticated/firma/$firmaId/_layout/detay/",
@@ -34,6 +38,10 @@ function RouteComponent() {
 	const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const dokumanEkleMutation = useFirmaDokumanEkleMutation();
+	
+	// Silme dialog state
+	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+	const [selectedDokumanToDelete, setSelectedDokumanToDelete] = useState<FirmaDokuman | null>(null);
 
 	// Dosya seçme fonksiyonu
 	const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,6 +62,18 @@ function RouteComponent() {
 	// Dosya kaldırma fonksiyonu
 	const handleRemoveFile = (index: number) => {
 		setSelectedFiles(prev => prev.filter((_, i) => i !== index));
+	};
+
+	// Silme dialog açma fonksiyonu
+	const handleDeleteClick = (dokuman: FirmaDokuman) => {
+		setSelectedDokumanToDelete(dokuman);
+		setDeleteDialogOpen(true);
+	};
+
+	// Silme dialog kapatma fonksiyonu
+	const handleDeleteDialogClose = () => {
+		setDeleteDialogOpen(false);
+		setSelectedDokumanToDelete(null);
 	};
 
 	// Dosya yükleme fonksiyonu
@@ -103,7 +123,15 @@ function RouteComponent() {
 				byteNumbers[i] = byteCharacters.charCodeAt(i);
 			}
 			const byteArray = new Uint8Array(byteNumbers);
-			const blob = new Blob([byteArray], { type: 'application/pdf' });
+			
+			// Dosya türünü kontrol et ve uyarı ver
+			const isValidFileType = validateFileType(new File([byteArray], 'file', { type: 'application/octet-stream' }));
+			if (!isValidFileType) {
+				toast.error(getFileTypeErrorMessage());
+				return;
+			}
+			
+			const blob = new Blob([byteArray], { type: 'application/pdf' }); // PDF varsayılan
 			const url = window.URL.createObjectURL(blob);
 			
 			// Yeni sekmede aç
@@ -128,11 +156,19 @@ function RouteComponent() {
 				byteNumbers[i] = byteCharacters.charCodeAt(i);
 			}
 			const byteArray = new Uint8Array(byteNumbers);
-			const blob = new Blob([byteArray]);
+			
+			// Dosya türünü kontrol et ve uyarı ver
+			const isValidFileType = validateFileType(new File([byteArray], 'file', { type: 'application/octet-stream' }));
+			if (!isValidFileType) {
+				toast.error(getFileTypeErrorMessage());
+				return;
+			}
+			
+			const blob = new Blob([byteArray], { type: 'application/pdf' }); // PDF varsayılan
 			const url = window.URL.createObjectURL(blob);
 			const a = document.createElement('a');
 			a.href = url;
-			a.download = `dosya-${dokuman.id.slice(-8)}.pdf`;
+			a.download = `dosya-${dokuman.id.slice(-8)}.pdf`; // PDF varsayılan
 			document.body.appendChild(a);
 			a.click();
 			window.URL.revokeObjectURL(url);
@@ -174,7 +210,7 @@ function RouteComponent() {
 								type="file"
 								ref={fileInputRef}
 								onChange={handleFileSelect}
-								accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+								accept=".pdf,.jpg,.jpeg,.png"
 								multiple
 								className="w-full h-32 border-2 border-dashed border-slate-300 dark:border-slate-600 hover:border-blue-400 dark:hover:border-blue-500 transition-colors duration-200 bg-slate-50 dark:bg-slate-800/50 cursor-pointer opacity-0 absolute inset-0 z-10"
 							/>
@@ -184,12 +220,15 @@ function RouteComponent() {
 									<p className="text-sm text-slate-500 dark:text-slate-400">
 										Dosyaları sürükleyin veya tıklayın
 									</p>
+									<p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
+										Sadece PDF ve görsel (JPG, JPEG, PNG) dosyaları yüklenebilir
+									</p>
 								</div>
 							</div>
 						</div>
 						
 						<div className="flex items-center justify-between text-xs text-slate-500">
-							<span>Desteklenen formatlar: PDF, DOC, DOCX, JPG, JPEG, PNG</span>
+							<span>Sadece PDF ve görsel (JPG, JPEG, PNG) dosyaları yüklenebilir</span>
 							<span>Maksimum: 5MB</span>
 						</div>
 					</div>
@@ -263,6 +302,19 @@ function RouteComponent() {
 								<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
 									{(dokumanlar as FirmaDokuman[]).map((dokuman: FirmaDokuman) => (
 										<div key={dokuman.id} className="group relative bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4 hover:shadow-lg hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-200 cursor-pointer">
+											{/* Silme Butonu - Sağ Üst */}
+											<Button
+												variant="ghost"
+												size="sm"
+												className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 z-10"
+												onClick={(e) => {
+													e.stopPropagation();
+													handleDeleteClick(dokuman);
+												}}
+											>
+												<Trash2 className="h-4 w-4" />
+											</Button>
+											
 											<div className="flex flex-col items-center text-center space-y-3">
 												{/* Dosya İkonu */}
 												<div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
@@ -275,9 +327,6 @@ function RouteComponent() {
 														<h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">
 															Dosya {dokuman.id.slice(-6)}
 														</h4>
-														<span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-															PDF
-														</span>
 													</div>
 													
 													{/* Tarih Bilgisi */}
@@ -330,6 +379,16 @@ function RouteComponent() {
 					</div>
 				</div>
 			</div>
+			
+			{/* Silme Dialog */}
+			{selectedDokumanToDelete && (
+				<FirmaDokumanSilDialog
+					open={deleteDialogOpen}
+					close={handleDeleteDialogClose}
+					selectedDokuman={selectedDokumanToDelete}
+					firmaId={firmaId}
+				/>
+			)}
 		</div>
 	);
 }

@@ -28,6 +28,8 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { RefreshCw, FileText, Eye } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
+import { validateFileType, getFileTypeErrorMessage } from "@/lib/utils";
 
 interface FilodanCikisDialogCreateProps {
 	mode: "create";
@@ -87,45 +89,45 @@ export default function FilodanCikisDialog(props: FilodanCikisDialogProps) {
 	// Mevcut fatura dosyasını indir
 	const showExistingFatura = () => {
 		if (hasExistingFatura && props.initialValues.faturaYukle) {
-			// Base64 string'i binary'ye çevir
-			const binaryString = atob(props.initialValues.faturaYukle);
-			const bytes = new Uint8Array(binaryString.length);
-			for (let i = 0; i < binaryString.length; i++) {
-				bytes[i] = binaryString.charCodeAt(i);
+			try {
+				// Base64 string'i binary'ye çevir
+				const binaryString = atob(props.initialValues.faturaYukle);
+				const bytes = new Uint8Array(binaryString.length);
+				for (let i = 0; i < binaryString.length; i++) {
+					bytes[i] = binaryString.charCodeAt(i);
+				}
+				
+				// Dosya tipini belirle (ilk birkaç byte'a bakarak)
+				let mimeType = 'application/octet-stream';
+				let fileExtension = 'bin';
+				
+				if (bytes[0] === 0x25 && bytes[1] === 0x50 && bytes[2] === 0x44 && bytes[3] === 0x46) {
+					// PDF
+					mimeType = 'application/pdf';
+					fileExtension = 'pdf';
+				} else if (bytes[0] === 0xFF && bytes[1] === 0xD8 && bytes[2] === 0xFF) {
+					// JPEG
+					mimeType = 'image/jpeg';
+					fileExtension = 'jpg';
+				} else if (bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4E && bytes[3] === 0x47) {
+					// PNG
+					mimeType = 'image/png';
+					fileExtension = 'png';
+				}
+				
+				// Blob oluştur ve indir
+				const blob = new Blob([bytes], { type: mimeType });
+				const url = URL.createObjectURL(blob);
+				const link = document.createElement('a');
+				link.href = url;
+				link.download = `fatura.${fileExtension}`;
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+				URL.revokeObjectURL(url);
+			} catch (error) {
+				console.error("Dosya indirme hatası:", error);
 			}
-			
-			// Dosya tipini belirle (ilk birkaç byte'a bakarak)
-			let mimeType = 'application/octet-stream';
-			let fileExtension = 'bin';
-			
-			if (bytes[0] === 0x25 && bytes[1] === 0x50 && bytes[2] === 0x44 && bytes[3] === 0x46) {
-				// PDF
-				mimeType = 'application/pdf';
-				fileExtension = 'pdf';
-			} else if (bytes[0] === 0xFF && bytes[1] === 0xD8 && bytes[2] === 0xFF) {
-				// JPEG
-				mimeType = 'image/jpeg';
-				fileExtension = 'jpg';
-			} else if (bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4E && bytes[3] === 0x47) {
-				// PNG
-				mimeType = 'image/png';
-				fileExtension = 'png';
-			} else if (bytes[0] === 0xD0 && bytes[1] === 0xCF && bytes[2] === 0x11 && bytes[3] === 0xE0) {
-				// DOC/DOCX
-				mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-				fileExtension = 'docx';
-			}
-			
-			// Blob oluştur ve indir
-			const blob = new Blob([bytes], { type: mimeType });
-			const url = URL.createObjectURL(blob);
-			const link = document.createElement('a');
-			link.href = url;
-			link.download = `fatura.${fileExtension}`;
-			document.body.appendChild(link);
-			link.click();
-			document.body.removeChild(link);
-			URL.revokeObjectURL(url);
 		}
 	};
 
@@ -272,14 +274,19 @@ export default function FilodanCikisDialog(props: FilodanCikisDialogProps) {
 							<Input
 								id="faturaYukle"
 								type="file"
-								accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-								onChange={(e) => {
-									const file = e.target.files?.[0];
-									if (file) {
-										setSelectedFile(file);
-										setFileName(file.name);
-									}
-								}}
+								accept=".pdf,.jpg,.jpeg,.png"
+									onChange={(e) => {
+										const file = e.target.files?.[0];
+										if (file) {
+											if (!validateFileType(file)) {
+												toast.error(getFileTypeErrorMessage());
+												e.target.value = '';
+												return;
+											}
+											setSelectedFile(file);
+											setFileName(file.name);
+										}
+									}}
 								className="flex-1"
 							/>
 							<Button
@@ -308,9 +315,9 @@ export default function FilodanCikisDialog(props: FilodanCikisDialogProps) {
 								</span>
 							</div>
 						)}
-						<p className="text-xs text-gray-500">
-							PDF, DOC, DOCX, JPG, JPEG, PNG formatları desteklenmektedir.
-						</p>
+								<p className="text-xs text-gray-500">
+									Sadece PDF ve görsel (JPG, JPEG, PNG) dosyaları yüklenebilir.
+								</p>
 					</div>
 
 					<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

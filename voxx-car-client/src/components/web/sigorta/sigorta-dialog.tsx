@@ -25,6 +25,8 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { RefreshCw, FileText, Eye } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
+import { validateFileType, getFileTypeErrorMessage } from "@/lib/utils";
 
 interface SigortaDialogCreateProps {
 	mode: "create";
@@ -78,10 +80,6 @@ export default function SigortaDialog(props: SigortaDialogProps) {
 				// PNG
 				mimeType = 'image/png';
 				fileExtension = 'png';
-			} else if (bytes[0] === 0xD0 && bytes[1] === 0xCF && bytes[2] === 0x11 && bytes[3] === 0xE0) {
-				// DOC/DOCX
-				mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-				fileExtension = 'docx';
 			}
 			
 			// Blob oluştur ve indir
@@ -269,14 +267,19 @@ export default function SigortaDialog(props: SigortaDialogProps) {
 							<Input
 								id="sozlesme"
 								type="file"
-								accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-								onChange={(e) => {
-									const file = e.target.files?.[0];
-									if (file) {
-										setSelectedFile(file);
-										setFileName(file.name);
-									}
-								}}
+								accept=".pdf,.jpg,.jpeg,.png"
+									onChange={(e) => {
+										const file = e.target.files?.[0];
+										if (file) {
+											if (!validateFileType(file)) {
+												toast.error(getFileTypeErrorMessage());
+												e.target.value = '';
+												return;
+											}
+											setSelectedFile(file);
+											setFileName(file.name);
+										}
+									}}
 								className="flex-1"
 							/>
 							<Button
@@ -305,9 +308,9 @@ export default function SigortaDialog(props: SigortaDialogProps) {
 								</span>
 							</div>
 						)}
-						<p className="text-xs text-gray-500">
-							PDF, DOC, DOCX, JPG, JPEG, PNG formatları desteklenmektedir.
-						</p>
+								<p className="text-xs text-gray-500">
+									Sadece PDF ve görsel (JPG, JPEG, PNG) dosyaları yüklenebilir.
+								</p>
 					</div>
 
 					<DialogFooter>

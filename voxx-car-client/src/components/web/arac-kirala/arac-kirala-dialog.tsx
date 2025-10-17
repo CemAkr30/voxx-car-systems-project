@@ -27,6 +27,8 @@ import type { Firma } from "@/schemas/firma";
 import { useQueryClient, useSuspenseQueries } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { FileText } from "lucide-react";
+import { toast } from "sonner";
+import { validateFileType, getFileTypeErrorMessage } from "@/lib/utils";
 
 interface FirmayaAracKiralaDialogCreateProps {
 	mode: "firma";
@@ -230,10 +232,15 @@ export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 							<Input
 								id="teslimatTutanagi"
 								type="file"
-								accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+								accept=".pdf,.jpg,.jpeg,.png"
 								onChange={(e) => {
 									const file = e.target.files?.[0];
 									if (file) {
+										if (!validateFileType(file)) {
+											toast.error(getFileTypeErrorMessage());
+											e.target.value = '';
+											return;
+										}
 										setSelectedTeslimatFile(file);
 										setTeslimatFileName(file.name);
 									}
@@ -266,9 +273,9 @@ export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 								</span>
 							</div>
 						)}
-						<p className="text-xs text-gray-500">
-							PDF, DOC, DOCX, JPG, JPEG, PNG formatları desteklenmektedir.
-						</p>
+								<p className="text-xs text-gray-500">
+									Sadece PDF ve görsel (JPG, JPEG, PNG) dosyaları yüklenebilir.
+								</p>
 					</div>
 
 					{/* Sözleşme Dosyası Yükleme Alanı */}
@@ -278,10 +285,15 @@ export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 							<Input
 								id="sozlesme"
 								type="file"
-								accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+								accept=".pdf,.jpg,.jpeg,.png"
 								onChange={(e) => {
 									const file = e.target.files?.[0];
 									if (file) {
+										if (!validateFileType(file)) {
+											toast.error(getFileTypeErrorMessage());
+											e.target.value = '';
+											return;
+										}
 										setSelectedSozlesmeFile(file);
 										setSozlesmeFileName(file.name);
 									}
@@ -314,9 +326,9 @@ export default function AracKiralaDialog(props: AracKiralaDialogProps) {
 								</span>
 							</div>
 						)}
-						<p className="text-xs text-gray-500">
-							PDF, DOC, DOCX, JPG, JPEG, PNG formatları desteklenmektedir.
-						</p>
+								<p className="text-xs text-gray-500">
+									Sadece PDF ve görsel (JPG, JPEG, PNG) dosyaları yüklenebilir.
+								</p>
 					</div>
 
 					<DialogFooter>

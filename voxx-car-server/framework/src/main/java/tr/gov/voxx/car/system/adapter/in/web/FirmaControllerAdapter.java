@@ -12,6 +12,7 @@ import tr.gov.voxx.car.system.domain.entity.Adres;
 import tr.gov.voxx.car.system.domain.entity.AracKullanan;
 import tr.gov.voxx.car.system.domain.entity.Firma;
 import tr.gov.voxx.car.system.domain.entity.Iletisim;
+import tr.gov.voxx.car.system.domain.valueobject.FirmaDokumanDetayId;
 import tr.gov.voxx.car.system.domain.valueobject.FirmaId;
 
 import java.util.List;
@@ -115,5 +116,13 @@ public class FirmaControllerAdapter {
         return ResponseEntity.ok(FirmaDokumanDetayMapper.toResponseList(
                 firmaDokumanDetayApplicationQueryPort.findFirmaIdGetAll(firmaId))
         );
+    }
+
+    @DeleteMapping("/{firmaId}/dokuman-sil/{dokumanId}")
+    @Operation(summary = "Firma Doküman Sil", description = "Belirtilen Firma ID ve Doküman ID ile firma dokümanını siler")
+    public ResponseEntity<Void> deleteDokuman(@PathVariable("firmaId") String firmaId, 
+                                            @PathVariable("dokumanId") String dokumanId) {
+        firmaDokumanDetayApplicationCommandPort.deleteById(new FirmaDokumanDetayId(dokumanId));
+        return ResponseEntity.noContent().build();
     }
 }

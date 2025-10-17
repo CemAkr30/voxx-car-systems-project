@@ -81,3 +81,12 @@ export const getPaymentTypeColor = (type: string) => {
 		"bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400"
 	);
 };
+
+export const validateFileType = (file: File): boolean => {
+	const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+	return allowedTypes.includes(file.type);
+};
+
+export const getFileTypeErrorMessage = (): string => {
+	return "Sadece PDF ve görsel (JPG, JPEG, PNG) dosyaları yüklenebilir.";
+};
