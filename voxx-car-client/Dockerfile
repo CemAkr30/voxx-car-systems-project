@@ -8,7 +8,6 @@ COPY package.json pnpm-lock.yaml ./
 
 RUN pnpm install --frozen-lockfile
 
-# Build arg
 ARG VITE_API_BASE_URL
 ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
 
@@ -16,13 +15,10 @@ COPY . .
 
 RUN pnpm run build
 
-# --- Runtime stage: serve static build with Nginx on port 80 ---
 FROM nginx:alpine AS runtime
 
-# Copy built assets
 COPY --from=builder /app/dist/ /usr/share/nginx/html/
 
-# Copy SPA nginx config (with proper try_files)
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
